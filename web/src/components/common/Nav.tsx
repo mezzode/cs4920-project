@@ -1,9 +1,9 @@
-import { createStyles, withStyles, WithStyles } from "@material-ui/core";
+import { createStyles, Typography, withStyles, WithStyles } from "@material-ui/core";
 import AppBar from "@material-ui/core/AppBar";
 import Button from "@material-ui/core/Button";
 import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
 import * as React from "react";
+import { Link } from "react-router-dom";
 
 const styles = createStyles({
     parent: {
@@ -20,10 +20,14 @@ export interface IProps extends WithStyles<typeof styles> {
     transparent?: boolean;
 }
 
+const HomeLink: React.SFC = props => <Link to="/" {...props} />
+
 const Nav: React.SFC<IProps> = ({ classes, transparent }) => (
     <AppBar position="static" className={transparent ? classes.transparent : undefined}>
         <Toolbar className={classes.parent}>
-            <Typography variant="title" color="inherit">medialog</Typography>
+            <Button component={HomeLink}>
+                <Typography variant="title" color="inherit">medialog</Typography>
+            </Button>
             <div>
                 <Button color="inherit">Sign up</Button>
                 <Button color="inherit">Log in</Button>
