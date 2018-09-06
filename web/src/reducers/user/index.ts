@@ -1,5 +1,27 @@
-import { combineReducers } from "redux";
+import { Action } from "../actions";
+import { ActionType } from "../actions";
 
-const reducers = {};
+export interface IState {
+    displayName: string|null;
+}
 
-export default combineReducers(reducers);
+const initialState: IState = {
+    displayName: null,
+}
+
+export default function user(state: IState = initialState, action: Action) {
+    switch (action.type) {
+        case ActionType.setUser:
+            return {
+                ...state,
+                displayName: action.displayName,
+            };
+        case ActionType.clearUser:
+            return {
+                ...state,
+                displayName: null,
+            };
+        default:
+            return state;
+    }
+}
