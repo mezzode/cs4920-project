@@ -1,7 +1,16 @@
 import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
 import * as React from "react";
-import "./App.css";
-import Nav from './components/common/Nav';
+import { Provider } from "react-redux";
+import { BrowserRouter } from "react-router-dom";
+import { createStore } from "redux";
+import { composeWithDevTools } from "redux-devtools-extension";
+import reducer from "./reducers";
+import View from "./views";
+
+const store = createStore(
+  reducer,
+  composeWithDevTools(),
+);
 
 const theme = createMuiTheme({
   palette: {
@@ -13,12 +22,13 @@ const theme = createMuiTheme({
 });
 
 const App: React.SFC<{}> = () => (
-  <MuiThemeProvider theme={theme}>
-    <Nav/>
-    <p className="App-intro">
-      To get started, edit <code>src/App.tsx</code> and save to reload.
-    </p>
-  </MuiThemeProvider>
+  <BrowserRouter>
+    <MuiThemeProvider theme={theme}>
+      <Provider store={store}>
+        <View/>
+      </Provider>
+    </MuiThemeProvider>
+  </BrowserRouter>
 );
 
 export default App;
