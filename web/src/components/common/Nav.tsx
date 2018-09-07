@@ -32,7 +32,7 @@ interface IProps extends IStateProps, IOwnProps, WithStyles<typeof styles> { }
 
 const HomeLink: React.SFC = props => <Link to="/" {...props} />
 
-export const Nav: React.SFC<IProps> = ({ classes, transparent, user }) => (
+export const RawNav: React.SFC<IProps> = ({ classes, transparent, user }) => (
     <AppBar position="static" className={transparent ? classes.transparent : undefined}>
         <Toolbar className={classes.parent}>
             <Button component={HomeLink}>
@@ -50,6 +50,6 @@ const mapStateToProps: MapStateToProps<IStateProps, IOwnProps, IState> = state =
     user: state.user
 })
 
-export const UnconnectedNav = withStyles(styles)(Nav);
-const ConnectedNav = connect(mapStateToProps)(UnconnectedNav);
-export default ConnectedNav;
+export const UnconnectedNav = withStyles(styles)(RawNav);
+const Nav = connect(mapStateToProps)(UnconnectedNav);
+export default Nav;
