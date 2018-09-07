@@ -7,12 +7,12 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import reducer from "./reducers";
 import View from "./views";
 
-const store = createStore(
+export const store = createStore(
   reducer,
   composeWithDevTools(),
 );
 
-const theme = createMuiTheme({
+export const theme = createMuiTheme({
   palette: {
     primary: {
       main: "#b71c1c"
