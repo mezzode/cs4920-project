@@ -445,7 +445,7 @@ ajv@^5.0.0, ajv@^5.1.5, ajv@^5.3.0:
     fast-json-stable-stringify "^2.0.0"
     json-schema-traverse "^0.3.0"
 
-ajv@^6.1.0, ajv@^6.1.1:
+ajv@^6.1.0, ajv@^6.5.0:
   version "6.5.3"
   resolved "https://registry.yarnpkg.com/ajv/-/ajv-6.5.3.tgz#71a569d189ecf4f4f321224fecb166f071dd90f9"
   dependencies:
@@ -6900,14 +6900,14 @@ react-dev-utils@^5.0.0, react-dev-utils@^5.0.1:
     strip-ansi "3.0.1"
     text-table "0.2.0"
 
-react-docgen-typescript-webpack-plugin@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/react-docgen-typescript-webpack-plugin/-/react-docgen-typescript-webpack-plugin-1.1.0.tgz#4bfb8c3312fce487083924842cf03f66177ab9df"
+react-docgen-typescript-loader@^2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/react-docgen-typescript-loader/-/react-docgen-typescript-loader-2.2.0.tgz#20d1f9e60e6209013036e28e8acd4eee5bb4c3dd"
   dependencies:
-    ajv "^6.1.1"
-    react-docgen-typescript "^1.2.3"
+    ajv "^6.5.0"
+    react-docgen-typescript "^1.6.0"
 
-react-docgen-typescript@^1.2.3:
+react-docgen-typescript@^1.6.0:
   version "1.8.0"
   resolved "https://registry.yarnpkg.com/react-docgen-typescript/-/react-docgen-typescript-1.8.0.tgz#4c522f44bcd6d823f41711e4f01be55ef261ece2"
 
