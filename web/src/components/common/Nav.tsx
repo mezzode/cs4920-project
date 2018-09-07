@@ -3,7 +3,10 @@ import AppBar from "@material-ui/core/AppBar";
 import Button from "@material-ui/core/Button";
 import Toolbar from "@material-ui/core/Toolbar";
 import * as React from "react";
+import { connect } from "react-redux";
 import { Link } from "react-router-dom";
+import { IState } from "../../reducers";
+import { IUserState } from "../../reducers/user";
 
 const styles = createStyles({
     parent: {
@@ -18,11 +21,12 @@ const styles = createStyles({
 
 export interface IProps extends WithStyles<typeof styles> {
     transparent?: boolean;
+    user: IUserState;
 }
 
 const HomeLink: React.SFC = props => <Link to="/" {...props} />
 
-const Nav: React.SFC<IProps> = ({ classes, transparent }) => (
+const Nav: React.SFC<IProps> = ({ classes, transparent, user }) => (
     <AppBar position="static" className={transparent ? classes.transparent : undefined}>
         <Toolbar className={classes.parent}>
             <Button component={HomeLink}>
@@ -36,4 +40,8 @@ const Nav: React.SFC<IProps> = ({ classes, transparent }) => (
     </AppBar>
 );
 
-export default withStyles(styles)(Nav);
+const mapStateToProps = (state: IState) => ({
+    user: state.user
+})
+
+export default connect(mapStateToProps)(withStyles(styles)(Nav));

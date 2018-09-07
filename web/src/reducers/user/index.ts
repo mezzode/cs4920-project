@@ -1,15 +1,15 @@
 import { Action } from "../actions";
 import { ActionType } from "../actions";
 
-export interface IState {
-    displayName: string|null;
+export interface IUserState {
+    displayName: string | null;
 }
 
-const initialState: IState = {
-    displayName: null,
-}
+const initialState: IUserState = {
+    displayName: null
+};
 
-export default function user(state: IState = initialState, action: Action) {
+export default function user(state: IUserState = initialState, action: Action) {
     switch (action.type) {
         case ActionType.setUser:
             return {
