@@ -1,5 +1,4 @@
 CREATE DATABASE appdb;
-EXEC SQL CONNECT TO "appdb" AS postgres;
 CREATE TABLE users (
     id int primary key not null, 
     username text not null, 
