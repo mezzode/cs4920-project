@@ -20,7 +20,7 @@ const RawEntryEditor: React.SFC<IProps> = ({
 }) => (
     <Dialog open={entry !== null} aria-labelledby="form-dialog-title">
         {entry !== null && (
-            <React.Fragment>
+            <>
                 <DialogTitle id="form-dialog-title">{entry.title}</DialogTitle>
                 <DialogContent>
                     <TextField
@@ -40,7 +40,7 @@ const RawEntryEditor: React.SFC<IProps> = ({
                         Save
                     </Button>
                 </DialogActions>
-            </React.Fragment>
+            </>
         )}
     </Dialog>
 );

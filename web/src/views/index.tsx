@@ -19,10 +19,10 @@ const View: React.SFC<IProps> = ({auth}) => {
         </Switch>
     );
     return (
-        <React.Fragment>
+        <>
             <CssBaseline />
             {auth ? authRoutes : unauthRoutes}
-        </React.Fragment>
+        </>
     );
 }
 

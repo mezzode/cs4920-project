@@ -18,12 +18,12 @@ const styles: StyleRulesCallback = (theme: Theme) => createStyles({
 interface IProps extends WithStyles<typeof styles> { }
 
 const Landing: React.SFC<IProps> = ({classes}) => (
-    <React.Fragment>
+    <>
         <Nav transparent={true} />
         <div className={classes.content}>
             <Typography variant="display3" color="textPrimary">Welcome to medialog</Typography>
         </div>
-    </React.Fragment>
+    </>
 );
 
  export default withStyles(styles)(Landing);
