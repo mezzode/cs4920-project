@@ -14,12 +14,12 @@ const styles = createStyles({
 interface IProps extends WithStyles<typeof styles> { }
 
 const NotFound: React.SFC<IProps> = ({ classes }) => (
-    <React.Fragment>
+    <>
         <Nav/>
         <div className={classes.content}>
             <Typography variant="display3">404</Typography>
         </div>
-    </React.Fragment>
+    </>
 );
 
 export default withStyles(styles)(NotFound);
