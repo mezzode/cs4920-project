@@ -1,15 +1,16 @@
 {
   "compilerOptions": {
     "baseUrl": ".",
-    "outDir": "build/dist",
-    "module": "esnext",
+    "outDir": "build",
+    "module": "commonjs",
+    // "module": "esnext",
     "target": "es5",
     "lib": ["es6", "dom"],
     "sourceMap": true,
     "allowJs": true,
     "jsx": "react",
     "moduleResolution": "node",
-    "rootDirs": ["src", "stories"],
+    "rootDirs": ["."],
     "forceConsistentCasingInFileNames": true,
     "noImplicitReturns": true,
     "noImplicitThis": true,
@@ -19,8 +20,6 @@
     "noUnusedLocals": true
   },
   "exclude": [
-    "server",
-    "database",
     "node_modules",
     "build",
     "scripts",

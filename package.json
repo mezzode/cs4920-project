@@ -1,0 +1,10 @@
+{
+  "name": "cs4920-project",
+  "version": "0.1.0",
+  "repository": "https://github.com/mezzode/cs4920-project.git",
+  "license": "MIT",
+  "scripts": {
+    "start": "cd web && yarn build && cd ../server && yarn build && cd .. && node server/build/index.js",
+    "start:prod": "docker-compose up --build postgres"
+  }
+}
