@@ -23,6 +23,7 @@ const RawEntryEditor: React.SFC<IProps> = ({
             <>
                 <DialogTitle id="form-dialog-title">{entry.title}</DialogTitle>
                 <DialogContent>
+                    {/* TODO: add cover art*/}
                     <TextField
                         margin="dense"
                         id="rating"
@@ -30,6 +31,22 @@ const RawEntryEditor: React.SFC<IProps> = ({
                         type="number"
                         defaultValue={entry.rating}
                         onInput={handleInput("rating")}
+                    />
+                    <TextField
+                        margin="dense"
+                        id="started"
+                        label="Started"
+                        type=""
+                        defaultValue={entry.started}
+                        onInput={handleInput("started")}
+                    />
+                    <TextField
+                        margin="dense"
+                        id="finished"
+                        label="Finished"
+                        type="text"
+                        defaultValue={entry.finished}
+                        onInput={handleInput("finished")}
                     />
                 </DialogContent>
                 <DialogActions>
