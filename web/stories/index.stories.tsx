@@ -4,7 +4,7 @@ import { storiesOf } from "@storybook/react";
 import * as React from "react";
 import { MemoryRouter } from "react-router";
 import { theme } from "../src/App";
-import { UnconnectedNav } from "../src/components/common/Nav";
+import { RawNav, UnconnectedNav } from "../src/components/common/Nav";
 
 storiesOf("Nav", module)
     .addDecorator(story => (
@@ -18,8 +18,8 @@ storiesOf("Nav", module)
             header: false,
             inline: true,
             // show props of the actual component instead of the wrapper
-            // propTables: [RawNav],
-            // propTablesExclude: [UnconnectedNav],
+            propTables: [RawNav],
+            propTablesExclude: [UnconnectedNav],
             // hiding generated source since wrong name and would not use directly
             source: false,
             text: `
@@ -43,8 +43,8 @@ storiesOf("Nav", module)
             header: false,
             inline: true,
             // show props of the actual component instead of the wrapper
-            // propTables: [RawNav],
-            // propTablesExclude: [UnconnectedNav],
+            propTables: [RawNav],
+            propTablesExclude: [UnconnectedNav],
             // hiding generated source since wrong name and would not use directly
             source: false,
             text: `
