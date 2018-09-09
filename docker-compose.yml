@@ -4,10 +4,13 @@ services:
     build:
       context: .
       dockerfile: ./server/Dockerfile
+    volumes:
+      - ./web:/usr/src/app/web
+      - ./server:/usr/src/app/server
     depends_on:
       - postgres
     ports:
-     - "3000:3000"
+     - "8080:8080"
   postgres:
     build:
       context: ./database
@@ -18,4 +21,3 @@ services:
       - ./database/db:/var/lib/postgresql/data
     ports:
       - "5432:5432"
-      
