@@ -1,4 +1,3 @@
-CREATE DATABASE appdb;
 CREATE TABLE users (
     id int primary key not null, 
     username text not null, 
