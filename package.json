@@ -4,9 +4,9 @@
   "repository": "https://github.com/mezzode/cs4920-project.git",
   "license": "MIT",
   "scripts": {
-    "start": "yarn clean:build && cd web && yarn build && cd ../server && yarn build && cd .. && node server/build/index.js",
-    "start:prod": "yarn clean:db && docker-compose up --build postgres",
-    "clean:build": "rm -rf web/build",
+    "build": "yarn clean:build && cd web && yarn build && cd ../server && yarn build && cd ..",
+    "start:prod": "yarn clean:db && docker-compose up",
+    "clean:build": "rm -rf web/build && rm -rf server/build",
     "clean:db": "rm -rf database/db && mkdir -p database/db"
   }
 }
