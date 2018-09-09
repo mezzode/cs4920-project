@@ -12,5 +12,10 @@ services:
     build:
       context: ./database
       dockerfile: Dockerfile
+    environment:
+      POSTGRES_DB: appdb
+    volumes:
+      - ./database/db:/var/lib/postgresql/data
     ports:
       - "5432:5432"
+      
