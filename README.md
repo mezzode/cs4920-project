@@ -1,6 +1,12 @@
 # cs4920-project
 
 ## Development process
+
+Before you start, create a Docker volume named `cs4920-postgres-db` to persist the actual database:
+```
+docker volume create cs4920-postgres-db
+```
+
 Launches server and database via docker instance. Website available at localhost:8080.
 ```
 yarn start:prod
