@@ -1,5 +1,6 @@
+-- Create schema
 CREATE TABLE users (
-    id int primary key not null, 
+    id serial primary key not null, 
     username text not null, 
     password text not null,
     image bytea
@@ -21,6 +22,9 @@ CREATE TABLE entry (
     foreign key (media_id) references media(id),
     foreign key (user_id) references users(id) 
 );
+
+-- Insert data
+INSERT INTO users VALUES (DEFAULT, 'jfu', 'foobar');
 
 -- SELECT * FROM users;
 
