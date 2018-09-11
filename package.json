@@ -5,7 +5,8 @@
   "license": "MIT",
   "scripts": {
     "build": "yarn clean:build && cd web && yarn build && cd ../server && yarn build && cd ..",
-    "start:prod": "docker-compose up",
+    "start": "yarn build && node server/build/index.js",
+    "start:prod": "docker-compose up --build",
     "clean:build": "rimraf web/build && rimraf server/build"
   },
   "devDependencies": {

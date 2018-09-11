@@ -11,6 +11,9 @@ COPY ./web ./web
 RUN ls web
 
 COPY package.json .
+COPY yarn.lock .
+
+RUN yarn install --no-progress
 
 # Install Node.js dependencies
 RUN cd web && \
