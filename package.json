@@ -2,7 +2,7 @@
   "name": "cs4920-project",
   "version": "0.1.0",
   "repository": "https://github.com/mezzode/cs4920-project.git",
-  "license": "MIT",
+  "license": "AGPL-3.0-or-later",
   "scripts": {
     "build": "yarn clean:build && cd web && yarn build && cd ../server && yarn build && cd ..",
     "start": "yarn build && node server/build/index.js",
