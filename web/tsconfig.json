@@ -16,7 +16,11 @@
     "noImplicitAny": true,
     "strictNullChecks": true,
     "suppressImplicitAnyIndexErrors": true,
-    "noUnusedLocals": true
+    "noUnusedLocals": true,
+    "typeRoots": [
+      "./node_modules/@types",
+      "./types",
+    ]
   },
   "exclude": [
     "node_modules",
