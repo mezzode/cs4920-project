@@ -7,9 +7,14 @@ Before you start, create a Docker volume named `cs4920-postgres-db` to persist t
 docker volume create cs4920-postgres-db
 ```
 
-Launches server and database via docker instance. Website available at localhost:8080.
+Full launch
 ```
-yarn start:prod
+yarn start:prod:full
+```
+
+Launches server and database via docker instance faster. Website available at localhost:8080.
+```
+yarn start:prod:quick
 ```
 
 When making changes, run the below command and refresh the website. We use service workers so remember to clear cache if you think your changes aren't coming up.
