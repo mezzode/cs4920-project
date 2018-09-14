@@ -4,7 +4,7 @@ import { storiesOf } from "@storybook/react";
 import * as React from "react";
 import { MemoryRouter } from "react-router";
 import { theme } from "../src/App";
-import { RawNav, UnconnectedNav } from "../src/components/common/Nav";
+import { NavComponent, RawNav } from "../src/components/common/Nav/Component";
 
 storiesOf("Nav", module)
     .addDecorator(story => (
@@ -19,7 +19,7 @@ storiesOf("Nav", module)
             inline: true,
             // show props of the actual component instead of the wrapper
             propTables: [RawNav],
-            propTablesExclude: [UnconnectedNav],
+            propTablesExclude: [NavComponent],
             // hiding generated source since wrong name and would not use directly
             source: false,
             text: `
@@ -35,7 +35,7 @@ storiesOf("Nav", module)
                 <Nav />
                 ~~~
             `
-        })(() => <UnconnectedNav user={{ displayName: null }} />)
+        })(() => <NavComponent user={{ displayName: null }} />)
     )
     .add(
         "Logged Out (transparent)",
@@ -44,7 +44,7 @@ storiesOf("Nav", module)
             inline: true,
             // show props of the actual component instead of the wrapper
             propTables: [RawNav],
-            propTablesExclude: [UnconnectedNav],
+            propTablesExclude: [NavComponent],
             // hiding generated source since wrong name and would not use directly
             source: false,
             text: `
@@ -64,7 +64,7 @@ storiesOf("Nav", module)
             `
         })(() => (
             <div style={{ backgroundColor: "black" }}>
-                <UnconnectedNav
+                <NavComponent
                     user={{ displayName: null }}
                     transparent={true}
                 />

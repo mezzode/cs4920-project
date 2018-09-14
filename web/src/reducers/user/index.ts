@@ -1,6 +1,5 @@
-import { Action } from "../actions";
-import { ActionType } from "../actions";
 import { Reducer } from "redux";
+import { Action, ActionType } from "../actions";
 
 export interface IUserState {
     displayName: string | null;
