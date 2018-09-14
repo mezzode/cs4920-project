@@ -1,12 +1,11 @@
-import { Action } from "./actions";
-import { ActionType } from "./actions";
+import { Reducer } from "redux";
 import { IEntry } from "../components/lists/List";
+import { Action, ActionType } from "./actions";
 
 export type IEntryEditorState = IEntry | null;
 
 const initialState: IEntryEditorState = null;
 
-import { Reducer } from "redux";
 
 const entryEditor: Reducer<IEntryEditorState, Action> = (
     state = initialState,

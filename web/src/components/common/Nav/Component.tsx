@@ -1,14 +1,12 @@
-import { createStyles, Typography, withStyles, WithStyles } from "@material-ui/core";
+import { createStyles, Typography, withStyles } from "@material-ui/core";
 import AppBar from "@material-ui/core/AppBar";
 import Button from "@material-ui/core/Button";
 import Toolbar from "@material-ui/core/Toolbar";
 import * as React from "react";
-import { connect, MapStateToProps } from "react-redux";
 import { Link } from "react-router-dom";
-import { IState } from "../../reducers";
-import { IUserState } from "../../reducers/user";
+import { IProps } from "./types";
 
-const styles = createStyles({
+export const styles = createStyles({
     parent: {
         display: 'flex',
         justifyContent: 'space-between',
@@ -19,16 +17,6 @@ const styles = createStyles({
     }
 });
 
-interface IStateProps {
-    user: IUserState;
-}
-
-interface IOwnProps {
-    /** If true, nav is made transparent and shadowless. */
-    transparent?: boolean;
-}
-
-interface IProps extends IStateProps, IOwnProps, WithStyles<typeof styles> { }
 
 const HomeLink: React.SFC = props => <Link to="/" {...props} />
 
@@ -46,10 +34,4 @@ export const RawNav: React.SFC<IProps> = ({ classes, transparent, user }) => (
     </AppBar>
 );
 
-const mapStateToProps: MapStateToProps<IStateProps, IOwnProps, IState> = state => ({
-    user: state.user
-})
-
-export const UnconnectedNav = withStyles(styles)(RawNav);
-const Nav = connect(mapStateToProps)(UnconnectedNav);
-export default Nav;
+export const NavComponent = withStyles(styles)(RawNav);

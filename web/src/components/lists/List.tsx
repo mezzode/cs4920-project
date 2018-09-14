@@ -34,28 +34,25 @@ const RawList: React.SFC<IProps> = ({ classes, entries }) => (
             </TableRow>
         </TableHead>
         <TableBody>
-            {entries.map(entry => {
-                return (
-                    <TableRow key={entry.id}>
-                        <TableCell component="th" scope="row">
-                            {entry.title}
-                        </TableCell>
-                        <TableCell>
-                            {entry.rating}
-                            /10
-                        </TableCell>
-                        <TableCell>{entry.started}</TableCell>
-                        <TableCell>{entry.finished}</TableCell>
-                        <TableCell>{entry.progress}</TableCell>
-                        <TableCell>
-                            <Button>Edit</Button>
-                        </TableCell>
-                    </TableRow>
-                );
-            })}
+            {entries.map(entry =>
+                <TableRow key={entry.id}>
+                    <TableCell component="th" scope="row">
+                        {entry.title}
+                    </TableCell>
+                    <TableCell>
+                        {entry.rating}
+                        /10
+                    </TableCell>
+                    <TableCell>{entry.started}</TableCell>
+                    <TableCell>{entry.finished}</TableCell>
+                    <TableCell>{entry.progress}</TableCell>
+                    <TableCell>
+                        <Button>Edit</Button>
+                    </TableCell>
+                </TableRow>
+            )}
         </TableBody>
     </Table>
 );
 
 export const List = withStyles(styles)(RawList);
-export default List;

@@ -1,6 +1,6 @@
 import { createStyles, StyleRulesCallback, Theme, Typography, WithStyles, withStyles } from "@material-ui/core";
 import * as React from "react";
-import Nav from "../components/common/Nav";
+import { Nav } from "../components/common/Nav";
 
 const styles: StyleRulesCallback = (theme: Theme) => createStyles({
     "@global": {
@@ -17,7 +17,7 @@ const styles: StyleRulesCallback = (theme: Theme) => createStyles({
 
 interface IProps extends WithStyles<typeof styles> { }
 
-const Landing: React.SFC<IProps> = ({classes}) => (
+const RawLanding: React.SFC<IProps> = ({classes}) => (
     <>
         <Nav transparent={true} />
         <div className={classes.content}>
@@ -26,4 +26,4 @@ const Landing: React.SFC<IProps> = ({classes}) => (
     </>
 );
 
- export default withStyles(styles)(Landing);
+ export const Landing = withStyles(styles)(RawLanding);

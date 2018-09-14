@@ -1,7 +1,7 @@
 import { Typography, WithStyles } from "@material-ui/core";
 import { createStyles, withStyles } from "@material-ui/core/styles";
 import * as React from "react";
-import Nav from "../components/common/Nav";
+import { Nav } from "../components/common/Nav";
 
 const styles = createStyles({
     content: {
@@ -13,7 +13,7 @@ const styles = createStyles({
 
 interface IProps extends WithStyles<typeof styles> { }
 
-const NotFound: React.SFC<IProps> = ({ classes }) => (
+const RawNotFound: React.SFC<IProps> = ({ classes }) => (
     <>
         <Nav/>
         <div className={classes.content}>
@@ -22,4 +22,4 @@ const NotFound: React.SFC<IProps> = ({ classes }) => (
     </>
 );
 
-export default withStyles(styles)(NotFound);
+export const NotFound = withStyles(styles)(RawNotFound);
