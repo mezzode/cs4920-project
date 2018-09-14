@@ -1,10 +1,17 @@
-import { Button, Card, CardActions, CardContent, MuiThemeProvider, Typography } from "@material-ui/core";
+import {
+    Button,
+    Card,
+    CardActions,
+    CardContent,
+    MuiThemeProvider,
+    Typography
+} from "@material-ui/core";
 import { withInfo } from "@storybook/addon-info";
 import { storiesOf } from "@storybook/react";
 import * as React from "react";
 import { MemoryRouter } from "react-router";
 import { theme } from "../src/App";
-import { EntryEditor } from "../src/components/EntryEditor";
+import { EntryEditorComponent } from "../src/components/EntryEditor/Component";
 import { IEntry } from "../src/components/List";
 
 storiesOf("EntryEditor", module)
@@ -57,16 +64,24 @@ storiesOf("EntryEditor", module)
                             <CardContent>
                                 <Typography>
                                     Saved:{" "}
-                                    {JSON.stringify(this.state.savedEntry, null, 4)}
+                                    {JSON.stringify(
+                                        this.state.savedEntry,
+                                        null,
+                                        4
+                                    )}
                                 </Typography>
                                 <Typography>
                                     State:{" "}
-                                    {JSON.stringify(this.state.editingEntry, null, 4)}
+                                    {JSON.stringify(
+                                        this.state.editingEntry,
+                                        null,
+                                        4
+                                    )}
                                 </Typography>
                             </CardContent>
                             <CardActions>
                                 <Button onClick={this.openDialog}>Edit</Button>
-                                <EntryEditor {...props} />
+                                <EntryEditorComponent {...props} />
                             </CardActions>
                         </Card>
                     );
@@ -78,16 +93,16 @@ storiesOf("EntryEditor", module)
                     this.setState({ editingEntry: null });
                 };
 
-                private handleInput = (
-                    field: keyof IEntry
-                ): React.ChangeEventHandler<HTMLInputElement> => e => {
+                private handleInput: React.ChangeEventHandler<
+                    HTMLInputElement
+                > = e => {
                     if (this.state.editingEntry === null) {
                         return;
                     }
                     this.setState({
                         editingEntry: {
                             ...this.state.editingEntry,
-                            [field]: e.target.value
+                            [e.target.id]: e.target.value
                         }
                     });
                 };
