@@ -1,5 +1,5 @@
 import { Reducer } from "redux";
-import { IEntry } from "../components/lists/List";
+import { IEntry } from "../types";
 import { Action, ActionType } from "./actions";
 
 export type IEntryEditorState = IEntry | null;
