@@ -1,6 +1,7 @@
 import { Button, Table, TableBody, TableCell, TableHead, TableRow, WithStyles } from "@material-ui/core";
 import { createStyles, withStyles } from "@material-ui/core/styles";
 import * as React from "react";
+import { IEntry } from "../../types";
 
 const styles = createStyles({
     header: {
@@ -10,15 +11,6 @@ const styles = createStyles({
 
 interface IProps extends WithStyles<typeof styles> {
     entries: IEntry[];
-}
-
-export interface IEntry {
-    id: string;
-    title: string;
-    rating: number;
-    started: string;
-    finished: string;
-    progress: string; // TODO: proper types
 }
 
 const RawList: React.SFC<IProps> = ({ classes, entries }) => (

@@ -1,5 +1,5 @@
 import { Action as ReduxAction, ActionCreator } from 'redux';
-import { IEntry } from '../components/lists/List';
+import { IEntry } from '../types';
 
 export enum ActionType {
     // user

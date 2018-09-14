@@ -12,7 +12,7 @@ import * as React from "react";
 import { MemoryRouter } from "react-router";
 import { theme } from "../src/App";
 import { EntryEditorComponent } from "../src/components/lists/EntryEditor/Component";
-import { IEntry } from "../src/components/lists/List";
+import { IEntry } from "../src/types";
 
 storiesOf("EntryEditor", module)
     .addDecorator(story => (

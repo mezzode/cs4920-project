@@ -10,11 +10,12 @@ import {
 import { createStyles, withStyles } from "@material-ui/core/styles";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import * as React from "react";
-import { IEntry, List } from "./List";
+import { IEntry } from "../../types";
+import { List } from "./List";
 
 const styles = createStyles({
     details: {
-        padding: 0,
+        padding: 0
     }
 });
 
