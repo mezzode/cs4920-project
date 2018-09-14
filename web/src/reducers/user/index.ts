@@ -1,5 +1,6 @@
 import { Action } from "../actions";
 import { ActionType } from "../actions";
+import { Reducer } from "redux";
 
 export interface IUserState {
     displayName: string | null;
@@ -9,19 +10,24 @@ const initialState: IUserState = {
     displayName: null
 };
 
-export default function user(state: IUserState = initialState, action: Action) {
+const user: Reducer<IUserState, Action> = (
+    state: IUserState = initialState,
+    action: Action
+) => {
     switch (action.type) {
         case ActionType.setUser:
             return {
                 ...state,
-                displayName: action.displayName,
+                displayName: action.displayName
             };
         case ActionType.clearUser:
             return {
                 ...state,
-                displayName: null,
+                displayName: null
             };
         default:
             return state;
     }
-}
+};
+
+export default user;

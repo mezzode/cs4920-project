@@ -5,6 +5,7 @@
   "license": "MIT",
   "dependencies": {
     "@material-ui/core": "^3.0.2",
+    "@material-ui/icons": "^3.0.1",
     "history": "^4.7.2",
     "react": "^16.4.2",
     "react-dom": "^16.4.2",

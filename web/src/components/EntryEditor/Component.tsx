@@ -1,16 +1,16 @@
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField, WithStyles } from "@material-ui/core";
+import {
+    Button,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogTitle,
+    TextField
+} from "@material-ui/core";
 import { createStyles, withStyles } from "@material-ui/core/styles";
 import * as React from "react";
-import { IEntry } from "./List";
+import { IProps } from "./types";
 
-const styles = createStyles({});
-
-interface IProps extends WithStyles<typeof styles> {
-    entry: IEntry|null;
-    handleCancel: () => void;
-    handleInput: (field: keyof IEntry) => React.FormEventHandler;
-    handleSave: () => void;
-}
+export const styles = createStyles({});
 
 const RawEntryEditor: React.SFC<IProps> = ({
     entry,
@@ -30,7 +30,7 @@ const RawEntryEditor: React.SFC<IProps> = ({
                         label="Rating"
                         type="number"
                         defaultValue={entry.rating}
-                        onInput={handleInput("rating")}
+                        onInput={handleInput}
                     />
                     <TextField
                         margin="dense"
@@ -38,7 +38,7 @@ const RawEntryEditor: React.SFC<IProps> = ({
                         label="Started"
                         type=""
                         defaultValue={entry.started}
-                        onInput={handleInput("started")}
+                        onInput={handleInput}
                     />
                     <TextField
                         margin="dense"
@@ -46,7 +46,7 @@ const RawEntryEditor: React.SFC<IProps> = ({
                         label="Finished"
                         type="text"
                         defaultValue={entry.finished}
-                        onInput={handleInput("finished")}
+                        onInput={handleInput}
                     />
                 </DialogContent>
                 <DialogActions>
@@ -62,5 +62,4 @@ const RawEntryEditor: React.SFC<IProps> = ({
     </Dialog>
 );
 
-export const EntryEditor = withStyles(styles)(RawEntryEditor);
-export default EntryEditor;
+export const EntryEditorComponent = withStyles(styles)(RawEntryEditor);

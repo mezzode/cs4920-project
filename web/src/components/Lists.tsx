@@ -31,7 +31,7 @@ interface IProps extends WithStyles<typeof styles> {
 const RawLists: React.SFC<IProps> = ({ classes, lists }) => (
     <>
         {lists.map(list => (
-            <ExpansionPanel>
+            <ExpansionPanel key={list.id}>
                 <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
                     <Typography>{list.name}</Typography>
                 </ExpansionPanelSummary>
