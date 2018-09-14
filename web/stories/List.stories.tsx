@@ -4,7 +4,7 @@ import { storiesOf } from "@storybook/react";
 import * as React from "react";
 import { MemoryRouter } from "react-router";
 import { theme } from "../src/App";
-import { IEntry, List } from "../src/components/List";
+import { IEntry, List } from "../src/components/lists/List";
 
 storiesOf("List", module)
     .addDecorator(story => (
