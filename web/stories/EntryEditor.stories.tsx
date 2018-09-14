@@ -11,8 +11,8 @@ import { storiesOf } from "@storybook/react";
 import * as React from "react";
 import { MemoryRouter } from "react-router";
 import { theme } from "../src/App";
-import { EntryEditorComponent } from "../src/components/EntryEditor/Component";
-import { IEntry } from "../src/components/List";
+import { EntryEditorComponent } from "../src/components/lists/EntryEditor/Component";
+import { IEntry } from "../src/components/lists/List";
 
 storiesOf("EntryEditor", module)
     .addDecorator(story => (

@@ -1,5 +1,5 @@
 import { Action as ReduxAction, ActionCreator } from 'redux';
-import { IEntry } from '../components/List';
+import { IEntry } from '../components/lists/List';
 
 export enum ActionType {
     // user
@@ -10,10 +10,7 @@ export enum ActionType {
     cancelEntryEdit = 'CANCEL_ENTRY_EDIT',
     saveEntryEdit = 'SAVE_ENTRY_EDIT',
     updateEntryEdit = 'UPDATE_ENTRY_EDIT',
-
-
 }
-// TODO: maybe add discriminant? prolly should look at a lib to reduce boilerplate
 
 export interface ISetUserAction extends ReduxAction<ActionType.setUser> {
     readonly displayName: string;

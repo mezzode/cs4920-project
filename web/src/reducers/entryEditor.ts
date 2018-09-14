@@ -1,6 +1,6 @@
 import { Action } from "./actions";
 import { ActionType } from "./actions";
-import { IEntry } from "../components/List";
+import { IEntry } from "../components/lists/List";
 
 export type IEntryEditorState = IEntry | null;
 
