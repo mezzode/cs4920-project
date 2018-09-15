@@ -44,7 +44,7 @@ const mapDispatchToProps: MapDispatchToProps<
             const result = (await res.json()) as IEntry;
             dispatch(saveEntryEdit.done({ result }));
         } catch (e) {
-            dispatch(saveEntryEdit.failed);
+            dispatch(saveEntryEdit.failed(e.message));
         }
     };
 
