@@ -8,7 +8,7 @@ import {
 } from '../actions/entry';
 import { Entry } from '../types';
 
-export type IEntryEditorState = EditingState | ClosedState;
+export type EntryEditorState = EditingState | ClosedState;
 
 enum Status {
     editing,
@@ -31,7 +31,7 @@ const initialState: ClosedState = {
     status: Status.closed,
 };
 
-const entryEditor: Reducer<IEntryEditorState> = (
+const entryEditor: Reducer<EntryEditorState> = (
     state = initialState,
     action,
 ) => {
@@ -59,4 +59,4 @@ const entryEditor: Reducer<IEntryEditorState> = (
     return state;
 };
 
-export default entryEditor;
+export { entryEditor };

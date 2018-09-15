@@ -9,7 +9,7 @@
             "command": "yarn lint",
             "problemMatcher": {
                 "base": "$tslint5",
-                "fileLocation": ["relative", "${workspaceRoot}/web/"]
+                "fileLocation": "absolute"
             },
             "options": {
                 "cwd": "web/"
@@ -21,7 +21,7 @@
             "path": "web/",
             "problemMatcher": {
                 "base": "$tslint5",
-                "fileLocation": ["relative", "${workspaceRoot}/web/"]
+                "fileLocation": "absolute"
             }
         }
     ]

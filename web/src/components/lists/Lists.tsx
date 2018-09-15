@@ -46,4 +46,3 @@ const RawLists: React.SFC<Props> = ({ classes, lists }) => (
 );
 
 export const Lists = withStyles(styles)(RawLists);
-export default Lists;

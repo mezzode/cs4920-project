@@ -24,7 +24,7 @@
         "eject": "react-scripts-ts eject",
         "storybook": "start-storybook -p 6006",
         "build-storybook": "build-storybook",
-        "lint": "npx tslint -t verbose \"src/**/*.ts?(x)\""
+        "lint": "npx tslint -t verbose -p ."
     },
     "devDependencies": {
         "@storybook/addon-actions": "^3.4.10",

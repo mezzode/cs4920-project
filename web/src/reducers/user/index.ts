@@ -9,7 +9,7 @@ const initialState: UserState = {
     displayName: null,
 };
 
-const user: Reducer<UserState> = (state = initialState, action) => {
+export const user: Reducer<UserState> = (state = initialState, action) => {
     if (setUser.match(action)) {
         return {
             ...state,
@@ -24,5 +24,3 @@ const user: Reducer<UserState> = (state = initialState, action) => {
     }
     return state;
 };
-
-export default user;

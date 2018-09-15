@@ -14,6 +14,7 @@
         },
         "no-empty-interface": false,
         "interface-name": [true, "never-prefix"],
-        "trailing-comma": [true, { "multiline": "always" }]
+        "trailing-comma": [true, { "multiline": "always" }],
+        "no-default-export": true // enforces consistent naming
     }
 }
