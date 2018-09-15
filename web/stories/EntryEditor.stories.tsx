@@ -42,12 +42,16 @@ storiesOf("EntryEditor", module)
                 public state: IState = {
                     editingEntry: null,
                     savedEntry: {
+                        entryId: "c",
                         finished: "2018/01/13",
-                        id: "c",
+                        lastUpdated: "2018/09/15 19:01",
+                        media: {
+                            mediaId: "asdf",
+                            title: "Danganronpa V3: Killing Harmony",
+                        },
                         progress: "50 hrs",
                         rating: 10,
                         started: "2018/01/10",
-                        title: "Danganronpa V3: Killing Harmony"
                     }
                 };
 

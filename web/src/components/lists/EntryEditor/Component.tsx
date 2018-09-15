@@ -16,12 +16,12 @@ const RawEntryEditor: React.SFC<IProps> = ({
     entry,
     handleCancel,
     handleInput,
-    handleSave
+    handleSave,
 }) => (
     <Dialog open={entry !== null} aria-labelledby="form-dialog-title">
         {entry !== null && (
             <>
-                <DialogTitle id="form-dialog-title">{entry.title}</DialogTitle>
+                <DialogTitle id="form-dialog-title">{entry.media.title}</DialogTitle>
                 <DialogContent>
                     {/* TODO: add cover art*/}
                     <TextField

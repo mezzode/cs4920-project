@@ -2,6 +2,11 @@ import { WithStyles } from "@material-ui/core";
 import { IEntry } from "../../../types";
 import { styles } from "./Component";
 
+// export interface IStateProps {
+//     entry: IEntry | null;
+//     media: IMedia | null;
+// }
+
 export interface IStateProps {
     entry: IEntry | null;
 }

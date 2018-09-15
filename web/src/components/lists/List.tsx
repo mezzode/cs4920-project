@@ -27,9 +27,9 @@ const RawList: React.SFC<IProps> = ({ classes, entries }) => (
         </TableHead>
         <TableBody>
             {entries.map(entry =>
-                <TableRow key={entry.id}>
+                <TableRow key={entry.entryId}>
                     <TableCell component="th" scope="row">
-                        {entry.title}
+                        {entry.media.title}
                     </TableCell>
                     <TableCell>
                         {entry.rating}
