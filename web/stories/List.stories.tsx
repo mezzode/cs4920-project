@@ -29,29 +29,41 @@ storiesOf("List", module)
         })(() => {
             const entries: IEntry[] = [
                 {
+                    entryId: "a",
                     finished: "2016/01/13",
-                    id: "a",
+                    lastUpdated: "2018/09/15 19:01",
+                    media: {
+                        mediaId: "a",
+                        title: "Danganronpa",
+                    },
                     progress: "50 hrs",
-                    rating: 8,
+                    rating: 10,
                     started: "2016/01/10",
-                    title: "Danganronpa"
                 },
                 {
-                    finished: "2016/02/13",
-                    id: "b",
+                    entryId: "b",
+                    finished: "2017/01/13",
+                    lastUpdated: "2018/09/15 19:01",
+                    media: {
+                        mediaId: "b",
+                        title: "Danganronpa 2: Goodbye Despair",
+                    },
                     progress: "50 hrs",
-                    rating: 9,
-                    started: "2016/02/10",
-                    title: "Danganronpa 2: Goodbye Despair"
+                    rating: 10,
+                    started: "2017/01/10",
                 },
                 {
+                    entryId: "c",
                     finished: "2018/01/13",
-                    id: "c",
+                    lastUpdated: "2018/09/15 19:01",
+                    media: {
+                        mediaId: "c",
+                        title: "Danganronpa V3: Killing Harmony",
+                    },
                     progress: "50 hrs",
                     rating: 10,
                     started: "2018/01/10",
-                    title: "Danganronpa V3: Killing Harmony"
-                }
+                },
             ];
             return (
                 <Paper>
