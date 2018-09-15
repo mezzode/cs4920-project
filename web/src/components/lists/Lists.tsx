@@ -10,7 +10,7 @@ import {
 import { createStyles, withStyles } from '@material-ui/core/styles';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import * as React from 'react';
-import { IEntry } from '../../types';
+import { Entry } from '../../types';
 import { List } from './List';
 
 const styles = createStyles({
@@ -19,17 +19,17 @@ const styles = createStyles({
     },
 });
 
-export interface IList {
-    entries: IEntry[];
+export interface List {
+    entries: Entry[];
     id: string;
     name: string;
 }
 
-interface IProps extends WithStyles<typeof styles> {
-    lists: IList[];
+interface Props extends WithStyles<typeof styles> {
+    lists: List[];
 }
 
-const RawLists: React.SFC<IProps> = ({ classes, lists }) => (
+const RawLists: React.SFC<Props> = ({ classes, lists }) => (
     <>
         {lists.map(list => (
             <ExpansionPanel key={list.id}>

@@ -1,11 +1,11 @@
 import actionCreatorFactory from 'typescript-fsa';
-import { IEntry } from '../types';
+import { Entry } from '../types';
 
-type IEntryUpdate = { readonly [field in keyof IEntry]?: IEntry[field] };
+type EntryUpdate = { readonly [field in keyof Entry]?: Entry[field] };
 
 const actionCreator = actionCreatorFactory('ENTRY_EDIT');
 
-export const startEntryEdit = actionCreator<IEntry>('START');
+export const startEntryEdit = actionCreator<Entry>('START');
 export const cancelEntryEdit = actionCreator('CANCEL');
-export const updateEntryEdit = actionCreator<IEntryUpdate>('UPDATE');
-export const saveEntryEdit = actionCreator.async<void, IEntry, string>('SAVE');
+export const updateEntryEdit = actionCreator<EntryUpdate>('UPDATE');
+export const saveEntryEdit = actionCreator.async<void, Entry, string>('SAVE');

@@ -4,22 +4,22 @@ import {
     saveEntryEdit,
     updateEntryEdit,
 } from '../../../actions/entry';
-import { IState } from '../../../reducers/index';
-import { IEntry } from '../../../types';
+import { State } from '../../../reducers/index';
+import { Entry } from '../../../types';
 import { EntryEditorComponent } from './Component';
-import { IDispatchProps, IOwnProps, IStateProps } from './types';
+import { DispatchProps, OwnProps, StateProps } from './types';
 
 const mapStateToProps: MapStateToProps<
-    IStateProps,
-    IOwnProps,
-    IState
+    StateProps,
+    OwnProps,
+    State
 > = state => ({
     entry: state.entryEditor.entry,
 });
 
 const mapDispatchToProps: MapDispatchToProps<
-    IDispatchProps,
-    IOwnProps
+    DispatchProps,
+    OwnProps
 > = dispatch => {
     const handleCancel = () => {
         dispatch(cancelEntryEdit());
@@ -41,7 +41,7 @@ const mapDispatchToProps: MapDispatchToProps<
                     `Server error: ${res.status} ${res.statusText}`,
                 );
             }
-            const result = (await res.json()) as IEntry;
+            const result = (await res.json()) as Entry;
             dispatch(saveEntryEdit.done({ result }));
         } catch (e) {
             dispatch(saveEntryEdit.failed(e.message));

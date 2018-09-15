@@ -1,17 +1,8 @@
-// export interface IEntry {
-//     id: string;
-//     title: string;
-//     rating: number;
-//     started: string;
-//     finished: string;
-//     progress: string; // TODO: proper types
-// }
-
 /**
  * User-controlled entry data.
  * TODO: proper types
  */
-interface IUserEntry {
+interface UserEntry {
     rating: number;
     started: string;
     finished: string;
@@ -21,15 +12,15 @@ interface IUserEntry {
 /**
  * System-controlled
  */
-interface ISystemEntry {
+interface SystemEntry {
     entryId: string;
     lastUpdated: string; // TODO
-    media: IMedia;
+    media: Media;
 }
 
-export type IEntry = IUserEntry & ISystemEntry;
+export type Entry = UserEntry & SystemEntry;
 
-export interface IMedia {
+export interface Media {
     mediaId: string;
     title: string;
 }

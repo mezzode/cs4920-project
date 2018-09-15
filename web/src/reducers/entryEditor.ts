@@ -6,9 +6,9 @@ import {
     startEntryEdit,
     updateEntryEdit,
 } from '../actions/entry';
-import { IEntry } from '../types';
+import { Entry } from '../types';
 
-export type IEntryEditorState = IEditingState | IClosedState;
+export type IEntryEditorState = EditingState | ClosedState;
 
 enum Status {
     editing,
@@ -16,17 +16,17 @@ enum Status {
     closed,
 }
 
-interface IEditingState {
-    entry: IEntry;
+interface EditingState {
+    entry: Entry;
     status: Status.editing | Status.saving;
 }
 
-interface IClosedState {
+interface ClosedState {
     entry: null;
     status: Status.closed;
 }
 
-const initialState: IClosedState = {
+const initialState: ClosedState = {
     entry: null,
     status: Status.closed,
 };

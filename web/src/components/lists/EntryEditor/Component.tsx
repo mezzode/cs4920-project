@@ -8,11 +8,11 @@ import {
 } from '@material-ui/core';
 import { createStyles, withStyles } from '@material-ui/core/styles';
 import * as React from 'react';
-import { IProps } from './types';
+import { Props } from './types';
 
 export const styles = createStyles({});
 
-const RawEntryEditor: React.SFC<IProps> = ({
+const RawEntryEditor: React.SFC<Props> = ({
     entry,
     handleCancel,
     handleInput,
