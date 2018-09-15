@@ -34,8 +34,8 @@ storiesOf("Nav", module)
                 ~~~tsx
                 <Nav />
                 ~~~
-            `
-        })(() => <NavComponent user={{ displayName: null }} />)
+            `,
+        })(() => <NavComponent user={{ displayName: null }} />),
     )
     .add(
         "Logged Out (transparent)",
@@ -61,7 +61,7 @@ storiesOf("Nav", module)
                     <Nav transparent={true} />
                 </div>
                 ~~~
-            `
+            `,
         })(() => (
             <div style={{ backgroundColor: "black" }}>
                 <NavComponent
@@ -69,6 +69,6 @@ storiesOf("Nav", module)
                     transparent={true}
                 />
             </div>
-        ))
+        )),
     );
 

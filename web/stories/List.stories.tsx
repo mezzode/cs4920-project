@@ -25,7 +25,7 @@ storiesOf("List", module)
             source: false,
             text: `
                 TODO
-            `
+            `,
         })(() => {
             const entries: IEntry[] = [
                 {
@@ -70,5 +70,5 @@ storiesOf("List", module)
                     <List entries={entries} />
                 </Paper>
             );
-        })
+        }),
     );

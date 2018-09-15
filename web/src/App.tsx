@@ -12,16 +12,16 @@ export const store = createStore(
     rootReducer,
     composeWithDevTools(
         applyMiddleware(thunk),
-    )
+    ),
 );
 
 export const theme = createMuiTheme({
     palette: {
         primary: {
-            main: "#b71c1c"
+            main: "#b71c1c",
         },
-        type: "dark"
-    }
+        type: "dark",
+    },
 });
 
 const App: React.SFC<{}> = () => (

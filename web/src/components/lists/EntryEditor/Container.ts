@@ -1,5 +1,5 @@
 import { connect, MapDispatchToProps, MapStateToProps } from "react-redux";
-import { saveEntryEdit, updateEntryEdit } from "../../../actions/entry";
+import { cancelEntryEdit, saveEntryEdit, updateEntryEdit } from "../../../actions/entry";
 import { IState } from "../../../reducers/index";
 import { IEntry } from "../../../types";
 import { EntryEditorComponent } from "./Component";
@@ -16,20 +16,18 @@ const mapStateToProps: MapStateToProps<
 const mapDispatchToProps: MapDispatchToProps<
     IDispatchProps,
     IOwnProps
-> = (dispatch, ownProps, ) => {
+> = dispatch => {
     const handleCancel = () => {
-        // TODO
+        dispatch(cancelEntryEdit());
     }
 
     const handleInput: React.ChangeEventHandler<HTMLInputElement> = e =>
         dispatch(
             updateEntryEdit({
-                [e.target.id]: e.target.value
-            })
+                [e.target.id]: e.target.value,
+            }),
         );
 
-    // const handleSave = (entry: IEntry) => dispatch(saveEntryEdit({entry}));
-    // maybe this isnt meant to be in connect
     const handleSave = async () => {
         dispatch(saveEntryEdit.started());
         try {
@@ -53,15 +51,5 @@ const mapDispatchToProps: MapDispatchToProps<
 
 export const EntryEditorContainer = connect(
     mapStateToProps,
-    mapDispatchToProps
+    mapDispatchToProps,
 )(EntryEditorComponent);
-
-// const handleSave1 = bindThunkAction(saveEntryEdit, async (payload, dispatch, getState) => {
-//     const endpoint = '/list'; // TODO
-//     const res = await fetch(endpoint);
-//     if (res.status > 400) {
-//         throw new Error(`Server error: ${res.status} ${res.statusText}`);
-//     }
-//     const json = res.json();
-//     // return null;
-// });

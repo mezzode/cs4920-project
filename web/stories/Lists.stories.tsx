@@ -24,7 +24,7 @@ storiesOf("Lists", module)
             // source: false,
             text: `
                 TODO
-            `
+            `,
         })(() => {
             const lists: IList[] = [
                 {
@@ -67,7 +67,7 @@ storiesOf("Lists", module)
                         },
                     ],
                     id: "a",
-                    name: "Games"
+                    name: "Games",
                 },
                 {
                     entries: [
@@ -82,13 +82,13 @@ storiesOf("Lists", module)
                             progress: "50 hrs",
                             rating: 10,
                             started: "2018/01/10",
-                        }
+                        },
                     ],
                     id: "b",
-                    name: "Multiplayer Games"
-                }
+                    name: "Multiplayer Games",
+                },
             ];
 
             return <Lists lists={lists} />;
-        })
+        }),
     );
