@@ -9,28 +9,22 @@ enum ActionType {
     updateEntryEdit = "UPDATE_ENTRY_EDIT"
 }
 
-export type IEntryUpdate = { readonly [field in keyof IEntry]?: IEntry[field] };
+type IEntryUpdate = { readonly [field in keyof IEntry]?: IEntry[field] };
 
 export interface IUpdateEntryEditAction
     extends ReduxAction<ActionType.updateEntryEdit> {
     readonly entryUpdate: IEntryUpdate;
 }
 
-export interface IStartEntryEditAction
-    extends ReduxAction<ActionType.startEntryEdit> {
-    readonly entry: IEntry;
-}
+const actionCreator = actionCreatorFactory('ENTRY');
 
-export interface ICancelEntryEditAction extends ReduxAction<ActionType.cancelEntryEdit> { }
+export const startEntryEdit = actionCreator<IEntry>(ActionType.startEntryEdit);
+export const cancelEntryEdit = actionCreator(ActionType.cancelEntryEdit);
+export const updateEntryEdit = actionCreator<IEntryUpdate>(ActionType.updateEntryEdit);
 
-const actionCreator = actionCreatorFactory();
-
-export const createUpdateEntryEditAction = actionCreator<IEntryUpdate>(ActionType.updateEntryEdit);
-
-type payload = void;
 interface ISuccess extends IEntry {}
 type error = string;
 
-export const saveEntryEdit = actionCreator.async<payload, ISuccess, error>(
+export const saveEntryEdit = actionCreator.async<void, ISuccess, error>(
     ActionType.saveEntryEdit
 );

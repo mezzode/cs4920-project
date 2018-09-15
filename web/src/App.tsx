@@ -11,7 +11,7 @@ import { View } from "./views";
 export const store = createStore(
     rootReducer,
     composeWithDevTools(
-        applyMiddleware(thunk)
+        applyMiddleware(thunk),
     )
 );
 
