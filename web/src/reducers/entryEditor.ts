@@ -1,7 +1,12 @@
-import { Reducer } from "redux";
-import { isType } from "typescript-fsa";
-import { cancelEntryEdit, saveEntryEdit, startEntryEdit, updateEntryEdit } from "../actions/entry";
-import { IEntry } from "../types";
+import { Reducer } from 'redux';
+import { isType } from 'typescript-fsa';
+import {
+    cancelEntryEdit,
+    saveEntryEdit,
+    startEntryEdit,
+    updateEntryEdit,
+} from '../actions/entry';
+import { IEntry } from '../types';
 
 export type IEntryEditorState = IEditingState | IClosedState;
 
@@ -24,7 +29,7 @@ interface IClosedState {
 const initialState: IClosedState = {
     entry: null,
     status: Status.closed,
-}
+};
 
 const entryEditor: Reducer<IEntryEditorState> = (
     state = initialState,
@@ -39,9 +44,12 @@ const entryEditor: Reducer<IEntryEditorState> = (
 
     if (isType(action, updateEntryEdit)) {
         if (state.entry === null || state.status === Status.closed) {
-            throw new Error("Trying to update editor while editor is not open");
+            throw new Error('Trying to update editor while editor is not open');
         }
-        return { entry: { ...state.entry, ...action.payload }, status: state.status };
+        return {
+            entry: { ...state.entry, ...action.payload },
+            status: state.status,
+        };
     }
 
     if (saveEntryEdit.done.match(action) || cancelEntryEdit.match(action)) {

@@ -1,6 +1,6 @@
-import { WithStyles } from "@material-ui/core";
-import { IEntry } from "../../../types";
-import { styles } from "./Component";
+import { WithStyles } from '@material-ui/core';
+import { IEntry } from '../../../types';
+import { styles } from './Component';
 
 export interface IStateProps {
     entry: IEntry | null;

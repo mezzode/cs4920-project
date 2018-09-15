@@ -5,18 +5,18 @@ import {
     ExpansionPanelDetails,
     ExpansionPanelSummary,
     Typography,
-    WithStyles
-} from "@material-ui/core";
-import { createStyles, withStyles } from "@material-ui/core/styles";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import * as React from "react";
-import { IEntry } from "../../types";
-import { List } from "./List";
+    WithStyles,
+} from '@material-ui/core';
+import { createStyles, withStyles } from '@material-ui/core/styles';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import * as React from 'react';
+import { IEntry } from '../../types';
+import { List } from './List';
 
 const styles = createStyles({
     details: {
-        padding: 0
-    }
+        padding: 0,
+    },
 });
 
 export interface IList {

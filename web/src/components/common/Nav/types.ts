@@ -1,6 +1,6 @@
-import { WithStyles } from "@material-ui/core";
-import { IUserState } from "../../../reducers/user";
-import { styles } from "./Component";
+import { WithStyles } from '@material-ui/core';
+import { IUserState } from '../../../reducers/user';
+import { styles } from './Component';
 
 export interface IStateProps {
     user: IUserState;
@@ -11,4 +11,7 @@ export interface IOwnProps {
     transparent?: boolean;
 }
 
-export interface IProps extends IStateProps, IOwnProps, WithStyles<typeof styles> { }
+export interface IProps
+    extends IStateProps,
+        IOwnProps,
+        WithStyles<typeof styles> {}

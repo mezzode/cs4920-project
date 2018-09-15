@@ -1,19 +1,19 @@
-import { MuiThemeProvider } from "@material-ui/core";
-import { withInfo } from "@storybook/addon-info";
-import { storiesOf } from "@storybook/react";
-import * as React from "react";
-import { MemoryRouter } from "react-router";
-import { theme } from "../src/App";
-import { NavComponent, RawNav } from "../src/components/common/Nav/Component";
+import { MuiThemeProvider } from '@material-ui/core';
+import { withInfo } from '@storybook/addon-info';
+import { storiesOf } from '@storybook/react';
+import * as React from 'react';
+import { MemoryRouter } from 'react-router';
+import { theme } from '../src/App';
+import { NavComponent, RawNav } from '../src/components/common/Nav/Component';
 
-storiesOf("Nav", module)
+storiesOf('Nav', module)
     .addDecorator(story => (
         <MemoryRouter>
             <MuiThemeProvider theme={theme}>{story()}</MuiThemeProvider>
         </MemoryRouter>
     ))
     .add(
-        "Logged Out",
+        'Logged Out',
         withInfo({
             header: false,
             inline: true,
@@ -38,7 +38,7 @@ storiesOf("Nav", module)
         })(() => <NavComponent user={{ displayName: null }} />),
     )
     .add(
-        "Logged Out (transparent)",
+        'Logged Out (transparent)',
         withInfo({
             header: false,
             inline: true,
@@ -63,12 +63,8 @@ storiesOf("Nav", module)
                 ~~~
             `,
         })(() => (
-            <div style={{ backgroundColor: "black" }}>
-                <NavComponent
-                    user={{ displayName: null }}
-                    transparent={true}
-                />
+            <div style={{ backgroundColor: 'black' }}>
+                <NavComponent user={{ displayName: null }} transparent={true} />
             </div>
         )),
     );
-

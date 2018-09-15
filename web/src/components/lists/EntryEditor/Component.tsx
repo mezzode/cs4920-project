@@ -5,10 +5,10 @@ import {
     DialogContent,
     DialogTitle,
     TextField,
-} from "@material-ui/core";
-import { createStyles, withStyles } from "@material-ui/core/styles";
-import * as React from "react";
-import { IProps } from "./types";
+} from '@material-ui/core';
+import { createStyles, withStyles } from '@material-ui/core/styles';
+import * as React from 'react';
+import { IProps } from './types';
 
 export const styles = createStyles({});
 
@@ -21,7 +21,9 @@ const RawEntryEditor: React.SFC<IProps> = ({
     <Dialog open={entry !== null} aria-labelledby="form-dialog-title">
         {entry !== null && (
             <>
-                <DialogTitle id="form-dialog-title">{entry.media.title}</DialogTitle>
+                <DialogTitle id="form-dialog-title">
+                    {entry.media.title}
+                </DialogTitle>
                 <DialogContent>
                     {/* TODO: add cover art*/}
                     <TextField

@@ -1,5 +1,5 @@
-import { Reducer } from "redux";
-import { clearUser, setUser } from "../../actions/user";
+import { Reducer } from 'redux';
+import { clearUser, setUser } from '../../actions/user';
 
 export interface IUserState {
     displayName: string | null;
@@ -9,10 +9,7 @@ const initialState: IUserState = {
     displayName: null,
 };
 
-const user: Reducer<IUserState> = (
-    state = initialState,
-    action,
-) => {
+const user: Reducer<IUserState> = (state = initialState, action) => {
     if (setUser.match(action)) {
         return {
             ...state,
