@@ -4,7 +4,7 @@ import {
     CardActions,
     CardContent,
     MuiThemeProvider,
-    Typography
+    Typography,
 } from "@material-ui/core";
 import { withInfo } from "@storybook/addon-info";
 import { storiesOf } from "@storybook/react";
@@ -32,7 +32,7 @@ storiesOf("EntryEditor", module)
             source: false,
             text: `
                 TODO
-            `
+            `,
         })(() => {
             interface IState {
                 editingEntry: IEntry | null;
@@ -52,7 +52,7 @@ storiesOf("EntryEditor", module)
                         progress: "50 hrs",
                         rating: 10,
                         started: "2018/01/10",
-                    }
+                    },
                 };
 
                 public render() {
@@ -61,7 +61,7 @@ storiesOf("EntryEditor", module)
                         entry: this.state.editingEntry,
                         handleCancel,
                         handleInput,
-                        handleSave
+                        handleSave,
                     };
                     return (
                         <Card>
@@ -71,7 +71,7 @@ storiesOf("EntryEditor", module)
                                     {JSON.stringify(
                                         this.state.savedEntry,
                                         null,
-                                        4
+                                        4,
                                     )}
                                 </Typography>
                                 <Typography>
@@ -79,7 +79,7 @@ storiesOf("EntryEditor", module)
                                     {JSON.stringify(
                                         this.state.editingEntry,
                                         null,
-                                        4
+                                        4,
                                     )}
                                 </Typography>
                             </CardContent>
@@ -106,8 +106,8 @@ storiesOf("EntryEditor", module)
                     this.setState({
                         editingEntry: {
                             ...this.state.editingEntry,
-                            [e.target.id]: e.target.value
-                        }
+                            [e.target.id]: e.target.value,
+                        },
                     });
                 };
 
@@ -119,7 +119,7 @@ storiesOf("EntryEditor", module)
                     }
                     this.setState({
                         editingEntry: null,
-                        savedEntry: this.state.editingEntry
+                        savedEntry: this.state.editingEntry,
                     });
                 };
 
@@ -129,5 +129,5 @@ storiesOf("EntryEditor", module)
             }
 
             return <EntryEditorDemo />;
-        })
+        }),
     );

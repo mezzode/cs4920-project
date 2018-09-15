@@ -41,7 +41,7 @@ const RawList: React.SFC<IProps> = ({ classes, entries }) => (
                     <TableCell>
                         <Button>Edit</Button>
                     </TableCell>
-                </TableRow>
+                </TableRow>,
             )}
         </TableBody>
     </Table>

@@ -6,12 +6,12 @@ export interface IUserState {
 }
 
 const initialState: IUserState = {
-    displayName: null
+    displayName: null,
 };
 
 const user: Reducer<IUserState> = (
     state = initialState,
-    action
+    action,
 ) => {
     if (setUser.match(action)) {
         return {

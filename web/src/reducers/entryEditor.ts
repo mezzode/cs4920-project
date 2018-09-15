@@ -28,7 +28,7 @@ const initialState: IClosedState = {
 
 const entryEditor: Reducer<IEntryEditorState> = (
     state = initialState,
-    action
+    action,
 ) => {
     if (startEntryEdit.match(action)) {
         return {
