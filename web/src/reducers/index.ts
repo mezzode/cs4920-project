@@ -1,9 +1,9 @@
-import { combineReducers } from 'redux';
-import entryEditor, { IEntryEditorState } from './entryEditor';
-import user, { UserState } from './user';
+import { combineReducers, Reducer } from 'redux';
+import { entryEditor, EntryEditorState } from './entryEditor';
+import { user, UserState } from './user';
 
 export interface State {
-    entryEditor: IEntryEditorState;
+    entryEditor: EntryEditorState;
     user: UserState;
 }
 
@@ -12,4 +12,4 @@ const reducers = {
     user,
 };
 
-export default combineReducers(reducers);
+export const rootReducer: Reducer<State> = combineReducers(reducers);

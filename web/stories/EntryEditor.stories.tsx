@@ -34,12 +34,12 @@ storiesOf('EntryEditor', module)
                 TODO
             `,
         })(() => {
-            interface IState {
+            interface State {
                 editingEntry: Entry | null;
                 savedEntry: Entry;
             }
-            class EntryEditorDemo extends React.Component<{}, IState> {
-                public state: IState = {
+            class EntryEditorDemo extends React.Component<{}, State> {
+                public state: State = {
                     editingEntry: null,
                     savedEntry: {
                         entryId: 'c',

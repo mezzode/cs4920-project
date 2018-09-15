@@ -6,7 +6,7 @@ import { State } from '../reducers';
 import { Landing } from './Landing';
 import { NotFound } from './NotFound';
 
-const ViewComponent: React.SFC<IProps> = ({ auth }) => {
+const ViewComponent: React.SFC<Props> = ({ auth }) => {
     const authRoutes = (
         <Switch>
             <Route component={NotFound} />
@@ -32,7 +32,7 @@ interface StateProps {
 
 interface OwnProps extends RouteComponentProps<{}> {}
 
-type IProps = StateProps;
+type Props = StateProps;
 
 const mapStateToProps: MapStateToProps<
     StateProps,

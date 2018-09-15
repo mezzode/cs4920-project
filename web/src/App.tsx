@@ -5,7 +5,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { applyMiddleware, createStore } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import thunk from 'redux-thunk';
-import rootReducer from './reducers';
+import { rootReducer } from './reducers';
 import { View } from './views';
 
 export const store = createStore(
@@ -22,7 +22,7 @@ export const theme = createMuiTheme({
     },
 });
 
-const App: React.SFC<{}> = () => (
+export const App: React.SFC<{}> = () => (
     <BrowserRouter>
         <MuiThemeProvider theme={theme}>
             <Provider store={store}>
@@ -31,5 +31,3 @@ const App: React.SFC<{}> = () => (
         </MuiThemeProvider>
     </BrowserRouter>
 );
-
-export default App;
