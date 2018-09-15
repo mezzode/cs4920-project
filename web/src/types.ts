@@ -24,3 +24,9 @@ export interface Media {
     mediaId: string;
     title: string;
 }
+
+export interface EntryList {
+    entries: Entry[];
+    id: string;
+    name: string;
+}

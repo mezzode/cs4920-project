@@ -10,8 +10,8 @@ import {
 import { createStyles, withStyles } from '@material-ui/core/styles';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import * as React from 'react';
-import { Entry } from '../../types';
-import { List } from './List';
+import { EntryList } from '../../../types';
+import { List } from '../List';
 
 const styles = createStyles({
     details: {
@@ -19,14 +19,8 @@ const styles = createStyles({
     },
 });
 
-export interface List {
-    entries: Entry[];
-    id: string;
-    name: string;
-}
-
 interface Props extends WithStyles<typeof styles> {
-    lists: List[];
+    lists: EntryList[];
 }
 
 const RawLists: React.SFC<Props> = ({ classes, lists }) => (
