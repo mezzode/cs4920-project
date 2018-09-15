@@ -12,6 +12,7 @@
             "severity": "warning",
             "options": ["debug", "info", "log", "time", "timeEnd", "trace"]
         },
-        "no-empty-interface": false
+        "no-empty-interface": false,
+        "interface-name": false
     }
 }

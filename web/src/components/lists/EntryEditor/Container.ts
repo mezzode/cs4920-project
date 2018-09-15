@@ -1,5 +1,5 @@
 import { connect, MapDispatchToProps, MapStateToProps } from "react-redux";
-import { createUpdateEntryEditAction, saveEntryEdit } from "../../../actions";
+import { saveEntryEdit, updateEntryEdit } from "../../../actions/entry";
 import { IState } from "../../../reducers/index";
 import { IEntry } from "../../../types";
 import { EntryEditorComponent } from "./Component";
@@ -23,7 +23,7 @@ const mapDispatchToProps: MapDispatchToProps<
 
     const handleInput: React.ChangeEventHandler<HTMLInputElement> = e =>
         dispatch(
-            createUpdateEntryEditAction({
+            updateEntryEdit({
                 [e.target.id]: e.target.value
             })
         );
