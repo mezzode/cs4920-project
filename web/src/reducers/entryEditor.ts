@@ -1,5 +1,5 @@
 import { Reducer } from 'redux';
-import { isType } from 'typescript-fsa';
+import { reducerWithInitialState } from 'typescript-fsa-reducers';
 import {
     cancelEntryEdit,
     saveEntryEdit,
@@ -31,32 +31,21 @@ const initialState: ClosedState = {
     status: Status.closed,
 };
 
-const entryEditor: Reducer<EntryEditorState> = (
-    state = initialState,
-    action,
-) => {
-    if (startEntryEdit.match(action)) {
-        return {
-            entry: { ...action.payload },
-            status: Status.editing,
-        };
-    }
-
-    if (isType(action, updateEntryEdit)) {
+export const entryEditor: Reducer<EntryEditorState> = reducerWithInitialState<
+    EntryEditorState
+>(initialState)
+    .case(startEntryEdit, (state, entry) => ({
+        entry,
+        status: Status.editing,
+    }))
+    .case(updateEntryEdit, (state, entryUpdate) => {
         if (state.entry === null || state.status === Status.closed) {
             throw new Error('Trying to update editor while editor is not open');
         }
         return {
-            entry: { ...state.entry, ...action.payload },
+            entry: { ...state.entry, ...entryUpdate },
             status: state.status,
         };
-    }
-
-    if (saveEntryEdit.done.match(action) || cancelEntryEdit.match(action)) {
-        return initialState;
-    }
-
-    return state;
-};
-
-export { entryEditor };
+    })
+    .cases([saveEntryEdit.done, cancelEntryEdit], () => initialState)
+    .build();
