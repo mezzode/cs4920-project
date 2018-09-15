@@ -9,7 +9,7 @@ import {
 } from '@material-ui/core';
 import { createStyles, withStyles } from '@material-ui/core/styles';
 import * as React from 'react';
-import { IEntry } from '../../types';
+import { Entry } from '../../types';
 
 const styles = createStyles({
     header: {
@@ -17,11 +17,11 @@ const styles = createStyles({
     },
 });
 
-interface IProps extends WithStyles<typeof styles> {
-    entries: IEntry[];
+interface Props extends WithStyles<typeof styles> {
+    entries: Entry[];
 }
 
-const RawList: React.SFC<IProps> = ({ classes, entries }) => (
+const RawList: React.SFC<Props> = ({ classes, entries }) => (
     <Table>
         <TableHead>
             <TableRow className={classes.header}>

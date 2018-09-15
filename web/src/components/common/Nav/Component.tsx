@@ -4,7 +4,7 @@ import Button from '@material-ui/core/Button';
 import Toolbar from '@material-ui/core/Toolbar';
 import * as React from 'react';
 import { Link } from 'react-router-dom';
-import { IProps } from './types';
+import { Props } from './types';
 
 export const styles = createStyles({
     parent: {
@@ -19,7 +19,7 @@ export const styles = createStyles({
 
 const HomeLink: React.SFC = props => <Link to="/" {...props} />;
 
-export const RawNav: React.SFC<IProps> = ({ classes, transparent, user }) => (
+export const RawNav: React.SFC<Props> = ({ classes, transparent, user }) => (
     <AppBar
         position="static"
         className={transparent ? classes.transparent : undefined}

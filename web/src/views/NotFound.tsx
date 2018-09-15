@@ -10,9 +10,9 @@ const styles = createStyles({
     },
 });
 
-interface IProps extends WithStyles<typeof styles> {}
+interface Props extends WithStyles<typeof styles> {}
 
-const RawNotFound: React.SFC<IProps> = ({ classes }) => (
+const RawNotFound: React.SFC<Props> = ({ classes }) => (
     <>
         <Nav />
         <div className={classes.content}>

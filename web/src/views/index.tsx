@@ -2,7 +2,7 @@ import { CssBaseline } from '@material-ui/core';
 import * as React from 'react';
 import { connect, MapStateToProps } from 'react-redux';
 import { Route, RouteComponentProps, Switch, withRouter } from 'react-router';
-import { IState } from '../reducers';
+import { State } from '../reducers';
 import { Landing } from './Landing';
 import { NotFound } from './NotFound';
 
@@ -26,18 +26,18 @@ const ViewComponent: React.SFC<IProps> = ({ auth }) => {
     );
 };
 
-interface IStateProps {
+interface StateProps {
     auth: boolean;
 }
 
-interface IOwnProps extends RouteComponentProps<{}> {}
+interface OwnProps extends RouteComponentProps<{}> {}
 
-type IProps = IStateProps;
+type IProps = StateProps;
 
 const mapStateToProps: MapStateToProps<
-    IStateProps,
-    IOwnProps,
-    IState
+    StateProps,
+    OwnProps,
+    State
 > = state => ({
     auth: state.user.displayName !== null,
 });

@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux';
 import entryEditor, { IEntryEditorState } from './entryEditor';
-import user, { IUserState } from './user';
+import user, { UserState } from './user';
 
-export interface IState {
+export interface State {
     entryEditor: IEntryEditorState;
-    user: IUserState;
+    user: UserState;
 }
 
 const reducers = {

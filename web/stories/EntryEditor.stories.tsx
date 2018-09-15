@@ -12,7 +12,7 @@ import * as React from 'react';
 import { MemoryRouter } from 'react-router';
 import { theme } from '../src/App';
 import { EntryEditorComponent } from '../src/components/lists/EntryEditor/Component';
-import { IEntry } from '../src/types';
+import { Entry } from '../src/types';
 
 storiesOf('EntryEditor', module)
     .addDecorator(story => (
@@ -35,8 +35,8 @@ storiesOf('EntryEditor', module)
             `,
         })(() => {
             interface IState {
-                editingEntry: IEntry | null;
-                savedEntry: IEntry;
+                editingEntry: Entry | null;
+                savedEntry: Entry;
             }
             class EntryEditorDemo extends React.Component<{}, IState> {
                 public state: IState = {

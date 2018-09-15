@@ -1,0 +1,28 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Run lint",
+            "type": "shell",
+            "command": "yarn lint",
+            "problemMatcher": {
+                "base": "$tslint5",
+                "fileLocation": ["relative", "${workspaceRoot}/web/"]
+            },
+            "options": {
+                "cwd": "web/"
+            }
+        },
+        {
+            "type": "npm",
+            "script": "lint",
+            "path": "web/",
+            "problemMatcher": {
+                "base": "$tslint5",
+                "fileLocation": ["relative", "${workspaceRoot}/web/"]
+            }
+        }
+    ]
+}

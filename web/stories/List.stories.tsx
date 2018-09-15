@@ -5,7 +5,7 @@ import * as React from 'react';
 import { MemoryRouter } from 'react-router';
 import { theme } from '../src/App';
 import { List } from '../src/components/lists/List';
-import { IEntry } from './types';
+import { Entry } from './types';
 
 storiesOf('List', module)
     .addDecorator(story => (
@@ -27,7 +27,7 @@ storiesOf('List', module)
                 TODO
             `,
         })(() => {
-            const entries: IEntry[] = [
+            const entries: Entry[] = [
                 {
                     entryId: 'a',
                     finished: '2016/01/13',

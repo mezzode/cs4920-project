@@ -1,12 +1,12 @@
 import { connect, MapStateToProps } from 'react-redux';
-import { IState } from '../../../reducers';
+import { State } from '../../../reducers';
 import { NavComponent } from './Component';
-import { IOwnProps, IStateProps } from './types';
+import { OwnProps, StateProps } from './types';
 
 const mapStateToProps: MapStateToProps<
-    IStateProps,
-    IOwnProps,
-    IState
+    StateProps,
+    OwnProps,
+    State
 > = state => ({
     user: state.user,
 });

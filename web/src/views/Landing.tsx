@@ -22,9 +22,9 @@ const styles: StyleRulesCallback = (theme: Theme) =>
         },
     });
 
-interface IProps extends WithStyles<typeof styles> {}
+interface Props extends WithStyles<typeof styles> {}
 
-const RawLanding: React.SFC<IProps> = ({ classes }) => (
+const RawLanding: React.SFC<Props> = ({ classes }) => (
     <>
         <Nav transparent={true} />
         <div className={classes.content}>

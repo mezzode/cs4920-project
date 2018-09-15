@@ -1,21 +1,21 @@
 import { WithStyles } from '@material-ui/core';
-import { IEntry } from '../../../types';
+import { Entry } from '../../../types';
 import { styles } from './Component';
 
-export interface IStateProps {
-    entry: IEntry | null;
+export interface StateProps {
+    entry: Entry | null;
 }
 
-export interface IDispatchProps {
+export interface DispatchProps {
     handleInput: React.FormEventHandler;
     handleCancel: () => void;
     handleSave: () => void;
 }
 
-export interface IOwnProps {}
+export interface OwnProps {}
 
-export interface IProps
+export interface Props
     extends WithStyles<typeof styles>,
-        IDispatchProps,
-        IStateProps,
-        IOwnProps {}
+        DispatchProps,
+        StateProps,
+        OwnProps {}

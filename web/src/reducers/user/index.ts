@@ -1,15 +1,15 @@
 import { Reducer } from 'redux';
 import { clearUser, setUser } from '../../actions/user';
 
-export interface IUserState {
+export interface UserState {
     displayName: string | null;
 }
 
-const initialState: IUserState = {
+const initialState: UserState = {
     displayName: null,
 };
 
-const user: Reducer<IUserState> = (state = initialState, action) => {
+const user: Reducer<UserState> = (state = initialState, action) => {
     if (setUser.match(action)) {
         return {
             ...state,
