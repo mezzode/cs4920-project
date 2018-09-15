@@ -1,11 +1,19 @@
-import { Button, Table, TableBody, TableCell, TableHead, TableRow, WithStyles } from "@material-ui/core";
-import { createStyles, withStyles } from "@material-ui/core/styles";
-import * as React from "react";
-import { IEntry } from "../../types";
+import {
+    Button,
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableRow,
+    WithStyles,
+} from '@material-ui/core';
+import { createStyles, withStyles } from '@material-ui/core/styles';
+import * as React from 'react';
+import { IEntry } from '../../types';
 
 const styles = createStyles({
     header: {
-        height: "48px", // TODO: get var from theme instead of hardcoding?
+        height: '48px', // TODO: get var from theme instead of hardcoding?
     },
 });
 
@@ -26,7 +34,7 @@ const RawList: React.SFC<IProps> = ({ classes, entries }) => (
             </TableRow>
         </TableHead>
         <TableBody>
-            {entries.map(entry =>
+            {entries.map(entry => (
                 <TableRow key={entry.entryId}>
                     <TableCell component="th" scope="row">
                         {entry.media.title}
@@ -41,8 +49,8 @@ const RawList: React.SFC<IProps> = ({ classes, entries }) => (
                     <TableCell>
                         <Button>Edit</Button>
                     </TableCell>
-                </TableRow>,
-            )}
+                </TableRow>
+            ))}
         </TableBody>
     </Table>
 );

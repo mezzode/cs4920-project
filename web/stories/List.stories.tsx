@@ -1,20 +1,20 @@
-import { MuiThemeProvider, Paper } from "@material-ui/core";
-import { withInfo } from "@storybook/addon-info";
-import { storiesOf } from "@storybook/react";
-import * as React from "react";
-import { MemoryRouter } from "react-router";
-import { theme } from "../src/App";
-import { List } from "../src/components/lists/List";
-import { IEntry } from "./types";
+import { MuiThemeProvider, Paper } from '@material-ui/core';
+import { withInfo } from '@storybook/addon-info';
+import { storiesOf } from '@storybook/react';
+import * as React from 'react';
+import { MemoryRouter } from 'react-router';
+import { theme } from '../src/App';
+import { List } from '../src/components/lists/List';
+import { IEntry } from './types';
 
-storiesOf("List", module)
+storiesOf('List', module)
     .addDecorator(story => (
         <MemoryRouter>
             <MuiThemeProvider theme={theme}>{story()}</MuiThemeProvider>
         </MemoryRouter>
     ))
     .add(
-        "List",
+        'List',
         withInfo({
             header: false,
             inline: true,
@@ -29,40 +29,40 @@ storiesOf("List", module)
         })(() => {
             const entries: IEntry[] = [
                 {
-                    entryId: "a",
-                    finished: "2016/01/13",
-                    lastUpdated: "2018/09/15 19:01",
+                    entryId: 'a',
+                    finished: '2016/01/13',
+                    lastUpdated: '2018/09/15 19:01',
                     media: {
-                        mediaId: "a",
-                        title: "Danganronpa",
+                        mediaId: 'a',
+                        title: 'Danganronpa',
                     },
-                    progress: "50 hrs",
+                    progress: '50 hrs',
                     rating: 10,
-                    started: "2016/01/10",
+                    started: '2016/01/10',
                 },
                 {
-                    entryId: "b",
-                    finished: "2017/01/13",
-                    lastUpdated: "2018/09/15 19:01",
+                    entryId: 'b',
+                    finished: '2017/01/13',
+                    lastUpdated: '2018/09/15 19:01',
                     media: {
-                        mediaId: "b",
-                        title: "Danganronpa 2: Goodbye Despair",
+                        mediaId: 'b',
+                        title: 'Danganronpa 2: Goodbye Despair',
                     },
-                    progress: "50 hrs",
+                    progress: '50 hrs',
                     rating: 10,
-                    started: "2017/01/10",
+                    started: '2017/01/10',
                 },
                 {
-                    entryId: "c",
-                    finished: "2018/01/13",
-                    lastUpdated: "2018/09/15 19:01",
+                    entryId: 'c',
+                    finished: '2018/01/13',
+                    lastUpdated: '2018/09/15 19:01',
                     media: {
-                        mediaId: "c",
-                        title: "Danganronpa V3: Killing Harmony",
+                        mediaId: 'c',
+                        title: 'Danganronpa V3: Killing Harmony',
                     },
-                    progress: "50 hrs",
+                    progress: '50 hrs',
                     rating: 10,
-                    started: "2018/01/10",
+                    started: '2018/01/10',
                 },
             ];
             return (

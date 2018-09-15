@@ -1,0 +1,8 @@
+{
+    "tslint.autoFixOnSave": true,
+    "prettier.singleQuote": true,
+    "prettier.tabWidth": 4,
+    "prettier.trailingComma": "all",
+    "prettier.tslintIntegration": true,
+    "editor.formatOnSave": true
+}

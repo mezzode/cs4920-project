@@ -1,5 +1,5 @@
-import actionCreatorFactory from "typescript-fsa";
-import { IEntry } from "../types";
+import actionCreatorFactory from 'typescript-fsa';
+import { IEntry } from '../types';
 
 type IEntryUpdate = { readonly [field in keyof IEntry]?: IEntry[field] };
 

@@ -1,9 +1,13 @@
-import { connect, MapDispatchToProps, MapStateToProps } from "react-redux";
-import { cancelEntryEdit, saveEntryEdit, updateEntryEdit } from "../../../actions/entry";
-import { IState } from "../../../reducers/index";
-import { IEntry } from "../../../types";
-import { EntryEditorComponent } from "./Component";
-import { IDispatchProps, IOwnProps, IStateProps } from "./types";
+import { connect, MapDispatchToProps, MapStateToProps } from 'react-redux';
+import {
+    cancelEntryEdit,
+    saveEntryEdit,
+    updateEntryEdit,
+} from '../../../actions/entry';
+import { IState } from '../../../reducers/index';
+import { IEntry } from '../../../types';
+import { EntryEditorComponent } from './Component';
+import { IDispatchProps, IOwnProps, IStateProps } from './types';
 
 const mapStateToProps: MapStateToProps<
     IStateProps,
@@ -19,7 +23,7 @@ const mapDispatchToProps: MapDispatchToProps<
 > = dispatch => {
     const handleCancel = () => {
         dispatch(cancelEntryEdit());
-    }
+    };
 
     const handleInput: React.ChangeEventHandler<HTMLInputElement> = e =>
         dispatch(
@@ -33,15 +37,17 @@ const mapDispatchToProps: MapDispatchToProps<
         try {
             const res = await fetch('/lists');
             if (res.status > 400) {
-                throw new Error(`Server error: ${res.status} ${res.statusText}`);
+                throw new Error(
+                    `Server error: ${res.status} ${res.statusText}`,
+                );
             }
-            const result = await res.json() as IEntry;
-            dispatch(saveEntryEdit.done({result}));
+            const result = (await res.json()) as IEntry;
+            dispatch(saveEntryEdit.done({ result }));
         } catch (e) {
             dispatch(saveEntryEdit.failed);
         }
-    }
-    
+    };
+
     return {
         handleCancel,
         handleInput,

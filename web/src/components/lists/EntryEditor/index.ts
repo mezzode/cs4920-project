@@ -1,1 +1,1 @@
-export { EntryEditorContainer as EntryEditor } from "./Container";
+export { EntryEditorContainer as EntryEditor } from './Container';
