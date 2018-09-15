@@ -10,9 +10,9 @@ import { withInfo } from '@storybook/addon-info';
 import { storiesOf } from '@storybook/react';
 import * as React from 'react';
 import { MemoryRouter } from 'react-router';
-import { theme } from '../src/App';
-import { EntryEditorComponent } from '../src/components/lists/EntryEditor/Component';
-import { Entry } from '../src/types';
+import { theme } from '../../../App';
+import { Entry } from '../../../types';
+import { EntryEditorComponent } from './Component';
 
 storiesOf('EntryEditor', module)
     .addDecorator(story => (

@@ -3,9 +3,9 @@ import { withInfo } from '@storybook/addon-info';
 import { storiesOf } from '@storybook/react';
 import * as React from 'react';
 import { MemoryRouter } from 'react-router';
-import { theme } from '../src/App';
-import { List } from '../src/components/lists/List';
-import { Entry } from './types';
+import { theme } from '../../../App';
+import { Entry } from '../../../types';
+import { List } from './Component';
 
 storiesOf('List', module)
     .addDecorator(story => (

@@ -9,7 +9,7 @@ import {
 } from '@material-ui/core';
 import { createStyles, withStyles } from '@material-ui/core/styles';
 import * as React from 'react';
-import { Entry } from '../../types';
+import { Entry } from '../../../types';
 
 const styles = createStyles({
     header: {

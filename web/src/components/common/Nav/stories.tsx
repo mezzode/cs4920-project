@@ -3,8 +3,8 @@ import { withInfo } from '@storybook/addon-info';
 import { storiesOf } from '@storybook/react';
 import * as React from 'react';
 import { MemoryRouter } from 'react-router';
-import { theme } from '../src/App';
-import { NavComponent, RawNav } from '../src/components/common/Nav/Component';
+import { theme } from '../../../App';
+import { NavComponent, RawNav } from './Component';
 
 storiesOf('Nav', module)
     .addDecorator(story => (
