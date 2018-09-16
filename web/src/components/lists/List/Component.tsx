@@ -5,23 +5,21 @@ import {
     TableCell,
     TableHead,
     TableRow,
-    WithStyles,
+    Typography,
 } from '@material-ui/core';
 import { createStyles, withStyles } from '@material-ui/core/styles';
 import * as React from 'react';
-import { Entry } from '../../../types';
+import { Link } from 'react-router-dom';
+import { Props } from './types';
 
-const styles = createStyles({
+export const styles = createStyles({
     header: {
         height: '48px', // TODO: get var from theme instead of hardcoding?
     },
 });
 
-interface Props extends WithStyles<typeof styles> {
-    entries: Entry[];
-}
-
-const RawList: React.SFC<Props> = ({ classes, entries }) => (
+// TODO: prolly should use Typography to style title instead of Button
+const RawList: React.SFC<Props> = ({ classes, entries, handleEdit }) => (
     <Table>
         <TableHead>
             <TableRow className={classes.header}>
@@ -37,7 +35,11 @@ const RawList: React.SFC<Props> = ({ classes, entries }) => (
             {entries.map(entry => (
                 <TableRow key={entry.entryId}>
                     <TableCell component="th" scope="row">
-                        {entry.media.title}
+                        <Link to={`/media/${entry.media.mediaId}`}>
+                            <Typography variant="body1">
+                                {entry.media.title}
+                            </Typography>
+                        </Link>
                     </TableCell>
                     <TableCell>
                         {entry.rating}
@@ -47,7 +49,7 @@ const RawList: React.SFC<Props> = ({ classes, entries }) => (
                     <TableCell>{entry.finished}</TableCell>
                     <TableCell>{entry.progress}</TableCell>
                     <TableCell>
-                        <Button>Edit</Button>
+                        <Button onClick={handleEdit(entry)}>Edit</Button>
                     </TableCell>
                 </TableRow>
             ))}
@@ -55,4 +57,4 @@ const RawList: React.SFC<Props> = ({ classes, entries }) => (
     </Table>
 );
 
-export const List = withStyles(styles)(RawList);
+export const ListComponent = withStyles(styles)(RawList);

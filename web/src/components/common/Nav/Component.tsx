@@ -3,7 +3,7 @@ import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
 import Toolbar from '@material-ui/core/Toolbar';
 import * as React from 'react';
-import { Link } from 'react-router-dom';
+import { LinkTo } from '../util';
 import { Props } from './types';
 
 export const styles = createStyles({
@@ -17,15 +17,13 @@ export const styles = createStyles({
     },
 });
 
-const HomeLink: React.SFC = props => <Link to="/" {...props} />;
-
 export const RawNav: React.SFC<Props> = ({ classes, transparent, user }) => (
     <AppBar
         position="static"
         className={transparent ? classes.transparent : undefined}
     >
         <Toolbar className={classes.parent}>
-            <Button component={HomeLink}>
+            <Button component={LinkTo('/')}>
                 <Typography variant="title" color="inherit">
                     medialog
                 </Typography>

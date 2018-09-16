@@ -30,3 +30,9 @@ export interface EntryList {
     id: string;
     name: string;
 }
+
+export enum MediaType {
+    games = 'games',
+    shows = 'shows',
+    movies = 'movies',
+}

@@ -5,7 +5,7 @@ import * as React from 'react';
 import { MemoryRouter } from 'react-router';
 import { theme } from '../../../App';
 import { Entry } from '../../../types';
-import { List } from './Component';
+import { ListComponent } from './Component';
 
 storiesOf('List', module)
     .addDecorator(story => (
@@ -65,9 +65,16 @@ storiesOf('List', module)
                     started: '2018/01/10',
                 },
             ];
+            const handleEdit: (
+                entry: Entry,
+            ) => React.MouseEventHandler = entry => e => {
+                // TODO
+                console.log(entry);
+                console.log(e);
+            };
             return (
                 <Paper>
-                    <List entries={entries} />
+                    <ListComponent entries={entries} handleEdit={handleEdit} />
                 </Paper>
             );
         }),
