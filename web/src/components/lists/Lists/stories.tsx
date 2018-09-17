@@ -36,6 +36,8 @@ storiesOf('Lists', module)
                             lastUpdated: '2018/09/15 19:01',
                             listId: 'a',
                             media: {
+                                artUrl:
+                                    'https://78.media.tumblr.com/4f30940e947b58fb57e2b8499f460acb/tumblr_okccrbpkDY1rb48exo1_1280.jpg',
                                 mediaId: 'a',
                                 title: 'Danganronpa',
                             },
@@ -49,6 +51,8 @@ storiesOf('Lists', module)
                             lastUpdated: '2018/09/15 19:01',
                             listId: 'a',
                             media: {
+                                artUrl:
+                                    'https://78.media.tumblr.com/4f30940e947b58fb57e2b8499f460acb/tumblr_okccrbpkDY1rb48exo1_1280.jpg',
                                 mediaId: 'b',
                                 title: 'Danganronpa 2: Goodbye Despair',
                             },
@@ -62,6 +66,8 @@ storiesOf('Lists', module)
                             lastUpdated: '2018/09/15 19:01',
                             listId: 'a',
                             media: {
+                                artUrl:
+                                    'https://78.media.tumblr.com/4f30940e947b58fb57e2b8499f460acb/tumblr_okccrbpkDY1rb48exo1_1280.jpg',
                                 mediaId: 'c',
                                 title: 'Danganronpa V3: Killing Harmony',
                             },
@@ -72,6 +78,7 @@ storiesOf('Lists', module)
                     ],
                     id: 'a',
                     name: 'Games',
+                    slug: 'games',
                 },
                 {
                     entries: [
@@ -81,6 +88,8 @@ storiesOf('Lists', module)
                             lastUpdated: '2018/09/15 19:01',
                             listId: 'b',
                             media: {
+                                artUrl:
+                                    'https://78.media.tumblr.com/4f30940e947b58fb57e2b8499f460acb/tumblr_okccrbpkDY1rb48exo1_1280.jpg',
                                 mediaId: 'asdf',
                                 title: 'Rainbow 6: Siege',
                             },
@@ -91,6 +100,7 @@ storiesOf('Lists', module)
                     ],
                     id: 'b',
                     name: 'Multiplayer Games',
+                    slug: 'multiplayer-games',
                 },
             ];
 

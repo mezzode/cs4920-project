@@ -9,7 +9,7 @@ import {
 import { createStyles, withStyles } from '@material-ui/core/styles';
 import * as React from 'react';
 import { connect, MapDispatchToProps, MapStateToProps } from 'react-redux';
-import { RouteComponentProps } from 'react-router';
+import { Redirect, RouteComponentProps } from 'react-router';
 import { Action } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
 import { loadList } from '../actions/list';
@@ -58,6 +58,7 @@ const styles = (theme: Theme) =>
 
 interface Params {
     listId: string;
+    slug?: string;
 }
 
 interface OwnProps extends RouteComponentProps<Params> {}
@@ -87,7 +88,7 @@ const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = (
     dispatch: ThunkDispatch<State, void, Action>,
     { match },
 ) => ({
-    loadList: () => {
+    loadList: async () => {
         dispatch(loadList(match.params.listId));
     },
 });
@@ -101,8 +102,29 @@ export const ListPage = connect(
             public componentDidMount() {
                 this.props.loadList();
             }
+
             public render() {
-                const { list, classes } = this.props;
+                const { list, classes, match } = this.props;
+                let content = null;
+                if (list === undefined) {
+                    content = (
+                        <Typography variant="display3">Loading</Typography>
+                    );
+                } else if (match.params.slug !== list.slug) {
+                    content = <Redirect to={`/list/${list.id}/${list.slug}`} />;
+                } else {
+                    content = (
+                        <Card className={classes.paper}>
+                            <CardHeader title={list.name}>
+                                <Typography variant="display3">
+                                    {list.name}
+                                </Typography>
+                            </CardHeader>
+                            <List entries={list.entries} />
+                            <EntryEditor />
+                        </Card>
+                    );
+                }
                 return (
                     <>
                         <Nav />
@@ -113,21 +135,7 @@ export const ListPage = connect(
                                 justify="space-around"
                             >
                                 <Grid item={true} xs={12}>
-                                    {list === undefined ? (
-                                        <Typography variant="display3">
-                                            Loading
-                                        </Typography>
-                                    ) : (
-                                        <Card className={classes.paper}>
-                                            <CardHeader title={list.name}>
-                                                <Typography variant="display3">
-                                                    {list.name}
-                                                </Typography>
-                                            </CardHeader>
-                                            <List entries={list.entries} />
-                                            <EntryEditor />
-                                        </Card>
-                                    )}
+                                    {content}
                                 </Grid>
                             </Grid>
                         </main>

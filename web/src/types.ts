@@ -24,12 +24,14 @@ export type Entry = UserEntry & SystemEntry;
 export interface Media {
     mediaId: string;
     title: string;
+    artUrl: string;
 }
 
 export interface EntryList {
     entries: Entry[];
     id: string;
     name: string;
+    slug: string;
 }
 
 export enum MediaType {
