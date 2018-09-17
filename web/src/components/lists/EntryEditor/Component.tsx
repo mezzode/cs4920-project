@@ -84,7 +84,7 @@ const RawEntryEditor: React.SFC<Props> = ({
                             <Grid item={true} sm={5}>
                                 <img
                                     className={classes.art}
-                                    src="https://78.media.tumblr.com/4f30940e947b58fb57e2b8499f460acb/tumblr_okccrbpkDY1rb48exo1_1280.jpg"
+                                    src={entry.media.artUrl}
                                 />
                             </Grid>
                         )}

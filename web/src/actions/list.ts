@@ -19,7 +19,12 @@ export const getDisplayedList = actionCreator.async<void, EntryList, string>(
 
 export const loadList: (
     listId: string,
-) => ThunkAction<void, State, void, Action> = listId => async dispatch => {
+) => ThunkAction<
+    Promise<EntryList>,
+    State,
+    void,
+    Action
+> = listId => async dispatch => {
     dispatch(getDisplayedList.started());
     try {
         console.log(`${process.env.REACT_APP_API_BASE}/list/${listId}`);
@@ -32,7 +37,9 @@ export const loadList: (
         }
         const result = (await res.json()) as EntryList;
         dispatch(getDisplayedList.done({ result }));
+        return result;
     } catch (e) {
         dispatch(getDisplayedList.failed(e.message));
+        throw e;
     }
 };
