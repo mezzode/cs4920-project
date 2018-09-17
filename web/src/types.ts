@@ -7,6 +7,7 @@ interface UserEntry {
     started: string;
     finished: string;
     progress: string;
+    listId: string;
 }
 
 /**

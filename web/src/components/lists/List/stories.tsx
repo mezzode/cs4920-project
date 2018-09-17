@@ -32,6 +32,7 @@ storiesOf('List', module)
                     entryId: 'a',
                     finished: '2016/01/13',
                     lastUpdated: '2018/09/15 19:01',
+                    listId: 'a',
                     media: {
                         mediaId: 'a',
                         title: 'Danganronpa',
@@ -44,6 +45,7 @@ storiesOf('List', module)
                     entryId: 'b',
                     finished: '2017/01/13',
                     lastUpdated: '2018/09/15 19:01',
+                    listId: 'a',
                     media: {
                         mediaId: 'b',
                         title: 'Danganronpa 2: Goodbye Despair',
@@ -56,6 +58,7 @@ storiesOf('List', module)
                     entryId: 'c',
                     finished: '2018/01/13',
                     lastUpdated: '2018/09/15 19:01',
+                    listId: 'a',
                     media: {
                         mediaId: 'c',
                         title: 'Danganronpa V3: Killing Harmony',

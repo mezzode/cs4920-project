@@ -1,57 +1,139 @@
-import { Typography, WithStyles } from '@material-ui/core';
+import {
+    Card,
+    CardHeader,
+    Grid,
+    Theme,
+    Typography,
+    WithStyles,
+} from '@material-ui/core';
 import { createStyles, withStyles } from '@material-ui/core/styles';
 import * as React from 'react';
+import { connect, MapDispatchToProps, MapStateToProps } from 'react-redux';
+import { RouteComponentProps } from 'react-router';
+import { Action } from 'redux';
+import { ThunkDispatch } from 'redux-thunk';
+import { loadList } from '../actions/list';
 import { Nav } from '../components/common/Nav';
+import { EntryEditor } from '../components/lists/EntryEditor';
 import { List } from '../components/lists/List';
+import { State } from '../reducers';
 import { EntryList } from '../types';
 
-const styles = createStyles({
-    content: {
-        display: 'flex',
-        justifyContent: 'space-around',
-    },
-});
+// TODO: fiddle with styling
+const styles = (theme: Theme) =>
+    createStyles({
+        layout: {
+            marginLeft: theme.spacing.unit * 3,
+            marginRight: theme.spacing.unit * 3,
+            marginTop: theme.spacing.unit * 3,
+            width: 'auto',
+            // [theme.breakpoints.up(400 + theme.spacing.unit * 3 * 2)]: {
+            //     // tweak this?
+            //     marginLeft: 'auto',
+            //     marginRight: 'auto',
+            //     width: 400,
+            // },
+        },
+        // layout: {
+        //     marginLeft: theme.spacing.unit * 2,
+        //     marginRight: theme.spacing.unit * 2,
+        //     width: 'auto',
+        //     [theme.breakpoints.up(600 + theme.spacing.unit * 2 * 2)]: {
+        //         marginLeft: 'auto',
+        //         marginRight: 'auto',
+        //         width: 600,
+        //     },
+        // },
+        paper: {
+            // marginBottom: theme.spacing.unit * 3,
+            // marginTop: theme.spacing.unit * 3,
+            // // padding: theme.spacing.unit * 2,
+            // [theme.breakpoints.up(600 + theme.spacing.unit * 3 * 2)]: {
+            //     marginBottom: theme.spacing.unit * 6,
+            //     marginTop: theme.spacing.unit * 6,
+            //     // padding: theme.spacing.unit * 3,
+            // },
+        },
+    });
 
-interface Props extends WithStyles<typeof styles> {
+interface Params {
     listId: string;
 }
 
-interface State {
-    readonly list: EntryList | null;
+interface OwnProps extends RouteComponentProps<Params> {}
+
+interface StateProps {
+    list?: EntryList;
 }
 
-export const ListPage = withStyles(styles)(
-    class extends React.Component<Props, State> {
-        public state: State = {
-            list: null,
-        };
+interface DispatchProps {
+    loadList: () => void;
+}
 
-        public render() {
-            const { list } = this.state;
-            return (
-                <>
-                    <Nav />
-                    <div className={this.props.classes.content}>
-                        {list === null ? (
-                            <Typography variant="display3">Loading</Typography>
-                        ) : (
-                            <>
-                                <Typography variant="display3">
-                                    {list.name}
-                                </Typography>
-                                <List entries={list.entries} />
-                            </>
-                        )}
-                    </div>
-                </>
-            );
-        }
+interface Props
+    extends WithStyles<typeof styles>,
+        OwnProps,
+        StateProps,
+        DispatchProps {}
 
-        public async componentDidMount() {
-            const { listId } = this.props;
-            const res = await fetch(`/list/${listId}/`);
-            const list = (await res.json()) as EntryList;
-            this.setState({ list });
-        }
+const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (
+    state,
+    { match },
+) => ({
+    list: state.displayedLists[match.params.listId],
+});
+
+const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = (
+    dispatch: ThunkDispatch<State, void, Action>,
+    { match },
+) => ({
+    loadList: () => {
+        dispatch(loadList(match.params.listId));
     },
+});
+
+export const ListPage = connect(
+    mapStateToProps,
+    mapDispatchToProps,
+)(
+    withStyles(styles)(
+        class extends React.Component<Props> {
+            public componentDidMount() {
+                this.props.loadList();
+            }
+            public render() {
+                const { list, classes } = this.props;
+                return (
+                    <>
+                        <Nav />
+                        <main className={classes.layout}>
+                            <Grid
+                                container={true}
+                                spacing={16}
+                                justify="space-around"
+                            >
+                                <Grid item={true} xs={12}>
+                                    {list === undefined ? (
+                                        <Typography variant="display3">
+                                            Loading
+                                        </Typography>
+                                    ) : (
+                                        <Card className={classes.paper}>
+                                            <CardHeader title={list.name}>
+                                                <Typography variant="display3">
+                                                    {list.name}
+                                                </Typography>
+                                            </CardHeader>
+                                            <List entries={list.entries} />
+                                            <EntryEditor />
+                                        </Card>
+                                    )}
+                                </Grid>
+                            </Grid>
+                        </main>
+                    </>
+                );
+            }
+        },
+    ),
 );
