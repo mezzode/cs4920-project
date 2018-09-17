@@ -6,8 +6,10 @@ import {
     DialogTitle,
     Grid,
     TextField,
+    withWidth,
 } from '@material-ui/core';
 import { createStyles, withStyles } from '@material-ui/core/styles';
+import { isWidthDown, isWidthUp } from '@material-ui/core/withWidth';
 import * as React from 'react';
 import { Props } from './types';
 
@@ -18,19 +20,19 @@ export const styles = createStyles({
     },
 });
 
-// TODO: make this responsively fullscreen using withMobileDialog
-
 const RawEntryEditor: React.SFC<Props> = ({
     entry,
     handleCancel,
     handleInput,
     handleSave,
     classes,
+    width,
 }) => (
     <Dialog
         open={entry !== null}
         aria-labelledby="form-dialog-title"
         fullWidth={true}
+        fullScreen={isWidthDown('sm', width)}
     >
         {entry !== null && (
             <>
@@ -39,17 +41,11 @@ const RawEntryEditor: React.SFC<Props> = ({
                 </DialogTitle>
                 <DialogContent>
                     <Grid container={true} spacing={16}>
-                        <Grid item={true} xs={5}>
-                            <img
-                                className={classes.art}
-                                src="https://78.media.tumblr.com/4f30940e947b58fb57e2b8499f460acb/tumblr_okccrbpkDY1rb48exo1_1280.jpg"
-                            />
-                        </Grid>
                         <Grid
                             item={true}
                             container={true}
                             direction="column"
-                            xs={7}
+                            sm={7}
                         >
                             <TextField
                                 margin="dense"
@@ -84,6 +80,14 @@ const RawEntryEditor: React.SFC<Props> = ({
                                 onInput={handleInput}
                             />
                         </Grid>
+                        {isWidthUp('xs', width, false) && (
+                            <Grid item={true} sm={5}>
+                                <img
+                                    className={classes.art}
+                                    src="https://78.media.tumblr.com/4f30940e947b58fb57e2b8499f460acb/tumblr_okccrbpkDY1rb48exo1_1280.jpg"
+                                />
+                            </Grid>
+                        )}
                     </Grid>
                 </DialogContent>
                 <DialogActions>
@@ -99,4 +103,6 @@ const RawEntryEditor: React.SFC<Props> = ({
     </Dialog>
 );
 
-export const EntryEditorComponent = withStyles(styles)(RawEntryEditor);
+export const EntryEditorComponent = withWidth()(
+    withStyles(styles)(RawEntryEditor),
+);
