@@ -1,0 +1,20 @@
+{
+    "extends": ["tslint:recommended", "tslint-config-prettier"],
+    "linterOptions": {
+        "exclude": [
+            "config/**/*.js",
+            "node_modules/**/*.ts",
+            "coverage/lcov-report/*.js"
+        ]
+    },
+    "rules": {
+        "no-console": {
+            "severity": "warning",
+            "options": ["debug", "info", "log", "time", "timeEnd", "trace"]
+        },
+        "no-empty-interface": false,
+        "interface-name": [true, "never-prefix"],
+        "trailing-comma": [true, { "multiline": "always" }],
+        "no-default-export": true // enforces consistent naming
+    }
+}
