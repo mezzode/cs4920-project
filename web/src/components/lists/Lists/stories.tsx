@@ -34,6 +34,7 @@ storiesOf('Lists', module)
                             entryId: 'a',
                             finished: '2016/01/13',
                             lastUpdated: '2018/09/15 19:01',
+                            listId: 'a',
                             media: {
                                 mediaId: 'a',
                                 title: 'Danganronpa',
@@ -46,6 +47,7 @@ storiesOf('Lists', module)
                             entryId: 'b',
                             finished: '2017/01/13',
                             lastUpdated: '2018/09/15 19:01',
+                            listId: 'a',
                             media: {
                                 mediaId: 'b',
                                 title: 'Danganronpa 2: Goodbye Despair',
@@ -58,6 +60,7 @@ storiesOf('Lists', module)
                             entryId: 'c',
                             finished: '2018/01/13',
                             lastUpdated: '2018/09/15 19:01',
+                            listId: 'a',
                             media: {
                                 mediaId: 'c',
                                 title: 'Danganronpa V3: Killing Harmony',
@@ -76,6 +79,7 @@ storiesOf('Lists', module)
                             entryId: 'd',
                             finished: '2018/01/13',
                             lastUpdated: '2018/09/15 19:01',
+                            listId: 'b',
                             media: {
                                 mediaId: 'asdf',
                                 title: 'Rainbow 6: Siege',

@@ -33,6 +33,7 @@ const mapDispatchToProps: MapDispatchToProps<
         );
 
     const handleSave = async () => {
+        // TODO: consider make this its own thunk
         dispatch(saveEntryEdit.started());
         try {
             const res = await fetch('/lists');

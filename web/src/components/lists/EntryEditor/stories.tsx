@@ -45,6 +45,7 @@ storiesOf('EntryEditor', module)
                         entryId: 'c',
                         finished: '2018/01/13',
                         lastUpdated: '2018/09/15 19:01',
+                        listId: 'a',
                         media: {
                             mediaId: 'asdf',
                             title: 'Danganronpa V3: Killing Harmony',

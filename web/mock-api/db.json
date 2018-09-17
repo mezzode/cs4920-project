@@ -1,0 +1,49 @@
+{
+    "list": [
+        {
+            "entries": [
+                {
+                    "entryId": "a",
+                    "finished": "2016/01/13",
+                    "lastUpdated": "2018/09/15 19:01",
+                    "listId": "a",
+                    "media": {
+                        "mediaId": "a",
+                        "title": "Danganronpa"
+                    },
+                    "progress": "50 hrs",
+                    "rating": 10,
+                    "started": "2016/01/10"
+                },
+                {
+                    "entryId": "b",
+                    "finished": "2017/01/13",
+                    "lastUpdated": "2018/09/15 19:01",
+                    "listId": "a",
+                    "media": {
+                        "mediaId": "b",
+                        "title": "Danganronpa 2: Goodbye Despair"
+                    },
+                    "progress": "50 hrs",
+                    "rating": 10,
+                    "started": "2017/01/10"
+                },
+                {
+                    "entryId": "c",
+                    "finished": "2018/01/13",
+                    "lastUpdated": "2018/09/15 19:01",
+                    "listId": "a",
+                    "media": {
+                        "mediaId": "c",
+                        "title": "Danganronpa V3: Killing Harmony"
+                    },
+                    "progress": "50 hrs",
+                    "rating": 10,
+                    "started": "2018/01/10"
+                }
+            ],
+            "id": "a",
+            "name": "Games"
+        }
+    ]
+}
