@@ -7,6 +7,15 @@ Before you start, create a Docker volume named `cs4920-postgres-db` to persist t
 docker volume create cs4920-postgres-db
 ```
 
+To restart the docker volume run:
+```
+docker volume rm cs4920-postgres-db
+```
+You may need to remove any containers that have a reference to it:
+```
+docker system prune
+```
+
 Full launch
 ```
 yarn start:prod:full
@@ -36,4 +45,9 @@ docker run -it --rm --link cs4920-project_postgres_1:postgres --net cs4920-proje
 Inspect postgres via bash
 ```
 docker run -it --rm --link cs4920-project_postgres_1:postgres --net cs4920-project_default postgres bash
+```
+
+Connect via port and psql
+```
+psql postgres://postgres@localhost:5433/appdb
 ```
