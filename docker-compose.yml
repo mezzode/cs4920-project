@@ -20,7 +20,7 @@ services:
     volumes:
       - cs4920-postgres-db:/var/lib/postgresql/data
     ports:
-      - "5432:5432"
+      - "5433:5432"
 volumes:
   cs4920-postgres-db:
     external: true

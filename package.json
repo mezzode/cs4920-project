@@ -6,6 +6,8 @@
   "scripts": {
     "build": "yarn clean:build && cd web && yarn build && cd ../server && yarn build && cd ..",
     "start": "yarn build && node server/build/index.js",
+    "start:db": "docker-compose up --build postgres",
+    "create-db-volume": "docker volume create cs4920-postgres-db",
     "start:prod:quick": "docker-compose up",
     "start:prod:full": "docker-compose up --build",
     "clean:build": "rimraf web/build && rimraf server/build"
