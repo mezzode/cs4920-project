@@ -4,10 +4,7 @@ import {
 } from '@material-ui/core';
 import { createStyles, withStyles } from '@material-ui/core/styles';
 import * as React from 'react';
-import { connect } from 'react-redux';
-// import { RouteComponentProps } from 'react-router';
 import { Nav } from '../components/common/Nav';
-// import { State } from '../reducers';
 
 // TODO: fiddle with styling
 const styles = (theme: Theme) =>
@@ -22,55 +19,13 @@ const styles = (theme: Theme) =>
         },
     });
 
-// interface Params {
-//     // listId: string;
-//     // slug?: string;
-// }
+interface Props { };
 
-// interface OwnProps extends RouteComponentProps<Params> { }
-
-// interface StateProps {
-//     username?: string;
-// }
-
-// interface DispatchProps {
-//     loadList: () => void;
-// }
-
-// interface Props
-//     extends WithStyles<typeof styles>,
-//     OwnProps,
-//     StateProps,
-//     DispatchProps { }
-
-// const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (
-const mapStateToProps: any = (
-    state: any,
-) => ({
-    username: 'abcdefg',
-});
-
-export const Profile = connect(
-    mapStateToProps,
-    null,
-)(
-    withStyles(styles)(
-        class extends React.Component<any> {
-            public render() {
-                const { username } = this.props;
-                let content = null;
-                content = (
-                    <Typography variant="display3">{username}</Typography>
-                );
-                return (
-                    <>
-                        <Nav />
-                        {/* <main className={classes.layout}> */}
-                        {content}
-                        {/* </main> */}
-                    </>
-                );
-            }
-        },
-    ),
+const RawProfile: React.SFC<Props> = () => (
+    <>
+        <Nav />
+        <Typography variant="display3">foobar</Typography>
+    </>
 );
+
+export const Profile = withStyles(styles)(RawProfile);

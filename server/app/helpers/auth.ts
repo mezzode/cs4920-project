@@ -1,22 +1,25 @@
 import * as passport from 'passport';
 import { Strategy as LocalStrategy } from 'passport-local';
+import { IDatabase } from 'pg-promise';
+import { RequestHandler } from 'express';
 
 export default passport;
 
-export const isLoggedIn = (req: any, res: any, next: any) => {
+export const isLoggedIn: RequestHandler = (req, res, next) => {
     if (req.isAuthenticated()) {
         return next();
     }
     return res.redirect('/login');
 };
 
-export const setupAuth = (db: any) => {
+export const setupAuth = (db: IDatabase<any>) => {
     passport.use(new LocalStrategy(
-        function (username, password, done) {
-            db.oneOrNone({
-                text: 'select * from users where username = $1',
-                values: [username]
-            }).then((user: any) => {
+        async (username, password, done) => {
+            try {
+                const user = await db.oneOrNone({
+                    text: 'select * from users where username = $1',
+                    values: [username]
+                });
                 console.log(JSON.stringify(user));
                 if (!user) {
                     return done(null, false, { message: 'Incorrect username.' });
@@ -25,18 +28,18 @@ export const setupAuth = (db: any) => {
                     return done(null, false, { message: 'Incorrect password.' });
                 }
                 return done(null, user);
-            }).catch((error: any) => {
-                return done(error);
-            });
+            } catch (e) {
+                return done(e);
+            }
         }
     ));
 
-    passport.serializeUser(function (user: any, done) {
+    passport.serializeUser((user, done) => {
         done(null, user);
         // done(null, user.id);
     });
 
-    passport.deserializeUser(function (user, done) { // function (id,done)
+    passport.deserializeUser((user, done) => { // function (id,done)
         done(null, user);
         // User.findById(id, function (err, user) {
         //     done(err, user);

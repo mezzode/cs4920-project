@@ -6,14 +6,14 @@ import db from './helpers/db';
 
 const router = express.Router();
 
-router.get('/healthcheck/db', (req: any, res: any) => {
-    db.query('select * from users;')
-        .then(data => {
-            console.log(JSON.stringify(data));
-        })
-        .catch(error => {
-            res.send(`failed to retrieve data. ${error}`);
-        });
+router.get('/healthcheck/db', async (req: any, res: any) => {
+    try {
+        const data = await db.query('select * from users;');
+        console.log(JSON.stringify(data));
+        res.send(JSON.stringify(data));
+    } catch (e) {
+        res.send(`failed to retrieve data. ${e}`);
+    }
 });
 
 router.get('/dashboard', isLoggedIn,

@@ -18,7 +18,7 @@ const ViewComponent: React.SFC<Props> = ({ auth }) => {
             <Route path="/user/:displayName/lists/:type" />
             <Route path="/list/:listId/:slug?" component={ListPage} />
             <Route path="/media/:mediaId" />
-            <Route path="/profile" render={(props) => <Profile {...props} />} />
+            <Route path="/profile" component={Profile} />
             <Route path="/login" component={Login} />
             <Route component={NotFound} />
         </Switch>
