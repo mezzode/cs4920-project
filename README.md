@@ -65,3 +65,34 @@ Connect via port and psql
 ```
 psql postgres://postgres@localhost:5433/appdb
 ```
+## Other possible issues
+
+If you get the error relating to a daemon not running in the background after running the command:
+
+```
+docker volume create cs4920-postgres-db
+```
+
+then you have probably just installed docker just recently. You'll need to run `dockerd` in another terminal. Alternatively, you can restart you computer so the daemon will begin running. 
+
+
+If you get the error: `Error starting userland proxy: listen tcp 0.0.0.0:XXXX: bind: address already in use` after running the command:
+
+```
+yarn start:build
+```
+
+Then you'll need to kill process using that port. Find the process id using the port `XXXX` and kill it with the commands:
+
+```
+lsof -nP +c 15 | grep LISTEN
+kill -9 (process_id)
+```
+
+If you get the error "/bin/sh: **********: not found" after running the command:
+
+```
+yarn start:build
+```
+
+Then you are most likely missing some dependencies. Run the command `yarn` inside the root folder, server folder and web folder, to install the dependencies. 
