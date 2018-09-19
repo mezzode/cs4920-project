@@ -5,7 +5,8 @@
     "license": "AGPL-3.0-or-later",
     "scripts": {
         "build": "tsc",
-        "start": "ts-node-dev --poll src/index.ts"
+        "start": "ts-node-dev --poll src/index.ts",
+        "lint": "npx tslint -t verbose -p ."
     },
     "dependencies": {
         "@types/body-parser": "^1.17.0",
