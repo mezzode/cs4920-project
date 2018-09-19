@@ -44,6 +44,10 @@ app.route('/login')
 
 // app.get('/api/getUsername', (req: any, res: any) => res.send({ username: os.userInfo().username }));
 
+app.get('/search', function (req, res) {
+    res.sendFile(path.resolve(`${__dirname}/../../web/build/search.html`));
+})
+
 app.listen(8080, () => console.log('Server is listening on port 8080'));
 
 passport.use(
