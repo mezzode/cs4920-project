@@ -1,5 +1,7 @@
 # cs4920-project
 
+[![Build Status](https://travis-ci.com/mezzode/cs4920-project.svg?token=6WdYqhE2VqFrFPokttzf&branch=master)](https://travis-ci.com/mezzode/cs4920-project)
+
 ## Before you start
 
 Before you start, create a Docker volume named `cs4920-postgres-db` to persist the actual database:
