@@ -1,26 +1,28 @@
 version: '3'
 services:
-  server:
-    build:
-      context: .
-      dockerfile: ./server/Dockerfile
-    volumes:
-      - ./web:/usr/src/app/web
-      - ./server:/usr/src/app/server
-    depends_on:
-      - postgres
-    ports:
-     - "8080:8080"
-  postgres:
-    build:
-      context: ./database
-      dockerfile: Dockerfile
-    environment:
-      POSTGRES_DB: appdb
-    volumes:
-      - cs4920-postgres-db:/var/lib/postgresql/data
-    ports:
-      - "5433:5432"
+    server:
+        build:
+            context: .
+            dockerfile: ./server/Dockerfile
+        volumes:
+            - ./web:/usr/src/app/web
+            - ./server:/usr/src/app/server
+            - node_modules:/usr/src/app/server/node_modules # use a volume for node_modules specific to the container
+        depends_on:
+            - postgres
+        ports:
+            - '8080:8080'
+    postgres:
+        build:
+            context: ./database
+            dockerfile: Dockerfile
+        environment:
+            POSTGRES_DB: appdb
+        volumes:
+            - cs4920-postgres-db:/var/lib/postgresql/data
+        ports:
+            - '5433:5432'
 volumes:
-  cs4920-postgres-db:
-    external: true
+    cs4920-postgres-db:
+        external: true
+    ? node_modules
