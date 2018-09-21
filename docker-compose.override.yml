@@ -6,5 +6,4 @@ services:
         # runs yarn at runtime so mounts are active
         command: sh -c "yarn --no-progress && yarn start"
         volumes:
-            - ./web:/usr/src/app/web
-            - ./server:/usr/src/app/server
+            - ./server:/usr/src/app
