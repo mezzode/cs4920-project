@@ -3,17 +3,24 @@ language: node_js
 node_js:
     - 'node'
 
+# TODO: could cache docker layers for a faster build, tho prolly unnecessary for now.
+
 install:
-    - yarn --cwd ./web install
-    - yarn --cwd ./server install
+    - yarn --cwd ./web
+    - yarn --cwd ./server
+
+before_script:
+    - yarn --cwd ./web lint || yarn --cwd ./server lint
 
 script:
-    - yarn --cwd ./web lint
-    - yarn --cwd ./server lint
+    - docker-compose -f docker-compose.yml -f docker-compose.prod.yml build
 
 cache:
     yarn: true
     directories:
         - node_modules
 
-sudo: false
+sudo: true
+
+services:
+    - docker
