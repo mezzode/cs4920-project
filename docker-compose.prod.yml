@@ -1,0 +1,9 @@
+# prod config - `docker-compose -f docker-compose.yml -f docker-compose.prod.yml up`
+version: '3'
+services:
+    server:
+        build:
+            context: .
+            dockerfile: ./server/Dockerfile
+        environment:
+            NODE_ENV: 'production'

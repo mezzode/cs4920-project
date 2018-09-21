@@ -5,7 +5,7 @@
     "license": "AGPL-3.0-or-later",
     "scripts": {
         "build": "yarn clean && yarn --cwd web build && yarn --cwd server build",
-        "start:prod": "yarn build && node server/build/index.js",
+        "start:prod": "docker-compose -f docker-compose.yml -f docker-compose.prod.yml up --build",
         "start": "docker-compose up",
         "clean": "rimraf web/build && rimraf server/build"
     },
