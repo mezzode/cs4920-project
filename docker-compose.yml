@@ -1,9 +1,9 @@
 version: '3'
 services:
     server:
-        build:
-            context: .
-            dockerfile: ./server/Dockerfile
+        image: node:10.10.0-alpine
+        working_dir: /usr/src/app/server
+        command: sh -c "yarn --no-progress && yarn start"
         volumes:
             - ./web:/usr/src/app/web
             - ./server:/usr/src/app/server
