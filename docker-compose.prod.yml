@@ -1,8 +1,14 @@
 # prod config - `docker-compose -f docker-compose.yml -f docker-compose.prod.yml up`
-version: '3'
+version: '3.4'
 services:
     server:
+        image: cs4920-server:prod
         build:
             context: ./server
+            target: prod
         environment:
             NODE_ENV: 'production'
+    postgres:
+        image: cs4920-postgres:prod
+        build:
+            target: prod

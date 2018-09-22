@@ -1,5 +1,5 @@
 # dev config - automatically used for `docker-compose up`
-version: '3'
+version: '3.4'
 services:
     server:
         image: node:10.10.0-alpine
@@ -8,5 +8,6 @@ services:
         volumes:
             - ./server:/usr/src/app
     postgres:
+        image: cs4920-postgres:dev
         build:
-            dockerfile: ./dev.Dockerfile
+            target: dev
