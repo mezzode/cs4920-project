@@ -1,7 +1,7 @@
 import { Reducer } from 'redux';
 import { reducerWithInitialState } from 'typescript-fsa-reducers';
 import { saveEntryEdit } from '../actions/entry';
-import { getDisplayedList } from '../actions/list';
+import { clearDisplayedLists, getDisplayedList } from '../actions/list';
 import { Entry, EntryList } from '../types';
 
 export interface DisplayedListsState {
@@ -26,4 +26,5 @@ export const displayedLists: Reducer<
     }))
     .case(getDisplayedList.done, (state, { result }) => ({
         [result.id]: result,
-    }));
+    }))
+    .case(clearDisplayedLists, state => initialState);

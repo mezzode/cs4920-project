@@ -12,6 +12,7 @@ import { connect, MapDispatchToProps, MapStateToProps } from 'react-redux';
 import { Redirect, RouteComponentProps } from 'react-router';
 import { Action } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
+import slugify from 'slugify';
 import { loadList } from '../actions/list';
 import { Nav } from '../components/common/Nav';
 import { EntryEditor } from '../components/lists/EntryEditor';
@@ -100,6 +101,7 @@ export const ListPage = connect(
     withStyles(styles)(
         class extends React.Component<Props> {
             public componentDidMount() {
+                // only load on mount so redirecting to correct slug doesnt load again
                 this.props.loadList();
             }
 
@@ -110,20 +112,25 @@ export const ListPage = connect(
                     content = (
                         <Typography variant="display3">Loading</Typography>
                     );
-                } else if (match.params.slug !== list.slug) {
-                    content = <Redirect to={`/list/${list.id}/${list.slug}`} />;
                 } else {
-                    content = (
-                        <Card className={classes.paper}>
-                            <CardHeader title={list.name}>
-                                <Typography variant="display3">
-                                    {list.name}
-                                </Typography>
-                            </CardHeader>
-                            <List entries={list.entries} />
-                            <EntryEditor />
-                        </Card>
-                    );
+                    const canonSlug = slugify(list.name, { lower: true });
+                    if (match.params.slug === canonSlug) {
+                        content = (
+                            <Card className={classes.paper}>
+                                <CardHeader title={list.name}>
+                                    <Typography variant="display3">
+                                        {list.name}
+                                    </Typography>
+                                </CardHeader>
+                                <List entries={list.entries} />
+                                <EntryEditor />
+                            </Card>
+                        );
+                    } else {
+                        content = (
+                            <Redirect to={`/list/${list.id}/${canonSlug}`} />
+                        );
+                    }
                 }
                 return (
                     <>
