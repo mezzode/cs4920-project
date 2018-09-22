@@ -4,7 +4,7 @@
     "repository": "https://github.com/mezzode/cs4920-project.git",
     "license": "AGPL-3.0-or-later",
     "scripts": {
-        "start:prod": "docker-compose -f docker-compose.yml -f docker-compose.prod.yml up --build",
+        "start:prod": "docker-compose -f docker-compose.yml -f docker-compose.prod.yml up",
         "start": "docker-compose up"
     },
     "devDependencies": {

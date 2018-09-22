@@ -1,7 +1,7 @@
 # this config does not work by itself, is extended by
 # `docker-compose.override.yml` for dev and
 # `docker-compose.prod.yml` for prod
-version: '3'
+version: '3.4'
 services:
     server:
         working_dir: /usr/src/app
