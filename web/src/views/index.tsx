@@ -8,7 +8,7 @@ import { ListPage } from './List';
 import { Login } from './Login';
 import { NotFound } from './NotFound';
 import { Profile } from './Profile';
-// tslint:disable:jsx-no-lambda
+
 const ViewComponent: React.SFC<Props> = ({ auth }) => {
     // routes in the format "/list/:id" will ignore the trailing slug and redirect to the canonical one
     // e.g.

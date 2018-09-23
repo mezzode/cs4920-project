@@ -1,4 +1,4 @@
-import { IMain, IDatabase } from 'pg-promise';
+import { IDatabase, IMain } from 'pg-promise';
 import * as pgPromise from 'pg-promise';
 
 const pgp: IMain = pgPromise({});
@@ -13,6 +13,4 @@ const pgp: IMain = pgPromise({});
 // containers on the network connect to each other using the container port, not the host port
 // the host port is only used for accessing the container from the host
 const cn = 'postgres://postgres@localhost:5433/appdb';
-const db: IDatabase<any> = pgp(cn);
-
-export default db;
+export const db: IDatabase<any> = pgp(cn);
