@@ -2,19 +2,19 @@
 -- Users
 INSERT INTO users
 VALUES
-    (DEFAULT, 'jfu', 'foobar');
+    (DEFAULT, 'jfu', 'foobar', 'jfu@gmail.com');
 INSERT INTO users
 VALUES
-    (DEFAULT, 'user1', 'pass1');
+    (DEFAULT, 'user1', 'pass1', 'user1@gmail.com');
 INSERT INTO users
 VALUES
-    (DEFAULT, 'user2', 'pass2');
+    (DEFAULT, 'user2', 'pass2', 'user2@gmail.com');
 INSERT INTO users
 VALUES
-    (DEFAULT, 'user3', 'pass3');
+    (DEFAULT, 'user3', 'pass3', 'user3@gmail.com');
 INSERT INTO users
 VALUES
-    (DEFAULT, 'user4', 'pass4');
+    (DEFAULT, 'user4', 'pass4', 'user4@gmail.com');
 
 -- Media
 INSERT INTO media

@@ -1,10 +1,11 @@
 -- Create schema
 CREATE TABLE users
 (
-    id serial primary key not null,
-    username text not null,
+    id serial primary key not null, 
+    username text not null, 
     password text not null,
-    image bytea
+    email text not null,
+    image text
 );
 CREATE TABLE list
 (
