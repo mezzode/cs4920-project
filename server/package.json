@@ -5,7 +5,7 @@
     "license": "AGPL-3.0-or-later",
     "scripts": {
         "build": "tsc",
-        "start": "ts-node-dev --poll src/index.ts",
+        "start": "HOST=postgres ts-node-dev --poll src/index.ts",
         "lint": "tslint -t verbose -p ."
     },
     "dependencies": {
