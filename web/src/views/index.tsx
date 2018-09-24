@@ -5,7 +5,9 @@ import { Route, RouteComponentProps, Switch, withRouter } from 'react-router';
 import { State } from '../reducers';
 import { Landing } from './Landing';
 import { ListPage } from './List';
+import { Login } from './Login';
 import { NotFound } from './NotFound';
+import { Profile } from './Profile';
 
 const ViewComponent: React.SFC<Props> = ({ auth }) => {
     // routes in the format "/list/:id" will ignore the trailing slug and redirect to the canonical one
@@ -16,6 +18,8 @@ const ViewComponent: React.SFC<Props> = ({ auth }) => {
             <Route path="/user/:displayName/lists/:type" />
             <Route path="/list/:listId/:slug?" component={ListPage} />
             <Route path="/media/:mediaId" />
+            <Route path="/profile" component={Profile} />
+            <Route path="/login" component={Login} />
             <Route component={NotFound} />
         </Switch>
     );
@@ -37,7 +41,7 @@ interface StateProps {
     auth: boolean;
 }
 
-interface OwnProps extends RouteComponentProps<{}> {}
+interface OwnProps extends RouteComponentProps<{}> { }
 
 type Props = StateProps;
 
@@ -45,8 +49,8 @@ const mapStateToProps: MapStateToProps<
     StateProps,
     OwnProps,
     State
-> = state => ({
-    auth: state.user.displayName !== null,
-});
+    > = state => ({
+        auth: state.user.displayName !== null,
+    });
 
 export const View = withRouter(connect(mapStateToProps)(ViewComponent));

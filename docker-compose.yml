@@ -1,13 +1,12 @@
-version: '3'
+# this config does not work by itself, is extended by
+# `docker-compose.override.yml` for dev and
+# `docker-compose.prod.yml` for prod
+version: '3.4'
 services:
     server:
-        build:
-            context: .
-            dockerfile: ./server/Dockerfile
+        working_dir: /usr/src/app
         volumes:
-            - ./web:/usr/src/app/web
-            - ./server:/usr/src/app/server
-            - node_modules:/usr/src/app/server/node_modules # use a volume for node_modules specific to the container
+            - node_modules:/usr/src/app/node_modules # use a volume for node_modules specific to the container
         depends_on:
             - postgres
         ports:
@@ -15,14 +14,12 @@ services:
     postgres:
         build:
             context: ./database
-            dockerfile: Dockerfile
         environment:
             POSTGRES_DB: appdb
         volumes:
-            - cs4920-postgres-db:/var/lib/postgresql/data
+            - db-data:/var/lib/postgresql/data
         ports:
             - '5433:5432'
 volumes:
-    cs4920-postgres-db:
-        external: true
+    ? db-data
     ? node_modules

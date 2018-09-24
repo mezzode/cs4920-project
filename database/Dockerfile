@@ -1,8 +1,7 @@
-FROM postgres:10.5-alpine
+FROM postgres:10.5-alpine as postgres
 
-COPY scripts.sql /docker-entrypoint-initdb.d
-RUN chmod +x /docker-entrypoint-initdb.d/scripts.sql
+FROM postgres AS prod
+COPY scripts/create.sql /docker-entrypoint-initdb.d
 
-RUN ls /docker-entrypoint-initdb.d
-
-RUN chmod 777 var/lib/postgresql/data
+FROM prod AS dev
+COPY scripts/testData.sql /docker-entrypoint-initdb.d
