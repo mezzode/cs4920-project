@@ -12,6 +12,7 @@ import {
     updateProfileImage,
 } from './helpers/db';
 
+const multerParser = multer();
 export const router = express.Router();
 
 const isLoggedIn: express.RequestHandler = (req, res, next) => {
@@ -31,36 +32,37 @@ router.get('/healthcheck/db', async (req: any, res: any) => {
     }
 });
 
-router.get('/dashboard', isLoggedIn, (req: any, res: any) => {
-    console.log('in dashboard');
-});
-
 router.get('/profile', isLoggedIn, async (req: any, res: any) => {
-    console.log('in profile');
-    console.log(JSON.stringify(req.user));
-
-    const { username, image } = await getProfile(req.user.username);
+    const { username, profileImagePath } = await getProfile(req.user.username);
     const user = {
-        image,
         username,
     };
+    res.sendFile(profileImagePath);
     res.send(JSON.stringify(user));
 });
 
-router.post('/login', passport.authenticate('local'), (req: any, res: any) => {
-    console.log(JSON.stringify(req.user));
-    res.redirect('/profile');
-});
+router.post(
+    '/login',
+    multerParser.none(),
+    passport.authenticate('local'),
+    (req: any, res: any) => {
+        console.log(JSON.stringify(req.user));
+        res.cookie('user-id', req.user.id, { maxAge: 2592000000 }); // Expires in one month
+        res.send(JSON.stringify(req.user));
+    },
+);
 
 router.get('/logout', (req: any, res: any) => {
     req.logout();
-    res.redirect('/');
+    res.clearCookie('user-id');
+    res.send();
 });
 
 const uploadRootPath = path.resolve(__dirname, '../../database/uploads');
 const upload = multer({ dest: uploadRootPath });
 router.post(
     '/sign-up',
+    // multerParser.none(), // not sure if this works
     upload.single('profileImage'),
     async (req: any, res: any) => {
         const { username, password, email } = req.body;
@@ -68,35 +70,24 @@ router.post(
         const filePath = path.join(uploadRootPath, profileImage.filename);
 
         await signUp(username, password, email, filePath);
-        // req.login();
-        res.redirect('/profile');
+        req.login();
     },
 );
 
 router.post('/reset-password', async (req: any, res: any) => {
     const { username, email } = req.body;
-    await resetPassword(username, email);
-    res.send('Successfully reset password');
+    const result = await resetPassword(username, email);
+    res.send(result);
 });
 
 router.post('/update-password', async (req: any, res: any) => {
     const { username, password } = req.body;
-    try {
-        await updatePassword(username, password);
-        res.send('Succesfully updated password');
-    } catch (e) {
-        res.send('Failed to update password');
-    }
-    console.log('ok');
+    await updatePassword(username, password);
+    res.send(true);
 });
 
 router.get('/update-profile-image', async (req: any, res: any) => {
     const { username, profileImage } = req.body;
-    try {
-        await updateProfileImage(username, profileImage);
-        res.send('Successfully updated profile image');
-    } catch (e) {
-        res.send('Failed to update profile image');
-    }
-    console.log('ok');
+    await updateProfileImage(username, profileImage);
+    res.send(true);
 });

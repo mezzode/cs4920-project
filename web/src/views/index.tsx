@@ -5,11 +5,11 @@ import { Route, RouteComponentProps, Switch, withRouter } from 'react-router';
 import { State } from '../reducers';
 import { Landing } from './Landing';
 import { ListPage } from './List';
-import { Login } from './Login';
+import { Login } from './login';
 import { NotFound } from './NotFound';
-import { PasswordReset } from './PasswordReset';
+import { PasswordReset } from './passwordreset';
 import { Profile } from './Profile';
-import { SignUp } from './SignUp';
+import { SignUp } from './signup';
 
 const ViewComponent: React.SFC<Props> = ({ auth }) => {
     // routes in the format "/list/:id" will ignore the trailing slug and redirect to the canonical one

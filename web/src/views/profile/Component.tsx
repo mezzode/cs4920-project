@@ -2,54 +2,17 @@ import {
     Avatar,
     Button,
     FormControl,
+    FormLabel,
     Input,
     InputLabel,
-    Theme,
     Typography,
-    WithStyles,
 } from '@material-ui/core';
-import { createStyles, withStyles } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/core/styles';
 import * as React from 'react';
-import Dropzone from 'react-dropzone';
-import { Nav } from '../components/common/Nav';
-import defaultProfileImage from '../images/default-profile.jpg';
-
-// TODO: fiddle with styling
-const styles = (theme: Theme) =>
-    createStyles({
-        avatar: {
-            backgroundColor: theme.palette.secondary.main,
-            height: 60,
-            margin: theme.spacing.unit,
-            marginLeft: 'auto',
-            marginRight: 'auto',
-            width: 60,
-        },
-        form: {
-            alignItems: 'center',
-            display: 'flex',
-            flexDirection: 'column',
-            marginTop: theme.spacing.unit * 8,
-            padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit *
-                3}px ${theme.spacing.unit * 3}px`,
-            width: '100%', // Fix IE11 issue.
-        },
-        layout: {
-            marginLeft: theme.spacing.unit * 8,
-            marginRight: theme.spacing.unit * 8,
-            marginTop: theme.spacing.unit * 3,
-            textAlign: 'center',
-            width: 'auto',
-        },
-        lock: {
-            marginLeft: 'auto',
-            marginRight: 'auto',
-        },
-        submit: {
-            marginTop: theme.spacing.unit * 3,
-        },
-    });
-interface Props extends WithStyles<typeof styles> {}
+import { Nav } from '../../components/common/Nav';
+import defaultProfileImage from '../../images/default-profile.jpg';
+import { styles } from './styles';
+import { Props } from './types';
 
 const RawProfile: React.SFC<Props> = ({ classes }) => (
     <>
@@ -66,12 +29,20 @@ const RawProfile: React.SFC<Props> = ({ classes }) => (
                     <Typography variant="subheading">
                         New profile image
                     </Typography>
-                    <Dropzone>
-                        <p>
-                            Drop an image or click here to upload a profile
-                            image
-                        </p>
-                    </Dropzone>
+                    <FormControl
+                        margin="normal"
+                        required={true}
+                        fullWidth={true}
+                    >
+                        <FormLabel className={classes.centerItem}>
+                            Profile picture
+                        </FormLabel>
+                        <Input
+                            type="file"
+                            name="profileImage"
+                            id="profileImage"
+                        />
+                    </FormControl>
                 </FormControl>
                 <Button
                     variant="contained"
@@ -110,4 +81,4 @@ const RawProfile: React.SFC<Props> = ({ classes }) => (
     </>
 );
 
-export const Profile = withStyles(styles)(RawProfile);
+export const ProfileComponent = withStyles(styles)(RawProfile);

@@ -36,7 +36,15 @@ storiesOf('Nav', module)
                 ~~~
             `,
         })(() => (
-            <NavComponent user={{ displayImage: null, displayName: null }} />
+            <NavComponent
+                user={{
+                    authAttempt: 0,
+                    displayImage: null,
+                    displayName: null,
+                    isAuthenticated: false,
+                    isSignedUp: false,
+                }}
+            />
         )),
     )
     .add(
@@ -67,7 +75,13 @@ storiesOf('Nav', module)
         })(() => (
             <div style={{ backgroundColor: 'black' }}>
                 <NavComponent
-                    user={{ displayImage: null, displayName: null }}
+                    user={{
+                        authAttempt: 0,
+                        displayImage: null,
+                        displayName: null,
+                        isAuthenticated: false,
+                        isSignedUp: false,
+                    }}
                     transparent={true}
                 />
             </div>

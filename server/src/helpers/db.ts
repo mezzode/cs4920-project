@@ -76,6 +76,9 @@ export const resetPassword = async (username: string, email: string) => {
         await db.query(
             `UPDATE users SET password = 'defaultpass' WHERE username = '${username}'`,
         );
+        return true;
+    } else {
+        return false;
     }
 };
 

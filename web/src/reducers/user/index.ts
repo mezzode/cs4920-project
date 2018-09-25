@@ -1,22 +1,54 @@
 import { Reducer } from 'redux';
 import { reducerWithInitialState } from 'typescript-fsa-reducers';
-import { clearUser, setUser } from '../../actions/user';
+import {
+    clearAuthAttempts,
+    clearUser,
+    incrementAuthAttempt,
+    setIsAuthenticated,
+    setIsSignedUp,
+    setUser,
+} from '../../actions/user';
 
 export interface UserState {
+    authAttempt: number;
     displayImage: any | null;
     displayName: string | null;
+    isAuthenticated: boolean;
+    isSignedUp: boolean;
 }
 
 const initialState: UserState = {
+    authAttempt: 0,
     displayImage: null,
     displayName: null,
+    isAuthenticated: false,
+    isSignedUp: false,
 };
 
 export const user: Reducer<UserState> = reducerWithInitialState(initialState)
-    .case(setUser, (state, userData) => ({ ...state, ...userData }))
+    .case(setUser, (state, userData) => ({
+        ...state,
+        ...userData,
+        isAuthenticated: true,
+    }))
     .case(clearUser, state => ({
         ...state,
-        displayImage: null,
-        displayName: null,
+        ...initialState,
+    }))
+    .case(setIsAuthenticated, (state, isAuthData) => ({
+        ...state,
+        ...isAuthData,
+    }))
+    .case(incrementAuthAttempt, state => ({
+        ...state,
+        authAttempt: state.authAttempt + 1,
+    }))
+    .case(clearAuthAttempts, state => ({
+        ...state,
+        authAttempt: 0,
+    }))
+    .case(setIsSignedUp, (state, isSignedUpData) => ({
+        ...state,
+        ...isSignedUpData,
     }))
     .build();

@@ -3,7 +3,7 @@ import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
 import Toolbar from '@material-ui/core/Toolbar';
 import * as React from 'react';
-import { Logout } from '../../auth/Logout';
+import { Logout } from '../../logout';
 import { LinkTo } from '../util';
 import { Props } from './types';
 
@@ -44,7 +44,7 @@ export const RawNav: React.SFC<Props> = ({ classes, transparent, user }) => (
                         <Button component={LinkTo('/profile')} color="inherit">
                             Profile
                         </Button>
-                        <Logout />
+                        <Logout component={LinkTo('/')} />
                     </>
                 )}
             </div>
