@@ -37,8 +37,8 @@ router.get('/profile', isLoggedIn, async (req: any, res: any) => {
     const user = {
         username,
     };
+    res.send(user);
     res.sendFile(profileImagePath);
-    res.send(JSON.stringify(user));
 });
 
 router.post(

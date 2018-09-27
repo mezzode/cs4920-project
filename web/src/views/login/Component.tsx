@@ -14,7 +14,7 @@ import { Snackbar } from '../../components/common/Snackbar';
 import { styles } from './styles';
 import { Props } from './types';
 
-const RawLogin: React.SFC<Props> = ({ classes, showFail, handleSubmit }) => (
+const RawLogin: React.SFC<Props> = ({ classes, handleSubmit }) => (
     <>
         <Nav />
         <main className={classes.layout}>

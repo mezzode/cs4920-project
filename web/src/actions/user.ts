@@ -1,4 +1,7 @@
+import { Action } from 'redux';
+import { ThunkAction } from 'redux-thunk';
 import { actionCreatorFactory } from 'typescript-fsa';
+import { State } from '../reducers/index';
 
 const actionCreator = actionCreatorFactory('USER');
 
@@ -17,3 +20,19 @@ export const setIsAuthenticated = actionCreator<{
 export const setIsSignedUp = actionCreator<{ readonly isSignedUp: boolean }>(
     'SIGNED_UP',
 );
+
+export const loadUser = () => () => async dispatch => {
+    // dispatch(getUser.started());
+    try {
+        const res = await fetch('/profile');
+        if (res.status > 400) {
+            throw new Error(`Server error: ${res.status} ${res.statusText}`);
+        }
+        const result = await res.json();
+        dispatch(setUser(result));
+        return res;
+    } catch (e) {
+        // dispatch(getUser.failed(e.message));
+        throw e;
+    }
+};

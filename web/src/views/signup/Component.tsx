@@ -70,12 +70,10 @@ const RawSignUp: React.SFC<Props> = ({
                     Create account
                 </Button>
             </form>
-            {authAttempt > 0 && (
-                <Snackbar
-                    variant="warning"
-                    message="Sign up attempt unsuccessful"
-                />
-            )}
+            <Snackbar
+                variant="warning"
+                message="Sign up attempt unsuccessful"
+            />
         </main>
     </>
 );

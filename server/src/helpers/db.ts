@@ -60,6 +60,12 @@ export const checkLogin: any = async (username: string, password: string) => {
     };
 };
 
+export const getUserById = async (id: number) =>
+    await db.oneOrNone({
+        text: 'SELECT * FROM users WHERE id = $1',
+        values: [id],
+    });
+
 export const getProfile = async (username: string) =>
     await db.oneOrNone({
         text: 'SELECT username, image FROM users WHERE username = $1',
