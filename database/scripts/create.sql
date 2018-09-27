@@ -16,7 +16,7 @@ CREATE TABLE media
     api_id text not null
 );
 CREATE TYPE status AS ENUM ('progress', 'complete');
-CREATE TABLE entries
+CREATE TABLE entry
 (
     id serial primary key not null,
     media_id int not null,
