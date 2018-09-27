@@ -44,5 +44,5 @@ router
 router.get('/search', (req: any, res: any) => {
     console.log('in search');
     res.sendFile(path.resolve(`${__dirname}/../../web/build/search.html`));
-    //res.send("TODO");
-})
+    // res.send("TODO");
+});
