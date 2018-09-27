@@ -41,18 +41,6 @@ const styles = (theme: Theme) =>
     });
 
 interface Props extends WithStyles<typeof styles> {}
-/*
-interface Props {}
-
-const SearchResults: React.SFC<Props> = () => (
-    <>
-        <Nav />
-        <Typography variant="display3">SEARCH RESULTS</Typography>
-    </>
-);
-
-export const Search = withStyles(styles)(SearchResults);
-*/
 
 export const SearchPage = connect()(
     withStyles(styles)(
