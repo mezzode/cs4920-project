@@ -6,6 +6,7 @@ import * as session from 'express-session';
 
 import { passport, setupAuth } from './helpers/auth';
 import { db } from './helpers/db';
+import { errorHandler } from './helpers/error';
 import { router } from './routes';
 
 const app = express();
@@ -21,5 +22,7 @@ app.use(flash());
 
 setupAuth(db);
 app.use('/', router);
+
+app.use(errorHandler);
 
 app.listen(8080, () => console.log('Server is listening on port 8080'));
