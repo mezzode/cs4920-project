@@ -23,7 +23,7 @@ const isLoggedIn: express.RequestHandler = (req, res, next) => {
     return res.redirect('/login');
 };
 
-router.get('/healthcheck/db', async (req: any, res: any) => {
+router.get('/healthcheck/db', async (req, res) => {
     try {
         const data = healthcheck();
         console.log(JSON.stringify(data));
@@ -33,6 +33,7 @@ router.get('/healthcheck/db', async (req: any, res: any) => {
     }
 });
 
+<<<<<<< HEAD
 router.get('/profile', isLoggedIn, async (req: any, res: any) => {
     const { image } = await getProfile(req.user.username);
     res.sendFile(image);
@@ -119,6 +120,30 @@ router.post(
         const profileImage = req.file;
         const filePath = path.join(uploadRootPath, profileImage.filename);
         await updateProfileImage(username, filePath);
+=======
+router.get('/dashboard', isLoggedIn, (req, res) => {
+    console.log('in dashboard');
+    res.sendFile(path.resolve(`${__dirname}/../../web/build/index.html`));
+});
+
+router.get('/profile', isLoggedIn, (req, res) => {
+    console.log('in profile');
+    console.log(JSON.stringify(req.user));
+    const { id, username, image } = req.user;
+    res.send(`id: ${id}, username: ${username}, image: ${image}`);
+    // res.sendFile(path.resolve(`${__dirname}/../../web/build/profile.html`));
+});
+
+router
+    .route('/login')
+    .get((req, res) => {
+        res.sendFile(path.resolve(`${__dirname}/../../web/build/login.html`));
+    })
+    .post(passport.authenticate('local'), (req, res) => {
+        console.log(JSON.stringify(req.user));
+        res.redirect('/dashboard');
+    });
+>>>>>>> 906779b300be6cc3845c83d73f17a77259afd500
 
         const { image } = await getProfile(username);
         res.sendFile(image);

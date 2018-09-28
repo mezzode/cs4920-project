@@ -14,7 +14,12 @@ const pgp: IMain = pgPromise({});
 // containers on the network connect to each other using the container port, not the host port
 // the host port is only used for accessing the container from the host
 const cn = `postgres://postgres@${process.env.HOST}:5433/appdb`;
-export const db: IDatabase<any> = pgp(cn);
+
+interface Extensions {}
+
+export const db: IDatabase<Extensions> & Extensions = pgp(cn);
+
+export type DB = typeof db;
 
 const getHashedPassword = (password: string) =>
     bcrypt.hashSync(password, bcrypt.genSaltSync(10));
@@ -52,7 +57,7 @@ export const signUp = async (
     return user;
 };
 
-export const checkLogin: any = async (username: string, password: string) => {
+export const checkLogin = async (username: string, password: string) => {
     const user = await db.oneOrNone({
         text: 'SELECT * FROM users WHERE username = $1',
         values: [username],
