@@ -29,14 +29,14 @@ storiesOf('List', module)
         })(() => {
             const entries: Entry[] = [
                 {
-                    entryId: 'a',
+                    entryCode: 'a',
                     finished: '2016/01/13',
                     lastUpdated: '2018/09/15 19:01',
-                    listId: 'a',
+                    listCode: 'a',
                     media: {
                         artUrl:
                             'https://78.media.tumblr.com/4f30940e947b58fb57e2b8499f460acb/tumblr_okccrbpkDY1rb48exo1_1280.jpg',
-                        mediaId: 'a',
+                        mediaCode: 'a',
                         title: 'Danganronpa',
                     },
                     progress: '50 hrs',
@@ -44,14 +44,14 @@ storiesOf('List', module)
                     started: '2016/01/10',
                 },
                 {
-                    entryId: 'b',
+                    entryCode: 'b',
                     finished: '2017/01/13',
                     lastUpdated: '2018/09/15 19:01',
-                    listId: 'a',
+                    listCode: 'a',
                     media: {
                         artUrl:
                             'https://78.media.tumblr.com/4f30940e947b58fb57e2b8499f460acb/tumblr_okccrbpkDY1rb48exo1_1280.jpg',
-                        mediaId: 'b',
+                        mediaCode: 'b',
                         title: 'Danganronpa 2: Goodbye Despair',
                     },
                     progress: '50 hrs',
@@ -59,14 +59,14 @@ storiesOf('List', module)
                     started: '2017/01/10',
                 },
                 {
-                    entryId: 'c',
+                    entryCode: 'c',
                     finished: '2018/01/13',
                     lastUpdated: '2018/09/15 19:01',
-                    listId: 'a',
+                    listCode: 'a',
                     media: {
                         artUrl:
                             'https://78.media.tumblr.com/4f30940e947b58fb57e2b8499f460acb/tumblr_okccrbpkDY1rb48exo1_1280.jpg',
-                        mediaId: 'c',
+                        mediaCode: 'c',
                         title: 'Danganronpa V3: Killing Harmony',
                     },
                     progress: '50 hrs',

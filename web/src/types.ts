@@ -7,14 +7,14 @@ interface UserEntry {
     started: string;
     finished: string;
     progress: string;
-    listId: string;
+    listCode: string;
 }
 
 /**
  * System-controlled
  */
 interface SystemEntry {
-    entryId: string;
+    entryCode: string;
     lastUpdated: string; // TODO
     media: Media;
 }
@@ -22,16 +22,15 @@ interface SystemEntry {
 export type Entry = UserEntry & SystemEntry;
 
 export interface Media {
-    mediaId: string;
+    mediaCode: string;
     title: string;
     artUrl: string;
 }
 
 export interface EntryList {
     entries: Entry[];
-    id: string;
+    listCode: string;
     name: string;
-    slug: string;
 }
 
 export enum MediaType {

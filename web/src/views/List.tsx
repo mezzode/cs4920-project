@@ -113,22 +113,23 @@ export const ListPage = connect(
                         <Typography variant="display3">Loading</Typography>
                     );
                 } else {
-                    const canonSlug = slugify(list.name, { lower: true });
+                    const { name, entries, listCode } = list;
+                    const canonSlug = slugify(name, { lower: true });
                     if (match.params.slug === canonSlug) {
                         content = (
                             <Card className={classes.paper}>
-                                <CardHeader title={list.name}>
+                                <CardHeader title={name}>
                                     <Typography variant="display3">
-                                        {list.name}
+                                        {name}
                                     </Typography>
                                 </CardHeader>
-                                <List entries={list.entries} />
+                                <List entries={entries} />
                                 <EntryEditor />
                             </Card>
                         );
                     } else {
                         content = (
-                            <Redirect to={`/list/${list.id}/${canonSlug}`} />
+                            <Redirect to={`/list/${listCode}/${canonSlug}`} />
                         );
                     }
                 }

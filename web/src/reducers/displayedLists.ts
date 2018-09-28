@@ -5,7 +5,7 @@ import { clearDisplayedLists, getDisplayedList } from '../actions/list';
 import { Entry, EntryList } from '../types';
 
 export interface DisplayedListsState {
-    [listId: string]: EntryList;
+    [listCode: string]: EntryList;
 }
 
 const initialState: DisplayedListsState = {};
@@ -13,7 +13,7 @@ const initialState: DisplayedListsState = {};
 const displayedList = (list: EntryList, result: Entry) => ({
     ...list,
     entries: list.entries.map(
-        entry => (entry.entryId === result.entryId ? result : entry),
+        entry => (entry.entryCode === result.entryCode ? result : entry),
     ),
 });
 
@@ -22,9 +22,9 @@ export const displayedLists: Reducer<
 > = reducerWithInitialState(initialState)
     .case(saveEntryEdit.done, (state, { result }) => ({
         ...state,
-        [result.listId]: displayedList(state[result.listId], result), // update edited entry
+        [result.listCode]: displayedList(state[result.listCode], result), // update edited entry
     }))
     .case(getDisplayedList.done, (state, { result }) => ({
-        [result.id]: result,
+        [result.listCode]: result,
     }))
     .case(clearDisplayedLists, state => initialState);

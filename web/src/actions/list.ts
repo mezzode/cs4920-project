@@ -27,7 +27,6 @@ export const loadList: (
 > = listId => async dispatch => {
     dispatch(getDisplayedList.started());
     try {
-        console.log(`${process.env.REACT_APP_API_BASE}/list/${listId}`);
         const res = await fetch(
             `${process.env.REACT_APP_API_BASE}/list/${listId}`,
             { mode: 'cors' },

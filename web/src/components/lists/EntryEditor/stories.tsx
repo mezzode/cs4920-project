@@ -42,14 +42,14 @@ storiesOf('EntryEditor', module)
                 public state: State = {
                     editingEntry: null,
                     savedEntry: {
-                        entryId: 'c',
+                        entryCode: 'c',
                         finished: '2018/01/13',
                         lastUpdated: '2018/09/15 19:01',
-                        listId: 'a',
+                        listCode: 'a',
                         media: {
                             artUrl:
                                 'https://78.media.tumblr.com/4f30940e947b58fb57e2b8499f460acb/tumblr_okccrbpkDY1rb48exo1_1280.jpg',
-                            mediaId: 'asdf',
+                            mediaCode: 'asdf',
                             title: 'Danganronpa V3: Killing Harmony',
                         },
                         progress: '50 hrs',
