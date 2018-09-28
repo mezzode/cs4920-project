@@ -4,6 +4,7 @@ import {
     clearAuthAttempts,
     clearUser,
     incrementAuthAttempt,
+    setImage,
     setIsAuthenticated,
     setIsSignedUp,
     setUser,
@@ -34,6 +35,10 @@ export const user: Reducer<UserState> = reducerWithInitialState(initialState)
     .case(clearUser, state => ({
         ...state,
         ...initialState,
+    }))
+    .case(setImage, (state, userData) => ({
+        ...state,
+        ...userData,
     }))
     .case(setIsAuthenticated, (state, isAuthData) => ({
         ...state,

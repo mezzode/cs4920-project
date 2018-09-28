@@ -1,7 +1,7 @@
 import { connect, MapDispatchToProps, MapStateToProps } from 'react-redux';
 
 import { setFlash } from '../../actions/flash';
-import { setUser } from '../../actions/user';
+import { setImage } from '../../actions/user';
 import { State } from '../../reducers/index';
 import { ProfileComponent } from './Component';
 import { DispatchProps, OwnProps, StateProps } from './types';
@@ -21,8 +21,11 @@ const mapDispatchToProps: MapDispatchToProps<
 > = dispatch => {
     const loadProfile = async () => {
         const res = await fetch('/profile');
-        const result = await res.json();
-        dispatch(setUser(result));
+        if (res.ok) {
+            const imageBlob = await res.blob();
+            const displayImage = URL.createObjectURL(imageBlob);
+            dispatch(setImage({ displayImage }));
+        }
     };
 
     const handleUpdateImage = async (event: any) => {
@@ -35,6 +38,9 @@ const mapDispatchToProps: MapDispatchToProps<
         });
 
         if (res.ok) {
+            const imageBlob = await res.blob();
+            const displayImage = URL.createObjectURL(imageBlob);
+            dispatch(setImage({ displayImage }));
             dispatch(setFlash());
         }
     };

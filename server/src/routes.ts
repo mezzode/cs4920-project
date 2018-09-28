@@ -1,4 +1,5 @@
 import * as express from 'express';
+import * as fs from 'fs';
 import * as multer from 'multer';
 import * as path from 'path';
 
@@ -33,12 +34,8 @@ router.get('/healthcheck/db', async (req: any, res: any) => {
 });
 
 router.get('/profile', isLoggedIn, async (req: any, res: any) => {
-    const { username, profileImagePath } = await getProfile(req.user.username);
-    const user = {
-        username,
-    };
-    res.send(user);
-    res.sendFile(profileImagePath);
+    const { image } = await getProfile(req.user.username);
+    res.sendFile(image);
 });
 
 router.post(
@@ -46,9 +43,12 @@ router.post(
     multerParser.none(),
     passport.authenticate('local'),
     (req: any, res: any) => {
+        const userData = {
+            username: req.user.username,
+        };
         console.log(JSON.stringify(req.user));
         res.cookie('user-id', req.user.id, { maxAge: 2592000000 }); // Expires in one month
-        res.send(JSON.stringify(req.user));
+        res.json(userData);
     },
 );
 
@@ -69,25 +69,58 @@ router.post(
         const profileImage = req.file;
         const filePath = path.join(uploadRootPath, profileImage.filename);
 
-        await signUp(username, password, email, filePath);
-        req.login();
+        const user = await signUp(username, password, email, filePath);
+        if (user) {
+            req.login(user, (err: any) => {
+                if (!err) {
+                    res.cookie('user-id', user.id, { maxAge: 2592000000 }); // Expires in one month
+                    res.json({ username: user.username });
+                }
+            });
+        }
     },
 );
 
-router.post('/reset-password', async (req: any, res: any) => {
-    const { username, email } = req.body;
+router.post('/reset-password', isLoggedIn, async (req: any, res: any) => {
+    const { username, email } = req.user;
     const result = await resetPassword(username, email);
     res.send(result);
 });
 
-router.post('/update-password', async (req: any, res: any) => {
-    const { username, password } = req.body;
-    await updatePassword(username, password);
-    res.send(true);
-});
+router.post(
+    '/update-password',
+    multerParser.none(),
+    isLoggedIn,
+    async (req: any, res: any) => {
+        const { username } = req.user;
+        const newPassword = req.body.password;
+        await updatePassword(username, newPassword);
+        res.send();
+    },
+);
 
-router.get('/update-profile-image', async (req: any, res: any) => {
-    const { username, profileImage } = req.body;
-    await updateProfileImage(username, profileImage);
-    res.send(true);
-});
+router.post(
+    '/update-profile-image',
+    // should ideally be upload.none() => isLoggedIn => upload.single('profileImage')
+    upload.single('profileImage'),
+    isLoggedIn,
+    async (req: any, res: any) => {
+        const { username } = req.user;
+
+        // Remove old image if one exists
+        const originalImage = (await getProfile(username)).image;
+        if (originalImage) {
+            fs.unlink(originalImage, (err: NodeJS.ErrnoException) => {
+                console.log(err);
+            });
+        }
+
+        // Save new image
+        const profileImage = req.file;
+        const filePath = path.join(uploadRootPath, profileImage.filename);
+        await updateProfileImage(username, filePath);
+
+        const { image } = await getProfile(username);
+        res.sendFile(image);
+    },
+);

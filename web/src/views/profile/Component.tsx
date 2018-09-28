@@ -2,7 +2,6 @@ import {
     Avatar,
     Button,
     FormControl,
-    FormLabel,
     Input,
     InputLabel,
     Typography,
@@ -52,9 +51,6 @@ class RawProfile extends React.Component<Props> {
                                 required={true}
                                 fullWidth={true}
                             >
-                                <FormLabel className={classes.centerItem}>
-                                    Profile picture
-                                </FormLabel>
                                 <Input
                                     type="file"
                                     name="profileImage"
@@ -87,6 +83,7 @@ class RawProfile extends React.Component<Props> {
                             <Input
                                 id="password"
                                 name="password"
+                                type="password"
                                 autoComplete="password"
                                 autoFocus={true}
                             />

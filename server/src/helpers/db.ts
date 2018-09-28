@@ -27,22 +27,29 @@ export const signUp = async (
     email: string,
     profilePath: string,
 ) => {
-    const hashedPassword = getHashedPassword(password);
-    const separator = ',';
-    const includeEmail = `${separator} '${email}'`;
-    const includeProfilePath = profilePath
-        ? `${separator} '${profilePath}'`
-        : '';
     const user = await db.oneOrNone({
-        text: 'SELECT 1 FROM users WHERE username = $1',
+        text: 'SELECT * FROM users WHERE username = $1',
         values: [username],
     });
     if (!user) {
+        const hashedPassword = getHashedPassword(password);
+
+        const separator = ',';
+        const includeEmail = `${separator} '${email}'`;
+        const includeProfilePath = profilePath
+            ? `${separator} '${profilePath}'`
+            : '';
+
         await db.query(
             `INSERT INTO users VALUES (DEFAULT, '${username}', '${hashedPassword}'` +
                 `${includeEmail}${includeProfilePath});`,
         );
+        return await db.oneOrNone({
+            text: 'SELECT * FROM users WHERE username = $1',
+            values: [username],
+        });
     }
+    return user;
 };
 
 export const checkLogin: any = async (username: string, password: string) => {
@@ -68,17 +75,17 @@ export const getUserById = async (id: number) =>
 
 export const getProfile = async (username: string) =>
     await db.oneOrNone({
-        text: 'SELECT username, image FROM users WHERE username = $1',
+        text: 'SELECT image FROM users WHERE username = $1',
         values: [username],
     });
 
 export const resetPassword = async (username: string, email: string) => {
     console.log(email);
     const user = await db.oneOrNone({
-        text: 'SELECT 1 FROM users WHERE username = $1',
+        text: 'SELECT username FROM users WHERE username = $1',
         values: [username],
     });
-    if (user) {
+    if (user.username) {
         await db.query(
             `UPDATE users SET password = 'defaultpass' WHERE username = '${username}'`,
         );
@@ -98,8 +105,8 @@ export const updatePassword = async (username: string, password: string) => {
 
 export const updateProfileImage = async (
     username: string,
-    profileImage: File,
+    profilePath: string,
 ) =>
     await db.query(
-        `UPDATE users SET image = ${profileImage} WHERE username = '${username}'`,
+        `UPDATE users SET image = '${profilePath}' WHERE username = '${username}'`,
     );

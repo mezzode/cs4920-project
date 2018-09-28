@@ -29,14 +29,10 @@ const mapDispatchToProps: MapDispatchToProps<
             body: data,
             method: 'post',
         });
-        // const text = await res.text();
+        const user = await res.json();
         if (res.ok) {
             console.log('success');
-            const payload = {
-                displayImage: 'sdf',
-                displayName: 'abc',
-            };
-            dispatch(setUser(payload));
+            dispatch(setUser({ displayName: user.username }));
             dispatch(clearAuthAttempts());
         } else {
             console.log('fail');
