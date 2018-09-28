@@ -7,7 +7,7 @@ export const setUser = actionCreator<{
 }>('SET');
 export const clearUser = actionCreator('CLEAR');
 
-export const setImage = actionCreator<{ readonly displayImage: any }>(
+export const setImage = actionCreator<{ readonly displayImage: string }>(
     'SET_IMAGE',
 );
 

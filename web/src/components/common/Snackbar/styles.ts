@@ -1,6 +1,7 @@
 import amber from '@material-ui/core/colors/amber';
 import green from '@material-ui/core/colors/green';
 
+// tslint:disable:no-any
 export const styles1 = (theme: any) => ({
     error: {
         backgroundColor: theme.palette.error.dark,

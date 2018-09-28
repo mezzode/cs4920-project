@@ -7,12 +7,13 @@ export interface Props
         StateProps {}
 
 export interface DispatchProps {
+    // tslint:disable:no-any
     handleUpdateImage: (event: any) => void;
     handleUpdatePassword: (event: any) => void;
     loadProfile: () => void;
 }
 export interface OwnProps {}
 export interface StateProps {
-    profileImage: File | null;
+    profileImage: string | null;
     username: string | null;
 }

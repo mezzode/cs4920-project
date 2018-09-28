@@ -1,3 +1,4 @@
+// tslint:disable:no-any
 export interface Props1 {
     className?: string;
     classes?: any;

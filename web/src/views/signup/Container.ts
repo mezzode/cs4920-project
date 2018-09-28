@@ -21,6 +21,7 @@ const mapDispatchToProps: MapDispatchToProps<
     DispatchProps,
     OwnProps
 > = dispatch => {
+    // tslint:disable:no-any
     const handleSubmit = async (event: any) => {
         event.preventDefault();
         const data = new FormData(event.target);

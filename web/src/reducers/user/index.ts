@@ -12,7 +12,7 @@ import {
 
 export interface UserState {
     authAttempt: number;
-    displayImage: any | null;
+    displayImage: string | null;
     displayName: string | null;
     isAuthenticated: boolean;
     isSignedUp: boolean;

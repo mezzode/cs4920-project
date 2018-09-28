@@ -16,6 +16,7 @@ const mapDispatchToProps: MapDispatchToProps<
     DispatchProps,
     OwnProps
 > = dispatch => {
+    // tslint:disable:no-any
     const handleClose = (event: any, reason: any) => {
         if (reason === 'clickaway') {
             return;

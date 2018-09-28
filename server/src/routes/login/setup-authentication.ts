@@ -1,14 +1,13 @@
 import * as passport from 'passport';
 import { Strategy as LocalStrategy } from 'passport-local';
-import { checkLogin, DB, getUserById } from './db';
-
-export { passport };
+import { getUserById } from '../../helpers/database';
+import { checkLogin } from './database';
 
 interface User {
     id: number; // may have more properties...
 }
 
-export const setupAuth = (db: DB) => {
+export const setupAuth = () => {
     passport.use(
         new LocalStrategy(async (username, password, done) => {
             const { isValid, user } = await checkLogin(username, password);

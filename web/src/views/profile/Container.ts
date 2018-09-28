@@ -28,6 +28,7 @@ const mapDispatchToProps: MapDispatchToProps<
         }
     };
 
+    // tslint:disable:no-any
     const handleUpdateImage = async (event: any) => {
         event.preventDefault();
         const data = new FormData(event.target);
@@ -45,6 +46,7 @@ const mapDispatchToProps: MapDispatchToProps<
         }
     };
 
+    // tslint:disable:no-any
     const handleUpdatePassword = async (event: any) => {
         event.preventDefault();
         const data = new FormData(event.target);
