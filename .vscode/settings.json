@@ -4,5 +4,6 @@
     "prettier.tabWidth": 4,
     "prettier.trailingComma": "all",
     "prettier.tslintIntegration": true,
-    "editor.formatOnSave": true
+    "editor.formatOnSave": true,
+    "files.insertFinalNewline": true
 }

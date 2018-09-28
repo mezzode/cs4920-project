@@ -1,7 +1,7 @@
 import { RequestHandler } from 'express';
 import * as passport from 'passport';
 import { Strategy as LocalStrategy } from 'passport-local';
-import { IDatabase } from 'pg-promise';
+import { DB } from './db';
 
 export { passport };
 
@@ -12,7 +12,7 @@ export const isLoggedIn: RequestHandler = (req, res, next) => {
     return res.redirect('/login');
 };
 
-export const setupAuth = (db: IDatabase<any>) => {
+export const setupAuth = (db: DB) => {
     passport.use(
         new LocalStrategy(async (username, password, done) => {
             try {

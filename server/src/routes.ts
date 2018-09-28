@@ -6,7 +6,7 @@ import { db } from './helpers/db';
 
 export const router = express.Router();
 
-router.get('/healthcheck/db', async (req: any, res: any) => {
+router.get('/healthcheck/db', async (req, res) => {
     try {
         const data = await db.query('select * from users;');
         console.log(JSON.stringify(data));
@@ -16,12 +16,12 @@ router.get('/healthcheck/db', async (req: any, res: any) => {
     }
 });
 
-router.get('/dashboard', isLoggedIn, (req: any, res: any) => {
+router.get('/dashboard', isLoggedIn, (req, res) => {
     console.log('in dashboard');
     res.sendFile(path.resolve(`${__dirname}/../../web/build/index.html`));
 });
 
-router.get('/profile', isLoggedIn, (req: any, res: any) => {
+router.get('/profile', isLoggedIn, (req, res) => {
     console.log('in profile');
     console.log(JSON.stringify(req.user));
     const { id, username, image } = req.user;
@@ -31,10 +31,10 @@ router.get('/profile', isLoggedIn, (req: any, res: any) => {
 
 router
     .route('/login')
-    .get((req: any, res: any) => {
+    .get((req, res) => {
         res.sendFile(path.resolve(`${__dirname}/../../web/build/login.html`));
     })
-    .post(passport.authenticate('local'), (req: any, res: any) => {
+    .post(passport.authenticate('local'), (req, res) => {
         console.log(JSON.stringify(req.user));
         res.redirect('/dashboard');
     });
