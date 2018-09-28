@@ -13,4 +13,9 @@ const pgp: IMain = pgPromise({});
 // containers on the network connect to each other using the container port, not the host port
 // the host port is only used for accessing the container from the host
 const cn = 'postgres://postgres@localhost:5433/appdb';
-export const db: IDatabase<any> = pgp(cn);
+
+interface Extensions {}
+
+export const db: IDatabase<Extensions> & Extensions = pgp(cn);
+
+export type DB = typeof db;
