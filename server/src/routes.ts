@@ -1,8 +1,9 @@
 import * as express from 'express';
 import * as path from 'path';
-
 import { isLoggedIn, passport } from './helpers/auth';
 import { db } from './helpers/db';
+import { entryRouter } from './lists/entries';
+import { listRouter } from './lists/lists';
 
 export const router = express.Router();
 
@@ -38,5 +39,8 @@ router
         console.log(JSON.stringify(req.user));
         res.redirect('/dashboard');
     });
+
+router.use(entryRouter);
+router.use(listRouter);
 
 // router.get('/api/getUsername', (req: any, res: any) => res.send({ username: os.userInfo().username }));

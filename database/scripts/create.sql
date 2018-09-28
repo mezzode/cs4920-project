@@ -4,25 +4,32 @@ CREATE TABLE users
     id serial primary key not null,
     username text not null,
     password text not null,
-    image bytea
+    image text -- url
 );
 CREATE TABLE list
 (
-    id serial primary key not null
+    id serial primary key not null,
+    name text not null
 );
 CREATE TABLE media
 (
     id serial primary key not null,
     api_id text not null
 );
-CREATE TYPE status AS ENUM ('progress', 'complete');
 CREATE TABLE entry
 (
     id serial primary key not null,
     media_id int not null,
     user_id int not null,
-    status status,
+    list_id int not null,
+    category text,
     rating int,
+    last_updated TIMESTAMP,
+    -- started/finished use ISO 8601 with partial dates allowed
+    -- e.g. '2016', '2017-04-13', '2018-09'
+    started text,
+    finished text,
     foreign key (media_id) references media(id),
-    foreign key (user_id) references users(id)
+    foreign key (user_id) references users(id),
+    foreign key (list_id) references list(id)
 );
