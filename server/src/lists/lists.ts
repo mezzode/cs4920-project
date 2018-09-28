@@ -13,7 +13,7 @@ const getList = asyncHandler(async (req, res) => {
             `SELECT name FROM list l WHERE id = $(listId)`,
             { listId },
         );
-        if (listMeta === null) {
+        if (!listMeta) {
             throw new HandlerError('List not found', 404);
         }
         const { name } = listMeta;

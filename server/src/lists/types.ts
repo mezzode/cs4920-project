@@ -4,12 +4,11 @@
  * User-controlled entry data.
  * TODO: proper types
  */
-interface UserEntry {
+export interface UserEntry {
     rating: number;
     started: string;
     finished: string;
     progress: string;
-    listCode: string;
 }
 
 /**
@@ -17,6 +16,7 @@ interface UserEntry {
  */
 interface SystemEntry {
     entryCode: string;
+    listCode: string;
     lastUpdated: string;
     media: Media;
 }
