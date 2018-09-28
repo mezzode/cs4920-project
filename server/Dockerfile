@@ -1,11 +1,19 @@
-FROM node:10.10.0-alpine
+FROM node:10.10.0-alpine AS node
 
-WORKDIR /usr/src/app/server
+FROM node AS build
 
-RUN yarn install --no-progress
+WORKDIR /usr/src/app
 
-CMD ["yarn", "start"]
+COPY . .
+RUN ls
 
-# this command just keeps the container alive so you can connect a terminal
-# i.e. `docker run -it cs4920project_server_1 /bin/sh`
-# CMD ["tail","-f", "/dev/null"]
+RUN yarn --no-progress
+RUN yarn build
+
+FROM node AS prod
+
+WORKDIR /usr/src/app
+
+COPY --from=build /usr/src/app/build .
+
+CMD ["node", "index.js"]

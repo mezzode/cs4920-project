@@ -4,7 +4,7 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "Run lint",
+            "label": "Run lint (web)",
             "type": "shell",
             "command": "yarn lint",
             "problemMatcher": {
@@ -16,12 +16,15 @@
             }
         },
         {
-            "type": "npm",
-            "script": "lint",
-            "path": "web/",
+            "label": "Run lint (server)",
+            "type": "shell",
+            "command": "yarn lint",
             "problemMatcher": {
                 "base": "$tslint5",
                 "fileLocation": "absolute"
+            },
+            "options": {
+                "cwd": "server/"
             }
         }
     ]
