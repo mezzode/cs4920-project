@@ -58,5 +58,46 @@ const getList = asyncHandler(async (req, res) => {
     res.json(list);
 });
 
+const newList = asyncHandler(async (req, res) => {
+    const userId = 1; // TODO: get from auth
+    const { name }: { name: string } = req.body;
+    const { listId, ...inserted } = await db.one<{
+        name: string;
+        listId: number;
+    }>(
+        `INSERT INTO list(name, user_id)
+        VALUES ($(name), $(userId))
+        RETURNING name, id AS "listId"`,
+        { userId, name },
+    );
+    const listCode = hashids.encode(listId);
+    res.json({
+        listCode,
+        ...inserted,
+    });
+});
+
+const updateList = asyncHandler(async (req, res) => {
+    const { listCode } = req.params;
+    const [listId] = hashids.decode(listCode);
+    const { name }: { name: string } = req.body;
+    const updated = await db.oneOrNone<{
+        name: string;
+    }>(
+        `UPDATE list SET name = ($(name))
+        WHERE id = $(listId)
+        RETURNING name`,
+        { listId, name },
+    );
+    if (!updated) {
+        throw new HandlerError('List not found', 404);
+    }
+    res.json(updated);
+});
+
 export const listRouter = Router();
-listRouter.route('/list/:listCode').get(getList);
+listRouter
+    .route('/list/:listCode')
+    .get(getList)
+    .patch(updateList);
+listRouter.route('/list').post(newList);

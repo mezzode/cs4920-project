@@ -14,14 +14,14 @@ VALUES
     ('12345'),
     ('67890');
 
-INSERT INTO list(id, name)
+INSERT INTO list(name, user_id)
 VALUES
-    (1, 'mezzode''s List');
+    ('mezzode''s List', 1);
 
 -- Entry
 INSERT INTO entry(media_id, user_id, category, started, finished, list_id, last_updated)
 VALUES
     (1, 1, 'Progress', '2016', '2018', 1, now()),
     (2, 1, 'Complete', '2017-10-01', '2017-10-01', 1, now()),
-    (1, 2, 'Progress', '2017-10-01', '2017-10-01', 1, now()),
-    (2, 3, 'Complete', '2017-10', '2017-10-01', 1, now());
+    (1, 1, 'Progress', '2017-10-01', '2017-10-01', 1, now()),
+    (2, 1, 'Complete', '2017-10', '2017-10-01', 1, now());

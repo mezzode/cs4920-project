@@ -9,7 +9,9 @@ CREATE TABLE users
 CREATE TABLE list
 (
     id serial primary key not null,
-    name text not null
+    user_id int not null,
+    name text not null,
+    foreign key (user_id) references users(id)
 );
 CREATE TABLE media
 (
