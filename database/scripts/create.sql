@@ -21,7 +21,6 @@ CREATE TABLE entry
 (
     id serial primary key not null,
     media_id int not null REFERENCES media,
-    user_id int not null REFERENCES users ON DELETE CASCADE,
     list_id int not null REFERENCES list ON DELETE CASCADE,
     category text,
     rating int,

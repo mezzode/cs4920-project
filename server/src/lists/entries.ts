@@ -44,16 +44,18 @@ const newEntry = asyncHandler(async (req, res) => {
         throw new HandlerError('Invalid entry', 400);
     }
 
-    const userId = 1; // TODO: get from auth
+    // const userId = 1; // TODO: get from auth
     // TODO: authorisation. check that the user owns the list.
     const [listId] = hashids.decode(listCode);
     const [mediaId] = hashids.decode(mediaCode);
     const entry = {
         list_id: listId,
         media_id: mediaId,
-        user_id: userId,
         ...data,
     };
+
+    // TODO: consider checking for existence of list first so can
+    // return "List not found" instead of generic error
 
     // note this returns list_id, etc. in snake case
     const { entryId, ...insertedData } = await db.one<
@@ -136,7 +138,6 @@ const deleteEntry = asyncHandler(async (req, res) => {
 
     const {
         media_id: mediaId,
-        user_id: userId,
         list_id: listId,
         last_updated: lastUpdated,
         ...rest
@@ -147,7 +148,6 @@ const deleteEntry = asyncHandler(async (req, res) => {
         lastUpdated,
         listCode: hashids.encode(listId),
         mediaCode: hashids.encode(mediaId),
-        userCode: hashids.encode(userId),
         ...rest,
     };
 

@@ -19,9 +19,9 @@ VALUES
     ('mezzode''s List', 1);
 
 -- Entry
-INSERT INTO entry(media_id, user_id, category, started, finished, list_id, last_updated)
+INSERT INTO entry(media_id, category, started, finished, list_id, last_updated)
 VALUES
-    (1, 1, 'Progress', '2016', '2018', 1, now()),
-    (2, 1, 'Complete', '2017-10-01', '2017-10-01', 1, now()),
-    (1, 1, 'Progress', '2017-10-01', '2017-10-01', 1, now()),
-    (2, 1, 'Complete', '2017-10', '2017-10-01', 1, now());
+    (1, 'Progress', '2016', '2018', 1, now()),
+    (2, 'Complete', '2017-10-01', '2017-10-01', 1, now()),
+    (1, 'Progress', '2017-10-01', '2017-10-01', 1, now()),
+    (2, 'Complete', '2017-10', '2017-10-01', 1, now());
