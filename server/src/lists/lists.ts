@@ -95,9 +95,28 @@ const updateList = asyncHandler(async (req, res) => {
     res.json(updated);
 });
 
+const deleteList = asyncHandler(async (req, res) => {
+    const { listCode } = req.params;
+    const [listId] = hashids.decode(listCode);
+    const deleted = await db.oneOrNone<{
+        name: string;
+        id: number;
+    }>(
+        `DELETE FROM list
+        WHERE id = $(listId)
+        RETURNING id, name`,
+        { listId },
+    );
+    if (!deleted) {
+        throw new HandlerError('List not found', 404);
+    }
+    res.json(deleted);
+});
+
 export const listRouter = Router();
 listRouter
     .route('/list/:listCode')
     .get(getList)
-    .patch(updateList);
+    .patch(updateList)
+    .delete(deleteList);
 listRouter.route('/list').post(newList);

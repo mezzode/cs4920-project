@@ -9,9 +9,8 @@ CREATE TABLE users
 CREATE TABLE list
 (
     id serial primary key not null,
-    user_id int not null,
-    name text not null,
-    foreign key (user_id) references users(id)
+    user_id int not null REFERENCES users ON DELETE CASCADE,
+    name text not null
 );
 CREATE TABLE media
 (
@@ -21,17 +20,14 @@ CREATE TABLE media
 CREATE TABLE entry
 (
     id serial primary key not null,
-    media_id int not null,
-    user_id int not null,
-    list_id int not null,
+    media_id int not null REFERENCES media,
+    user_id int not null REFERENCES users ON DELETE CASCADE,
+    list_id int not null REFERENCES list ON DELETE CASCADE,
     category text,
     rating int,
     last_updated TIMESTAMP,
     -- started/finished use ISO 8601 with partial dates allowed
     -- e.g. '2016', '2017-04-13', '2018-09'
     started text,
-    finished text,
-    foreign key (media_id) references media(id),
-    foreign key (user_id) references users(id),
-    foreign key (list_id) references list(id)
+    finished text
 );

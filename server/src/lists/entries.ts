@@ -26,6 +26,7 @@ const getEntry = asyncHandler(async (req, res) => {
     if (!entry) {
         throw new HandlerError('Entry not found', 404);
     }
+    // TODO: change ids to codes. consider making a separate function for this
     res.send(entry);
 });
 
@@ -100,7 +101,7 @@ const updateEntry = asyncHandler(async (req, res) => {
     }
     const [entryId] = hashids.decode(entryCode);
     const updatedEntry = await db.one<
-        { lastUpdated: string } & typeof entryUpdate
+        { last_updated: string } & typeof entryUpdate
     >(
         `${pgp.helpers.update(entryUpdate, undefined, 'entry')}
         WHERE id = $(entryId)
@@ -110,11 +111,55 @@ const updateEntry = asyncHandler(async (req, res) => {
     res.json(updatedEntry);
 });
 
+const deleteEntry = asyncHandler(async (req, res) => {
+    const { entryCode } = req.params;
+    const [entryId] = hashids.decode(entryCode);
+    const deletedRow = await db.oneOrNone<{
+        id: number;
+        media_id: number;
+        user_id: number;
+        list_id: number;
+        category: string;
+        rating: number;
+        last_updated: string;
+        started: string;
+        finished: string;
+    }>(
+        `DELETE FROM entry
+        WHERE id = $(entryId)
+        RETURNING *`,
+        { entryId },
+    );
+    if (!deletedRow) {
+        throw new HandlerError('Entry not found', 404);
+    }
+
+    const {
+        media_id: mediaId,
+        user_id: userId,
+        list_id: listId,
+        last_updated: lastUpdated,
+        ...rest
+    } = deletedRow;
+
+    const deletedEntry = {
+        entryCode,
+        lastUpdated,
+        listCode: hashids.encode(listId),
+        mediaCode: hashids.encode(mediaId),
+        userCode: hashids.encode(userId),
+        ...rest,
+    };
+
+    res.json(deletedEntry);
+});
+
 // TODO: consider creating middleware for checking authorisation instead of doing in each handler
 
 export const entryRouter = Router();
 entryRouter
     .route('/entry/:entryCode')
     .get(getEntry)
-    .post(updateEntry);
+    .post(updateEntry)
+    .delete(deleteEntry);
 entryRouter.post('/entry', newEntry);
