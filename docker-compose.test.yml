@@ -1,12 +1,17 @@
 version: '3.4'
 services:
-    server:
-        image: node:10.10.0-alpine
-        # runs yarn at runtime so mounts are active
-        command: sh -c "yarn --no-progress && yarn test" # TODO: forward arguments into this
+    test:
+        image: node:10.10.0
+        working_dir: /usr/src/app/server
         volumes:
-            - ./server:/usr/src/app
+            - node_modules:/usr/src/app/server/node_modules
+        depends_on:
+            - postgres
+        volumes:
+            - .:/usr/src/app # mounting whole dir so jest can look at .git
     postgres:
         image: cs4920-postgres:prod
         build:
             target: prod
+    server: # should not be used, only here to make the definition valid
+        image: node:10.10.0-alpine
