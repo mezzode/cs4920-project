@@ -4,30 +4,46 @@ import { DateTime } from 'luxon';
 import { db, pgp } from '../helpers/db';
 import { HandlerError } from '../helpers/error';
 import { hashids } from '../id';
-import { Entry, UserEntry } from './types';
+import { UserEntry } from './types';
 
 const getEntry = asyncHandler(async (req, res) => {
     const { entryCode } = req.params;
     const [entryId] = hashids.decode(entryCode);
-    const entry = await db.oneOrNone<Entry>(
+    const row = await db.oneOrNone<{
+        entryId: number;
+        mediaId: number;
+        listId: number;
+        category: string;
+        rating: number;
+        lastUpdated: string;
+        started: string;
+        finished: string;
+    }>(
         // TODO: separate the select clause so can reuse (e.g. same as in lists.ts)
         `SELECT
             id AS "entryId",
             last_updated AS "lastUpdated",
+            category,
             rating,
             started,
             finished,
-            media_id AS "mediaId"
+            media_id AS "mediaId",
+            list_id AS "listId"
         FROM entry e
         WHERE e.id = $(entryId)`,
         { entryId },
     );
     // TODO: add media data to entry
-    if (!entry) {
+    if (!row) {
         throw new HandlerError('Entry not found', 404);
     }
+    const { entryId: _, mediaId, listId, ...entry } = row;
     // TODO: change ids to codes. consider making a separate function for this
-    res.send(entry);
+    res.send({
+        ...entry,
+        listCode: hashids.encode(listId),
+        mediaCode: hashids.encode(mediaId),
+    });
 });
 
 const newEntry = asyncHandler(async (req, res) => {

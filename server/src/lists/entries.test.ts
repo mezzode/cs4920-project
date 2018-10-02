@@ -25,12 +25,12 @@ const seedTestData = () =>
         VALUES
             ('mezzode''s List', 1);
 
-        INSERT INTO entry(media_id, category, started, finished, list_id, last_updated)
+        INSERT INTO entry(media_id, category, rating, started, finished, list_id, last_updated)
         VALUES
-            (1, 'Progress', '2016', '2018', 1, now()),
-            (2, 'Complete', '2017-10-01', '2017-10-01', 1, now()),
-            (1, 'Progress', '2017-10-01', '2017-10-01', 1, now()),
-            (2, 'Complete', '2017-10', '2017-10-01', 1, now());`,
+            (1, 'In Progress', 9, '2016', '2018', 1, now()),
+            (2, 'Complete', 8, '2017-10-01', '2017-10-01', 1, now()),
+            (1, 'In Progress', 7, '2017-10-01', '2017-10-01', 1, now()),
+            (2, 'Complete', 6, '2017-10', '2017-10-01', 1, now());`,
     );
 
 describe('Test entries endpoints', () => {
@@ -40,30 +40,144 @@ describe('Test entries endpoints', () => {
 
     afterAll(() => {
         // close db connection so script exits
-        db.$pool.end();
+        return db.$pool.end();
     });
 
-    test('Can create new entry', async () => {
-        const entry = {
-            category: 'Progress',
-            listCode: 'XG', // 1
-            mediaCode: 'XG', // 1
-            rating: 10,
-            started: '2018',
-        };
-        const res = await request(app)
-            .post('/entry')
-            .send(entry)
-            .set('Accept', 'application/json') // necessary?
-            .expect(200);
+    /**
+     * Helper function for GET.
+     *
+     * This returns a Promise so remember to `await` it or such otherwise the db will not close.
+     */
+    const testGet = (entryCode: string, status = 200) =>
+        request(app)
+            .get(`/entry/${entryCode}`)
+            .set('Accept', 'application/json')
+            .expect(status);
 
-        const { body } = res;
-        const { entryCode } = body;
-        expect(body).toBeDefined();
+    describe('Test entry create', () => {
+        test('Can create new entry', async () => {
+            const entry = {
+                category: 'In Progress',
+                listCode: 'XG', // 1
+                mediaCode: 'XG', // 1
+                rating: 10,
+                started: '2018',
+            };
+            const res = await request(app)
+                .post('/entry')
+                .send(entry)
+                .set('Accept', 'application/json') // necessary?
+                .expect(200);
 
-        const [entryId] = hashids.decode(entryCode);
-        expect(entryId).toBeGreaterThan(0);
+            const { body } = res;
+            expect(body).toBeDefined();
 
-        // TODO: other expectations
+            const { entryCode } = body;
+            const [entryId] = hashids.decode(entryCode);
+            expect(entryId).toBeGreaterThan(0);
+
+            // TODO: other expectations
+        });
+
+        test("Can't create entry for non-existent media", async () => {
+            // TODO
+        });
+
+        test("Can't create entry for non-existent list", async () => {
+            // TODO
+        });
+
+        test("Can't create entry with bad data", async () => {
+            // TODO
+        });
+    });
+
+    describe('Test entry get', () => {
+        test('Can get entry', async () => {
+            const entryCode = 'XG';
+            const res = await testGet(entryCode);
+
+            expect(res.body).toBeDefined();
+
+            const { lastUpdated, ...body } = res.body;
+            expect(body).toEqual({
+                category: 'In Progress',
+                finished: '2018',
+                listCode: 'XG',
+                mediaCode: 'XG',
+                rating: 9,
+                started: '2016',
+            });
+        });
+
+        test("Can't get entry with invalid code", async () => {
+            const entryCode = 'FaKeCoDe';
+            const res = await testGet(entryCode, 404);
+            expect(res.body).toEqual({
+                error: 'Entry not found',
+            });
+        });
+
+        test("Can't get non-existent entry", async () => {
+            const entryId = 9001;
+            const entryCode = hashids.encode(entryId);
+            const res = await testGet(entryCode, 404);
+            expect(res.body).toEqual({
+                error: 'Entry not found',
+            });
+        });
+    });
+
+    describe('Test entry delete', () => {
+        test('Can delete entry', async () => {
+            const entryCode = 'XG';
+
+            // check that entry to be deleted exists
+            await testGet(entryCode);
+
+            const res = await request(app)
+                .delete(`/entry/${entryCode}`)
+                .set('Accept', 'application/json') // necessary?
+                .expect(200);
+
+            const { body } = res;
+            expect(body).toBeDefined();
+
+            expect(body.entryCode).toEqual(entryCode);
+
+            // check that entry is gone
+            await testGet(entryCode, 404);
+        });
+
+        test("Can't delete entry with invalid code", async () => {
+            const entryCode = 'FaKeCoDe';
+            const res = await request(app)
+                .get(`/entry/${entryCode}`)
+                .set('Accept', 'application/json')
+                .expect(404);
+
+            expect(res.body).toEqual({
+                error: 'Entry not found',
+            });
+        });
+
+        test("Can't delete non-existent entry", async () => {
+            const entryId = 9001;
+            const entryCode = hashids.encode(entryId);
+            const res = await request(app)
+                .get(`/entry/${entryCode}`)
+                .set('Accept', 'application/json')
+                .expect(404);
+
+            expect(res.body).toEqual({
+                error: 'Entry not found',
+            });
+        });
+    });
+
+    describe('Test entry edit', () => {
+        test('Can edit entry', async () => {
+            // TODO
+        });
     });
 });
