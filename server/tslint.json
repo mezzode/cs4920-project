@@ -17,6 +17,7 @@
         ],
         "eofline": true,
         "no-any": true,
+        "no-floating-promises": [true, "Test"], // supertest.Test extends Promise
         "no-default-export": true // enforces consistent naming
     }
 }

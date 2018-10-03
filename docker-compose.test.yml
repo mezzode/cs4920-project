@@ -3,12 +3,11 @@ services:
     test:
         image: node:10.10.0
         working_dir: /usr/src/app/server
-        volumes:
-            - node_modules:/usr/src/app/server/node_modules
         depends_on:
             - postgres
         volumes:
             - .:/usr/src/app # mounting whole dir so jest can look at .git
+            - node_modules:/usr/src/app/server/node_modules
     postgres:
         image: cs4920-postgres:prod
         build:

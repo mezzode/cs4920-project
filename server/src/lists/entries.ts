@@ -1,4 +1,4 @@
-import { Router } from 'express';
+import { RequestHandler, Router } from 'express';
 import * as asyncHandler from 'express-async-handler';
 import { DateTime } from 'luxon';
 import { db, pgp } from '../helpers/db';
@@ -7,8 +7,7 @@ import { hashids } from '../id';
 import { UserEntry } from './types';
 
 const getEntry = asyncHandler(async (req, res) => {
-    const { entryCode } = req.params;
-    const [entryId] = hashids.decode(entryCode);
+    const { entryId }: { entryId: number } = req.params;
     const row = await db.oneOrNone<{
         entryId: number;
         mediaId: number;
@@ -48,12 +47,12 @@ const getEntry = asyncHandler(async (req, res) => {
 
 const newEntry = asyncHandler(async (req, res) => {
     const {
-        listCode,
-        mediaCode,
+        listId,
+        mediaId,
         ...data
     }: {
-        listCode: string;
-        mediaCode: string;
+        listId: number;
+        mediaId: number;
     } & Partial<UserEntry> = req.body;
 
     if (!validateEntryData(data)) {
@@ -62,8 +61,6 @@ const newEntry = asyncHandler(async (req, res) => {
 
     // const userId = 1; // TODO: get from auth
     // TODO: authorisation. check that the user owns the list.
-    const [listId] = hashids.decode(listCode);
-    const [mediaId] = hashids.decode(mediaCode);
     const entry = {
         list_id: listId,
         media_id: mediaId,
@@ -82,6 +79,8 @@ const newEntry = asyncHandler(async (req, res) => {
         { entry, data },
     );
     const entryCode = hashids.encode(entryId);
+    const listCode = hashids.encode(listId);
+    const mediaCode = hashids.encode(mediaId);
 
     const insertedEntry = {
         entryCode,
@@ -111,13 +110,12 @@ const validateEntryData = (
 };
 
 const updateEntry = asyncHandler(async (req, res) => {
-    const { entryCode } = req.params;
     // TODO: authorisation. check that the user actually owns the entry.
     const entryUpdate = req.body;
     if (!validateEntryData(entryUpdate)) {
         throw new HandlerError('Invalid entry', 400);
     }
-    const [entryId] = hashids.decode(entryCode);
+    const { entryId } = req.params;
     const updatedEntry = await db.one<
         { last_updated: string } & typeof entryUpdate
     >(
@@ -130,8 +128,7 @@ const updateEntry = asyncHandler(async (req, res) => {
 });
 
 const deleteEntry = asyncHandler(async (req, res) => {
-    const { entryCode } = req.params;
-    const [entryId] = hashids.decode(entryCode);
+    const { entryId }: { entryId: number } = req.params;
     const deletedRow = await db.oneOrNone<{
         id: number;
         media_id: number;
@@ -160,7 +157,7 @@ const deleteEntry = asyncHandler(async (req, res) => {
     } = deletedRow;
 
     const deletedEntry = {
-        entryCode,
+        entryCode: hashids.encode(entryId),
         lastUpdated,
         listCode: hashids.encode(listId),
         mediaCode: hashids.encode(mediaId),
@@ -172,9 +169,47 @@ const deleteEntry = asyncHandler(async (req, res) => {
 
 // TODO: consider creating middleware for checking authorisation instead of doing in each handler
 
+const paramCodesToIds: RequestHandler = (req, res, next) => {
+    if (!req.params) {
+        next();
+    }
+    req.params = mapCodesToIds(req.params);
+    next();
+};
+
+const bodyCodesToIds: RequestHandler = (req, res, next) => {
+    if (!req.body) {
+        next();
+    }
+    req.body = mapCodesToIds(req.body);
+    next();
+};
+
+/**
+ * Replaces codes with ids in a given object.
+ */
+function mapCodesToIds(obj: object) {
+    const fields = ['entry', 'media', 'list'];
+    return fields.reduce((newObj, field) => {
+        const fieldCode = `${field}Code`;
+        if (!(fieldCode in newObj)) {
+            return newObj;
+        }
+        const [id] = hashids.decode(newObj[fieldCode]);
+        if (!id) {
+            throw new HandlerError('Entry not found', 404);
+        }
+        delete newObj[fieldCode];
+        newObj[`${field}Id`] = id;
+        return newObj;
+    }, obj);
+}
+
 export const entryRouter = Router();
+entryRouter.use(bodyCodesToIds);
 entryRouter
     .route('/entry/:entryCode')
+    .all(paramCodesToIds)
     .get(getEntry)
     .post(updateEntry)
     .delete(deleteEntry);

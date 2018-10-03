@@ -43,11 +43,6 @@ describe('Test entries endpoints', () => {
         return db.$pool.end();
     });
 
-    /**
-     * Helper function for GET.
-     *
-     * This returns a Promise so remember to `await` it or such otherwise the db will not close.
-     */
     const testGet = (entryCode: string, status = 200) =>
         request(app)
             .get(`/entry/${entryCode}`)
@@ -79,15 +74,15 @@ describe('Test entries endpoints', () => {
             // TODO: other expectations
         });
 
-        test("Can't create entry for non-existent media", async () => {
+        test.skip("Can't create entry for non-existent media", async () => {
             // TODO
         });
 
-        test("Can't create entry for non-existent list", async () => {
+        test.skip("Can't create entry for non-existent list", async () => {
             // TODO
         });
 
-        test("Can't create entry with bad data", async () => {
+        test.skip("Can't create entry with bad data", async () => {
             // TODO
         });
     });
@@ -176,7 +171,7 @@ describe('Test entries endpoints', () => {
     });
 
     describe('Test entry edit', () => {
-        test('Can edit entry', async () => {
+        test.skip('Can edit entry', async () => {
             // TODO
         });
     });
