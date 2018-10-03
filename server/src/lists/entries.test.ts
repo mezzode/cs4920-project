@@ -1,7 +1,7 @@
 import * as request from 'supertest';
 import { app } from '../app';
 import { db } from '../helpers/db';
-import { hashids } from '../id';
+import { hashids } from '../helpers/id';
 
 // TODO: prolly should use an sql file and import/run that
 const seedTestData = () =>

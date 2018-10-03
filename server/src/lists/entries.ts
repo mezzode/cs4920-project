@@ -1,9 +1,9 @@
-import { RequestHandler, Router } from 'express';
+import { Router } from 'express';
 import * as asyncHandler from 'express-async-handler';
 import { DateTime } from 'luxon';
 import { db, pgp } from '../helpers/db';
 import { HandlerError } from '../helpers/error';
-import { hashids } from '../id';
+import { bodyCodesToIds, hashids, paramCodesToIds } from '../helpers/id';
 import { UserEntry } from './types';
 
 const getEntry = asyncHandler(async (req, res) => {
@@ -168,42 +168,6 @@ const deleteEntry = asyncHandler(async (req, res) => {
 });
 
 // TODO: consider creating middleware for checking authorisation instead of doing in each handler
-
-const paramCodesToIds: RequestHandler = (req, res, next) => {
-    if (!req.params) {
-        next();
-    }
-    req.params = mapCodesToIds(req.params);
-    next();
-};
-
-const bodyCodesToIds: RequestHandler = (req, res, next) => {
-    if (!req.body) {
-        next();
-    }
-    req.body = mapCodesToIds(req.body);
-    next();
-};
-
-/**
- * Replaces codes with ids in a given object.
- */
-function mapCodesToIds(obj: object) {
-    const fields = ['entry', 'media', 'list'];
-    return fields.reduce((newObj, field) => {
-        const fieldCode = `${field}Code`;
-        if (!(fieldCode in newObj)) {
-            return newObj;
-        }
-        const [id] = hashids.decode(newObj[fieldCode]);
-        if (!id) {
-            throw new HandlerError('Entry not found', 404);
-        }
-        delete newObj[fieldCode];
-        newObj[`${field}Id`] = id;
-        return newObj;
-    }, obj);
-}
 
 export const entryRouter = Router();
 entryRouter.use(bodyCodesToIds);
