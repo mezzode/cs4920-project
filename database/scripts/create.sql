@@ -10,12 +10,16 @@ CREATE TABLE list
 (
     id serial primary key not null
 );
+CREATE TYPE mediaType as ENUM
+('game', 'anime', 'movietv');
 CREATE TABLE media
 (
     id serial primary key not null,
+    mediaType mediaType,
     api_id text not null
 );
-CREATE TYPE status AS ENUM ('progress', 'complete');
+CREATE TYPE status AS ENUM
+('progress', 'complete');
 CREATE TABLE entry
 (
     id serial primary key not null,
