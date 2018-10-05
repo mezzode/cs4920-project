@@ -1,6 +1,7 @@
 import * as request from 'supertest';
 import { app } from '../app';
 import { db } from '../helpers/db';
+import { HandlerError } from '../helpers/error';
 import { hashids } from '../helpers/id';
 
 // TODO: prolly should use an sql file and import/run that
@@ -61,7 +62,7 @@ describe('Test entries endpoints', () => {
             const res = await request(app)
                 .post('/entry')
                 .send(entry)
-                .set('Accept', 'application/json') // necessary?
+                .set('Accept', 'application/json')
                 .expect(200);
 
             const { body } = res;
@@ -106,20 +107,36 @@ describe('Test entries endpoints', () => {
         });
 
         test("Can't get entry with invalid code", async () => {
+            const errSpy = jest.spyOn(console, 'error');
+            errSpy.mockImplementation();
+
             const entryCode = 'FaKeCoDe';
             const res = await testGet(entryCode, 404);
             expect(res.body).toEqual({
                 error: 'Entry not found',
             });
+
+            expect(errSpy).toBeCalledWith(
+                new HandlerError('Entry not found', 404),
+            );
+            errSpy.mockRestore();
         });
 
         test("Can't get non-existent entry", async () => {
+            const errSpy = jest.spyOn(console, 'error');
+            errSpy.mockImplementation();
+
             const entryId = 9001;
             const entryCode = hashids.encode(entryId);
             const res = await testGet(entryCode, 404);
             expect(res.body).toEqual({
                 error: 'Entry not found',
             });
+
+            expect(errSpy).toBeCalledWith(
+                new HandlerError('Entry not found', 404),
+            );
+            errSpy.mockRestore();
         });
     });
 
@@ -132,7 +149,7 @@ describe('Test entries endpoints', () => {
 
             const res = await request(app)
                 .delete(`/entry/${entryCode}`)
-                .set('Accept', 'application/json') // necessary?
+                .set('Accept', 'application/json')
                 .expect(200);
 
             const { body } = res;
@@ -141,10 +158,19 @@ describe('Test entries endpoints', () => {
             expect(body.entryCode).toEqual(entryCode);
 
             // check that entry is gone
+            const errSpy = jest.spyOn(console, 'error');
+            errSpy.mockImplementation();
             await testGet(entryCode, 404);
+            expect(errSpy).toBeCalledWith(
+                new HandlerError('Entry not found', 404),
+            );
+            errSpy.mockRestore();
         });
 
         test("Can't delete entry with invalid code", async () => {
+            const errSpy = jest.spyOn(console, 'error');
+            errSpy.mockImplementation();
+
             const entryCode = 'FaKeCoDe';
             const res = await request(app)
                 .get(`/entry/${entryCode}`)
@@ -154,9 +180,17 @@ describe('Test entries endpoints', () => {
             expect(res.body).toEqual({
                 error: 'Entry not found',
             });
+
+            expect(errSpy).toBeCalledWith(
+                new HandlerError('Entry not found', 404),
+            );
+            errSpy.mockRestore();
         });
 
         test("Can't delete non-existent entry", async () => {
+            const errSpy = jest.spyOn(console, 'error');
+            errSpy.mockImplementation();
+
             const entryId = 9001;
             const entryCode = hashids.encode(entryId);
             const res = await request(app)
@@ -167,6 +201,11 @@ describe('Test entries endpoints', () => {
             expect(res.body).toEqual({
                 error: 'Entry not found',
             });
+
+            expect(errSpy).toBeCalledWith(
+                new HandlerError('Entry not found', 404),
+            );
+            errSpy.mockRestore();
         });
     });
 

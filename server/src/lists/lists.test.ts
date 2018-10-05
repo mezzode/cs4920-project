@@ -1,36 +1,82 @@
 import * as request from 'supertest';
 import { app } from '../app';
-import { db } from '../helpers/db';
+import { db, pgp } from '../helpers/db';
+import { hashids } from '../helpers/id';
 
 // TODO: prolly should use an sql file and import/run that
+// TODO: auto-convert between snakecase and camelcase
+const users = [{ username: 'jfu', password: 'foobar' }];
+
+const media = [{ api_id: 12345 }, { api_id: 9175 }];
+
+const lists = [{ name: "mezzode's List", userId: 1 }];
+
+const entries = [
+    {
+        category: 'In Progress',
+        finished: '2018',
+        list_id: 1,
+        media_id: 1,
+        rating: 9,
+        started: '2016',
+    },
+    {
+        category: 'Complete',
+        finished: '2017-10-01',
+        list_id: 1,
+        media_id: 2,
+        rating: 8,
+        started: '2017-10-01',
+    },
+    {
+        category: 'In Progress',
+        finished: '2017-10-01',
+        list_id: 1,
+        media_id: 1,
+        rating: 7,
+        started: '2017-10-01',
+    },
+    {
+        category: 'Complete',
+        finished: '2017-10-01',
+        list_id: 1,
+        media_id: 2,
+        rating: 6,
+        started: '2017-10',
+    },
+];
+
 const seedTestData = () =>
-    db.multi(
-        `TRUNCATE TABLE users, media, list, entry RESTART IDENTITY;
-
-        INSERT INTO users(username, password)
-        VALUES
-            ('jfu', 'foobar'),
-            ('user1', 'pass1'),
-            ('user2', 'pass2'),
-            ('user3', 'pass3'),
-            ('user4', 'pass4');
-        
-        INSERT INTO media(api_id)
-        VALUES
-            ('12345'),
-            ('67890');
-
-        INSERT INTO list(name, user_id)
-        VALUES
-            ('mezzode''s List', 1);
-
-        INSERT INTO entry(media_id, category, rating, started, finished, list_id, last_updated)
-        VALUES
-            (1, 'In Progress', 9, '2016', '2018', 1, now()),
-            (2, 'Complete', 8, '2017-10-01', '2017-10-01', 1, now()),
-            (1, 'In Progress', 7, '2017-10-01', '2017-10-01', 1, now()),
-            (2, 'Complete', 6, '2017-10', '2017-10-01', 1, now());`,
-    );
+    db.task(async t => {
+        await t.none(
+            'TRUNCATE TABLE users, media, list, entry RESTART IDENTITY',
+        );
+        await t.none(
+            pgp.helpers.insert(users, ['username', 'password'], 'users'),
+        );
+        await t.none(pgp.helpers.insert(media, ['api_id'], 'media'));
+        await t.none(
+            pgp.helpers.insert(
+                lists,
+                ['name', { name: 'user_id', prop: 'userId' }],
+                'list',
+            ),
+        );
+        await t.none(
+            pgp.helpers.insert(
+                entries,
+                [
+                    'media_id',
+                    'category',
+                    'rating',
+                    'started',
+                    'finished',
+                    'list_id',
+                ],
+                'entry',
+            ),
+        );
+    });
 // TODO: use transactions and rollback after each test instead of fully empting and re-inserting everything
 
 describe('Test lists endpoints', () => {
@@ -54,14 +100,19 @@ describe('Test lists endpoints', () => {
             .set('Accept', 'application/json')
             .expect(status);
 
-    describe('Test entry get', () => {
-        test('Can get entry', async () => {
-            const listCode = 'XG';
+    describe('Test list get', () => {
+        test('Can get list', async () => {
+            const i = 0;
+            const listCode = hashids.encode(i + 1);
             const res = await testGet(listCode);
 
-            // TODO: do this nicely
-            expect(res.body).toBeDefined();
-            expect(res.body.name).toEqual("mezzode's List");
+            const { body } = res;
+            expect(body).toBeDefined();
+            expect(body.name).toEqual("mezzode's List");
+            expect(body.entries).toHaveLength(entries.length);
+            body.entries.forEach((entry: { listCode: string }) => {
+                expect(entry.listCode).toEqual(listCode);
+            });
         });
     });
 });
