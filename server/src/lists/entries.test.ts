@@ -46,16 +46,86 @@ describe('Test entries endpoints', () => {
             // TODO: other expectations
         });
 
-        test.skip("Can't create entry for non-existent media", async () => {
-            // TODO
+        test("Can't create entry for non-existent media", async () => {
+            const errSpy = jest.spyOn(console, 'error');
+            errSpy.mockImplementation();
+
+            const entry = {
+                category: 'In Progress',
+                listCode: 'XG', // 1
+                mediaCode: 'BaDCoDe',
+                rating: 10,
+                started: '2018',
+            };
+
+            const res = await request(app)
+                .post('/entry')
+                .send(entry)
+                .set('Accept', 'application/json')
+                .expect(404);
+
+            const error = 'Media not found';
+
+            const { body } = res;
+            expect(body).toEqual({ error });
+
+            expect(errSpy).toBeCalledWith(new HandlerError(error, 404));
+            errSpy.mockRestore();
         });
 
-        test.skip("Can't create entry for non-existent list", async () => {
-            // TODO
+        test("Can't create entry for non-existent list", async () => {
+            const errSpy = jest.spyOn(console, 'error');
+            errSpy.mockImplementation();
+
+            const entry = {
+                category: 'In Progress',
+                listCode: 'BadCoDe',
+                mediaCode: 'XG', // 1
+                rating: 10,
+                started: '2018',
+            };
+
+            const res = await request(app)
+                .post('/entry')
+                .send(entry)
+                .set('Accept', 'application/json')
+                .expect(404);
+
+            const error = 'List not found';
+
+            const { body } = res;
+            expect(body).toEqual({ error });
+
+            expect(errSpy).toBeCalledWith(new HandlerError(error, 404));
+            errSpy.mockRestore();
         });
 
-        test.skip("Can't create entry with bad data", async () => {
-            // TODO
+        test("Can't create entry with bad data", async () => {
+            const errSpy = jest.spyOn(console, 'error');
+            errSpy.mockImplementation();
+
+            const entry = {
+                category: 'In Progress',
+                // finished: 'This is not an ISO 8601 date',
+                listCode: 'XG', // 1
+                mediaCode: 'XG', // 1
+                rating: 10,
+                started: '2018-02-30',
+            };
+
+            const res = await request(app)
+                .post('/entry')
+                .send(entry)
+                .set('Accept', 'application/json')
+                .expect(400);
+
+            const error = 'Invalid entry';
+
+            const { body } = res;
+            expect(body).toEqual({ error });
+
+            expect(errSpy).toBeCalledWith(new HandlerError(error, 404));
+            errSpy.mockRestore();
         });
     });
 

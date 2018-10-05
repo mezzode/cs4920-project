@@ -31,18 +31,19 @@ export const bodyCodesToIds: RequestHandler = (req, res, next) => {
  * Replaces codes with ids in a given object.
  */
 function mapCodesToIds(obj: object) {
-    const fields = ['entry', 'media', 'list'];
+    const fields = ['Entry', 'Media', 'List'];
     return fields.reduce((newObj, field) => {
-        const fieldCode = `${field}Code`;
+        const fieldLower = field.toLowerCase();
+        const fieldCode = `${fieldLower}Code`;
         if (!(fieldCode in newObj)) {
             return newObj;
         }
         const [id] = hashids.decode(newObj[fieldCode]);
         if (!id) {
-            throw new HandlerError('Entry not found', 404);
+            throw new HandlerError(`${field} not found`, 404);
         }
         delete newObj[fieldCode];
-        newObj[`${field}Id`] = id;
+        newObj[`${fieldLower}Id`] = id;
         return newObj;
     }, obj);
 }
