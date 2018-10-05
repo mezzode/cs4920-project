@@ -1,83 +1,8 @@
 import * as request from 'supertest';
+import { entries, seedTestData } from '../../test/data';
 import { app } from '../app';
-import { db, pgp } from '../helpers/db';
+import { db } from '../helpers/db';
 import { hashids } from '../helpers/id';
-
-// TODO: prolly should use an sql file and import/run that
-// TODO: auto-convert between snakecase and camelcase
-const users = [{ username: 'jfu', password: 'foobar' }];
-
-const media = [{ api_id: 12345 }, { api_id: 9175 }];
-
-const lists = [{ name: "mezzode's List", userId: 1 }];
-
-const entries = [
-    {
-        category: 'In Progress',
-        finished: '2018',
-        list_id: 1,
-        media_id: 1,
-        rating: 9,
-        started: '2016',
-    },
-    {
-        category: 'Complete',
-        finished: '2017-10-01',
-        list_id: 1,
-        media_id: 2,
-        rating: 8,
-        started: '2017-10-01',
-    },
-    {
-        category: 'In Progress',
-        finished: '2017-10-01',
-        list_id: 1,
-        media_id: 1,
-        rating: 7,
-        started: '2017-10-01',
-    },
-    {
-        category: 'Complete',
-        finished: '2017-10-01',
-        list_id: 1,
-        media_id: 2,
-        rating: 6,
-        started: '2017-10',
-    },
-];
-
-const seedTestData = () =>
-    db.task(async t => {
-        await t.none(
-            'TRUNCATE TABLE users, media, list, entry RESTART IDENTITY',
-        );
-        await t.none(
-            pgp.helpers.insert(users, ['username', 'password'], 'users'),
-        );
-        await t.none(pgp.helpers.insert(media, ['api_id'], 'media'));
-        await t.none(
-            pgp.helpers.insert(
-                lists,
-                ['name', { name: 'user_id', prop: 'userId' }],
-                'list',
-            ),
-        );
-        await t.none(
-            pgp.helpers.insert(
-                entries,
-                [
-                    'media_id',
-                    'category',
-                    'rating',
-                    'started',
-                    'finished',
-                    'list_id',
-                ],
-                'entry',
-            ),
-        );
-    });
-// TODO: use transactions and rollback after each test instead of fully empting and re-inserting everything
 
 describe('Test lists endpoints', () => {
     beforeEach(() => {

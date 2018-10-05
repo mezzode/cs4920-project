@@ -1,38 +1,9 @@
 import * as request from 'supertest';
+import { seedTestData } from '../../test/data';
 import { app } from '../app';
 import { db } from '../helpers/db';
 import { HandlerError } from '../helpers/error';
 import { hashids } from '../helpers/id';
-
-// TODO: prolly should use an sql file and import/run that
-const seedTestData = () =>
-    db.multi(
-        `TRUNCATE TABLE users, media, list, entry RESTART IDENTITY;
-
-        INSERT INTO users(username, password)
-        VALUES
-            ('jfu', 'foobar'),
-            ('user1', 'pass1'),
-            ('user2', 'pass2'),
-            ('user3', 'pass3'),
-            ('user4', 'pass4');
-        
-        INSERT INTO media(api_id)
-        VALUES
-            ('12345'),
-            ('67890');
-
-        INSERT INTO list(name, user_id)
-        VALUES
-            ('mezzode''s List', 1);
-
-        INSERT INTO entry(media_id, category, rating, started, finished, list_id, last_updated)
-        VALUES
-            (1, 'In Progress', 9, '2016', '2018', 1, now()),
-            (2, 'Complete', 8, '2017-10-01', '2017-10-01', 1, now()),
-            (1, 'In Progress', 7, '2017-10-01', '2017-10-01', 1, now()),
-            (2, 'Complete', 6, '2017-10', '2017-10-01', 1, now());`,
-    );
 
 describe('Test entries endpoints', () => {
     beforeEach(() => {
