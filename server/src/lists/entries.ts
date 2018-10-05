@@ -119,11 +119,17 @@ const updateEntry = asyncHandler(async (req, res) => {
     const updatedEntry = await db.one<
         { last_updated: string } & typeof entryUpdate
     >(
-        `${pgp.helpers.update(entryUpdate, undefined, 'entry')}
+        `${pgp.helpers.update(
+            { ...entryUpdate, last_updated: DateTime.local() },
+            undefined,
+            'entry',
+        )}
         WHERE id = $(entryId)
         RETURNING $(entryUpdate:name), last_updated AS "lastUpdated"`,
         { entryId, entryUpdate },
     );
+    // TODO: return whole entry.
+    // TODO: function to convert all ids to codes
     res.json(updatedEntry);
 });
 

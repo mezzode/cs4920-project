@@ -1,3 +1,4 @@
+import { DateTime } from 'luxon';
 import * as request from 'supertest';
 import { seedTestData } from '../../test/data';
 import { app } from '../app';
@@ -251,8 +252,24 @@ describe('Test entries endpoints', () => {
     });
 
     describe('Test entry edit', () => {
-        test.skip('Can edit entry', async () => {
-            // TODO
+        test('Can edit entry', async () => {
+            const entryId = 1;
+            const entryCode = hashids.encode(entryId);
+
+            const entryEdit = {
+                rating: 5,
+                started: '2010-02',
+            };
+
+            const res = await request(app)
+                .post(`/entry/${entryCode}`)
+                .send(entryEdit)
+                .set('Accept', 'application/json')
+                .expect(200);
+
+            const { lastUpdated, ...editedFields } = res.body;
+            expect(editedFields).toEqual({ ...entryEdit });
+            expect(DateTime.fromISO(lastUpdated).isValid).toBe(true);
         });
     });
 });
