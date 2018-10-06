@@ -106,18 +106,14 @@ const validateEntryData = (
             }
         });
 
-        if (
-            'started' in entry &&
-            entry.started &&
-            !DateTime.fromISO(entry.started!).isValid
-        ) {
+        if (entry.started && !DateTime.fromISO(entry.started!).isValid) {
             return false;
         }
-        if (
-            'finished' in entry &&
-            entry.finished &&
-            !DateTime.fromISO(entry.finished!).isValid
-        ) {
+        if (entry.finished && !DateTime.fromISO(entry.finished!).isValid) {
+            return false;
+        }
+        if (entry.rating && (entry.rating < 0 || entry.rating > 10)) {
+            // TODO: ensure int. maybe find a validation library instead
             return false;
         }
         return true;
