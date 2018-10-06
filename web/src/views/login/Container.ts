@@ -1,5 +1,5 @@
 import { connect, MapDispatchToProps, MapStateToProps } from 'react-redux';
-import { setFlash } from '../../actions/flash';
+import { setFlashMessage } from '../../actions/flashMessage';
 import {
     clearAuthAttempts,
     incrementAuthAttempt,
@@ -14,7 +14,7 @@ const mapStateToProps: MapStateToProps<
     OwnProps,
     State
 > = state => ({
-    showFail: state.flash.showFlash,
+    showFail: state.flashMessage.showFlashMessage,
 });
 
 const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = (
@@ -38,7 +38,7 @@ const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = (
         } else {
             console.log('fail');
             dispatch(incrementAuthAttempt());
-            dispatch(setFlash());
+            dispatch(setFlashMessage());
             // flash retry
         }
         console.log(data);

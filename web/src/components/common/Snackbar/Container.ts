@@ -1,5 +1,5 @@
 import { connect, MapDispatchToProps, MapStateToProps } from 'react-redux';
-import { clearFlash } from '../../../actions/flash';
+import { clearFlashMessage } from '../../../actions/flashMessage';
 import { State } from '../../../reducers';
 import { SnackbarComponent } from './Component';
 import { DispatchProps, OwnProps, StateProps } from './types';
@@ -8,7 +8,7 @@ const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (
     state,
     ownProps,
 ) => ({
-    open: state.flash.showFlash,
+    open: state.flashMessage.showFlashMessage,
     ...ownProps,
 });
 
@@ -21,7 +21,7 @@ const mapDispatchToProps: MapDispatchToProps<
         if (reason === 'clickaway') {
             return;
         }
-        dispatch(clearFlash());
+        dispatch(clearFlashMessage());
     };
     return {
         handleClose,

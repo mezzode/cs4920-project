@@ -1,6 +1,6 @@
 import { connect, MapDispatchToProps, MapStateToProps } from 'react-redux';
 
-import { setFlash } from '../../actions/flash';
+import { setFlashMessage } from '../../actions/flashMessage';
 import { setImage } from '../../actions/user';
 import { State } from '../../reducers/index';
 import { ProfileComponent } from './Component';
@@ -42,7 +42,7 @@ const mapDispatchToProps: MapDispatchToProps<
             const imageBlob = await res.blob();
             const displayImage = URL.createObjectURL(imageBlob);
             dispatch(setImage({ displayImage }));
-            dispatch(setFlash());
+            dispatch(setFlashMessage());
         }
     };
 
@@ -56,7 +56,7 @@ const mapDispatchToProps: MapDispatchToProps<
         });
 
         if (res.ok) {
-            dispatch(setFlash());
+            dispatch(setFlashMessage());
         }
     };
 
