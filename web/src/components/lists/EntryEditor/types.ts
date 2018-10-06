@@ -1,6 +1,6 @@
 import { WithStyles } from '@material-ui/core';
 import { WithWidth } from '@material-ui/core/withWidth';
-import { Entry } from '../../../types';
+import { Entry, UserEntry } from '../../../types';
 import { styles } from './Component';
 
 export interface StateProps {
@@ -10,7 +10,11 @@ export interface StateProps {
 export interface DispatchProps {
     handleInput: React.FormEventHandler;
     handleCancel: () => void;
-    handleSave: () => void;
+    handleSave: (
+        entryCode: string,
+        listCode: string,
+        entryEdit: Partial<UserEntry>,
+    ) => React.MouseEventHandler;
 }
 
 export interface OwnProps {}

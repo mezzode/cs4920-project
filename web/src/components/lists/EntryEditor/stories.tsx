@@ -114,7 +114,7 @@ storiesOf('EntryEditor', module)
                     });
                 };
 
-                private handleSave = () => {
+                private handleSave = () => () => {
                     // save
                     // TODO: show in logger
                     if (this.state.editingEntry === null) {

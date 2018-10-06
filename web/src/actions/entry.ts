@@ -8,4 +8,8 @@ const actionCreator = actionCreatorFactory('ENTRY_EDIT');
 export const startEntryEdit = actionCreator<Entry>('START');
 export const cancelEntryEdit = actionCreator('CANCEL');
 export const updateEntryEdit = actionCreator<EntryUpdate>('UPDATE');
-export const saveEntryEdit = actionCreator.async<void, Entry, string>('SAVE');
+export const saveEntryEdit = actionCreator.async<
+    { entryCode: string; listCode: string },
+    Entry,
+    string
+>('SAVE');

@@ -96,10 +96,26 @@ const validateEntryData = (
     entry: Partial<UserEntry>,
 ): entry is Partial<UserEntry> => {
     try {
-        if ('started' in entry && !DateTime.fromISO(entry.started!).isValid) {
+        // TODO: figure out automatic way to check body against interfaces. json-schema?
+        const fields = ['rating', 'started', 'finished', 'progress'];
+        Object.keys(entry).forEach(k => {
+            if (!fields.includes(k)) {
+                throw new Error(`${k} is not a valid entry field.`);
+            }
+        });
+
+        if (
+            'started' in entry &&
+            entry.started &&
+            !DateTime.fromISO(entry.started!).isValid
+        ) {
             return false;
         }
-        if ('finished' in entry && !DateTime.fromISO(entry.finished!).isValid) {
+        if (
+            'finished' in entry &&
+            entry.finished &&
+            !DateTime.fromISO(entry.finished!).isValid
+        ) {
             return false;
         }
         return true;

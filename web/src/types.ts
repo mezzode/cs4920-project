@@ -2,7 +2,7 @@
  * User-controlled entry data.
  * TODO: proper types
  */
-interface UserEntry {
+export interface UserEntry {
     rating: number;
     started: string;
     finished: string;
