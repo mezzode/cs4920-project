@@ -8,6 +8,8 @@ services:
         volumes:
             - .:/usr/src/app # mounting whole dir so jest can look at .git
             - node_modules:/usr/src/app/server/node_modules
+        environment:
+            DB_HOST: postgres:5432
     postgres:
         image: cs4920-postgres:prod
         build:
