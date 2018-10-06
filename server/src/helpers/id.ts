@@ -27,12 +27,13 @@ export const bodyCodesToIds: RequestHandler = (req, res, next) => {
     next();
 };
 
+const defaultFields = ['Entry', 'Media', 'List'];
+
 /**
  * Replaces codes with ids in a given object.
  */
-function mapCodesToIds(obj: object) {
-    const fields = ['Entry', 'Media', 'List'];
-    return fields.reduce((newObj, field) => {
+const mapCodesToIds = (obj: object, fields = defaultFields) =>
+    fields.reduce((newObj, field) => {
         const fieldLower = field.toLowerCase();
         const fieldCode = `${fieldLower}Code`;
         if (!(fieldCode in newObj)) {
@@ -46,4 +47,19 @@ function mapCodesToIds(obj: object) {
         newObj[`${fieldLower}Id`] = id;
         return newObj;
     }, obj);
-}
+
+/**
+ * Replaces ids with codes in a given object.
+ */
+export const idsToCodes = (obj: object, fields = defaultFields) =>
+    fields.reduce((newObj, field) => {
+        const fieldLower = field.toLowerCase();
+        const fieldId = `${fieldLower}Id`;
+        if (!(fieldId in newObj)) {
+            return newObj;
+        }
+        const code = hashids.encode(newObj[fieldId]);
+        delete newObj[fieldId];
+        newObj[`${fieldLower}Code`] = code;
+        return newObj;
+    }, obj);

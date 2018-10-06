@@ -3,8 +3,24 @@ import * as asyncHandler from 'express-async-handler';
 import { DateTime } from 'luxon';
 import { db, pgp } from '../helpers/db';
 import { HandlerError } from '../helpers/error';
-import { bodyCodesToIds, hashids, paramCodesToIds } from '../helpers/id';
+import {
+    bodyCodesToIds,
+    hashids,
+    idsToCodes,
+    paramCodesToIds,
+} from '../helpers/id';
 import { UserEntry } from './types';
+
+const entryFields = `
+    id AS "entryId",
+    last_updated AS "lastUpdated",
+    category,
+    rating,
+    started,
+    finished,
+    media_id AS "mediaId",
+    list_id AS "listId"
+`;
 
 const getEntry = asyncHandler(async (req, res) => {
     const { entryId }: { entryId: number } = req.params;
@@ -19,15 +35,7 @@ const getEntry = asyncHandler(async (req, res) => {
         finished: string;
     }>(
         // TODO: separate the select clause so can reuse (e.g. same as in lists.ts)
-        `SELECT
-            id AS "entryId",
-            last_updated AS "lastUpdated",
-            category,
-            rating,
-            started,
-            finished,
-            media_id AS "mediaId",
-            list_id AS "listId"
+        `SELECT ${entryFields}
         FROM entry e
         WHERE e.id = $(entryId)`,
         { entryId },
@@ -36,13 +44,7 @@ const getEntry = asyncHandler(async (req, res) => {
     if (!row) {
         throw new HandlerError('Entry not found', 404);
     }
-    const { entryId: _, mediaId, listId, ...entry } = row;
-    // TODO: change ids to codes. consider making a separate function for this
-    res.send({
-        ...entry,
-        listCode: hashids.encode(listId),
-        mediaCode: hashids.encode(mediaId),
-    });
+    res.send(idsToCodes(row));
 });
 
 const newEntry = asyncHandler(async (req, res) => {
@@ -141,12 +143,10 @@ const updateEntry = asyncHandler(async (req, res) => {
             'entry',
         )}
         WHERE id = $(entryId)
-        RETURNING $(entryUpdate:name), last_updated AS "lastUpdated"`,
+        RETURNING ${entryFields}`,
         { entryId, entryUpdate },
     );
-    // TODO: return whole entry.
-    // TODO: function to convert all ids to codes
-    res.json(updatedEntry);
+    res.json(idsToCodes(updatedEntry));
 });
 
 const deleteEntry = asyncHandler(async (req, res) => {
