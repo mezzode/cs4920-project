@@ -8,6 +8,7 @@ import { ListPage } from './List';
 import { Login } from './Login';
 import { NotFound } from './NotFound';
 import { Profile } from './Profile';
+import { SearchPage } from './Search';
 
 const ViewComponent: React.SFC<Props> = ({ auth }) => {
     // routes in the format "/list/:id" will ignore the trailing slug and redirect to the canonical one
@@ -26,6 +27,7 @@ const ViewComponent: React.SFC<Props> = ({ auth }) => {
     const unauthRoutes = (
         <Switch>
             <Route exact={true} path="/" component={Landing} />
+            <Route path="/search" component={SearchPage} />
             <Route component={NotFound} />
         </Switch>
     );
@@ -41,7 +43,7 @@ interface StateProps {
     auth: boolean;
 }
 
-interface OwnProps extends RouteComponentProps<{}> { }
+interface OwnProps extends RouteComponentProps<{}> {}
 
 type Props = StateProps;
 
@@ -49,8 +51,8 @@ const mapStateToProps: MapStateToProps<
     StateProps,
     OwnProps,
     State
-    > = state => ({
-        auth: state.user.displayName !== null,
-    });
+> = state => ({
+    auth: state.user.displayName !== null,
+});
 
 export const View = withRouter(connect(mapStateToProps)(ViewComponent));
