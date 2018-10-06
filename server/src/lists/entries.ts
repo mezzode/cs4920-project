@@ -130,9 +130,17 @@ const updateEntry = asyncHandler(async (req, res) => {
         throw new HandlerError('Invalid entry', 400);
     }
     const { entryId } = req.params;
-    const updatedEntry = await db.one<
-        { last_updated: string } & typeof entryUpdate
-    >(
+    const { mediaId, ...updatedEntry } = await db.one<{
+        entryId: number;
+        mediaId: number;
+        listId: number;
+        category: string;
+        rating: number;
+        lastUpdated: string;
+        started: string;
+        finished: string;
+        last_updated: string;
+    }>(
         `${pgp.helpers.update(
             { ...entryUpdate, last_updated: DateTime.local() },
             undefined,
@@ -142,7 +150,16 @@ const updateEntry = asyncHandler(async (req, res) => {
         RETURNING ${entryFields}`,
         { entryId, entryUpdate },
     );
-    res.json(idsToCodes(updatedEntry));
+    res.json({
+        ...idsToCodes(updatedEntry),
+        media: {
+            // TODO: get media data
+            artUrl:
+                'https://78.media.tumblr.com/4f30940e947b58fb57e2b8499f460acb/tumblr_okccrbpkDY1rb48exo1_1280.jpg',
+            mediaCode: hashids.encode(mediaId),
+            title: `Title of media ID ${mediaId}`,
+        },
+    });
 });
 
 const deleteEntry = asyncHandler(async (req, res) => {

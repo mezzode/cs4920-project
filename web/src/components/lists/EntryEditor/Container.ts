@@ -34,12 +34,10 @@ const mapDispatchToProps: MapDispatchToProps<
 
     const handleSave = (
         entryCode: string,
-        listCode: string,
         entryEdit: Partial<UserEntry>,
     ) => async () => {
         // TODO: consider making this its own thunk
-        const params = { entryCode, listCode };
-        dispatch(saveEntryEdit.started(params));
+        dispatch(saveEntryEdit.started());
         try {
             const res = await fetch(
                 `${process.env.REACT_APP_API_BASE}/entry/${entryCode}`,
@@ -55,7 +53,7 @@ const mapDispatchToProps: MapDispatchToProps<
                 throw new Error(`${res.status} ${res.statusText}`);
             }
             const result = (await res.json()) as Entry;
-            dispatch(saveEntryEdit.done({ result, params }));
+            dispatch(saveEntryEdit.done({ result }));
         } catch (e) {
             dispatch(saveEntryEdit.failed(e.message));
         }

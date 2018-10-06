@@ -96,7 +96,7 @@ const RawEntryEditor: React.SFC<Props> = ({
                         Cancel
                     </Button>
                     <Button
-                        onClick={handleSave(entry.entryCode, entry.listCode, {
+                        onClick={handleSave(entry.entryCode, {
                             finished: entry.finished,
                             // progress: entry.progress, // TODO: add progress to backend
                             rating: entry.rating,

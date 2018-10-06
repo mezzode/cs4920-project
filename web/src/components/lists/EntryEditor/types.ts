@@ -12,7 +12,6 @@ export interface DispatchProps {
     handleCancel: () => void;
     handleSave: (
         entryCode: string,
-        listCode: string,
         entryEdit: Partial<UserEntry>,
     ) => React.MouseEventHandler;
 }
