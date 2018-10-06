@@ -1,4 +1,5 @@
-import { db, genHashedPassword } from '../../helpers/database';
+import { db } from '../../helpers/database';
+import { genHashedPassword } from '../../helpers/database-util/auth';
 
 export const signUp = async (
     username: string,

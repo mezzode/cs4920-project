@@ -1,10 +1,9 @@
 import { WithStyles } from '@material-ui/core';
 import { styles } from './styles';
 
-// tslint:disable:no-any
 export interface Props extends WithStyles<typeof styles> {
     authAttempt: number;
-    handleSubmit: (event: any) => void;
+    handleSubmit: React.FormEventHandler;
 }
 
 export interface DispatchProps {}

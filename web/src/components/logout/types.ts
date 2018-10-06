@@ -3,10 +3,11 @@ export interface Props extends DispatchProps, OwnProps {}
 export interface DispatchProps {
     handleLogout: () => void;
 }
-// tslint:disable:no-any
+
 export interface OwnProps {
-    component: any;
+    component: React.ComponentType;
 }
+
 export interface StateProps {}
 
 export interface State {}

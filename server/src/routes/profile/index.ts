@@ -3,8 +3,8 @@ import * as fs from 'fs';
 import * as multer from 'multer';
 import * as path from 'path';
 
-import { isLoggedIn } from '../../helpers/authentication';
 import { upload, uploadRootPath } from '../../helpers/upload';
+import { isLoggedIn } from '../authentication';
 import { getProfile, updatePassword, updateProfileImage } from './database';
 
 const router = express.Router();

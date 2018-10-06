@@ -1,8 +1,8 @@
+import { StyleRulesCallback, Theme } from '@material-ui/core';
 import amber from '@material-ui/core/colors/amber';
 import green from '@material-ui/core/colors/green';
 
-// tslint:disable:no-any
-export const styles1 = (theme: any) => ({
+export const styles1: StyleRulesCallback = (theme: Theme) => ({
     error: {
         backgroundColor: theme.palette.error.dark,
     },
@@ -28,7 +28,7 @@ export const styles1 = (theme: any) => ({
     },
 });
 
-export const styles2 = (theme: any) => ({
+export const styles2: StyleRulesCallback = (theme: Theme) => ({
     margin: {
         margin: theme.spacing.unit,
     },

@@ -1,3 +1,4 @@
+// Original source from https://material-ui.com/demos/snackbars/
 import IconButton from '@material-ui/core/IconButton';
 import Snackbar from '@material-ui/core/Snackbar';
 import SnackbarContent from '@material-ui/core/SnackbarContent';
@@ -10,7 +11,7 @@ import WarningIcon from '@material-ui/icons/Warning';
 import classNames from 'classnames';
 import * as React from 'react';
 import { styles1, styles2 } from './styles';
-import { Props1, Props2 } from './types';
+import { Props } from './types';
 
 const variantIcon = {
     error: ErrorIcon,
@@ -19,7 +20,7 @@ const variantIcon = {
     warning: WarningIcon,
 };
 
-function MySnackbarContent(props: Props1) {
+const MySnackbarContent: React.SFC<Props> = props => {
     const { classes, className, message, onClose, variant, ...other } = props;
     const Icon = variantIcon[variant];
 
@@ -52,10 +53,10 @@ function MySnackbarContent(props: Props1) {
             {...other}
         />
     );
-}
+};
 const MySnackbarContentWrapper = withStyles(styles1)(MySnackbarContent);
 
-const RawCustomizedSnackbars: React.SFC<Props2> = ({
+const RawCustomizedSnackbars: React.SFC<Props> = ({
     open,
     variant,
     message,

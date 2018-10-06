@@ -1,6 +1,6 @@
 import * as passport from 'passport';
 import { Strategy as LocalStrategy } from 'passport-local';
-import { getUserById } from '../../helpers/database';
+import { getUserById } from '../../helpers/database-util/auth';
 import { checkLogin } from './database';
 
 interface User {

@@ -2,8 +2,8 @@ import * as express from 'express';
 import * as multer from 'multer';
 import * as passport from 'passport';
 
-import { isLoggedIn } from '../../helpers/authentication';
-import { resetPassword } from '../../helpers/database';
+import { isLoggedIn } from '../authentication';
+import { resetPassword } from './database';
 
 const router = express.Router();
 const multerParser = multer();

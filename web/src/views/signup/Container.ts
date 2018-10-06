@@ -21,10 +21,12 @@ const mapDispatchToProps: MapDispatchToProps<
     DispatchProps,
     OwnProps
 > = dispatch => {
-    // tslint:disable:no-any
-    const handleSubmit = async (event: any) => {
+    const handleSubmit: React.FormEventHandler = async (
+        event: React.FormEvent<EventTarget>,
+    ) => {
         event.preventDefault();
-        const data = new FormData(event.target);
+        const target = event.target as HTMLFormElement;
+        const data = new FormData(target);
 
         const res = await fetch('/sign-up', {
             body: data,

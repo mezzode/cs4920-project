@@ -32,8 +32,7 @@ export const user: Reducer<UserState> = reducerWithInitialState(initialState)
         ...userData,
         isAuthenticated: true,
     }))
-    .case(clearUser, state => ({
-        ...state,
+    .case(clearUser, () => ({
         ...initialState,
     }))
     .case(setImage, (state, userData) => ({
