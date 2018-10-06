@@ -22,3 +22,6 @@ database/db
 */npm-debug.log*
 */yarn-debug.log*
 */yarn-error.log*
+
+#apiTokens
+*/apiTokens.js
