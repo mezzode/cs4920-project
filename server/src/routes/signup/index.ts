@@ -26,3 +26,5 @@ router.post(
         }
     },
 );
+
+export { router };

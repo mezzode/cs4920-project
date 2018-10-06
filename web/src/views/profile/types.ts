@@ -7,9 +7,8 @@ export interface Props
         StateProps {}
 
 export interface DispatchProps {
-    // tslint:disable:no-any
-    handleUpdateImage: (event: any) => void;
-    handleUpdatePassword: (event: any) => void;
+    handleUpdateImage: React.FormEventHandler;
+    handleUpdatePassword: React.FormEventHandler;
     loadProfile: () => void;
 }
 export interface OwnProps {}

@@ -1,14 +1,14 @@
 import { WithStyles } from '@material-ui/core';
+import { History } from 'history';
 import { styles } from './styles';
 
-// tslint:disable:no-any
 export interface Props extends WithStyles<typeof styles> {
     showFail: boolean;
-    handleSubmit: (event: any) => void;
+    handleSubmit: React.FormEventHandler;
 }
 
 export interface DispatchProps {}
 export interface OwnProps {
-    history: any;
+    history: History;
 }
 export interface StateProps {}

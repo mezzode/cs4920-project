@@ -53,3 +53,5 @@ router.post(
         res.sendFile(image);
     },
 );
+
+export { router };

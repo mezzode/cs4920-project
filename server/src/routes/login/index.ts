@@ -33,3 +33,5 @@ router.post('/reset-password', isLoggedIn, async (req, res) => {
     const result = await resetPassword(username, email);
     res.send(result);
 });
+
+export { router };

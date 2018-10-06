@@ -9,7 +9,7 @@
             "request": "launch",
             "name": "Launch Program",
             "program": "${workspaceFolder}/server/build/index.js",
-            "env": { "HOST": "localhost" },
+            "env": { "DB_HOST": "localhost:5432" },
             "outFiles": ["${workspaceFolder}/**/*.js"]
         },
         {

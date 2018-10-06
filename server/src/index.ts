@@ -20,6 +20,6 @@ app.use(passport.session());
 app.use(flash());
 
 setupAuth();
-setupRoutes();
+setupRoutes(app);
 
 app.listen(8080, () => console.log('Server is listening on port 8080'));

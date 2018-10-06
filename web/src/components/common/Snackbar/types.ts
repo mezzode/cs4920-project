@@ -4,7 +4,7 @@ export interface Props {
     classes?: any;
     message?: any;
     onClose?: any;
-    variant: string; // 'success', 'warning'
+    variant: 'success' | 'warning';
     open?: boolean;
     handleClose?: any;
 }

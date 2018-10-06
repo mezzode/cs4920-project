@@ -28,10 +28,10 @@ const mapDispatchToProps: MapDispatchToProps<
         }
     };
 
-    // tslint:disable:no-any
-    const handleUpdateImage = async (event: any) => {
+    // TODO: clear flash in react router if user goes to new page
+    const handleUpdateImage: React.FormEventHandler = async event => {
         event.preventDefault();
-        const data = new FormData(event.target);
+        const data = new FormData(event.target as HTMLFormElement);
 
         const res = await fetch('/update-profile-image', {
             body: data,
@@ -46,10 +46,9 @@ const mapDispatchToProps: MapDispatchToProps<
         }
     };
 
-    // tslint:disable:no-any
-    const handleUpdatePassword = async (event: any) => {
+    const handleUpdatePassword: React.FormEventHandler = async event => {
         event.preventDefault();
-        const data = new FormData(event.target);
+        const data = new FormData(event.target as HTMLFormElement);
 
         const res = await fetch('/update-password', {
             body: data,

@@ -21,10 +21,9 @@ const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = (
     dispatch,
     { history },
 ) => {
-    // tslint:disable:no-any
-    const handleSubmit = async (event: any) => {
+    const handleSubmit: React.FormEventHandler = async event => {
         event.preventDefault();
-        const data = new FormData(event.target);
+        const data = new FormData(event.target as HTMLFormElement);
 
         const res = await fetch('/login', {
             body: data,
