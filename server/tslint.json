@@ -8,10 +8,7 @@
         ]
     },
     "rules": {
-        "no-console": {
-            "severity": "warning",
-            "options": ["debug", "info", "log", "time", "timeEnd", "trace"]
-        },
+        "no-console": false, // turn back on in the end
         "no-empty-interface": false,
         "interface-name": [true, "never-prefix"],
         "trailing-comma": [true, { "multiline": "always" }],
