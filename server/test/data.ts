@@ -1,5 +1,5 @@
-import { db } from '../src/helpers/db';
-import { pgp } from '../src/helpers/db';
+import { db } from '../src/helpers/database';
+import { pgp } from '../src/helpers/database';
 
 // TODO: auto-convert between snakecase and camelcase
 export const users = [{ username: 'jfu', password: 'foobar' }];

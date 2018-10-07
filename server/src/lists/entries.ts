@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import * as asyncHandler from 'express-async-handler';
 import { DateTime } from 'luxon';
-import { db, pgp } from '../helpers/db';
+import { db, pgp } from '../helpers/database';
 import { HandlerError } from '../helpers/error';
 import { bodyCodesToIds, hashids, paramCodesToIds } from '../helpers/id';
 import { UserEntry } from './types';

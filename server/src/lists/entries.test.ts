@@ -2,7 +2,7 @@ import { DateTime } from 'luxon';
 import * as request from 'supertest';
 import { seedTestData } from '../../test/data';
 import { app } from '../app';
-import { db } from '../helpers/db';
+import { db } from '../helpers/database';
 import { HandlerError } from '../helpers/error';
 import { hashids } from '../helpers/id';
 

@@ -1,7 +1,7 @@
 import * as request from 'supertest';
 import { entries, seedTestData } from '../../test/data';
 import { app } from '../app';
-import { db } from '../helpers/db';
+import { db } from '../helpers/database';
 import { hashids } from '../helpers/id';
 
 describe('Test lists endpoints', () => {
