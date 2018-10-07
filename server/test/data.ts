@@ -2,7 +2,9 @@ import { db } from '../src/helpers/database';
 import { pgp } from '../src/helpers/database';
 
 // TODO: auto-convert between snakecase and camelcase
-export const users = [{ username: 'jfu', password: 'foobar' }];
+export const users = [
+    { username: 'jfu', password: 'foobar', email: 'test@test.org' },
+];
 
 export const media = [{ api_id: 12345 }, { api_id: 9175 }];
 
@@ -49,7 +51,11 @@ export const seedTestData = () =>
             'TRUNCATE TABLE users, media, list, entry RESTART IDENTITY',
         );
         await t.none(
-            pgp.helpers.insert(users, ['username', 'password'], 'users'),
+            pgp.helpers.insert(
+                users,
+                ['username', 'password', 'email'],
+                'users',
+            ),
         );
         await t.none(pgp.helpers.insert(media, ['api_id'], 'media'));
         await t.none(
