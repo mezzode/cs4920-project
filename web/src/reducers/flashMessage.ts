@@ -17,7 +17,5 @@ export const flashMessage: Reducer<FlashMessageState> = reducerWithInitialState(
         ...state,
         showFlashMessage: true,
     }))
-    .case(clearFlashMessage, () => ({
-        ...initialState,
-    }))
+    .case(clearFlashMessage, () => initialState)
     .build();
