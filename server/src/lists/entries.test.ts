@@ -25,7 +25,7 @@ describe('Test entries endpoints', () => {
     describe('Test entry create', () => {
         test('Can create new entry', async () => {
             const entry = {
-                category: 'In Progress',
+                // category: 'In Progress', // TODO: add category to backend
                 listCode: 'XG', // 1
                 mediaCode: 'XG', // 1
                 rating: 10,
@@ -140,9 +140,15 @@ describe('Test entries endpoints', () => {
             const { lastUpdated, ...body } = res.body;
             expect(body).toEqual({
                 category: 'In Progress',
+                entryCode: 'XG',
                 finished: '2018',
                 listCode: 'XG',
-                mediaCode: 'XG',
+                media: {
+                    artUrl:
+                        'https://78.media.tumblr.com/4f30940e947b58fb57e2b8499f460acb/tumblr_okccrbpkDY1rb48exo1_1280.jpg',
+                    mediaCode: 'XG',
+                    title: `Title of media ID 1`,
+                },
                 rating: 9,
                 started: '2016',
             });
@@ -256,6 +262,10 @@ describe('Test entries endpoints', () => {
             const entryId = 1;
             const entryCode = hashids.encode(entryId);
 
+            const {
+                body: { lastUpdated: _, ...originalEntry },
+            } = await testGet(entryCode);
+
             const entryEdit = {
                 rating: 5,
                 started: '2010-02',
@@ -267,8 +277,8 @@ describe('Test entries endpoints', () => {
                 .set('Accept', 'application/json')
                 .expect(200);
 
-            const { lastUpdated, ...editedFields } = res.body;
-            expect(editedFields).toEqual({ ...entryEdit });
+            const { lastUpdated, ...editedEntry } = res.body;
+            expect(editedEntry).toEqual({ ...originalEntry, ...entryEdit });
             expect(DateTime.fromISO(lastUpdated).isValid).toBe(true);
         });
     });

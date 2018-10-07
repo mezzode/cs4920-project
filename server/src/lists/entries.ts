@@ -40,11 +40,23 @@ const getEntry = asyncHandler(async (req, res) => {
         WHERE e.id = $(entryId)`,
         { entryId },
     );
-    // TODO: add media data to entry
     if (!row) {
         throw new HandlerError('Entry not found', 404);
     }
-    res.send(idsToCodes(row));
+
+    const { mediaId, ...other } = row;
+    const entry = {
+        ...idsToCodes(other),
+        media: {
+            // TODO: get media data
+            artUrl:
+                'https://78.media.tumblr.com/4f30940e947b58fb57e2b8499f460acb/tumblr_okccrbpkDY1rb48exo1_1280.jpg',
+            mediaCode: hashids.encode(mediaId),
+            title: `Title of media ID ${mediaId}`,
+        },
+    };
+
+    res.send(entry);
 });
 
 const newEntry = asyncHandler(async (req, res) => {
