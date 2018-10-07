@@ -4,7 +4,8 @@ CREATE TABLE users
     id serial primary key not null,
     username text not null,
     password text not null,
-    image text -- url
+    email text not null,
+    image text
 );
 CREATE TABLE list
 (

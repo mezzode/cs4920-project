@@ -4,10 +4,11 @@ import * as cookieParser from 'cookie-parser';
 import * as cors from 'cors';
 import * as express from 'express';
 import * as session from 'express-session';
-import { passport, setupAuth } from './helpers/auth';
-import { db } from './helpers/db';
+import * as passport from 'passport';
+
 import { errorHandler } from './helpers/error';
-import { router } from './routes';
+import { setupRoutes } from './routes';
+import { setupAuth } from './routes/login/setup-authentication';
 
 export const app = express();
 
@@ -21,7 +22,6 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
 
-setupAuth(db);
-app.use('/', router);
-
+setupAuth();
+setupRoutes(app);
 app.use(errorHandler);

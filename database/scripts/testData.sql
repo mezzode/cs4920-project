@@ -1,12 +1,12 @@
 
 -- Users
-INSERT INTO users(username, password)
+INSERT INTO users(username, password, email)
 VALUES
-    ('jfu', 'foobar'),
-    ('user1', 'pass1'),
-    ('user2', 'pass2'),
-    ('user3', 'pass3'),
-    ('user4', 'pass4');
+    ('jfu', 'foobar', 'jfu@gmail.com'),
+    ('user1', 'pass1', 'user1@gmail.com'),
+    ('user2', 'pass2', 'user2@gmail.com'),
+    ('user3', 'pass3', 'user3@gmail.com'),
+    ('user4', 'pass4', 'user4@gmail.com');
 
 -- Media
 INSERT INTO media(api_id)

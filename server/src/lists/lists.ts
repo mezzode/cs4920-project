@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import * as asyncHandler from 'express-async-handler';
-import { db } from '../helpers/db';
+import { db } from '../helpers/database';
 import { HandlerError } from '../helpers/error';
 import { hashids } from '../helpers/id';
 import { EntryList } from './types';
