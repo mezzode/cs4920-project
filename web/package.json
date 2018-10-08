@@ -31,8 +31,7 @@
         "eject": "react-scripts-ts eject",
         "storybook": "start-storybook -p 6006",
         "build-storybook": "build-storybook",
-        "lint": "tslint -t verbose -p .",
-        "start:mock-api": "npx json-server --watch mock-api/db.json --port 8080"
+        "lint": "tslint -t verbose -p ."
     },
     "devDependencies": {
         "@storybook/addon-actions": "^3.4.10",

@@ -24,7 +24,6 @@ The ones you would be using most often are:
 -   `yarn start` in root, which starts the server and db.
 -   `yarn start` in `./web`, which starts the webapp.
 -   `yarn storybook` in `./web`, which starts the Storybook.
--   `yarn start:mock-api` in `./web`, which starts the mock server.
 
 Below are detailed explanations of what each script does.
 
@@ -54,9 +53,6 @@ Below are detailed explanations of what each script does.
         -   Open the command palette with `Ctrl+Shift+p`.
         -   Search for and select `Tasks: Run Task`.
         -   Select `Run lint (web)`.
--   `yarn start:mock-api`: Starts the mock server.
-    -   The mock server is served on the port as the real server.
-    -   The mock server uses `json-server`, see its docs for details.
 
 ### In `./server`
 
