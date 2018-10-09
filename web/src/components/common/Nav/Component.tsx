@@ -4,13 +4,22 @@ import Button from '@material-ui/core/Button';
 import Toolbar from '@material-ui/core/Toolbar';
 import * as React from 'react';
 import { Logout } from '../../Logout';
+import { Search } from '../../Search';
 import { LinkTo } from '../util';
 import { Props } from './types';
 
 export const styles = createStyles({
+    inputRoot: {
+        width: '75%',
+    },
     parent: {
         display: 'flex',
         justifyContent: 'space-between',
+    },
+    search: {
+        float: 'left',
+        position: 'relative',
+        top: '-4px',
     },
     transparent: {
         background: 'transparent',
@@ -30,6 +39,7 @@ export const RawNav: React.SFC<Props> = ({ classes, transparent, user }) => (
                 </Typography>
             </Button>
             <div>
+                <Search />
                 {!user.displayName ? (
                     <>
                         <Button component={LinkTo('/sign-up')} color="inherit">
