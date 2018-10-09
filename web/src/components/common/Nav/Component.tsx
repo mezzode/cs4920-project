@@ -16,11 +16,6 @@ export const styles = createStyles({
         display: 'flex',
         justifyContent: 'space-between',
     },
-    search: {
-        float: 'left',
-        position: 'relative',
-        top: '-4px',
-    },
     transparent: {
         background: 'transparent',
         boxShadow: 'none',
