@@ -24,4 +24,4 @@ database/db
 */yarn-error.log*
 
 #apiTokens
-*/apiTokens.js
+*/queries.js
