@@ -11,7 +11,7 @@ CREATE TABLE list
     id serial primary key not null
 );
 CREATE TYPE mediaType as ENUM
-('game', 'anime', 'movietv');
+('game', 'anime', 'movie', 'tv');
 CREATE TABLE media
 (
     id serial primary key not null,

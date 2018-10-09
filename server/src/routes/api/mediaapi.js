@@ -5,15 +5,31 @@ var queries = require('./queries');
 var client = igdb(queries.apiKeys.gameKey);
 
 function gameFetch() {
-    client.games({
-        fields: '*', // Return all fields
-        limit: 1, // Limit to 5 results
-        offset: 15 // Index offset for results
-    }).then(response => {
+    client.games(queries.gameQuery).then(response => {
         console.log(JSON.stringify(response.body))
     }).catch(error => {
         throw error;
     });
+}
+
+function movieFetch(id) {
+    var url = 'https://api.themoviedb.org/3/movie/' + id + '?api_key='
+        + queries.apiKeys.filmKey,
+        options = {
+            method: 'GET',
+        };
+    console.log(url);
+    getData(url, options);
+}
+
+function tvFetch(id) {
+    var url = 'https://api.themoviedb.org/3/tv/' + id + '?api_key='
+        + queries.apiKeys.filmKey,
+        options = {
+            method: 'GET',
+        };
+    console.log(url);
+    getData(url, options);
 }
 
 function animeFetch(id) {
@@ -33,7 +49,11 @@ function animeFetch(id) {
                 variables: variables
             })
         };
+    getData(url, options);
 
+}
+
+function getData(url, options) {
     fetch(url, options).then(handleResponse)
         .then(handleData)
         .catch(handleError);
@@ -54,4 +74,6 @@ function handleError(error) {
 }
 
 //animeFetch(15125)
-//gameFetch()
+//gameFetch();
+//movieFetch(99861);
+tvFetch(456);
