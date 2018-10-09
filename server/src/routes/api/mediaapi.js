@@ -10,14 +10,12 @@ function gameFetch() {
         limit: 1, // Limit to 5 results
         offset: 15 // Index offset for results
     }).then(response => {
-        // response.body contains the parsed JSON response to this query
         console.log(JSON.stringify(response.body))
     }).catch(error => {
         throw error;
     });
 }
 
-// Make the HTTP Api request
 function animeFetch(id) {
     var variables = {
         id: id
@@ -52,11 +50,8 @@ function handleData(data) {
 }
 
 function handleError(error) {
-    //alert('Error, check console');
     console.error(error);
 }
 
 //animeFetch(15125)
-console.log(queries.apiKeys.gameKey);
-
-gameFetch()
+//gameFetch()
