@@ -25,4 +25,4 @@ database/uploads
 */yarn-error.log*
 
 #apiTokens
-*/queries.js
+queries.js
