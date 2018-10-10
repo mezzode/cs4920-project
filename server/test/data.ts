@@ -8,7 +8,7 @@ export const users = [
 
 export const media = [{ api_id: 12345 }, { api_id: 9175 }];
 
-export const lists = [{ name: "mezzode's List", userId: 1 }];
+export const lists = [{ name: "mezzode's List", userId: 1, mediaType: 'game' }];
 
 export const entries = [
     {
@@ -61,7 +61,11 @@ export const seedTestData = () =>
         await t.none(
             pgp.helpers.insert(
                 lists,
-                ['name', { name: 'user_id', prop: 'userId' }],
+                [
+                    'name',
+                    { name: 'user_id', prop: 'userId' },
+                    { name: 'media_type', prop: 'mediaType' },
+                ],
                 'list',
             ),
         );
