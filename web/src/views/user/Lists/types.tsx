@@ -1,4 +1,5 @@
 import { WithStyles } from '@material-ui/core';
+import { WithWidth } from '@material-ui/core/withWidth';
 import { RouteComponentProps } from 'react-router';
 import { EntryList } from '../../../types';
 import { styles } from './Component';
@@ -21,6 +22,7 @@ export interface DispatchProps {
 
 export interface Props
     extends WithStyles<typeof styles>,
+        WithWidth,
         OwnProps,
         StateProps,
         DispatchProps {}
