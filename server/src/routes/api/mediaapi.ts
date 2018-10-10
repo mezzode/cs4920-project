@@ -1,6 +1,5 @@
-// tslint:disable-next-line:no-var-requires
+// tslint:disable:no-var-requires
 const igdb = require('igdb-api-node').default;
-// tslint:disable-next-line:no-var-requires
 const fetch = require('node-fetch');
 import * as queries from './queries';
 
@@ -57,10 +56,7 @@ export async function tvFetchID(id: number) {
 
 // give anime ID, returns anime data
 export async function animeFetchID(id: number) {
-    const variables = {
-        id,
-    };
-
+    const variables = { id };
     const url = 'https://graphql.anilist.co';
     const options = {
         body: JSON.stringify({
@@ -79,8 +75,33 @@ export async function animeFetchID(id: number) {
     return body;
 }
 
+export async function animeFetchSearch(name: string, pageNo: number) {
+    const variables = {
+        page: pageNo,
+        perPage: 10,
+        search: name,
+    };
+    const url = 'https://graphql.anilist.co';
+    const options = {
+        body: JSON.stringify({
+            query: queries.searchA,
+            variables,
+        }),
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
+        method: 'POST',
+    };
+    const res = await fetch(url, options);
+    const body = await res.json();
+    console.log(JSON.stringify(body));
+    return body;
+}
+
 // animeFetchID(15125);
+animeFetchSearch("Fate", 1);
 // gameFetchID(1234);
-gameFetchSearch("Batman", 1);
+// gameFetchSearch("Batman", 1);
 // movieFetchID(99861);
 // tvFetchID(456);
