@@ -6,8 +6,19 @@ import { hashids } from '../../helpers/id';
 import { EntryList, MediaType } from '../lists/types'; // TODO: consolidate types
 
 const getLists = asyncHandler(async (req, res) => {
-    const { mediaType } = req.params;
+    const { media } = req.params;
     const { userId } = res.locals;
+
+    const mediaTypes = {
+        anime: MediaType.Anime,
+        games: MediaType.Game,
+        movies: MediaType.Movie,
+        shows: MediaType.Show,
+    };
+
+    if (!(media in mediaTypes)) {
+        throw new HandlerError('Not found', 404);
+    }
 
     const lists = await db.task<EntryList[]>(async t => {
         const rows = await t.manyOrNone<{
@@ -23,12 +34,12 @@ const getLists = asyncHandler(async (req, res) => {
                 media_type = $(mediaType)
         `,
             {
-                mediaType,
+                mediaType: mediaTypes[media],
                 userId,
             },
         ); // can replace with t.map
         return Promise.all(
-            rows.map(async ({ name, id }) => {
+            rows.map(async ({ name, id, mediaType }) => {
                 const entries = await t.manyOrNone<{
                     entryId: number;
                     lastUpdated: string;
@@ -39,14 +50,14 @@ const getLists = asyncHandler(async (req, res) => {
                     mediaId: number;
                 }>(
                     `SELECT
-                    id AS "entryId",
-                    last_updated AS "lastUpdated",
-                    rating,
-                    started,
-                    finished,
-                    media_id AS "mediaId"
-                FROM entry e
-                WHERE e.list_id = $(id)`,
+                        id AS "entryId",
+                        last_updated AS "lastUpdated",
+                        rating,
+                        started,
+                        finished,
+                        media_id AS "mediaId"
+                    FROM entry e
+                    WHERE e.list_id = $(id)`,
                     { id },
                 );
                 const listCode = hashids.encode(id);
@@ -75,4 +86,4 @@ const getLists = asyncHandler(async (req, res) => {
 });
 
 export const userListsRouter = Router();
-userListsRouter.route('/lists/:mediaType').get(getLists);
+userListsRouter.get('/lists/:media', getLists);
