@@ -26,6 +26,22 @@ export const UserListsComponent = withStyles(styles)(
 
         public render() {
             const { lists, classes, editable } = this.props;
+
+            let content: JSX.Element;
+            if (lists === null) {
+                content = <Typography variant="display3">Loading</Typography>;
+            } else if (lists.length === 0) {
+                // TODO: make nice
+                content = <Typography variant="display3">No lists</Typography>;
+            } else {
+                content = (
+                    <>
+                        <Lists lists={lists} editable={editable} />
+                        {editable && <EntryEditor />}
+                    </>
+                );
+            }
+
             return (
                 <>
                     <Nav />
@@ -36,19 +52,7 @@ export const UserListsComponent = withStyles(styles)(
                             justify="space-around"
                         >
                             <Grid item={true} xs={12}>
-                                {lists === null ? (
-                                    <Typography variant="display3">
-                                        Loading
-                                    </Typography>
-                                ) : (
-                                    <>
-                                        <Lists
-                                            lists={lists}
-                                            editable={editable}
-                                        />
-                                        {editable && <EntryEditor />}
-                                    </>
-                                )}
+                                {content}
                             </Grid>
                         </Grid>
                     </main>
