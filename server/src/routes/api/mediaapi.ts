@@ -4,6 +4,7 @@ const fetch = require('node-fetch');
 import * as queries from './queries';
 
 interface GameSubset {
+    id: number;
     name: string;
 }
 
@@ -40,6 +41,29 @@ export async function gameFetchID(id: number) {
             data.category = "Unknown";
             break;
     }
+    switch (data.status) {
+        case 0:
+            data.status = "Released";
+            break;
+        case 2:
+            data.status = "Alpha";
+            break;
+        case 3:
+            data.status = "Beta";
+            break;
+        case 4:
+            data.status = "Early Access";
+            break;
+        case 5:
+            data.status = "Offline";
+            break;
+        case 6:
+            data.status = "Cancelled";
+            break;
+        default:
+            data.status = "Released";
+            break;
+    }
     console.log(JSON.stringify(data));
     return data;
 }
@@ -56,10 +80,20 @@ function gameDataShift(list: GameSubset[]) {
 // give string and page number, returns array of game IDs. The last result is the total 
 // number of results in the search
 export async function gameFetchSearch(name: string, page: number) {
-    const data = await client.games(queries.gameSearchQuery(name, page));
-    data.body.unshift(data.headers['x-count']);
-    console.log(data.body);
-    return data.body;
+    const res = await client.games(queries.gameSearchQuery(name, page));
+    const data = {
+        media: res.body,
+        totalResults: res.headers['x-count'],
+    };
+    for (const i of data.media) {
+        i.title = i.name;
+        i.description = i.summary;
+        delete i.name;
+        delete i.summary;
+    }
+    console.log(data); {
+        return data;
+    }
 }
 
 // give movie/tv id and boolean, returns movie/tv data. Pass true for movie, false for tv 
@@ -72,11 +106,15 @@ export async function movietvFetchID(id: number, type: boolean) {
     }
     const url = `https://api.themoviedb.org/3/${media}/${id}?api_key=${queries.apiKeys.filmKey}`;
     const options = { method: 'GET' };
-
     const res = await fetch(url, options);
     const body = await res.json();
-    console.log(JSON.stringify(body));
+    // data normalisation
+    console.log(JSON.stringify(movieNormalise(body)));
     return body;
+}
+
+function movieNormalise(data: object) {
+    return data;
 }
 
 // give search string and boolean, returns movie/tv data. Pass true for movie, false for tv 
@@ -159,8 +197,8 @@ export async function animeFetchSearch(name: string, pageNo: number) {
 
 // animeFetchID(15125);
 // animeFetchSearch("Fate", 1);
-gameFetchID(25829);
-gameFetchSearch("Batman", 1);
+gameFetchID(501);
+// gameFetchSearch("Batman", 1);
 // movietvFetchID(99861, true);
 // movietvFetchID(456, false);
 // movietvSearch("Batman", true);
