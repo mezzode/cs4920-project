@@ -1,19 +1,19 @@
 import { combineReducers, Reducer } from 'redux';
-import { displayedLists, DisplayedListsState } from './displayedLists';
+import { lists, ListsState } from './displayedLists';
 import { entryEditor, EntryEditorState } from './entryEditor';
 import { flashMessage, FlashMessageState } from './flashMessage';
 import { user, UserState } from './user';
 export interface State {
-    displayedLists: DisplayedListsState;
+    lists: ListsState;
     entryEditor: EntryEditorState;
     user: UserState;
     flashMessage: FlashMessageState;
 }
 
 const reducers = {
-    displayedLists,
     entryEditor,
     flashMessage,
+    lists,
     user,
 };
 

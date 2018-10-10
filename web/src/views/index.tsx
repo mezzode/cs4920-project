@@ -10,6 +10,7 @@ import { NotFound } from './NotFound';
 import { PasswordReset } from './Passwordreset';
 import { Profile } from './Profile';
 import { SignUp } from './Signup';
+import { UserLists } from './user/Lists';
 
 const ViewComponent: React.SFC<Props> = ({ auth }) => {
     // routes in the format "/list/:id" will ignore the trailing slug and redirect to the canonical one
@@ -17,9 +18,6 @@ const ViewComponent: React.SFC<Props> = ({ auth }) => {
     // "/list/abc/thisIsIgnored" => "/list/abc/my-list"
     const authRoutes = (
         <Switch>
-            <Route path="/user/:displayName/lists/:type" />
-            <Route path="/list/:listId/:slug?" component={ListPage} />
-            <Route path="/media/:mediaId" />
             <Route path="/profile" component={Profile} />
             <Route component={NotFound} />
         </Switch>
@@ -27,6 +25,12 @@ const ViewComponent: React.SFC<Props> = ({ auth }) => {
     const unauthRoutes = (
         <Switch>
             <Route exact={true} path="/" component={Landing} />
+            <Route
+                path="/user/:username/lists/:mediaType"
+                component={UserLists}
+            />
+            <Route path="/list/:listId/:slug?" component={ListPage} />
+            <Route path="/media/:mediaId" />
             <Route path="/login" component={Login} />
             <Route path="/sign-up" component={SignUp} />
             <Route path="/reset-password" component={PasswordReset} />
