@@ -1,10 +1,11 @@
 import { Express } from 'express';
-import { entryRouter } from '../lists/entries';
-import { listRouter } from '../lists/lists';
 import { router as healthcheckRouter } from './healthcheck';
+import { entryRouter } from './lists/entries';
+import { listRouter } from './lists/lists';
 import { router as loginRouter } from './login';
 import { router as profileRouter } from './profile';
 import { router as signupRouter } from './signup';
+import { userRouter } from './user/index';
 
 export const setupRoutes = (app: Express) => {
     app.use(healthcheckRouter);
@@ -13,4 +14,5 @@ export const setupRoutes = (app: Express) => {
     app.use(signupRouter);
     app.use(entryRouter);
     app.use(listRouter);
+    app.use('/user', userRouter);
 };

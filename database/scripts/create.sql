@@ -7,17 +7,23 @@ CREATE TABLE users
     email text not null,
     image text
 );
+
+CREATE TYPE media_type AS ENUM ('game', 'anime', 'show', 'movie');
+
 CREATE TABLE list
 (
     id serial primary key not null,
     user_id int not null REFERENCES users ON DELETE CASCADE,
+    media_type media_type not null,
     name text not null
 );
+
 CREATE TABLE media
 (
     id serial primary key not null,
     api_id text not null
 );
+
 CREATE TABLE entry
 (
     id serial primary key not null,

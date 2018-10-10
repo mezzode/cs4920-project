@@ -14,9 +14,9 @@ VALUES
     ('12345'),
     ('67890');
 
-INSERT INTO list(name, user_id)
+INSERT INTO list(name, user_id, media_type)
 VALUES
-    ('mezzode''s List', 1);
+    ('mezzode''s List', 1, 'game');
 
 -- Entry
 INSERT INTO entry(media_id, category, started, finished, list_id, last_updated)
