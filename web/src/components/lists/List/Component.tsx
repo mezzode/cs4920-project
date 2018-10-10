@@ -19,7 +19,12 @@ export const styles = createStyles({
 });
 
 // TODO: prolly should use Typography to style title instead of Button
-const RawList: React.SFC<Props> = ({ classes, entries, handleEdit }) => (
+const RawList: React.SFC<Props> = ({
+    classes,
+    entries,
+    handleEdit,
+    editable,
+}) => (
     <Table>
         <TableHead>
             <TableRow className={classes.header}>
@@ -28,7 +33,7 @@ const RawList: React.SFC<Props> = ({ classes, entries, handleEdit }) => (
                 <TableCell>Started</TableCell>
                 <TableCell>Finished</TableCell>
                 <TableCell>Progress</TableCell>
-                <TableCell />
+                {editable && <TableCell />}
             </TableRow>
         </TableHead>
         <TableBody>
@@ -47,9 +52,11 @@ const RawList: React.SFC<Props> = ({ classes, entries, handleEdit }) => (
                     <TableCell>{entry.started}</TableCell>
                     <TableCell>{entry.finished}</TableCell>
                     <TableCell>{entry.progress}</TableCell>
-                    <TableCell>
-                        <Button onClick={handleEdit(entry)}>Edit</Button>
-                    </TableCell>
+                    {editable && (
+                        <TableCell>
+                            <Button onClick={handleEdit(entry)}>Edit</Button>
+                        </TableCell>
+                    )}
                 </TableRow>
             ))}
         </TableBody>

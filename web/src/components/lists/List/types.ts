@@ -8,6 +8,7 @@ export interface DispatchProps {
 
 export interface OwnProps {
     entries: Entry[];
+    editable: boolean;
 }
 
 export interface Props

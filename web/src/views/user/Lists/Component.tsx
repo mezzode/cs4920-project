@@ -25,7 +25,7 @@ export const UserListsComponent = withStyles(styles)(
         }
 
         public render() {
-            const { lists, classes } = this.props;
+            const { lists, classes, editable } = this.props;
             return (
                 <>
                     <Nav />
@@ -42,8 +42,11 @@ export const UserListsComponent = withStyles(styles)(
                                     </Typography>
                                 ) : (
                                     <>
-                                        <Lists lists={lists} />
-                                        <EntryEditor />
+                                        <Lists
+                                            lists={lists}
+                                            editable={editable}
+                                        />
+                                        {editable && <EntryEditor />}
                                     </>
                                 )}
                             </Grid>

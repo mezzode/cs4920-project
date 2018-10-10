@@ -12,6 +12,7 @@ export interface OwnProps extends RouteComponentProps<Params> {}
 
 export interface StateProps {
     lists: EntryList[] | null;
+    editable: boolean;
 }
 
 export interface DispatchProps {

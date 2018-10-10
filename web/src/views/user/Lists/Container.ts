@@ -7,9 +7,10 @@ import { UserListsComponent } from './Component';
 import { DispatchProps, OwnProps, StateProps } from './types';
 
 export const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (
-    { lists },
+    { lists, user: { displayName } },
     { match },
 ) => ({
+    editable: displayName === match.params.username,
     lists:
         lists &&
         Object.keys(lists)

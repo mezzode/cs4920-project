@@ -20,10 +20,11 @@ const styles = createStyles({
 });
 
 interface Props extends WithStyles<typeof styles> {
+    editable: boolean;
     lists: EntryList[];
 }
 
-const RawLists: React.SFC<Props> = ({ classes, lists }) => (
+const RawLists: React.SFC<Props> = ({ classes, editable, lists }) => (
     <>
         {lists.map(list => (
             <ExpansionPanel key={list.listCode}>
@@ -32,7 +33,7 @@ const RawLists: React.SFC<Props> = ({ classes, lists }) => (
                 </ExpansionPanelSummary>
                 <Divider />
                 <ExpansionPanelDetails className={classes.details}>
-                    <List entries={list.entries} />
+                    <List entries={list.entries} editable={editable} />
                 </ExpansionPanelDetails>
             </ExpansionPanel>
         ))}

@@ -65,6 +65,7 @@ interface Params {
 interface OwnProps extends RouteComponentProps<Params> {}
 
 interface StateProps {
+    editable: boolean;
     list: EntryList | null;
 }
 
@@ -79,10 +80,11 @@ interface Props
         DispatchProps {}
 
 const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (
-    state,
+    { lists, user: { displayName } },
     { match },
 ) => ({
-    list: state.lists && state.lists[match.params.listId],
+    editable: !!(lists && displayName === lists[match.params.listId].username),
+    list: lists && lists[match.params.listId],
 });
 
 const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = (
@@ -106,7 +108,7 @@ export const ListPage = connect(
             }
 
             public render() {
-                const { list, classes, match } = this.props;
+                const { list, classes, match, editable } = this.props;
                 let content = null;
                 if (list === null) {
                     content = (
@@ -123,8 +125,8 @@ export const ListPage = connect(
                                         {name}
                                     </Typography>
                                 </CardHeader>
-                                <List entries={entries} />
-                                <EntryEditor />
+                                <List entries={entries} editable={editable} />
+                                {editable && <EntryEditor />}
                             </Card>
                         );
                     } else {
