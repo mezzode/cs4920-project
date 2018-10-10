@@ -30,27 +30,20 @@ export async function gameFetchSearch(name: string, page: number) {
     return data.body;
 }
 
-// give movie ID, returns movie data
-export async function movieFetchID(id: number) {
-    const url = `https://api.themoviedb.org/3/movie/${id}?api_key=${queries.apiKeys.filmKey}`;
+// give movie ID, returns movie data. Pass in second argument 1 for movie, 0 for tv. 
+export async function movietvFetchID(id: number, type: boolean) {
+    if (type) {
+        media = "movie";
+    } else {
+        media = "tv"
+    }
+    const url = `https://api.themoviedb.org/3/${media}/${id}?api_key=${queries.apiKeys.filmKey}`;
     const options = { method: 'GET' };
     console.log(url);
 
     const res = await fetch(url, options);
     const body = await res.json();
     console.log(JSON.stringify(body));
-    return body;
-}
-
-// give tv ID, returns tv data
-export async function tvFetchID(id: number) {
-    const url = `https://api.themoviedb.org/3/tv/${id}?api_key=${queries.apiKeys.filmKey}`;
-    const options = { method: 'GET' };
-    console.log(url);
-
-    const res = await fetch(url, options);
-    const body = await res.json();
-    console.log(JSON.stringify(res));
     return body;
 }
 
@@ -75,6 +68,7 @@ export async function animeFetchID(id: number) {
     return body;
 }
 
+// give search string and page number, returns anime ids and titles
 export async function animeFetchSearch(name: string, pageNo: number) {
     const variables = {
         page: pageNo,
@@ -100,8 +94,8 @@ export async function animeFetchSearch(name: string, pageNo: number) {
 }
 
 // animeFetchID(15125);
-animeFetchSearch("Fate", 1);
+// animeFetchSearch("Fate", 1);
 // gameFetchID(1234);
 // gameFetchSearch("Batman", 1);
-// movieFetchID(99861);
+movietvFetchID(99861);
 // tvFetchID(456);
