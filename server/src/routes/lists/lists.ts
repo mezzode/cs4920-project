@@ -12,9 +12,14 @@ const getList = asyncHandler(async (req, res) => {
         const listMeta = await t.oneOrNone<{
             name: string;
             mediaType: MediaType;
-        }>(`SELECT name, mediaType FROM list l WHERE id = $(listId)`, {
-            listId,
-        });
+            username: string;
+        }>(
+            `SELECT l.name, l.media_type AS "mediaType", u.username
+        FROM list l JOIN users u ON u.id = l.user_id AND l.id = $(listId)`,
+            {
+                listId,
+            },
+        );
         if (!listMeta) {
             throw new HandlerError('List not found', 404);
         }

@@ -65,7 +65,7 @@ interface Params {
 interface OwnProps extends RouteComponentProps<Params> {}
 
 interface StateProps {
-    list?: EntryList;
+    list: EntryList | null;
 }
 
 interface DispatchProps {
@@ -82,7 +82,7 @@ const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (
     state,
     { match },
 ) => ({
-    list: state.lists[match.params.listId],
+    list: state.lists && state.lists[match.params.listId],
 });
 
 const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = (
@@ -108,7 +108,7 @@ export const ListPage = connect(
             public render() {
                 const { list, classes, match } = this.props;
                 let content = null;
-                if (list === undefined) {
+                if (list === null) {
                     content = (
                         <Typography variant="display3">Loading</Typography>
                     );

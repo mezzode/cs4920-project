@@ -16,7 +16,10 @@ userRouter.use(
         if (!user) {
             throw new HandlerError('User not found', 404);
         }
-        res.locals.userId = user.id;
+        res.locals = {
+            userId: user.id,
+            username,
+        };
         next();
     }),
     userListsRouter,

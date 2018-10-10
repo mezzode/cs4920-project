@@ -3,11 +3,10 @@
  * TODO: proper types
  */
 export interface UserEntry {
-    rating: number;
-    started: string;
-    finished: string;
-    progress: string;
-    listCode: string;
+    rating?: number;
+    started?: string;
+    finished?: string;
+    progress?: string;
 }
 
 /**
@@ -16,6 +15,7 @@ export interface UserEntry {
 interface SystemEntry {
     entryCode: string;
     lastUpdated: string; // TODO
+    listCode: string;
     media: Media;
 }
 
@@ -30,6 +30,7 @@ export interface Media {
 export interface EntryList {
     entries: Entry[];
     listCode: string;
+    username: string;
     name: string;
 }
 
@@ -37,4 +38,8 @@ export enum MediaType {
     games = 'games',
     shows = 'shows',
     movies = 'movies',
+}
+
+export interface ListsMap {
+    [listCode: string]: EntryList;
 }

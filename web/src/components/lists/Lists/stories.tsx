@@ -78,6 +78,7 @@ storiesOf('Lists', module)
                     ],
                     listCode: 'a',
                     name: 'Games',
+                    username: 'mezzode',
                 },
                 {
                     entries: [
@@ -99,6 +100,7 @@ storiesOf('Lists', module)
                     ],
                     listCode: 'b',
                     name: 'Multiplayer Games',
+                    username: 'mezzode',
                 },
             ];
 

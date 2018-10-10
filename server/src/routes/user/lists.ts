@@ -7,7 +7,7 @@ import { EntryList, MediaType } from '../lists/types'; // TODO: consolidate type
 
 const getLists = asyncHandler(async (req, res) => {
     const { media } = req.params;
-    const { userId } = res.locals;
+    const { userId, username } = res.locals;
 
     const mediaTypes = {
         anime: MediaType.Anime,
@@ -78,6 +78,7 @@ const getLists = asyncHandler(async (req, res) => {
                     listCode,
                     mediaType,
                     name,
+                    username,
                 };
             }),
         );
