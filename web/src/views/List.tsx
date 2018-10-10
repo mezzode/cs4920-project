@@ -82,7 +82,7 @@ const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (
     state,
     { match },
 ) => ({
-    list: state.displayedLists[match.params.listId],
+    list: state.lists[match.params.listId],
 });
 
 const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = (

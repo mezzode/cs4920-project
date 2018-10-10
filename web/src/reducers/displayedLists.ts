@@ -1,34 +1,26 @@
 import { Reducer } from 'redux';
 import { reducerWithInitialState } from 'typescript-fsa-reducers';
 import { saveEntryEdit } from '../actions/entry';
-import { clearDisplayedLists, getDisplayedList } from '../actions/list';
+import { getLists } from '../actions/list';
 import { Entry, EntryList } from '../types';
 
-export interface DisplayedListsState {
+export interface ListsState {
     [listCode: string]: EntryList;
 }
 
-const initialState: DisplayedListsState = {};
+const initialState: ListsState = {};
 
-const displayedList = (list: EntryList, entryCode: string, result: Entry) => ({
+const updateListEntry = (list: EntryList, result: Entry) => ({
     ...list,
     entries: list.entries.map(
-        (entry): Entry => (entry.entryCode === entryCode ? result : entry),
+        (entry): Entry =>
+            entry.entryCode === result.entryCode ? result : entry,
     ),
 });
 
-export const displayedLists: Reducer<
-    DisplayedListsState
-> = reducerWithInitialState(initialState)
+export const lists: Reducer<ListsState> = reducerWithInitialState(initialState)
     .case(saveEntryEdit.done, (state, { result }) => ({
         ...state,
-        [result.listCode]: displayedList(
-            state[result.listCode],
-            result.entryCode,
-            result,
-        ), // update edited entry
+        [result.listCode]: updateListEntry(state[result.listCode], result),
     }))
-    .case(getDisplayedList.done, (state, { result }) => ({
-        [result.listCode]: result,
-    }))
-    .case(clearDisplayedLists, state => initialState);
+    .case(getLists.done, (state, { result }) => result);

@@ -8,14 +8,11 @@ import { EntryList } from '../types';
 
 const actionCreator = actionCreatorFactory('LIST_DISPLAY');
 
-export const setDisplayedLists = actionCreator<{
-    readonly [listId: string]: EntryList;
-}>('SET');
-export const clearDisplayedLists = actionCreator('CLEAR');
+interface ListGetResult {
+    [listCode: string]: EntryList;
+}
 
-export const getDisplayedList = actionCreator.async<void, EntryList, string>(
-    'GET',
-);
+export const getLists = actionCreator.async<void, ListGetResult, string>('GET');
 
 export const loadList: (
     listId: string,
@@ -25,7 +22,7 @@ export const loadList: (
     void,
     Action
 > = listId => async dispatch => {
-    dispatch(getDisplayedList.started());
+    dispatch(getLists.started());
     try {
         const res = await fetch(
             `${process.env.REACT_APP_API_BASE}/list/${listId}`,
@@ -34,11 +31,11 @@ export const loadList: (
         if (res.status > 400) {
             throw new Error(`Server error: ${res.status} ${res.statusText}`);
         }
-        const result = (await res.json()) as EntryList;
-        dispatch(getDisplayedList.done({ result }));
-        return result;
+        const list = (await res.json()) as EntryList;
+        dispatch(getLists.done({ result: { [list.listCode]: list } }));
+        return list;
     } catch (e) {
-        dispatch(getDisplayedList.failed(e.message));
+        dispatch(getLists.failed(e.message));
         throw e;
     }
 };
