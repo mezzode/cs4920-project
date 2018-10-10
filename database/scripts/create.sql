@@ -7,23 +7,33 @@ CREATE TABLE users
     email text not null,
     image text
 );
+
+CREATE TYPE media_type AS ENUM ('game', 'anime', 'show', 'movie');
+
 CREATE TABLE list
 (
-    id serial primary key not null
+    id serial primary key not null,
+    user_id int not null REFERENCES users ON DELETE CASCADE,
+    media_type media_type not null,
+    name text not null
 );
+
 CREATE TABLE media
 (
     id serial primary key not null,
     api_id text not null
 );
-CREATE TYPE status AS ENUM ('progress', 'complete');
+
 CREATE TABLE entry
 (
     id serial primary key not null,
-    media_id int not null,
-    user_id int not null,
-    status status,
+    media_id int not null REFERENCES media,
+    list_id int not null REFERENCES list ON DELETE CASCADE,
+    category text,
     rating int,
-    foreign key (media_id) references media(id),
-    foreign key (user_id) references users(id)
+    last_updated TIMESTAMP,
+    -- started/finished use ISO 8601 with partial dates allowed
+    -- e.g. '2016', '2017-04-13', '2018-09'
+    started text,
+    finished text
 );

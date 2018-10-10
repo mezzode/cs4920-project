@@ -55,6 +55,7 @@ const RawEntryEditor: React.SFC<Props> = ({
                                 defaultValue={entry.rating}
                                 onInput={handleInput}
                             />
+                            {/* TODO: date input restrictions/formatter */}
                             <TextField
                                 margin="dense"
                                 id="started"
@@ -94,7 +95,15 @@ const RawEntryEditor: React.SFC<Props> = ({
                     <Button onClick={handleCancel} color="primary">
                         Cancel
                     </Button>
-                    <Button onClick={handleSave} color="primary">
+                    <Button
+                        onClick={handleSave(entry.entryCode, {
+                            finished: entry.finished,
+                            // progress: entry.progress, // TODO: add progress to backend
+                            rating: entry.rating,
+                            started: entry.started,
+                        })}
+                        color="primary"
+                    >
                         Save
                     </Button>
                 </DialogActions>

@@ -33,17 +33,16 @@ const RawList: React.SFC<Props> = ({ classes, entries, handleEdit }) => (
         </TableHead>
         <TableBody>
             {entries.map(entry => (
-                <TableRow key={entry.entryId}>
+                <TableRow key={entry.entryCode}>
                     <TableCell component="th" scope="row">
-                        <Link to={`/media/${entry.media.mediaId}`}>
+                        <Link to={`/media/${entry.media.mediaCode}`}>
                             <Typography variant="body1">
                                 {entry.media.title}
                             </Typography>
                         </Link>
                     </TableCell>
                     <TableCell>
-                        {entry.rating}
-                        /10
+                        {entry.rating !== null ? `${entry.rating}/10` : '-'}
                     </TableCell>
                     <TableCell>{entry.started}</TableCell>
                     <TableCell>{entry.finished}</TableCell>

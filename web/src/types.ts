@@ -2,40 +2,44 @@
  * User-controlled entry data.
  * TODO: proper types
  */
-interface UserEntry {
-    rating: number;
-    started: string;
-    finished: string;
-    progress: string;
-    listId: string;
+export interface UserEntry {
+    rating?: number;
+    started?: string;
+    finished?: string;
+    progress?: string;
 }
 
 /**
  * System-controlled
  */
 interface SystemEntry {
-    entryId: string;
+    entryCode: string;
     lastUpdated: string; // TODO
+    listCode: string;
     media: Media;
 }
 
 export type Entry = UserEntry & SystemEntry;
 
 export interface Media {
-    mediaId: string;
+    mediaCode: string;
     title: string;
     artUrl: string;
 }
 
 export interface EntryList {
     entries: Entry[];
-    id: string;
+    listCode: string;
+    username: string;
     name: string;
-    slug: string;
 }
 
 export enum MediaType {
     games = 'games',
     shows = 'shows',
     movies = 'movies',
+}
+
+export interface ListsMap {
+    [listCode: string]: EntryList;
 }
