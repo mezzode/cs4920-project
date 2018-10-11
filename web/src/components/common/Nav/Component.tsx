@@ -1,4 +1,4 @@
-import { createStyles, Typography, withStyles } from '@material-ui/core';
+import { Typography, withStyles } from '@material-ui/core';
 import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -6,21 +6,8 @@ import * as React from 'react';
 import { Logout } from '../../Logout';
 import { Search } from '../../Search';
 import { LinkTo } from '../util';
+import { styles } from './styles';
 import { Props } from './types';
-
-export const styles = createStyles({
-    inputRoot: {
-        width: '75%',
-    },
-    parent: {
-        display: 'flex',
-        justifyContent: 'space-between',
-    },
-    transparent: {
-        background: 'transparent',
-        boxShadow: 'none',
-    },
-});
 
 export const RawNav: React.SFC<Props> = ({ classes, transparent, user }) => (
     <AppBar
@@ -33,8 +20,9 @@ export const RawNav: React.SFC<Props> = ({ classes, transparent, user }) => (
                     medialog
                 </Typography>
             </Button>
+            <div className={classes.grow} />
+            <Search />
             <div>
-                <Search />
                 {!user.displayName ? (
                     <>
                         <Button component={LinkTo('/sign-up')} color="inherit">

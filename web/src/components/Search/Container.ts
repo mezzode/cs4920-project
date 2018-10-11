@@ -15,11 +15,11 @@ const mapDispatchToProps: MapDispatchToProps<
         if (res.ok) {
             console.log('search string is');
             console.log(data.get('searchString'));
-            console.log('searchMediaType is');
+            console.log('media type is');
             console.log(data.get('mediaType'));
             dispatch(setSearch({ search: data.get('searchString') as string }));
             console.log(JSON.stringify(res.json()));
-            res.json();
+            // res.json();
         }
     };
     return {

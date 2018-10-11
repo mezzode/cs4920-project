@@ -1,84 +1,38 @@
 import {
     FormControl,
-    FormHelperText,
-    IconButton,
-    Input,
-    MenuItem,
-    Select,
+    // FormGroup,
+    // IconButton,
+    // Input,
+    InputBase,
+    InputLabel,
     withStyles,
 } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 import * as React from 'react';
+import { SimpleSelect } from '../common/SimpleSelect';
 import { styles } from './styles';
-import { Props, Props2 } from './types';
-
-interface State2 {
-    name: string;
-}
-
-interface Thing extends HTMLElement {
-    name: string;
-    value: string;
-}
-
-class RawSimpleSelect extends React.Component<Props2, State2> {
-    constructor(props: Props2) {
-        super(props);
-        this.state = {
-            name: '',
-        };
-        this.handleChange = this.handleChange.bind(this);
-    }
-
-    public handleChange: React.FormEventHandler = event => {
-        const target = event.target as Thing;
-        this.setState({ name: target.value } as State2);
-    };
-
-    public render() {
-        return (
-            <Select
-                value={this.state.name}
-                onChange={this.handleChange}
-                displayEmpty={true}
-                name="searchMediaType"
-                className={this.props.classes.selectEmpty}
-            >
-                <MenuItem value={'All'}>
-                    <em>All</em>
-                </MenuItem>
-                <MenuItem value={'Anime'}>Anime</MenuItem>
-                <MenuItem value={'Movie'}>Movie</MenuItem>
-                <MenuItem value={'TV show'}>TV show</MenuItem>
-            </Select>
-        );
-    }
-}
-
-const SimpleSelect = withStyles(styles)(RawSimpleSelect);
+import { Props } from './types';
 
 const RawSearch: React.SFC<Props> = ({ classes, handleSearch }) => (
     <>
-        <form>
+        <form className={classes.formRoot} onSubmit={handleSearch}>
+            <div className={classes.search}>
+                <div className={classes.searchIcon}>
+                    <SearchIcon />
+                </div>
+                <InputBase
+                    placeholder="Search…"
+                    classes={{
+                        input: classes.inputInput,
+                        root: classes.inputRoot,
+                    }}
+                    name={'searchString'}
+                />
+            </div>
             <FormControl className={classes.formControl}>
-                <SimpleSelect />
-                <FormHelperText>Without label</FormHelperText>
+                <InputLabel htmlFor="media-type">Media type</InputLabel>
+                <SimpleSelect name={'mediaType'} />
             </FormControl>
-        </form>
-        <form onSubmit={handleSearch} className={classes.search}>
-            <IconButton type="submit">
-                <SearchIcon />
-            </IconButton>
-            <FormControl>
-                <SimpleSelect />
-            </FormControl>
-            <Input
-                name="searchString"
-                placeholder="Search"
-                classes={{
-                    root: classes.inputRoot,
-                }}
-            />
         </form>
     </>
 );

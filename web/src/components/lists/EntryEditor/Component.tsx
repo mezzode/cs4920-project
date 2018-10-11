@@ -6,10 +6,10 @@ import {
     DialogTitle,
     Grid,
     TextField,
-    withWidth,
+    // withWidth,
 } from '@material-ui/core';
 import { createStyles, withStyles } from '@material-ui/core/styles';
-import { isWidthDown, isWidthUp } from '@material-ui/core/withWidth';
+// import { isWidthDown, isWidthUp } from '@material-ui/core/withWidth';
 import * as React from 'react';
 import { Props } from './types';
 
@@ -26,13 +26,14 @@ const RawEntryEditor: React.SFC<Props> = ({
     handleInput,
     handleSave,
     classes,
-    width,
+    // width,
+    // children,
 }) => (
     <Dialog
         open={entry !== null}
         aria-labelledby="form-dialog-title"
         fullWidth={true}
-        fullScreen={isWidthDown('sm', width)}
+        // fullScreen={isWidthDown('sm', width)}
     >
         {entry !== null && (
             <>
@@ -81,14 +82,14 @@ const RawEntryEditor: React.SFC<Props> = ({
                                 onInput={handleInput}
                             />
                         </Grid>
-                        {isWidthUp('xs', width, false) && (
+                        {/* {isWidthUp('xs', width, false) && (
                             <Grid item={true} sm={5}>
                                 <img
                                     className={classes.art}
                                     src={entry.media.artUrl}
                                 />
                             </Grid>
-                        )}
+                        )} */}
                     </Grid>
                 </DialogContent>
                 <DialogActions>
@@ -112,6 +113,4 @@ const RawEntryEditor: React.SFC<Props> = ({
     </Dialog>
 );
 
-export const EntryEditorComponent = withWidth()(
-    withStyles(styles)(RawEntryEditor),
-);
+export const EntryEditorComponent = withStyles(styles)(RawEntryEditor);

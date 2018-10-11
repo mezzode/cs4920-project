@@ -15,5 +15,3 @@ export interface OwnProps {}
 export interface StateProps {}
 
 export interface State {}
-
-export interface Props2 extends WithStyles<typeof styles> {}

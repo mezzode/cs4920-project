@@ -1,5 +1,5 @@
 import { WithStyles } from '@material-ui/core';
-import { WithWidth } from '@material-ui/core/withWidth';
+// import { WithWidth } from '@material-ui/core/withWidth';
 import { Entry, UserEntry } from '../../../types';
 import { styles } from './Component';
 
@@ -20,7 +20,7 @@ export interface OwnProps {}
 
 export interface Props
     extends WithStyles<typeof styles>,
-        WithWidth,
+        // WithWidth,
         DispatchProps,
         StateProps,
         OwnProps {}
