@@ -25,7 +25,7 @@ const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = (
         event.preventDefault();
         const data = new FormData(event.target as HTMLFormElement);
 
-        const res = await fetch('/login', {
+        const res = await fetch(`${process.env.REACT_APP_API_BASE}/login`, {
             body: data,
             method: 'post',
         });

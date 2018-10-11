@@ -25,7 +25,7 @@ const mapDispatchToProps: MapDispatchToProps<
         event.preventDefault();
         const data = new FormData(event.target as HTMLFormElement);
 
-        const res = await fetch('/sign-up', {
+        const res = await fetch(`${process.env.REACT_APP_API_BASE}/sign-up`, {
             body: data,
             method: 'post',
         });
