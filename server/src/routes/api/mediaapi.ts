@@ -1,9 +1,10 @@
 // tslint:disable:no-var-requires
+// tslint:disable:object-literal-sort-keys
 const igdb = require('igdb-api-node').default;
 const fetch = require('node-fetch');
 import * as queries from './queries';
 
-interface GameSubset {
+interface Subset {
     id: number;
     name: string;
 }
@@ -15,10 +16,10 @@ export async function gameFetchID(id: number) {
     const res = await client.games(queries.gameFetchQuery(id));
     const data = res.body[0];
     // data normalisation
-    data.developers = gameDataShift(data.developers);
-    data.publishers = gameDataShift(data.publishers);
-    data.genres = gameDataShift(data.genres);
-    data.themes = gameDataShift(data.themes);
+    data.developers = dataShift(data.developers);
+    data.publishers = dataShift(data.publishers);
+    data.genres = dataShift(data.genres);
+    data.themes = dataShift(data.themes);
     data.cover = data.cover.url;
     data.first_release_date = new Date(data.first_release_date).toISOString();
     switch (data.category) {
@@ -69,7 +70,7 @@ export async function gameFetchID(id: number) {
 }
 
 // helper function to normalise data
-function gameDataShift(list: GameSubset[]) {
+function dataShift(list: Subset[]) {
     const newList: string[] = [];
     for (const i of list) {
         newList.push(i.name);
@@ -109,13 +110,42 @@ export async function movietvFetchID(id: number, type: boolean) {
     const res = await fetch(url, options);
     const body = await res.json();
     // data normalisation
-    console.log(JSON.stringify(movieNormalise(body)));
+    let data = {};
+    if (type) {
+        data = {
+            'id': body.id,
+            'title': body.title,
+            'status': body.status,
+            'genres': dataShift(body.genres),
+            'description': body.overview,
+            'coverImage': 'http://image.tmdb.org/t/p/w400' + body.poster_path,
+            'releaseDate': new Date(body.release_date).toISOString(),
+            'runtime': body.runtime,
+            'production_companies': dataShift(body.production_companies),
+            'production_countries': dataShift(body.production_countries),
+            'tagline': body.tagline,
+        };
+    } else {
+        data = {
+            'id': body.id,
+            'title': body.name,
+            'description': body.overview,
+            'status': body.status,
+            'type': body.type,
+            'genres': dataShift(body.genres),
+            'firstAirDate': new Date(body.first_air_date).toISOString(),
+            'networks': dataShift(body.networks),
+            'episodes': body.number_of_episodes,
+            'seasons': body.number_of_seasons,
+            'country': body.origin_country,
+            'production_companies': dataShift(body.production_companies),
+            'coverImage': 'http://image.tmdb.org/t/p/w400' + body.poster_path,
+        };
+    }
+    console.log(data);
     return body;
 }
 
-function movieNormalise(data: object) {
-    return data;
-}
 
 // give search string and boolean, returns movie/tv data. Pass true for movie, false for tv 
 export async function movietvSearch(search: string, type: boolean) {
@@ -131,9 +161,32 @@ export async function movietvSearch(search: string, type: boolean) {
 
     const res = await fetch(url, options);
     const body = await res.json();
-    console.log(JSON.stringify(body.results));
-    // to do: put total results in results, sort out page numberswarf
-    return body.results;
+    // data normalisation
+    const results = body.results;
+    const newResults: object[] = [];
+    for (const i of results) {
+        let field = {};
+        if (type) {
+            field = {
+                'id': i.id,
+                'title': i.title,
+                'description': i.overview,
+            }
+        } else {
+            field = {
+                'id': i.id,
+                'title': i.name,
+                'description': i.overview,
+            }
+        }
+        newResults.push(field);
+    }
+    const data = {
+        'totalResults': body.total_results,
+        'media': newResults,
+    }
+    console.log(data);
+    return data;
 }
 
 // give anime ID, returns anime data
@@ -167,7 +220,7 @@ export async function animeFetchID(id: number) {
 export async function animeFetchSearch(name: string, pageNo: number) {
     const variables = {
         page: pageNo,
-        perPage: 10,
+        perPage: 20,
         search: name,
     };
     const url = 'https://graphql.anilist.co';
@@ -197,8 +250,9 @@ export async function animeFetchSearch(name: string, pageNo: number) {
 
 // animeFetchID(15125);
 // animeFetchSearch("Fate", 1);
-gameFetchID(501);
+// gameFetchID(501);
 // gameFetchSearch("Batman", 1);
 // movietvFetchID(99861, true);
 // movietvFetchID(456, false);
 // movietvSearch("Batman", true);
+movietvSearch("Batman", false);
