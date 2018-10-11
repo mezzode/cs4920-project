@@ -20,7 +20,7 @@ const mapDispatchToProps: MapDispatchToProps<
     OwnProps
 > = dispatch => {
     const loadProfile = async () => {
-        const res = await fetch('/profile');
+        const res = await fetch(`${process.env.REACT_APP_API_BASE}/profile`);
         if (res.ok) {
             const imageBlob = await res.blob();
             const displayImage = URL.createObjectURL(imageBlob);
@@ -33,10 +33,13 @@ const mapDispatchToProps: MapDispatchToProps<
         event.preventDefault();
         const data = new FormData(event.target as HTMLFormElement);
 
-        const res = await fetch('/update-profile-image', {
-            body: data,
-            method: 'post',
-        });
+        const res = await fetch(
+            `${process.env.REACT_APP_API_BASE}/update-profile-image`,
+            {
+                body: data,
+                method: 'post',
+            },
+        );
 
         if (res.ok) {
             const imageBlob = await res.blob();
@@ -50,10 +53,13 @@ const mapDispatchToProps: MapDispatchToProps<
         event.preventDefault();
         const data = new FormData(event.target as HTMLFormElement);
 
-        const res = await fetch('/update-password', {
-            body: data,
-            method: 'post',
-        });
+        const res = await fetch(
+            `${process.env.REACT_APP_API_BASE}/update-password`,
+            {
+                body: data,
+                method: 'post',
+            },
+        );
 
         if (res.ok) {
             dispatch(setFlashMessage());
