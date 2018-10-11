@@ -1,49 +1,27 @@
 
 -- Users
-INSERT INTO users
+INSERT INTO users(username, password, email)
 VALUES
-    (DEFAULT, 'jfu', 'foobar', 'jfu@gmail.com');
-INSERT INTO users
-VALUES
-    (DEFAULT, 'user1', 'pass1', 'user1@gmail.com');
-INSERT INTO users
-VALUES
-    (DEFAULT, 'user2', 'pass2', 'user2@gmail.com');
-INSERT INTO users
-VALUES
-    (DEFAULT, 'user3', 'pass3', 'user3@gmail.com');
-INSERT INTO users
-VALUES
-    (DEFAULT, 'user4', 'pass4', 'user4@gmail.com');
+    ('jfu', 'foobar', 'jfu@gmail.com'),
+    ('user1', 'pass1', 'user1@gmail.com'),
+    ('user2', 'pass2', 'user2@gmail.com'),
+    ('user3', 'pass3', 'user3@gmail.com'),
+    ('user4', 'pass4', 'user4@gmail.com');
 
 -- Media
-INSERT INTO media
+INSERT INTO media(api_id)
 VALUES
-    (DEFAULT, '12345');
-INSERT INTO media
+    ('12345'),
+    ('67890');
+
+INSERT INTO list(name, user_id, media_type)
 VALUES
-    (DEFAULT, '67890');
+    ('mezzode''s List', 1, 'game');
 
 -- Entry
-INSERT INTO entry
+INSERT INTO entry(media_id, category, started, finished, list_id, last_updated)
 VALUES
-    (DEFAULT, 1, 1, 'progress', 9);
-INSERT INTO entry
-VALUES
-    (DEFAULT, 2, 1, 'complete', 4);
-INSERT INTO entry
-VALUES
-    (DEFAULT, 1, 2, 'progress', 5);
-INSERT INTO entry
-VALUES
-    (DEFAULT, 2, 3, 'complete', 1);
-    
--- SELECT * FROM users;
-
-/*
-Commands:
-psql __dbname__     - load command line connected to database
-\l                  - list databases
-\d                  - show tables
-\d __tablename__    - table definition
-*/
+    (1, 'Progress', '2016', '2018', 1, now()),
+    (2, 'Complete', '2017-10-01', '2017-10-01', 1, now()),
+    (1, 'Progress', '2017-10-01', '2017-10-01', 1, now()),
+    (2, 'Complete', '2017-10', '2017-10-01', 1, now());

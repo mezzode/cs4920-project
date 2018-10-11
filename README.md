@@ -24,7 +24,6 @@ The ones you would be using most often are:
 -   `yarn start` in root, which starts the server and db.
 -   `yarn start` in `./web`, which starts the webapp.
 -   `yarn storybook` in `./web`, which starts the Storybook.
--   `yarn start:mock-api` in `./web`, which starts the mock server.
 
 Below are detailed explanations of what each script does.
 
@@ -37,6 +36,13 @@ Below are detailed explanations of what each script does.
     -   Internally this uses `docker-compose.yml` and `docker-compose.override.yml`, which sets up the containers and runs `./server`'s `yarn start`.
 -   `yarn start:prod`: Starts the `server` and `postgres` containers in prod mode.
     -   This does a full build of the server container, meaning the `./server` dir is copied into the server container and `yarn build` is run within the container, transpiling the source into JavaScript. The container will then run the transpiled source with `node build/index.js`.
+-   `yarn test`: Runs `jest` using the `test` and `postgres` containers. You can pass arguments to `jest` with this. Examples are below.
+    -   `yarn test`: Runs all tests.
+    -   `yarn test --watch`: Runs `jest` in watch mode.
+    -   `yarn test entries`: Runs tests in files whose names contain "entries".
+    -   See https://jestjs.io/docs/en/cli.html for more.
+-   `yarn test:install`: Runs `yarn` inside the `test` container.
+    -   You do not need to run this, it's just a helper for `yarn test`.
 
 ### In `./web`
 
@@ -54,9 +60,6 @@ Below are detailed explanations of what each script does.
         -   Open the command palette with `Ctrl+Shift+p`.
         -   Search for and select `Tasks: Run Task`.
         -   Select `Run lint (web)`.
--   `yarn start:mock-api`: Starts the mock server.
-    -   The mock server is served on the port as the real server.
-    -   The mock server uses `json-server`, see its docs for details.
 
 ### In `./server`
 
@@ -66,6 +69,9 @@ Below are detailed explanations of what each script does.
 -   `yarn build`: Transpiles the server source code into JavaScript in the `./server/build` directory.
     -   You should not need to run this unless you want to locally test the production build.
     -   It is run when the `server` container is built in production mode.
+-   `yarn test`: Runs `jest`.
+    -   You should not need to run this as it is run by `yarn test` in root within the server container.
+    -   While this would work outside the container, it would not be able to connect to the `postgres` container i.e. the db.
 -   `yarn lint`: Lints the whole `./server` TypeScript project.
     -   You can run this via VS Code's task runner and it will integrate with the Problems panel allowing you to jump directly to the problems.
         -   Open the command palette with `Ctrl+Shift+p`.

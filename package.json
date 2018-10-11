@@ -5,7 +5,9 @@
     "license": "AGPL-3.0-or-later",
     "scripts": {
         "start:prod": "docker-compose -f docker-compose.yml -f docker-compose.prod.yml up",
-        "start": "docker-compose up"
+        "start": "docker-compose up",
+        "test:install": "docker-compose -f docker-compose.yml -f docker-compose.test.yml run --no-deps test yarn --no-progress",
+        "test": "yarn test:install && docker-compose -f docker-compose.yml -f docker-compose.test.yml run test yarn test"
     },
     "devDependencies": {
         "rimraf": "^2.6.2"

@@ -1,12 +1,12 @@
 import { combineReducers, Reducer } from 'redux';
-import { displayedLists, DisplayedListsState } from './displayedLists';
+import { lists, ListsState } from './displayedLists';
 import { entryEditor, EntryEditorState } from './entryEditor';
 import { flashMessage, FlashMessageState } from './flashMessage';
 import { search, SearchState } from './search';
 import { user, UserState } from './user';
 
 export interface State {
-    displayedLists: DisplayedListsState;
+    lists: ListsState;
     entryEditor: EntryEditorState;
     flashMessage: FlashMessageState;
     search: SearchState;
@@ -14,9 +14,9 @@ export interface State {
 }
 
 const reducers = {
-    displayedLists,
     entryEditor,
     flashMessage,
+    lists,
     search,
     user,
 };

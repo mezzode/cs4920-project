@@ -8,12 +8,16 @@
         ]
     },
     "rules": {
-        "no-console": false, // turn back on in the end
+        "no-console": false,
         "no-empty-interface": false,
         "interface-name": [true, "never-prefix"],
-        "trailing-comma": [true, { "multiline": "always" }],
+        "trailing-comma": [
+            true,
+            { "multiline": "always", "esSpecCompliant": true }
+        ],
         "eofline": true,
         "no-any": true,
+        "no-floating-promises": [true, "Test"], // supertest.Test extends Promise
         "no-default-export": true // enforces consistent naming
     }
 }
