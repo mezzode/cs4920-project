@@ -9,6 +9,7 @@ import { Login } from './Login';
 import { NotFound } from './NotFound';
 import { PasswordReset } from './Passwordreset';
 import { Profile } from './Profile';
+import { SearchResult } from './SearchResult';
 import { SignUp } from './Signup';
 import { UserLists } from './user/Lists';
 
@@ -34,6 +35,7 @@ const ViewComponent: React.SFC<Props> = ({ auth }) => {
             <Route path="/login" component={Login} />
             <Route path="/sign-up" component={SignUp} />
             <Route path="/reset-password" component={PasswordReset} />
+            <Route path="/search" component={SearchResult} />
             <Route component={NotFound} />
         </Switch>
     );

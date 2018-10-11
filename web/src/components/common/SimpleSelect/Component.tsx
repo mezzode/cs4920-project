@@ -27,9 +27,6 @@ class RawSimpleSelect extends React.Component<Props, State> {
                     name: this.props.name,
                 }}
             >
-                <MenuItem value={'All'}>
-                    <em>All</em>
-                </MenuItem>
                 <MenuItem value={'Anime'}>Anime</MenuItem>
                 <MenuItem value={'Movie'}>Movie</MenuItem>
                 <MenuItem value={'TV show'}>TV show</MenuItem>

@@ -11,6 +11,14 @@ const mapDispatchToProps: MapDispatchToProps<
         event.preventDefault();
         const data = new FormData(event.target as HTMLFormElement);
 
+        // toDo output Flash message if user did not select it
+        if (data.get('media-type') === '') {
+            return;
+        }
+
+        if (data.get('searchString') === '') {
+            return;
+        }
         const res = await fetch('https://jsonplaceholder.typicode.com/todos/1');
         if (res.ok) {
             console.log('search string is');
