@@ -15,8 +15,8 @@ const mapDispatchToProps: MapDispatchToProps<
         if (res.ok) {
             console.log('search string is');
             console.log(data.get('searchString'));
-            console.log('genre is');
-            console.log(data.get('genre'));
+            console.log('searchMediaType is');
+            console.log(data.get('mediaType'));
             dispatch(setSearch({ search: data.get('searchString') as string }));
             console.log(JSON.stringify(res.json()));
             res.json();

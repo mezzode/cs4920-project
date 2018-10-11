@@ -41,11 +41,11 @@ class RawSimpleSelect extends React.Component<Props2, State2> {
                 value={this.state.name}
                 onChange={this.handleChange}
                 displayEmpty={true}
-                name="genre"
+                name="searchMediaType"
                 className={this.props.classes.selectEmpty}
             >
-                <MenuItem value="">
-                    <em>None</em>
+                <MenuItem value={'All'}>
+                    <em>All</em>
                 </MenuItem>
                 <MenuItem value={'Anime'}>Anime</MenuItem>
                 <MenuItem value={'Movie'}>Movie</MenuItem>
@@ -57,9 +57,6 @@ class RawSimpleSelect extends React.Component<Props2, State2> {
 
 const SimpleSelect = withStyles(styles)(RawSimpleSelect);
 
-// yeah just gonna go with it
-// let me check if this is most legit one sec
-// kk
 const RawSearch: React.SFC<Props> = ({ classes, handleSearch }) => (
     <>
         <form>
@@ -73,32 +70,8 @@ const RawSearch: React.SFC<Props> = ({ classes, handleSearch }) => (
                 <SearchIcon />
             </IconButton>
             <FormControl>
-                <Select name="mediaType">
-                    <MenuItem value={'All'}>
-                        <em>None</em>
-                    </MenuItem>
-                    <MenuItem value={'All'}>All</MenuItem>
-                    <MenuItem value={'Anime'}>Anime</MenuItem>
-                    <MenuItem value={'Games'}>Games</MenuItem>
-                    <MenuItem value={'Shows'}>Shows</MenuItem>
-                </Select>
+                <SimpleSelect />
             </FormControl>
-            <FormControl>
-                <Select displayEmpty={true} name="age">
-                    <MenuItem value="">
-                        <em>None</em>
-                    </MenuItem>
-                    <MenuItem value={10}>Ten</MenuItem>
-                    <MenuItem value={20}>Twenty</MenuItem>
-                    <MenuItem value={30}>Thirty</MenuItem>
-                </Select>
-            </FormControl>
-            <select>
-                <option value="All">All</option>
-                <option value="Anime">Anime</option>
-                <option value="Games">Games</option>
-                <option value="Shows">Shows</option>
-            </select>
             <Input
                 name="searchString"
                 placeholder="Search"
