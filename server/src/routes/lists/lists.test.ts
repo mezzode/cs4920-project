@@ -34,7 +34,7 @@ describe('Test lists endpoints', () => {
             const { body } = res;
             expect(body).toBeDefined();
             expect(body.name).toEqual("mezzode's List");
-            expect(body.entries).toHaveLength(entries.length);
+            expect(body.entries.length).toEqual(entries.length);
             body.entries.forEach((entry: { listCode: string }) => {
                 expect(entry.listCode).toEqual(listCode);
             });
