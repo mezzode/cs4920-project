@@ -1,5 +1,6 @@
 import { WithStyles } from '@material-ui/core';
-import { History } from 'history';
+// import { History } from 'history';
+import { RouteComponentProps } from 'react-router-dom';
 import { styles } from './styles';
 
 export interface Props
@@ -11,8 +12,12 @@ export interface DispatchProps {
     handleSearch: React.FormEventHandler;
 }
 
-export interface OwnProps {
-    history: History;
+interface Params {}
+
+export interface OwnProps extends RouteComponentProps<Params> {
+    // history: History;
+    // location: Location;
+    // match: Match;
 }
 
 export interface StateProps {}

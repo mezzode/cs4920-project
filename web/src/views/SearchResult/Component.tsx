@@ -1,5 +1,5 @@
 import {
-    Button,
+    // Button,
     Table,
     TableBody,
     TableCell,
@@ -10,7 +10,6 @@ import {
 import { createStyles, withStyles } from '@material-ui/core/styles';
 import * as React from 'react';
 import { Link } from 'react-router-dom';
-import { search } from '../../reducers/search';
 import { Props } from './types';
 
 export const styles = createStyles({
@@ -20,41 +19,44 @@ export const styles = createStyles({
 });
 
 class RawSearchResult extends React.Component<Props> {
-// const RawSearchResult: React.SFC<Props> = ({
-    classes,
-    searchResults,
-    handleClick,
-    loadSearchResults,
-}) => (
-    <Table>
-        <TableHead>
-            <TableRow className={classes.header}>
-                <TableCell>Title</TableCell>
-                <TableCell>Description</TableCell>
-                <TableCell />
-            </TableRow>
-        </TableHead>
-        <TableBody>
-            {searchResults.map(searchResult => (
-                <TableRow key={searchResult.id}>
-                    <TableCell component="th" scope="row">
-                        <Link
-                            to={`/media/${searchResult.id}/${
-                                searchResult.mediaType
-                            }`}
-                        >
-                            <Typography variant="body1" onClick={handleClick}>
-                                {searchResult.title}
-                            </Typography>
-                        </Link>
-                        <Typography variant="body1">
-                            {searchResult.description}
-                        </Typography>
-                    </TableCell>
-                </TableRow>
-            ))}
-        </TableBody>
-    </Table>
-);
+    public componentDidMount() {
+        this.props.loadSearchResults();
+    }
+
+    public render() {
+        const { classes, searchResults } = this.props;
+        return (
+            <Table>
+                <TableHead>
+                    <TableRow className={classes.header}>
+                        <TableCell>Title</TableCell>
+                        <TableCell>Description</TableCell>
+                        <TableCell />
+                    </TableRow>
+                </TableHead>
+                <TableBody>
+                    {searchResults.map(searchResult => (
+                        <TableRow key={searchResult.id}>
+                            <TableCell component="th" scope="row">
+                                <Link
+                                    to={`/media/${searchResult.id}/${
+                                        searchResult.mediaType
+                                    }`}
+                                >
+                                    <Typography variant="body1">
+                                        {searchResult.title}
+                                    </Typography>
+                                </Link>
+                                <Typography variant="body1">
+                                    {searchResult.description}
+                                </Typography>
+                            </TableCell>
+                        </TableRow>
+                    ))}
+                </TableBody>
+            </Table>
+        );
+    }
+}
 
 export const SearchResultComponent = withStyles(styles)(RawSearchResult);

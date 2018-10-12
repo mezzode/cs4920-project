@@ -1,4 +1,5 @@
 import { connect, MapDispatchToProps } from 'react-redux';
+import { withRouter } from 'react-router';
 // import { setSearch } from '../../actions/search';
 import { SearchComponent } from './Component';
 import { DispatchProps, OwnProps } from './types';
@@ -37,7 +38,9 @@ const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = (
     };
 };
 
-export const SearchContainer = connect(
-    null,
-    mapDispatchToProps,
-)(SearchComponent);
+export const SearchContainer = withRouter(
+    connect(
+        null,
+        mapDispatchToProps,
+    )(SearchComponent),
+);

@@ -1,4 +1,5 @@
 import { WithStyles } from '@material-ui/core';
+import { RouteComponentProps } from 'react-router';
 import { styles } from './styles';
 
 export interface SearchResultMedia {
@@ -14,7 +15,14 @@ export interface Props extends WithStyles<typeof styles>, DispatchProps {
 }
 
 export interface DispatchProps {
-    handleClick: () => void;
     loadSearchResults: () => void;
 }
-export interface OwnProps {}
+
+interface Params {
+    searchString: string;
+    mediaType: string;
+}
+
+export interface OwnProps extends RouteComponentProps<Params> {}
+
+export interface StateProps {}

@@ -1,6 +1,6 @@
 import { connect, MapDispatchToProps, MapStateToProps } from 'react-redux';
-import { setFlashMessage } from '../../actions/flashMessage';
-import { setSearchResult } from '../../actions/searchResult';
+// import { setFlashMessage } from '../../actions/flashMessage';
+import { setMedias } from '../../actions/media';
 import { State } from '../../reducers/index';
 import { SearchResultComponent } from './Component';
 import { DispatchProps, OwnProps, StateProps } from './types';
@@ -10,6 +10,7 @@ const mapStateToProps: MapStateToProps<
     OwnProps,
     State
 > = state => ({
+    searchResults: state.media.medias,
     showFail: state.flashMessage.showFlashMessage,
 });
 
@@ -18,12 +19,14 @@ const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = (
     { match },
 ) => {
     const loadSearchResults = async () => {
-        const { searchString, mediaType } = match.params;
+        // const { searchString, mediaType } = match.params;
         const res = await fetch('https://jsonplaceholder.typicode.com/todos/1');
         if (res.ok) {
-            dispatch(setSearchResult(searchString, mediaType));
+            const contents = await res.json();
+            dispatch(setMedias(contents));
         }
     };
+
     // const handleClick = async event => {
     //     const res = await fetch(`api-url`, {
     //         body: data,
@@ -52,5 +55,5 @@ const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = (
 
 export const SearchResultContainer = connect(
     mapStateToProps,
-    // mapDispatchToProps,
+    mapDispatchToProps,
 )(SearchResultComponent);
