@@ -31,14 +31,14 @@ storiesOf('Lists', module)
                 {
                     entries: [
                         {
-                            entryId: 'a',
+                            entryCode: 'a',
                             finished: '2016/01/13',
                             lastUpdated: '2018/09/15 19:01',
-                            listId: 'a',
+                            listCode: 'a',
                             media: {
                                 artUrl:
                                     'https://78.media.tumblr.com/4f30940e947b58fb57e2b8499f460acb/tumblr_okccrbpkDY1rb48exo1_1280.jpg',
-                                mediaId: 'a',
+                                mediaCode: 'a',
                                 title: 'Danganronpa',
                             },
                             progress: '50 hrs',
@@ -46,14 +46,14 @@ storiesOf('Lists', module)
                             started: '2016/01/10',
                         },
                         {
-                            entryId: 'b',
+                            entryCode: 'b',
                             finished: '2017/01/13',
                             lastUpdated: '2018/09/15 19:01',
-                            listId: 'a',
+                            listCode: 'a',
                             media: {
                                 artUrl:
                                     'https://78.media.tumblr.com/4f30940e947b58fb57e2b8499f460acb/tumblr_okccrbpkDY1rb48exo1_1280.jpg',
-                                mediaId: 'b',
+                                mediaCode: 'b',
                                 title: 'Danganronpa 2: Goodbye Despair',
                             },
                             progress: '50 hrs',
@@ -61,14 +61,14 @@ storiesOf('Lists', module)
                             started: '2017/01/10',
                         },
                         {
-                            entryId: 'c',
+                            entryCode: 'c',
                             finished: '2018/01/13',
                             lastUpdated: '2018/09/15 19:01',
-                            listId: 'a',
+                            listCode: 'a',
                             media: {
                                 artUrl:
                                     'https://78.media.tumblr.com/4f30940e947b58fb57e2b8499f460acb/tumblr_okccrbpkDY1rb48exo1_1280.jpg',
-                                mediaId: 'c',
+                                mediaCode: 'c',
                                 title: 'Danganronpa V3: Killing Harmony',
                             },
                             progress: '50 hrs',
@@ -76,21 +76,21 @@ storiesOf('Lists', module)
                             started: '2018/01/10',
                         },
                     ],
-                    id: 'a',
+                    listCode: 'a',
                     name: 'Games',
-                    slug: 'games',
+                    username: 'mezzode',
                 },
                 {
                     entries: [
                         {
-                            entryId: 'd',
+                            entryCode: 'd',
                             finished: '2018/01/13',
                             lastUpdated: '2018/09/15 19:01',
-                            listId: 'b',
+                            listCode: 'b',
                             media: {
                                 artUrl:
                                     'https://78.media.tumblr.com/4f30940e947b58fb57e2b8499f460acb/tumblr_okccrbpkDY1rb48exo1_1280.jpg',
-                                mediaId: 'asdf',
+                                mediaCode: 'asdf',
                                 title: 'Rainbow 6: Siege',
                             },
                             progress: '50 hrs',
@@ -98,9 +98,9 @@ storiesOf('Lists', module)
                             started: '2018/01/10',
                         },
                     ],
-                    id: 'b',
+                    listCode: 'b',
                     name: 'Multiplayer Games',
-                    slug: 'multiplayer-games',
+                    username: 'mezzode',
                 },
             ];
 

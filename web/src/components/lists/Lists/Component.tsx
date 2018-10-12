@@ -26,7 +26,7 @@ interface Props extends WithStyles<typeof styles> {
 const RawLists: React.SFC<Props> = ({ classes, lists }) => (
     <>
         {lists.map(list => (
-            <ExpansionPanel key={list.id}>
+            <ExpansionPanel key={list.listCode}>
                 <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
                     <Typography>{list.name}</Typography>
                 </ExpansionPanelSummary>

@@ -5,7 +5,7 @@ import {
     updateEntryEdit,
 } from '../../../actions/entry';
 import { State } from '../../../reducers/index';
-import { Entry } from '../../../types';
+import { Entry, UserEntry } from '../../../types';
 import { EntryEditorComponent } from './Component';
 import { DispatchProps, OwnProps, StateProps } from './types';
 
@@ -32,15 +32,25 @@ const mapDispatchToProps: MapDispatchToProps<
             }),
         );
 
-    const handleSave = async () => {
-        // TODO: consider make this its own thunk
+    const handleSave = (
+        entryCode: string,
+        entryEdit: Partial<UserEntry>,
+    ) => async () => {
+        // TODO: consider making this its own thunk
         dispatch(saveEntryEdit.started());
         try {
-            const res = await fetch('/lists');
-            if (res.status > 400) {
-                throw new Error(
-                    `Server error: ${res.status} ${res.statusText}`,
-                );
+            const res = await fetch(
+                `${process.env.REACT_APP_API_BASE}/entry/${entryCode}`,
+                {
+                    body: JSON.stringify(entryEdit),
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    method: 'POST',
+                },
+            );
+            if (res.status >= 400) {
+                throw new Error(`${res.status} ${res.statusText}`);
             }
             const result = (await res.json()) as Entry;
             dispatch(saveEntryEdit.done({ result }));

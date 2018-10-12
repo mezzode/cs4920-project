@@ -12,6 +12,7 @@ import { connect, MapDispatchToProps, MapStateToProps } from 'react-redux';
 import { Redirect, RouteComponentProps } from 'react-router';
 import { Action } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
+import slugify from 'slugify';
 import { loadList } from '../actions/list';
 import { Nav } from '../components/common/Nav';
 import { EntryEditor } from '../components/lists/EntryEditor';
@@ -64,7 +65,7 @@ interface Params {
 interface OwnProps extends RouteComponentProps<Params> {}
 
 interface StateProps {
-    list?: EntryList;
+    list: EntryList | null;
 }
 
 interface DispatchProps {
@@ -81,7 +82,7 @@ const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (
     state,
     { match },
 ) => ({
-    list: state.displayedLists[match.params.listId],
+    list: state.lists && state.lists[match.params.listId],
 });
 
 const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = (
@@ -100,30 +101,37 @@ export const ListPage = connect(
     withStyles(styles)(
         class extends React.Component<Props> {
             public componentDidMount() {
+                // only load on mount so redirecting to correct slug doesnt load again
                 this.props.loadList();
             }
 
             public render() {
                 const { list, classes, match } = this.props;
                 let content = null;
-                if (list === undefined) {
+                if (list === null) {
                     content = (
                         <Typography variant="display3">Loading</Typography>
                     );
-                } else if (match.params.slug !== list.slug) {
-                    content = <Redirect to={`/list/${list.id}/${list.slug}`} />;
                 } else {
-                    content = (
-                        <Card className={classes.paper}>
-                            <CardHeader title={list.name}>
-                                <Typography variant="display3">
-                                    {list.name}
-                                </Typography>
-                            </CardHeader>
-                            <List entries={list.entries} />
-                            <EntryEditor />
-                        </Card>
-                    );
+                    const { name, entries, listCode } = list;
+                    const canonSlug = slugify(name, { lower: true });
+                    if (match.params.slug === canonSlug) {
+                        content = (
+                            <Card className={classes.paper}>
+                                <CardHeader title={name}>
+                                    <Typography variant="display3">
+                                        {name}
+                                    </Typography>
+                                </CardHeader>
+                                <List entries={entries} />
+                                <EntryEditor />
+                            </Card>
+                        );
+                    } else {
+                        content = (
+                            <Redirect to={`/list/${listCode}/${canonSlug}`} />
+                        );
+                    }
                 }
                 return (
                     <>
