@@ -10,6 +10,7 @@ services:
             - node_modules:/usr/src/app/server/node_modules
         environment:
             DB_HOST: postgres:5432
+        env_file: .env
     postgres:
         image: cs4920-postgres:prod
         build:

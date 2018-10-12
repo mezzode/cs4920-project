@@ -233,4 +233,4 @@ export async function animeFetchSearch(name: string, pageNo: number) {
 // movietvFetchID(456, MovieTvType.TV);
 // movietvSearch("Batman", MovieTvType.Movie);
 // movietvSearch("Batman", MovieTvType.TV);
-console.log(process.env);
+console.log(process.env.GAMEKEY);
