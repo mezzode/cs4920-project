@@ -15,5 +15,6 @@ export interface Props extends WithStyles<typeof styles>, DispatchProps {
 
 export interface DispatchProps {
     handleClick: () => void;
+    loadSearchResults: () => void;
 }
 export interface OwnProps {}

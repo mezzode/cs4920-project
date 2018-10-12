@@ -19,10 +19,12 @@ export const styles = createStyles({
     },
 });
 
-const RawSearchResult: React.SFC<Props> = ({
+class RawSearchResult extends React.Component<Props> {
+// const RawSearchResult: React.SFC<Props> = ({
     classes,
     searchResults,
     handleClick,
+    loadSearchResults,
 }) => (
     <Table>
         <TableHead>
