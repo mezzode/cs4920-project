@@ -65,7 +65,9 @@ const getList = asyncHandler(async (req, res) => {
 });
 
 const newList = asyncHandler(async (req, res) => {
-    const userId = 1; // TODO: get from auth
+    // TODO: get user details from auth token
+    const userId = 1;
+    const username = 'jfu';
     const {
         name,
         mediaType,
@@ -85,6 +87,7 @@ const newList = asyncHandler(async (req, res) => {
         listCode,
         ...inserted,
         entries: [],
+        username,
     });
 });
 

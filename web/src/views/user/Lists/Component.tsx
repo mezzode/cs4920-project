@@ -3,11 +3,12 @@ import { createStyles, withStyles } from '@material-ui/core/styles';
 import { isWidthDown } from '@material-ui/core/withWidth';
 import AddIcon from '@material-ui/icons/Add';
 import * as React from 'react';
+import { Redirect } from 'react-router';
 import { Nav } from '../../../components/common/Nav/index';
 import { EntryEditor } from '../../../components/lists/EntryEditor/index';
 import { ListCreator } from '../../../components/lists/ListCreator';
 import { Lists } from '../../../components/lists/Lists';
-import { NewEntryList } from '../../../types';
+import { isMediaType, MediaType, NewEntryList } from '../../../types';
 import { Props, State } from './types';
 
 // TODO: fiddle with styling
@@ -41,7 +42,17 @@ export const UserListsComponent = withWidth()(
             }
 
             public render() {
-                const { lists, classes, editable, width } = this.props;
+                const { lists, classes, editable, width, match } = this.props;
+                const mediaType = {
+                    anime: MediaType.Anime,
+                    games: MediaType.Game,
+                    movies: MediaType.Movie,
+                    shows: MediaType.Show,
+                }[match.params.mediaType];
+
+                if (!isMediaType(mediaType)) {
+                    return <Redirect to={`/user/${match.params.username}`} />;
+                }
 
                 const button = isWidthDown('sm', width) ? (
                     <Button
@@ -86,6 +97,7 @@ export const UserListsComponent = withWidth()(
                                         open={createOpen}
                                         submit={this.createSubmit}
                                         handleCancel={this.createClose}
+                                        mediaType={mediaType}
                                     />
                                 </>
                             )}

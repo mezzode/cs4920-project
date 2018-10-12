@@ -4,7 +4,6 @@ import {
     DialogActions,
     DialogContent,
     DialogTitle,
-    MenuItem,
     TextField,
     withWidth,
 } from '@material-ui/core';
@@ -21,30 +20,23 @@ interface Props extends WithStyles<typeof styles>, WithWidth {
     handleCancel: () => void;
     submit: (newList: NewEntryList) => void;
     open: boolean;
+    mediaType: MediaType;
 }
 
 interface State {
     name: string;
-    mediaType: MediaType | null;
 }
 
 export const ListCreator = withWidth()(
     withStyles(styles)(
         class extends React.Component<Props, State> {
             public state: State = {
-                mediaType: null,
                 name: '',
             };
 
             public render() {
                 const { width, handleCancel, open } = this.props;
-                const { name, mediaType } = this.state;
-                const typeItems = {
-                    Anime: MediaType.Anime,
-                    Games: MediaType.Game,
-                    Movie: MediaType.Movie,
-                    Show: MediaType.Show,
-                };
+                const { name } = this.state;
                 return (
                     <Dialog
                         open={open}
@@ -66,30 +58,12 @@ export const ListCreator = withWidth()(
                                     onChange={this.handleInput}
                                     variant="outlined"
                                 />
-                                <TextField
-                                    id="mediaType"
-                                    name="mediaType"
-                                    select={true}
-                                    label="Type"
-                                    // className={classes.textField}
-                                    value={mediaType || ''}
-                                    onChange={this.handleInput}
-                                    helperText="List type cannot be edited later"
-                                    margin="dense"
-                                    variant="outlined"
-                                >
-                                    {Object.keys(typeItems).map(k => (
-                                        <MenuItem key={k} value={typeItems[k]}>
-                                            {k}
-                                        </MenuItem>
-                                    ))}
-                                </TextField>
                             </DialogContent>
                             <DialogActions>
                                 <Button color="primary" onClick={handleCancel}>
                                     Cancel
                                 </Button>
-                                {name.length > 0 && mediaType !== null ? (
+                                {name.length > 0 ? (
                                     <Button
                                         color="primary"
                                         onClick={this.handleSubmit}
@@ -128,8 +102,9 @@ export const ListCreator = withWidth()(
             };
 
             private handleSubmit = () => {
-                const { name, mediaType } = this.state;
-                if (name.length === 0 || mediaType === null) {
+                const { name } = this.state;
+                const { mediaType } = this.props;
+                if (name.length === 0) {
                     throw new Error('Invalid');
                 }
                 this.props.submit({ name, mediaType });
