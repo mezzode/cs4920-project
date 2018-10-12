@@ -18,7 +18,7 @@
 // interface Props {
 //     classes: {};
 //     count: number;
-//     onChangePage: React.EventHandler<any>;
+//     onChangePage: (event: React.EventHandler<any>, page: number) => void;
 //     page: number;
 //     rowsPerPage: number;
 //     theme: {};
@@ -29,19 +29,19 @@
 //         super(props);
 //     }
 
-//     public handleFirstPageButtonClick: React.EventHandler = event => {
+//     public handleFirstPageButtonClick: React.EventHandler<any> = event => {
 //         this.props.onChangePage(event, 0);
 //     };
 
-//     public handleBackButtonClick = event => {
+//     public handleBackButtonClick: React.EventHandler<any> = event => {
 //         this.props.onChangePage(event, this.props.page - 1);
 //     };
 
-//     public handleNextButtonClick = event => {
+//     public handleNextButtonClick: React.EventHandler<any> = event => {
 //         this.props.onChangePage(event, this.props.page + 1);
 //     };
 
-//     public handleLastPageButtonClick = event => {
+//     public handleLastPageButtonClick: React.EventHandler<any> = event => {
 //         this.props.onChangePage(
 //             event,
 //             Math.max(
