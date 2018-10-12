@@ -3,7 +3,9 @@ import {
     Table,
     TableBody,
     TableCell,
+    TableFooter,
     TableHead,
+    TablePagination,
     TableRow,
     Typography,
 } from '@material-ui/core';
@@ -54,6 +56,19 @@ class RawSearchResult extends React.Component<Props> {
                         </TableRow>
                     ))}
                 </TableBody>
+                <TableFooter>
+                    <TableRow>
+                        <TablePagination
+                            colSpan={3}
+                            count={rows.length}
+                            rowsPerPage={rowsPerPage}
+                            page={page}
+                            onChangePage={this.handleChangePage}
+                            onChangeRowsPerPage={this.handleChangeRowsPerPage}
+                            ActionsComponent={TablePaginationActionsWrapped}
+                        />
+                    </TableRow>
+                </TableFooter>
             </Table>
         );
     }
