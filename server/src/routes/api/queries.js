@@ -47,11 +47,6 @@ exports.searchA = `query ($page: Int, $perPage: Int, $search: String) {
 }
 `;
 
-exports.apiKeys = {
-  'gameKey': '79769a8f06d18985b556a6168b26fbe5',
-  'filmKey': '60499dc6462cce225388f95c2412a563'
-};
-
 exports.gameFetchQuery = function (id) {
   return {
     ids: [id],

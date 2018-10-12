@@ -11,7 +11,7 @@ interface Subset {
     description: string;
 }
 
-const client = igdb(queries.apiKeys.gameKey);
+const client = igdb(process.env.GAMEKEY);
 
 // give game ID, returns game data
 export async function gameFetchID(id: number) {
@@ -81,7 +81,7 @@ enum MovieTvType {
 
 // give movie/tv id and boolean, returns movie/tv data. Pass true for movie, false for tv 
 export async function movietvFetchID(id: number, type: MovieTvType) {
-    const url = `https://api.themoviedb.org/3/${type}/${id}?api_key=${queries.apiKeys.filmKey}`;
+    const url = `https://api.themoviedb.org/3/${type}/${id}?api_key=${process.env.FILMKEY}`;
     const options = { method: 'GET' };
     const res = await fetch(url, options);
     const body = await res.json();
@@ -126,7 +126,7 @@ export async function movietvFetchID(id: number, type: MovieTvType) {
 // give search string and boolean, returns movie/tv data. Pass true for movie, false for tv 
 export async function movietvSearch(search: string, type: MovieTvType) {
     const term = search.replace(' ', '+');
-    const url = `https://api.themoviedb.org/3/search/${type}/?api_key=${queries.apiKeys.filmKey}&query=${term}`;
+    const url = `https://api.themoviedb.org/3/search/${type}/?api_key=${process.env.FILMKEY}&query=${term}`;
     const options = { method: 'GET' };
 
     const res = await fetch(url, options);
@@ -233,3 +233,4 @@ export async function animeFetchSearch(name: string, pageNo: number) {
 // movietvFetchID(456, MovieTvType.TV);
 // movietvSearch("Batman", MovieTvType.Movie);
 // movietvSearch("Batman", MovieTvType.TV);
+console.log(process.env);
