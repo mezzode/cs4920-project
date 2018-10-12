@@ -30,7 +30,7 @@ const RawSearch: React.SFC<Props> = ({ classes, handleSearch }) => (
                 />
             </div>
             <FormControl className={classes.formControl}>
-                <InputLabel htmlFor="media-type">Media type</InputLabel>
+                <InputLabel htmlFor="mediaType">Media type</InputLabel>
                 <SimpleSelect name={'mediaType'} />
             </FormControl>
         </form>

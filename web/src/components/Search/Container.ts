@@ -13,7 +13,8 @@ const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = (
         const data = new FormData(event.target as HTMLFormElement);
 
         // toDo output Flash message if user did not select it
-        const mediaType = data.get('media-type');
+        // TODO tolower and slugify
+        const mediaType = data.get('mediaType');
         const searchString = data.get('searchString');
         if (mediaType === '' || searchString === '') {
             return;

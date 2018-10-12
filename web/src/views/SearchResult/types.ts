@@ -14,6 +14,10 @@ export interface Props extends WithStyles<typeof styles>, DispatchProps {
     searchResults: SearchResultMedia[];
 }
 
+export interface State {
+    page: number;
+}
+
 export interface DispatchProps {
     loadSearchResults: () => void;
 }

@@ -23,7 +23,7 @@ class RawSimpleSelect extends React.Component<Props, State> {
                 value={this.state.name}
                 onChange={this.handleChange}
                 inputProps={{
-                    id: 'media-type',
+                    id: 'mediaType',
                     name: this.props.name,
                 }}
             >
