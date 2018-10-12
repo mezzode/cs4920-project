@@ -32,13 +32,26 @@ export interface EntryList {
     listCode: string;
     username: string;
     name: string;
+    mediaType: MediaType;
 }
 
-export enum MediaType {
-    games = 'games',
-    shows = 'shows',
-    movies = 'movies',
+export interface NewEntryList {
+    name: string;
+    mediaType: MediaType;
 }
+
+// TODO: common types
+export enum MediaType {
+    Game = 'game',
+    Show = 'show',
+    Movie = 'movie',
+    Anime = 'anime',
+}
+
+export const isMediaType = (s: string): s is MediaType =>
+    Object.keys(MediaType)
+        .map(k => MediaType[k])
+        .filter(t => t === s).length === 1;
 
 export interface ListsMap {
     [listCode: string]: EntryList;

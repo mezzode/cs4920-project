@@ -73,16 +73,18 @@ const newList = asyncHandler(async (req, res) => {
     const { listId, ...inserted } = await db.one<{
         name: string;
         listId: number;
+        mediaType: MediaType;
     }>(
         `INSERT INTO list(name, user_id, media_type)
         VALUES ($(name), $(userId), $(mediaType))
-        RETURNING name, id AS "listId"`,
+        RETURNING name, id AS "listId", media_type AS "mediaType"`,
         { userId, name, mediaType },
     );
     const listCode = hashids.encode(listId);
     res.json({
         listCode,
         ...inserted,
+        entries: [],
     });
 });
 

@@ -1,7 +1,7 @@
 import { Reducer } from 'redux';
 import { reducerWithInitialState } from 'typescript-fsa-reducers';
 import { saveEntryEdit } from '../actions/entry';
-import { getLists } from '../actions/list';
+import { createList, getLists } from '../actions/list';
 import { Entry, EntryList, ListsMap } from '../types';
 
 export type ListsState = ListsMap | null;
@@ -29,4 +29,12 @@ export const lists: Reducer<ListsState> = reducerWithInitialState<ListsState>(
             },
     )
     .case(getLists.done, (state, { result }) => result)
-    .case(getLists.started, state => null); // may not be a good idea
+    .case(getLists.started, state => null) // may not be a good idea
+    .case(
+        createList.done,
+        (state, { result }) =>
+            state && {
+                ...state,
+                [result.listCode]: result,
+            },
+    );

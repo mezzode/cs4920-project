@@ -4,7 +4,7 @@ import { storiesOf } from '@storybook/react';
 import * as React from 'react';
 import { MemoryRouter } from 'react-router';
 import { theme } from '../../../App';
-import { EntryList } from '../../../types';
+import { EntryList, MediaType } from '../../../types';
 import { Lists } from './Component';
 
 const lists: EntryList[] = [
@@ -57,6 +57,7 @@ const lists: EntryList[] = [
             },
         ],
         listCode: 'a',
+        mediaType: MediaType.Game,
         name: 'Games',
         username: 'mezzode',
     },
@@ -79,6 +80,7 @@ const lists: EntryList[] = [
             },
         ],
         listCode: 'b',
+        mediaType: MediaType.Game,
         name: 'Multiplayer Games',
         username: 'mezzode',
     },

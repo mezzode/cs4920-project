@@ -1,13 +1,14 @@
 import { Button, Grid, Theme, Typography, withWidth } from '@material-ui/core';
 import { createStyles, withStyles } from '@material-ui/core/styles';
+import { isWidthDown } from '@material-ui/core/withWidth';
 import AddIcon from '@material-ui/icons/Add';
 import * as React from 'react';
 import { Nav } from '../../../components/common/Nav/index';
 import { EntryEditor } from '../../../components/lists/EntryEditor/index';
-
-import { isWidthDown } from '@material-ui/core/withWidth';
+import { ListCreator } from '../../../components/lists/ListCreator';
 import { Lists } from '../../../components/lists/Lists';
-import { Props } from './types';
+import { NewEntryList } from '../../../types';
+import { Props, State } from './types';
 
 // TODO: fiddle with styling
 export const styles = (theme: Theme) =>
@@ -30,7 +31,11 @@ export const styles = (theme: Theme) =>
 
 export const UserListsComponent = withWidth()(
     withStyles(styles)(
-        class extends React.Component<Props> {
+        class extends React.Component<Props, State> {
+            public state: State = {
+                createOpen: false,
+            };
+
             public componentDidMount() {
                 this.props.loadLists();
             }
@@ -43,6 +48,7 @@ export const UserListsComponent = withWidth()(
                         variant="fab"
                         className={classes.fab}
                         color="primary"
+                        onClick={this.createOpen}
                     >
                         <AddIcon />
                     </Button>
@@ -51,6 +57,7 @@ export const UserListsComponent = withWidth()(
                         variant="extendedFab"
                         className={classes.extendedFab}
                         color="primary"
+                        onClick={this.createOpen}
                     >
                         <AddIcon />
                         New List
@@ -68,12 +75,18 @@ export const UserListsComponent = withWidth()(
                         <Typography variant="display3">No lists</Typography>
                     );
                 } else {
+                    const { createOpen } = this.state;
                     content = (
                         <>
                             {editable && (
                                 <>
                                     {button}
                                     <EntryEditor />
+                                    <ListCreator
+                                        open={createOpen}
+                                        submit={this.createSubmit}
+                                        handleCancel={this.createClose}
+                                    />
                                 </>
                             )}
                             <Lists lists={lists} editable={editable} />
@@ -97,6 +110,23 @@ export const UserListsComponent = withWidth()(
                     </>
                 );
             }
+
+            private createOpen = () => {
+                this.setState({ createOpen: true });
+            };
+
+            private createSubmit = async (newList: NewEntryList) => {
+                const result = await this.props.createList(newList);
+                if (result !== null) {
+                    this.setState({ createOpen: false });
+                } else {
+                    // TODO: add error message
+                }
+            };
+
+            private createClose = () => {
+                this.setState({ createOpen: false });
+            };
         },
     ),
 );

@@ -6,13 +6,17 @@ import { actionCreatorFactory } from 'typescript-fsa';
 import { State } from '../reducers/index';
 import { EntryList } from '../types';
 
-const actionCreator = actionCreatorFactory('LIST_DISPLAY');
+const actionCreator = actionCreatorFactory('LIST');
 
-interface ListGetResult {
+interface ListsMap {
     [listCode: string]: EntryList;
 }
 
-export const getLists = actionCreator.async<void, ListGetResult, string>('GET');
+export const getLists = actionCreator.async<void, ListsMap, string>('GET');
+
+export const createList = actionCreator.async<void, EntryList, string>(
+    'CREATE',
+);
 
 export const loadList: (
     listId: string,

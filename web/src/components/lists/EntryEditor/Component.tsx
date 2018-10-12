@@ -48,6 +48,7 @@ const RawEntryEditor: React.SFC<Props> = ({
                             sm={7}
                         >
                             <TextField
+                                variant="outlined"
                                 margin="dense"
                                 id="rating"
                                 label="Rating"
@@ -57,6 +58,7 @@ const RawEntryEditor: React.SFC<Props> = ({
                             />
                             {/* TODO: date input restrictions/formatter */}
                             <TextField
+                                variant="outlined"
                                 margin="dense"
                                 id="started"
                                 label="Started"
@@ -65,6 +67,7 @@ const RawEntryEditor: React.SFC<Props> = ({
                                 onInput={handleInput}
                             />
                             <TextField
+                                variant="outlined"
                                 margin="dense"
                                 id="finished"
                                 label="Finished"
@@ -73,6 +76,7 @@ const RawEntryEditor: React.SFC<Props> = ({
                                 onInput={handleInput}
                             />
                             <TextField
+                                variant="outlined"
                                 margin="dense"
                                 id="progress"
                                 label="Progress"
