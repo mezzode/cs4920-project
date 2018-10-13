@@ -35,18 +35,24 @@ export const ListCreator = withWidth()(
             };
 
             public render() {
-                const { width, handleCancel, open } = this.props;
+                const { width, open, mediaType } = this.props;
                 const { name } = this.state;
+                const displayType = {
+                    [MediaType.Game]: 'Game',
+                    [MediaType.Anime]: 'Anime',
+                    [MediaType.Show]: 'Show',
+                    [MediaType.Movie]: 'Movie',
+                }[mediaType];
                 return (
                     <Dialog
                         open={open}
                         aria-labelledby="form-dialog-title"
-                        fullWidth={true}
+                        fullWidth={false}
                         fullScreen={isWidthDown('sm', width)}
                     >
                         <>
                             <DialogTitle id="form-dialog-title">
-                                New List
+                                New {displayType} List
                             </DialogTitle>
                             <DialogContent>
                                 <TextField
@@ -60,7 +66,10 @@ export const ListCreator = withWidth()(
                                 />
                             </DialogContent>
                             <DialogActions>
-                                <Button color="primary" onClick={handleCancel}>
+                                <Button
+                                    color="primary"
+                                    onClick={this.handleCancel}
+                                >
                                     Cancel
                                 </Button>
                                 {name.length > 0 ? (
@@ -89,16 +98,19 @@ export const ListCreator = withWidth()(
                     !(name in this.state) ||
                     (name === 'mediaType' && !isMediaType(value))
                 ) {
-                    console.log(e);
-                    console.log(e.target);
-                    console.log(name);
-                    console.log(value);
                     throw new Error('Invalid input');
                 }
 
                 this.setState({
                     [name]: value,
                 } as Pick<State, keyof State>);
+            };
+
+            private handleCancel = () => {
+                this.props.handleCancel();
+                this.setState({
+                    name: '',
+                });
             };
 
             private handleSubmit = () => {

@@ -1,9 +1,11 @@
 import {
+    Button,
     Divider,
     ExpansionPanel,
-    // ExpansionPanelActions,
     ExpansionPanelDetails,
     ExpansionPanelSummary,
+    Grid,
+    Theme,
     Typography,
     WithStyles,
 } from '@material-ui/core';
@@ -13,11 +15,18 @@ import * as React from 'react';
 import { EntryList } from '../../../types';
 import { List } from '../List';
 
-const styles = createStyles({
-    details: {
-        padding: 0,
-    },
-});
+const styles = (theme: Theme) =>
+    createStyles({
+        button: {
+            margin: theme.spacing.unit,
+        },
+        content: {
+            width: '100%',
+        },
+        details: {
+            padding: 0,
+        },
+    });
 
 interface Props extends WithStyles<typeof styles> {
     editable: boolean;
@@ -33,7 +42,15 @@ const RawLists: React.SFC<Props> = ({ classes, editable, lists }) => (
                 </ExpansionPanelSummary>
                 <Divider />
                 <ExpansionPanelDetails className={classes.details}>
-                    <List entries={list.entries} editable={editable} />
+                    <Grid className={classes.content}>
+                        <Grid xs={12}>
+                            <List entries={list.entries} editable={editable} />
+                        </Grid>
+                        <Grid container={true} justify="flex-end" xs={12}>
+                            <Button className={classes.button}>Edit</Button>
+                            <Button className={classes.button}>Delete</Button>
+                        </Grid>
+                    </Grid>
                 </ExpansionPanelDetails>
             </ExpansionPanel>
         ))}
