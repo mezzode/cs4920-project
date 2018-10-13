@@ -36,7 +36,6 @@ class RawSearchResult extends React.Component<Props, State> {
 
     public componentWillReceiveProps(nextProps: Props) {
         const { mediaType, searchString } = nextProps.match.params;
-        // console.log(JSON.stringify(nextProps));
         this.props.loadSearchResults(mediaType, searchString);
     }
 
