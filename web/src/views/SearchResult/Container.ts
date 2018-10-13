@@ -14,12 +14,16 @@ const mapStateToProps: MapStateToProps<
     showFail: state.flashMessage.showFlashMessage,
 });
 
-const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = (
-    dispatch,
-    { match },
-) => {
-    const loadSearchResults = async () => {
-        // const { searchString, mediaType } = match.params;
+const mapDispatchToProps: MapDispatchToProps<
+    DispatchProps,
+    OwnProps
+> = dispatch => {
+    const loadSearchResults = async (
+        mediaType: string,
+        searchString: string,
+    ) => {
+        console.log(mediaType);
+        console.log(searchString);
         const res = await fetch('https://jsonplaceholder.typicode.com/todos/1');
         if (res.ok) {
             const contents = await res.json();

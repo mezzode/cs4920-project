@@ -10,7 +10,10 @@ export interface SearchResultMedia {
     artUrl: string;
 }
 
-export interface Props extends WithStyles<typeof styles>, DispatchProps {
+export interface Props
+    extends WithStyles<typeof styles>,
+        DispatchProps,
+        RouteComponentProps<Params> {
     searchResults: SearchResultMedia[];
 }
 
@@ -19,7 +22,7 @@ export interface State {
 }
 
 export interface DispatchProps {
-    loadSearchResults: () => void;
+    loadSearchResults: (mediaType: string, searchString: string) => void;
 }
 
 interface Params {
@@ -27,6 +30,6 @@ interface Params {
     mediaType: string;
 }
 
-export interface OwnProps extends RouteComponentProps<Params> {}
+export interface OwnProps {}
 
 export interface StateProps {}

@@ -32,7 +32,7 @@ const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = (
         //     // res.json();
         // }
 
-        history.push(`/search/:${mediaType}/:${searchString}`);
+        history.push(`/search/${mediaType}/${searchString}`);
     };
     return {
         handleSearch,

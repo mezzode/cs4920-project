@@ -36,7 +36,7 @@ const ViewComponent: React.SFC<Props> = ({ auth }) => {
             <Route path="/sign-up" component={SignUp} />
             <Route path="/reset-password" component={PasswordReset} />
             <Route
-                path="/search/:searchString/:mediaType"
+                path="/search/:mediaType/:searchString"
                 component={SearchResult}
             />
             <Route component={NotFound} />

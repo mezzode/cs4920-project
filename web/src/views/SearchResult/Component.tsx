@@ -28,8 +28,16 @@ class RawSearchResult extends React.Component<Props, State> {
             page: 1,
         };
     }
+
     public componentDidMount() {
-        this.props.loadSearchResults();
+        const { mediaType, searchString } = this.props.match.params;
+        this.props.loadSearchResults(mediaType, searchString);
+    }
+
+    public componentWillReceiveProps(nextProps: Props) {
+        const { mediaType, searchString } = nextProps.match.params;
+        // console.log(JSON.stringify(nextProps));
+        this.props.loadSearchResults(mediaType, searchString);
     }
 
     public handleChangePage = (
