@@ -16,6 +16,10 @@ import { Props } from './types';
 const RawSearch: React.SFC<Props> = ({ classes, handleSearch }) => (
     <>
         <form className={classes.formRoot} onSubmit={handleSearch}>
+            <FormControl className={classes.formControl}>
+                <InputLabel htmlFor="mediaType">Media type</InputLabel>
+                <SimpleSelect name={'mediaType'} />
+            </FormControl>
             <div className={classes.search}>
                 <div className={classes.searchIcon}>
                     <SearchIcon />
@@ -29,10 +33,6 @@ const RawSearch: React.SFC<Props> = ({ classes, handleSearch }) => (
                     name={'searchString'}
                 />
             </div>
-            <FormControl className={classes.formControl}>
-                <InputLabel htmlFor="mediaType">Media type</InputLabel>
-                <SimpleSelect name={'mediaType'} />
-            </FormControl>
         </form>
     </>
 );
