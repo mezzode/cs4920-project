@@ -78,7 +78,7 @@ export async function gameFetchSearch(name: string, page: number) {
     return data;
 }
 
-enum MovieTvType {
+export enum MovieTvType {
     Movie = 'movie',
     TV = 'tv',
 }
