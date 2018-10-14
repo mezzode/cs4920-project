@@ -30,19 +30,17 @@ const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = (
             method: 'post',
         });
         if (res.ok) {
-            console.log('success');
             const user = await res.json();
             dispatch(setUser({ displayName: user.username }));
             dispatch(clearAuthAttempts());
+
+            localStorage.setItem('displayName', user.username);
+
             history.push('/dashboard');
         } else {
-            console.log('fail');
             dispatch(incrementAuthAttempt());
             dispatch(setFlashMessage());
-            // flash retry
         }
-        console.log(data);
-        console.log(res);
     };
 
     return {

@@ -6,7 +6,7 @@ export const checkLogin = async (username: string, password: string) => {
         text: 'SELECT * FROM users WHERE username = $1',
         values: [username],
     });
-    console.log(JSON.stringify(user));
+
     if (!user) {
         return { isValid: false };
     }
