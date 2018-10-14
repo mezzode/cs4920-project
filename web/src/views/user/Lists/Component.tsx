@@ -1,9 +1,9 @@
-import { Grid, Theme, Typography } from '@material-ui/core';
+import { Grid, Theme } from '@material-ui/core';
 import { createStyles, withStyles } from '@material-ui/core/styles';
 import * as React from 'react';
-import { Nav } from '../../../components/common/Nav/index';
+import { Loading } from '../../../components/common/Loading';
+import { Nav } from '../../../components/common/Nav';
 import { EntryEditor } from '../../../components/lists/EntryEditor/index';
-
 import { Lists } from '../../../components/lists/Lists';
 import { Props } from './types';
 
@@ -37,9 +37,7 @@ export const UserListsComponent = withStyles(styles)(
                         >
                             <Grid item={true} xs={12}>
                                 {lists === null ? (
-                                    <Typography variant="display3">
-                                        Loading
-                                    </Typography>
+                                    <Loading />
                                 ) : (
                                     <>
                                         <Lists lists={lists} />
