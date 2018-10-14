@@ -11,3 +11,5 @@ export const setMedias = actionCreator<{
     readonly totalResults: number;
 }>('SETS');
 export const clearMedias = actionCreator('CLEARS');
+
+export const setLoading = actionCreator('LOADING');

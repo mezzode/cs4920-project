@@ -30,6 +30,8 @@ class RawSearchResult extends React.Component<Props, State> {
     }
 
     public componentDidMount() {
+        this.props.clearSearchResults();
+
         const { mediaType, searchString } = this.props.match.params;
         this.props.loadSearchResults(mediaType, searchString, this.state.page);
     }
@@ -42,6 +44,7 @@ class RawSearchResult extends React.Component<Props, State> {
         console.log(mediaType + ' ' + searchString);
 
         if (prevMediaType !== mediaType || prevSearchString !== searchString) {
+            this.props.clearSearchResults();
             this.props.loadSearchResults(
                 mediaType,
                 searchString,
@@ -68,12 +71,12 @@ class RawSearchResult extends React.Component<Props, State> {
     };
 
     public render() {
-        const { classes, searchResults, totalResults } = this.props;
+        const { classes, searchResults, totalResults, isLoading } = this.props;
         const { page } = this.state;
         const rowsLength = 20;
 
         let content = null;
-        if (searchResults.length === 0) {
+        if (isLoading) {
             content = <Loading />;
         } else {
             content = (

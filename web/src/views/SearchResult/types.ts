@@ -16,6 +16,7 @@ export interface Props
         RouteComponentProps<Params> {
     searchResults: SearchResultMedia[];
     totalResults: number;
+    isLoading: boolean;
 }
 
 export interface State {

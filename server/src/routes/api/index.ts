@@ -14,7 +14,7 @@ router.post('/movie', async (req, res) => {
     res.json(await movietvSearch(searchString, MovieTvType.Movie, pageNumber));
 });
 
-router.post('/tvshow', async (req, res) => {
+router.post('/tv', async (req, res) => {
     const { searchString, pageNumber } = req.body;
     res.json(await movietvSearch(searchString, MovieTvType.TV, pageNumber));
 });

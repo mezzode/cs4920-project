@@ -1,6 +1,6 @@
 import { connect, MapDispatchToProps, MapStateToProps } from 'react-redux';
 // import { setFlashMessage } from '../../actions/flashMessage';
-import { clearMedias, setMedias } from '../../actions/media';
+import { clearMedias, setLoading, setMedias } from '../../actions/media';
 import { State } from '../../reducers/index';
 import { MediaType } from '../../types';
 import { SearchResultComponent } from './Component';
@@ -27,6 +27,7 @@ const mapStateToProps: MapStateToProps<
     OwnProps,
     State
 > = state => ({
+    isLoading: state.media.isLoading,
     searchResults: state.media.medias,
     showFail: state.flashMessage.showFlashMessage,
     totalResults: state.media.totalResults,
@@ -76,6 +77,7 @@ const mapDispatchToProps: MapDispatchToProps<
 
     const clearSearchResults = () => {
         dispatch(clearMedias());
+        dispatch(setLoading());
     };
 
     // const handleClick = async event => {
