@@ -27,7 +27,9 @@ const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = (
 
         const res = await fetch(`${process.env.REACT_APP_API_BASE}/login`, {
             body: data,
+            credentials: 'include',
             method: 'post',
+            mode: 'cors',
         });
         if (res.ok) {
             console.log('success');

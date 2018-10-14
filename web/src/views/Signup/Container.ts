@@ -27,7 +27,9 @@ const mapDispatchToProps: MapDispatchToProps<
 
         const res = await fetch(`${process.env.REACT_APP_API_BASE}/sign-up`, {
             body: data,
+            credentials: 'include',
             method: 'post',
+            mode: 'cors',
         });
         const user = await res.json();
         if (res.ok) {
