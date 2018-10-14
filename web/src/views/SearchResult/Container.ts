@@ -47,10 +47,12 @@ const mapDispatchToProps: MapDispatchToProps<
             mediaType === MediaType.anime ||
             mediaType === MediaType.game
         ) {
+            const pageNumberForServer = pageNumber + 1;
+            console.log(pageNumberForServer);
             const mediaResult = await makeMediaRequest(
                 mediaType,
                 searchString,
-                pageNumber,
+                pageNumberForServer,
             );
             console.log(JSON.stringify(mediaResult));
             dispatch(

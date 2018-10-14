@@ -26,7 +26,7 @@ class RawSearchResult extends React.Component<Props, State> {
     constructor(props: Props) {
         super(props);
         this.state = {
-            page: 1,
+            page: 0,
         };
     }
 
@@ -60,6 +60,9 @@ class RawSearchResult extends React.Component<Props, State> {
         event: React.MouseEvent<HTMLButtonElement>,
         page: number,
     ) => {
+        const { mediaType, searchString } = this.props.match.params;
+        this.props.loadSearchResults(mediaType, searchString, page);
+
         this.setState({ page });
     };
 
