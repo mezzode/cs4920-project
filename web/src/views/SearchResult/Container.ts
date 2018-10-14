@@ -2,8 +2,25 @@ import { connect, MapDispatchToProps, MapStateToProps } from 'react-redux';
 // import { setFlashMessage } from '../../actions/flashMessage';
 import { setMedias } from '../../actions/media';
 import { State } from '../../reducers/index';
+import { MediaType } from '../../types';
 import { SearchResultComponent } from './Component';
 import { DispatchProps, OwnProps, StateProps } from './types';
+
+const makeMediaRequest = async (
+    mediaType: string,
+    searchString: string,
+    pageNumber: number,
+) => {
+    const res = await fetch(`${process.env.REACT_APP_API_BASE}/${mediaType}`, {
+        body: JSON.stringify({ searchString, pageNumber }),
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        method: 'POST',
+    });
+    console.log(JSON.stringify(res));
+    return res.json();
+};
 
 const mapStateToProps: MapStateToProps<
     StateProps,
@@ -21,14 +38,37 @@ const mapDispatchToProps: MapDispatchToProps<
     const loadSearchResults = async (
         mediaType: string,
         searchString: string,
+        pageNumber: number,
     ) => {
-        console.log(mediaType);
-        console.log(searchString);
-        const res = await fetch('https://jsonplaceholder.typicode.com/todos/1');
-        if (res.ok) {
-            const contents = await res.json();
-            dispatch(setMedias(contents));
+        if (
+            mediaType === MediaType.movie ||
+            mediaType === MediaType.tvshow ||
+            mediaType === MediaType.anime ||
+            mediaType === MediaType.game
+        ) {
+            const mediaResult = await makeMediaRequest(
+                mediaType,
+                searchString,
+                pageNumber,
+            );
+            console.log(JSON.stringify(mediaResult));
+            dispatch(
+                setMedias({
+                    medias: mediaResult.media,
+                    totalResults: mediaResult.totalResults,
+                }),
+            );
         }
+        // else {
+        //     return;
+        // }
+        // console.log(mediaType);
+        // console.log(searchString);
+        // const res = await fetch('https://jsonplaceholder.typicode.com/todos/1');
+        // if (res.ok) {
+        //     const contents = await res.json();
+        //     dispatch(setMedias(contents));
+        // }
     };
 
     // const handleClick = async event => {

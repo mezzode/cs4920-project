@@ -35,9 +35,10 @@ export interface EntryList {
 }
 
 export enum MediaType {
-    games = 'games',
-    shows = 'shows',
-    movies = 'movies',
+    movie = 'movie',
+    tvshow = 'tvshow',
+    anime = 'anime',
+    game = 'game',
 }
 
 export interface ListsMap {

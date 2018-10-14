@@ -7,7 +7,7 @@ export interface SearchResultMedia {
     mediaType: string;
     title: string;
     description: string;
-    artUrl: string;
+    image: string;
 }
 
 export interface Props
@@ -22,7 +22,11 @@ export interface State {
 }
 
 export interface DispatchProps {
-    loadSearchResults: (mediaType: string, searchString: string) => void;
+    loadSearchResults: (
+        mediaType: string,
+        searchString: string,
+        pageNumber: number,
+    ) => void;
 }
 
 interface Params {

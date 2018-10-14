@@ -31,13 +31,29 @@ class RawSearchResult extends React.Component<Props, State> {
 
     public componentDidMount() {
         const { mediaType, searchString } = this.props.match.params;
-        this.props.loadSearchResults(mediaType, searchString);
+        this.props.loadSearchResults(mediaType, searchString, this.state.page);
     }
 
-    public componentWillReceiveProps(nextProps: Props) {
-        const { mediaType, searchString } = nextProps.match.params;
-        this.props.loadSearchResults(mediaType, searchString);
+    public componentDidUpdate(prevProps: Props) {
+        const prevMediaType = prevProps.match.params.mediaType;
+        const prevSearchString = prevProps.match.params.searchString;
+
+        const { mediaType, searchString } = this.props.match.params;
+        console.log(mediaType + ' ' + searchString);
+
+        if (prevMediaType !== mediaType || prevSearchString !== searchString) {
+            this.props.loadSearchResults(
+                mediaType,
+                searchString,
+                this.state.page,
+            );
+        }
     }
+
+    // public componentWillReceiveProps(nextProps: Props) {
+    //     const { mediaType, searchString } = nextProps.match.params;
+    //     this.props.loadSearchResults(mediaType, searchString, this.state.page);
+    // }
 
     public handleChangePage = (
         event: React.MouseEvent<HTMLButtonElement>,
@@ -75,6 +91,8 @@ class RawSearchResult extends React.Component<Props, State> {
                                             {searchResult.title}
                                         </Typography>
                                     </Link>
+                                </TableCell>
+                                <TableCell>
                                     <Typography variant="body1">
                                         {searchResult.description}
                                     </Typography>

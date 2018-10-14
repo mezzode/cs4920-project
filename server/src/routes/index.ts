@@ -1,4 +1,5 @@
 import { Express } from 'express';
+import { router as apiRouter } from './api';
 import { router as healthcheckRouter } from './healthcheck';
 import { entryRouter } from './lists/entries';
 import { listRouter } from './lists/lists';
@@ -14,5 +15,6 @@ export const setupRoutes = (app: Express) => {
     app.use(signupRouter);
     app.use(entryRouter);
     app.use(listRouter);
+    app.use(apiRouter);
     app.use('/user', userRouter);
 };
