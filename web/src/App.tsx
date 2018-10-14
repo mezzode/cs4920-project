@@ -20,6 +20,9 @@ export const theme = createMuiTheme({
         },
         type: 'dark',
     },
+    typography: {
+        useNextVariants: true,
+    },
 });
 
 export const App: React.SFC<{}> = () => (

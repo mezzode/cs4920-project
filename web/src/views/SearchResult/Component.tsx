@@ -13,6 +13,7 @@ import { createStyles, withStyles } from '@material-ui/core/styles';
 import * as React from 'react';
 import { Link } from 'react-router-dom';
 import { Nav } from '../../components/common/Nav';
+import { TablePaginationAction } from '../../components/common/TablePagination';
 import { Props, State } from './types';
 
 export const styles = createStyles({
@@ -63,7 +64,7 @@ class RawSearchResult extends React.Component<Props, State> {
     };
 
     public render() {
-        const { classes, searchResults } = this.props;
+        const { classes, searchResults, totalResults } = this.props;
         const { page } = this.state;
         const rowsLength = 20;
 
@@ -104,12 +105,12 @@ class RawSearchResult extends React.Component<Props, State> {
                         <TableRow>
                             <TablePagination
                                 colSpan={3}
-                                count={rowsLength}
+                                count={totalResults}
                                 rowsPerPage={rowsLength}
                                 page={page}
                                 onChangePage={this.handleChangePage}
                                 // onChangeRowsPerPage={this.handleChangeRowsPerPage}
-                                // ActionsComponent={TablePaginationActionsWrapped}
+                                ActionsComponent={TablePaginationAction}
                             />
                         </TableRow>
                     </TableFooter>

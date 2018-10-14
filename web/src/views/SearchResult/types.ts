@@ -15,6 +15,7 @@ export interface Props
         DispatchProps,
         RouteComponentProps<Params> {
     searchResults: SearchResultMedia[];
+    totalResults: number;
 }
 
 export interface State {

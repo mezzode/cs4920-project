@@ -1,1 +1,1 @@
-// export { TablePaginationComponent as TablePagination } from './Component';
+export { TablePaginationComponent as TablePaginationAction } from './Component';

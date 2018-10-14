@@ -29,6 +29,7 @@ const mapStateToProps: MapStateToProps<
 > = state => ({
     searchResults: state.media.medias,
     showFail: state.flashMessage.showFlashMessage,
+    totalResults: state.media.totalResults,
 });
 
 const mapDispatchToProps: MapDispatchToProps<
