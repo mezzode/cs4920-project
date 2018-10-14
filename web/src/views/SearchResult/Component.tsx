@@ -11,6 +11,7 @@ import { Link } from 'react-router-dom';
 import { Loading } from '../../components/common/Loading';
 import { Nav } from '../../components/common/Nav';
 import { TablePaginationAction } from '../../components/common/TablePagination';
+import imageNotFound from '../../images/404-image.jpg';
 import { styles } from './styles';
 import { Props, State } from './types';
 
@@ -63,6 +64,11 @@ class RawSearchResult extends React.Component<Props, State> {
         this.setState({ page });
     };
 
+    // tslint:disable:no-any
+    public onImageError = (event: any) => {
+        event.target.src = imageNotFound;
+    };
+
     public render() {
         const { classes, searchResults, totalResults, isLoading } = this.props;
         const { page } = this.state;
@@ -102,6 +108,9 @@ class RawSearchResult extends React.Component<Props, State> {
                                             <img
                                                 className={classes.img}
                                                 src={searchResult.image}
+                                                onError={this.onImageError.bind(
+                                                    this,
+                                                )}
                                             />
                                         </ButtonBase>
                                     </Grid>
@@ -129,9 +138,22 @@ class RawSearchResult extends React.Component<Props, State> {
                                                     {searchResult.title}
                                                 </Typography>
                                             </Link>
-                                            <Typography>
-                                                {searchResult.description}
-                                            </Typography>
+                                            <Typography
+                                                dangerouslySetInnerHTML={
+                                                    searchResult.description !==
+                                                        null &&
+                                                    searchResult.description.trim() !==
+                                                        ''
+                                                        ? {
+                                                              __html:
+                                                                  searchResult.description,
+                                                          }
+                                                        : {
+                                                              __html:
+                                                                  "Sorry! We couldn't find a description",
+                                                          }
+                                                }
+                                            />
                                         </Grid>
                                     </Grid>
                                 </Grid>
