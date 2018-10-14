@@ -1,15 +1,8 @@
 import {
-    // Button,
     ButtonBase,
     Grid,
     Paper,
-    Table,
-    TableBody,
-    TableCell,
-    TableFooter,
-    TableHead,
     TablePagination,
-    TableRow,
     Typography,
 } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
@@ -80,18 +73,18 @@ class RawSearchResult extends React.Component<Props, State> {
             content = <Loading />;
         } else {
             content = (
-                <Table>
-                    <TableHead>
-                        <TableRow className={classes.header} />
-                        <TableCell>
-                            <Typography align="center" variant="h3">
-                                Results
-                            </Typography>
-                        </TableCell>
-                    </TableHead>
-                    <TableBody>
+                <Grid>
+                    <Grid className={classes.header}>
+                        <Typography align="center" variant="h3">
+                            Results
+                        </Typography>
+                    </Grid>
+                    <Grid>
                         {searchResults.map(searchResult => (
-                            <Paper className={classes.root}>
+                            <Paper
+                                className={classes.root}
+                                key={searchResult.id}
+                            >
                                 <Grid container={true} spacing={16}>
                                     <Grid item={true}>
                                         <ButtonBase
@@ -131,7 +124,7 @@ class RawSearchResult extends React.Component<Props, State> {
                                             >
                                                 <Typography
                                                     gutterBottom={true}
-                                                    variant="title"
+                                                    variant="h6"
                                                 >
                                                     {searchResult.title}
                                                 </Typography>
@@ -144,21 +137,20 @@ class RawSearchResult extends React.Component<Props, State> {
                                 </Grid>
                             </Paper>
                         ))}
-                    </TableBody>
-                    <TableFooter>
-                        <TableRow>
-                            <TablePagination
-                                colSpan={3}
-                                count={totalResults}
-                                rowsPerPage={rowsLength}
-                                rowsPerPageOptions={[rowsLength]}
-                                page={page}
-                                onChangePage={this.handleChangePage}
-                                ActionsComponent={TablePaginationAction}
-                            />
-                        </TableRow>
-                    </TableFooter>
-                </Table>
+                    </Grid>
+                    <Grid>
+                        <TablePagination
+                            colSpan={3}
+                            component="div"
+                            count={totalResults}
+                            rowsPerPage={rowsLength}
+                            rowsPerPageOptions={[rowsLength]}
+                            page={page}
+                            onChangePage={this.handleChangePage}
+                            ActionsComponent={TablePaginationAction}
+                        />
+                    </Grid>
+                </Grid>
             );
         }
 
