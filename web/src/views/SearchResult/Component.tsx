@@ -12,6 +12,7 @@ import {
 import { createStyles, withStyles } from '@material-ui/core/styles';
 import * as React from 'react';
 import { Link } from 'react-router-dom';
+import { Loading } from '../../components/common/Loading';
 import { Nav } from '../../components/common/Nav';
 import { TablePaginationAction } from '../../components/common/TablePagination';
 import { Props, State } from './types';
@@ -60,6 +61,8 @@ class RawSearchResult extends React.Component<Props, State> {
         event: React.MouseEvent<HTMLButtonElement>,
         page: number,
     ) => {
+        this.props.clearSearchResults();
+
         const { mediaType, searchString } = this.props.match.params;
         this.props.loadSearchResults(mediaType, searchString, page);
 
@@ -71,9 +74,11 @@ class RawSearchResult extends React.Component<Props, State> {
         const { page } = this.state;
         const rowsLength = 20;
 
-        return (
-            <>
-                <Nav />
+        let content = null;
+        if (searchResults.length === 0) {
+            content = <Loading />;
+        } else {
+            content = (
                 <Table>
                     <TableHead>
                         <TableRow className={classes.header}>
@@ -118,6 +123,13 @@ class RawSearchResult extends React.Component<Props, State> {
                         </TableRow>
                     </TableFooter>
                 </Table>
+            );
+        }
+
+        return (
+            <>
+                <Nav />
+                {content}
             </>
         );
     }

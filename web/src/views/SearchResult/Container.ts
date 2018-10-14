@@ -1,6 +1,6 @@
 import { connect, MapDispatchToProps, MapStateToProps } from 'react-redux';
 // import { setFlashMessage } from '../../actions/flashMessage';
-import { setMedias } from '../../actions/media';
+import { clearMedias, setMedias } from '../../actions/media';
 import { State } from '../../reducers/index';
 import { MediaType } from '../../types';
 import { SearchResultComponent } from './Component';
@@ -74,6 +74,10 @@ const mapDispatchToProps: MapDispatchToProps<
         // }
     };
 
+    const clearSearchResults = () => {
+        dispatch(clearMedias());
+    };
+
     // const handleClick = async event => {
     //     const res = await fetch(`api-url`, {
     //         body: data,
@@ -95,6 +99,7 @@ const mapDispatchToProps: MapDispatchToProps<
     // };
 
     return {
+        clearSearchResults,
         loadSearchResults,
         // handleClick,
     };

@@ -28,6 +28,7 @@ export interface DispatchProps {
         searchString: string,
         pageNumber: number,
     ) => void;
+    clearSearchResults: () => void;
 }
 
 interface Params {

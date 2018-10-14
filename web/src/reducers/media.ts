@@ -25,5 +25,8 @@ export const media: Reducer<MediaState> = reducerWithInitialState(initialState)
         ...state,
         ...mediaData,
     }))
-    .case(clearMedias, () => initialState)
+    .case(clearMedias, state => ({
+        ...state,
+        medias: [],
+    }))
     .build();
