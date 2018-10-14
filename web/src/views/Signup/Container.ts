@@ -14,7 +14,6 @@ const mapStateToProps: MapStateToProps<
     State
 > = state => ({
     authAttempt: state.user.authAttempt,
-    isAuthenticated: state.user.isAuthenticated,
 });
 
 const mapDispatchToProps: MapDispatchToProps<
@@ -31,15 +30,11 @@ const mapDispatchToProps: MapDispatchToProps<
         });
         const user = await res.json();
         if (res.ok) {
-            console.log('success');
             dispatch(setUser({ displayName: user.username }));
             dispatch(clearAuthAttempts());
         } else {
-            console.log('fail');
             dispatch(incrementAuthAttempt());
         }
-        console.log(data);
-        console.log(res);
     };
 
     return {

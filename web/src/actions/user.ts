@@ -13,9 +13,6 @@ export const setImage = actionCreator<{ readonly displayImage: string }>(
 
 export const clearAuthAttempts = actionCreator('CLEAR_AUTH');
 export const incrementAuthAttempt = actionCreator('INCREMENT');
-export const setIsAuthenticated = actionCreator<{
-    readonly isAuthenticated: boolean;
-}>('AUTHORIZED');
 
 export const setIsSignedUp = actionCreator<{ readonly isSignedUp: boolean }>(
     'SIGNED_UP',
