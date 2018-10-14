@@ -1,5 +1,8 @@
 import {
     // Button,
+    ButtonBase,
+    Grid,
+    Paper,
     Table,
     TableBody,
     TableCell,
@@ -9,19 +12,14 @@ import {
     TableRow,
     Typography,
 } from '@material-ui/core';
-import { createStyles, withStyles } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/core/styles';
 import * as React from 'react';
 import { Link } from 'react-router-dom';
 import { Loading } from '../../components/common/Loading';
 import { Nav } from '../../components/common/Nav';
 import { TablePaginationAction } from '../../components/common/TablePagination';
+import { styles } from './styles';
 import { Props, State } from './types';
-
-export const styles = createStyles({
-    header: {
-        height: '48px',
-    },
-});
 
 class RawSearchResult extends React.Component<Props, State> {
     constructor(props: Props) {
@@ -81,32 +79,67 @@ class RawSearchResult extends React.Component<Props, State> {
             content = (
                 <Table>
                     <TableHead>
-                        <TableRow className={classes.header}>
-                            <TableCell>Title</TableCell>
-                            <TableCell>Description</TableCell>
-                            <TableCell />
-                        </TableRow>
+                        <TableRow className={classes.header} />
+                        <TableCell>
+                            <Typography align="center" variant="h3">
+                                Results
+                            </Typography>
+                        </TableCell>
                     </TableHead>
                     <TableBody>
                         {searchResults.map(searchResult => (
-                            <TableRow key={searchResult.id}>
-                                <TableCell component="th" scope="row">
-                                    <Link
-                                        to={`/media/${searchResult.id}/${
-                                            searchResult.mediaType
-                                        }`}
+                            <Paper className={classes.root}>
+                                <Grid container={true} spacing={16}>
+                                    <Grid item={true}>
+                                        <ButtonBase
+                                            component={Link}
+                                            {...{
+                                                to: `/media/${
+                                                    searchResult.id
+                                                }/${searchResult.mediaType}`,
+                                            }}
+                                            className={classes.image}
+                                            style={{
+                                                textDecoration: 'none',
+                                            }}
+                                        >
+                                            <img
+                                                className={classes.img}
+                                                src={searchResult.image}
+                                            />
+                                        </ButtonBase>
+                                    </Grid>
+                                    <Grid
+                                        item={true}
+                                        xs={12}
+                                        sm={true}
+                                        container={true}
+                                        direction="column"
+                                        spacing={16}
                                     >
-                                        <Typography variant="body1">
-                                            {searchResult.title}
-                                        </Typography>
-                                    </Link>
-                                </TableCell>
-                                <TableCell>
-                                    <Typography variant="body1">
-                                        {searchResult.description}
-                                    </Typography>
-                                </TableCell>
-                            </TableRow>
+                                        <Grid item={true} xs={true}>
+                                            <Link
+                                                to={`/media/${
+                                                    searchResult.id
+                                                }/${searchResult.mediaType}`}
+                                                style={{
+                                                    textDecoration: 'none',
+                                                }}
+                                            >
+                                                <Typography
+                                                    gutterBottom={true}
+                                                    variant="title"
+                                                >
+                                                    {searchResult.title}
+                                                </Typography>
+                                            </Link>
+                                            <Typography>
+                                                {searchResult.description}
+                                            </Typography>
+                                        </Grid>
+                                    </Grid>
+                                </Grid>
+                            </Paper>
                         ))}
                     </TableBody>
                     <TableFooter>
@@ -115,9 +148,9 @@ class RawSearchResult extends React.Component<Props, State> {
                                 colSpan={3}
                                 count={totalResults}
                                 rowsPerPage={rowsLength}
+                                rowsPerPageOptions={[rowsLength]}
                                 page={page}
                                 onChangePage={this.handleChangePage}
-                                // onChangeRowsPerPage={this.handleChangeRowsPerPage}
                                 ActionsComponent={TablePaginationAction}
                             />
                         </TableRow>
