@@ -64,6 +64,8 @@ export async function gameFetchSearch(name: string, page: number) {
             id: result.id,
             title: result.name,
             description: result.summary,
+            image: result.cover.url,
+            mediaType: 'game',
         }
     });
     const data = {
@@ -124,9 +126,9 @@ export async function movietvFetchID(id: number, type: MovieTvType) {
 
 
 // give search string and boolean, returns movie/tv data. Pass true for movie, false for tv 
-export async function movietvSearch(search: string, type: MovieTvType) {
+export async function movietvSearch(search: string, type: MovieTvType, page: number) {
     const term = search.replace(' ', '+');
-    const url = `https://api.themoviedb.org/3/search/${type}/?api_key=${process.env.FILMKEY}&query=${term}`;
+    const url = `https://api.themoviedb.org/3/search/${type}/?api_key=${process.env.FILMKEY}&query=${term}&page=${page}`;
     const options = { method: 'GET' };
 
     const res = await fetch(url, options);
@@ -140,12 +142,16 @@ export async function movietvSearch(search: string, type: MovieTvType) {
                 'id': result.id,
                 'title': result.title,
                 'description': result.overview,
+                'image': 'http://image.tmdb.org/t/p/w400' + result.poster_path,
+                'mediaType': 'movie',
             };
         } else {
             return {
                 'id': result.id,
                 'title': result.name,
                 'description': result.overview,
+                'image': 'http://image.tmdb.org/t/p/w400' + result.poster_path,
+                'mediaType': 'tv',
             };
         }
     });
@@ -211,9 +217,11 @@ export async function animeFetchSearch(name: string, pageNo: number) {
     // data normalisation
     const data = body.data.Page.media;
     const newResults = data.map((result: any) => {
-        const { title, ...rest } = result;
+        const { title, coverImage, ...rest } = result;
         return {
             title: result.title.romaji,
+            image: result.coverImage.medium,
+            mediaType: 'anime',
             ...rest,
         }
     });

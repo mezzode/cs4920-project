@@ -42,6 +42,9 @@ exports.searchA = `query ($page: Int, $perPage: Int, $search: String) {
         romaji
       }
       description
+      coverImage {
+        medium
+      }
     }
   }
 }
@@ -75,7 +78,7 @@ exports.gameFetchQuery = function (id) {
 
 exports.gameSearchQuery = function (name, page) {
   return {
-    fields: ['id', 'name', 'summary'],
+    fields: ['id', 'name', 'summary', 'cover'],
     limit: '20',
     offset: (page - 1) * 20,
     //order: 'name:asc',
