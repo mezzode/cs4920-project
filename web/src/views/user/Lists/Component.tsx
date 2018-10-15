@@ -51,6 +51,7 @@ export const UserListsComponent = withWidth()(
                     prevProps.match.params.mediaType !==
                     this.props.match.params.mediaType
                 ) {
+                    this.setState({ lists: null });
                     const lists = await this.props.loadLists();
                     this.setState({ lists });
                 }
@@ -104,8 +105,19 @@ export const UserListsComponent = withWidth()(
                     );
                 } else if (Object.keys(lists).length === 0) {
                     // TODO: make nice
+                    const { createOpen } = this.state;
                     content = (
-                        <Typography variant="display3">No lists</Typography>
+                        <>
+                            <Typography variant="h2">No lists</Typography>
+                            {editable && (
+                                <ListCreator
+                                    open={createOpen}
+                                    submit={this.createSubmit}
+                                    handleCancel={this.createClose}
+                                    mediaType={mediaType}
+                                />
+                            )}
+                        </>
                     );
                 } else {
                     const { createOpen } = this.state;
