@@ -13,8 +13,8 @@ import {
     Entry,
     EntryList,
     isMediaType,
+    ListsMap,
     MediaType,
-    NewEntryList,
 } from '../../../types';
 import { Props, State } from './types';
 
@@ -47,18 +47,17 @@ export const UserListsComponent = withWidth()(
             };
 
             public async componentDidUpdate(prevProps: Props) {
-                if (
-                    prevProps.match.params.mediaType !==
-                    this.props.match.params.mediaType
-                ) {
+                const { mediaType, username } = this.props.match.params;
+                if (prevProps.match.params.mediaType !== mediaType) {
                     this.setState({ lists: null });
-                    const lists = await this.props.loadLists();
+                    const lists = await this.loadUserLists(username, mediaType);
                     this.setState({ lists });
                 }
             }
 
             public async componentDidMount() {
-                const lists = await this.props.loadLists();
+                const { mediaType, username } = this.props.match.params;
+                const lists = await this.loadUserLists(username, mediaType);
                 this.setState({ lists });
             }
 
@@ -112,9 +111,8 @@ export const UserListsComponent = withWidth()(
                             {editable && (
                                 <ListCreator
                                     open={createOpen}
-                                    submit={this.createSubmit}
+                                    afterCreate={this.afterCreate}
                                     handleCancel={this.createClose}
-                                    mediaType={mediaType}
                                 />
                             )}
                         </>
@@ -128,9 +126,8 @@ export const UserListsComponent = withWidth()(
                                     <EntryEditor afterSave={this.afterSave} />
                                     <ListCreator
                                         open={createOpen}
-                                        submit={this.createSubmit}
+                                        afterCreate={this.afterCreate}
                                         handleCancel={this.createClose}
-                                        mediaType={mediaType}
                                     />
                                 </>
                             )}
@@ -167,17 +164,61 @@ export const UserListsComponent = withWidth()(
                 );
             }
 
+            private loadUserLists = async (
+                username: string,
+                mediaType: string,
+            ) => {
+                const res = await fetch(
+                    `${
+                        process.env.REACT_APP_API_BASE
+                    }/user/${username}/lists/${mediaType}`,
+                );
+                if (res.status > 400) {
+                    throw new Error(
+                        `Server error: ${res.status} ${res.statusText}`,
+                    );
+                }
+                const { lists } = (await res.json()) as { lists: EntryList[] };
+                const listsMap = lists.reduce<ListsMap>(
+                    (map, list) => ({
+                        ...map,
+                        [list.listCode]: list,
+                    }),
+                    {},
+                );
+                return listsMap;
+            };
+
             private createOpen = () => {
                 this.setState({ createOpen: true });
             };
 
-            private createSubmit = async (newList: NewEntryList) => {
-                const result = await this.props.createList(newList);
-                if (result !== null) {
-                    this.setState({ createOpen: false });
-                } else {
-                    // TODO: add error message
+            private afterCreate = async (newList: EntryList) => {
+                const { mediaType, username } = this.props.match.params;
+                if (newList.mediaType !== mediaType) {
+                    // list shouldnt be added to current view
+                    this.setState({
+                        createOpen: false,
+                    });
+                    return;
                 }
+                if (newList.username !== username) {
+                    throw new Error('Cannot create list for different user');
+                }
+
+                const { lists } = this.state;
+                if (lists === null) {
+                    // should not be able to trigger create if not loaded
+                    throw new Error('Lists not loaded');
+                }
+
+                this.setState({
+                    createOpen: false,
+                    lists: {
+                        ...lists,
+                        [newList.listCode]: newList,
+                    },
+                });
             };
 
             private createClose = () => {

@@ -1,7 +1,7 @@
 import { WithStyles } from '@material-ui/core';
 import { WithWidth } from '@material-ui/core/withWidth';
 import { RouteComponentProps } from 'react-router';
-import { EntryList, ListsMap, NewEntryList } from '../../../types';
+import { ListsMap } from '../../../types';
 import { styles } from './Component';
 
 interface Params {
@@ -16,17 +16,11 @@ export interface StateProps {
     editable: boolean;
 }
 
-export interface DispatchProps {
-    loadLists: () => Promise<ListsMap>;
-    createList: (newList: NewEntryList) => Promise<EntryList | null>;
-}
-
 export interface Props
     extends WithStyles<typeof styles>,
         WithWidth,
         OwnProps,
-        StateProps,
-        DispatchProps {}
+        StateProps {}
 
 export interface State {
     createOpen: boolean;

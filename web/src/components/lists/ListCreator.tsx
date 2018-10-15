@@ -4,6 +4,7 @@ import {
     DialogActions,
     DialogContent,
     DialogTitle,
+    MenuItem,
     TextField,
     withWidth,
 } from '@material-ui/core';
@@ -12,37 +13,39 @@ import { createStyles, withStyles } from '@material-ui/core/styles';
 import { isWidthDown } from '@material-ui/core/withWidth';
 import { WithWidth } from '@material-ui/core/withWidth';
 import * as React from 'react';
-import { isMediaType, MediaType, NewEntryList } from '../../types';
+import { EntryList, isMediaType, MediaType, NewEntryList } from '../../types';
 
 const styles = createStyles({});
 
 interface Props extends WithStyles<typeof styles>, WithWidth {
+    /** Callback to be called after a successful create. */
+    afterCreate?: (newList: EntryList) => void;
     handleCancel: () => void;
-    submit: (newList: NewEntryList) => void;
     open: boolean;
-    mediaType: MediaType;
 }
 
 interface State {
     name: string;
+    mediaType: MediaType | null;
 }
 
 export const ListCreator = withWidth()(
     withStyles(styles)(
         class extends React.Component<Props, State> {
             public state: State = {
+                mediaType: null,
                 name: '',
             };
 
             public render() {
-                const { width, open, mediaType } = this.props;
-                const { name } = this.state;
-                const displayType = {
-                    [MediaType.Game]: 'Game',
-                    [MediaType.Anime]: 'Anime',
-                    [MediaType.Show]: 'Show',
-                    [MediaType.Movie]: 'Movie',
-                }[mediaType];
+                const { width, open } = this.props;
+                const { name, mediaType } = this.state;
+                const typeItems = {
+                    Anime: MediaType.Anime,
+                    Games: MediaType.Game,
+                    Movie: MediaType.Movie,
+                    Show: MediaType.Show,
+                };
                 return (
                     <Dialog
                         open={open}
@@ -52,7 +55,7 @@ export const ListCreator = withWidth()(
                     >
                         <>
                             <DialogTitle id="form-dialog-title">
-                                New {displayType} List
+                                New List
                             </DialogTitle>
                             <DialogContent>
                                 <TextField
@@ -64,6 +67,24 @@ export const ListCreator = withWidth()(
                                     onChange={this.handleInput}
                                     variant="outlined"
                                 />
+                                <TextField
+                                    id="mediaType"
+                                    name="mediaType"
+                                    select={true}
+                                    label="Type"
+                                    // className={classes.textField}
+                                    value={mediaType || ''}
+                                    onChange={this.handleInput}
+                                    helperText="List type cannot be edited later"
+                                    margin="dense"
+                                    variant="outlined"
+                                >
+                                    {Object.keys(typeItems).map(k => (
+                                        <MenuItem key={k} value={typeItems[k]}>
+                                            {k}
+                                        </MenuItem>
+                                    ))}
+                                </TextField>
                             </DialogContent>
                             <DialogActions>
                                 <Button
@@ -72,10 +93,10 @@ export const ListCreator = withWidth()(
                                 >
                                     Cancel
                                 </Button>
-                                {name.length > 0 ? (
+                                {name.length > 0 && mediaType !== null ? (
                                     <Button
                                         color="primary"
-                                        onClick={this.handleSubmit}
+                                        onClick={this.create}
                                     >
                                         Create
                                     </Button>
@@ -113,13 +134,34 @@ export const ListCreator = withWidth()(
                 });
             };
 
-            private handleSubmit = () => {
-                const { name } = this.state;
-                const { mediaType } = this.props;
-                if (name.length === 0) {
+            private create = async () => {
+                const { name, mediaType } = this.state;
+                if (name.length === 0 || mediaType === null) {
                     throw new Error('Invalid');
                 }
-                this.props.submit({ name, mediaType });
+                const newList: NewEntryList = { name, mediaType };
+
+                const res = await fetch(
+                    `${process.env.REACT_APP_API_BASE}/list`,
+                    {
+                        body: JSON.stringify(newList),
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        method: 'POST',
+                    },
+                );
+                if (res.status >= 400) {
+                    throw new Error(`${res.status} ${res.statusText}`);
+                }
+                const list = (await res.json()) as EntryList;
+                
+                const {afterCreate} = this.props;
+                if (afterCreate) {
+                    afterCreate(list);
+                }
+
+                return list;
             };
         },
     ),

@@ -8,19 +8,15 @@ import {
 } from '@material-ui/core';
 import { createStyles, withStyles } from '@material-ui/core/styles';
 import * as React from 'react';
-import { connect, MapDispatchToProps, MapStateToProps } from 'react-redux';
+import { connect, MapStateToProps } from 'react-redux';
 import { Redirect, RouteComponentProps } from 'react-router';
-import { Action } from 'redux';
-import { ThunkDispatch } from 'redux-thunk';
 import slugify from 'slugify';
-import { loadList } from '../actions/list';
 import { Nav } from '../components/common/Nav';
 import { EntryEditor } from '../components/lists/EntryEditor';
 import { List } from '../components/lists/List';
 import { State as ReduxState } from '../reducers';
 import { EntryList } from '../types';
 
-// TODO: fiddle with styling
 const styles = (theme: Theme) =>
     createStyles({
         layout: {
@@ -28,83 +24,36 @@ const styles = (theme: Theme) =>
             marginRight: theme.spacing.unit * 3,
             marginTop: theme.spacing.unit * 3,
             width: 'auto',
-            // [theme.breakpoints.up(400 + theme.spacing.unit * 3 * 2)]: {
-            //     // tweak this?
-            //     marginLeft: 'auto',
-            //     marginRight: 'auto',
-            //     width: 400,
-            // },
-        },
-        // layout: {
-        //     marginLeft: theme.spacing.unit * 2,
-        //     marginRight: theme.spacing.unit * 2,
-        //     width: 'auto',
-        //     [theme.breakpoints.up(600 + theme.spacing.unit * 2 * 2)]: {
-        //         marginLeft: 'auto',
-        //         marginRight: 'auto',
-        //         width: 600,
-        //     },
-        // },
-        paper: {
-            // marginBottom: theme.spacing.unit * 3,
-            // marginTop: theme.spacing.unit * 3,
-            // // padding: theme.spacing.unit * 2,
-            // [theme.breakpoints.up(600 + theme.spacing.unit * 3 * 2)]: {
-            //     marginBottom: theme.spacing.unit * 6,
-            //     marginTop: theme.spacing.unit * 6,
-            //     // padding: theme.spacing.unit * 3,
-            // },
         },
     });
 
 interface Params {
-    listId: string;
+    listCode: string;
     slug?: string;
 }
 
 interface OwnProps extends RouteComponentProps<Params> {}
 
 interface StateProps {
-    editable: boolean;
-    list: EntryList | null;
+    username: string | null;
 }
 
-interface DispatchProps {
-    loadList: () => Promise<EntryList>;
-}
-
-interface Props
-    extends WithStyles<typeof styles>,
-        OwnProps,
-        StateProps,
-        DispatchProps {}
+interface Props extends WithStyles<typeof styles>, OwnProps, StateProps {}
 
 interface State {
     editOpen: boolean;
     list: EntryList | null;
 }
 
-const mapStateToProps: MapStateToProps<StateProps, OwnProps, ReduxState> = (
-    { lists, user: { displayName } },
-    { match },
-) => ({
-    editable: !!(lists && displayName === lists[match.params.listId].username),
-    list: lists && lists[match.params.listId],
+const mapStateToProps: MapStateToProps<StateProps, OwnProps, ReduxState> = ({
+    user: { displayName },
+}) => ({
+    username: displayName,
+    // editable: !!(lists && displayName === lists[match.params.listCode].username),
+    // list: lists && lists[match.params.listCode],
 });
 
-const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = (
-    dispatch: ThunkDispatch<ReduxState, void, Action>,
-    { match },
-) => ({
-    loadList: async () => {
-        return dispatch(loadList(match.params.listId));
-    },
-});
-
-export const ListPage = connect(
-    mapStateToProps,
-    mapDispatchToProps,
-)(
+export const ListPage = connect(mapStateToProps)(
     withStyles(styles)(
         class extends React.Component<Props, State> {
             public state: State = {
@@ -114,13 +63,25 @@ export const ListPage = connect(
 
             public async componentDidMount() {
                 // only load on mount so redirecting to correct slug doesnt load again
-                const list = await this.props.loadList();
+                const { listCode } = this.props.match.params;
+                const list = await this.loadList(listCode);
                 this.setState({ list });
             }
 
+            public async componentDidUpdate(prevProps: Props) {
+                const { listCode } = this.props.match.params;
+                if (prevProps.match.params.listCode !== listCode) {
+                    this.setState({ list: null });
+                    const list = await this.loadList(listCode);
+                    this.setState({ list });
+                }
+            }
+
             public render() {
-                const { list, classes, match, editable } = this.props;
+                const { classes, match, username } = this.props;
+                const { list } = this.state;
                 let content = null;
+
                 if (list === null) {
                     content = (
                         <Typography variant="display3">Loading</Typography>
@@ -129,8 +90,9 @@ export const ListPage = connect(
                     const { name, listCode } = list;
                     const canonSlug = slugify(name, { lower: true });
                     if (match.params.slug === canonSlug) {
+                        const editable = username === list.username;
                         content = (
-                            <Card className={classes.paper}>
+                            <Card>
                                 <CardHeader title={name}>
                                     <Typography variant="display3">
                                         {name}
@@ -189,6 +151,20 @@ export const ListPage = connect(
             //         },
             //     });
             // };
+
+            private loadList = async (listCode: string) => {
+                const res = await fetch(
+                    `${process.env.REACT_APP_API_BASE}/list/${listCode}`,
+                    { mode: 'cors' },
+                );
+                if (res.status > 400) {
+                    throw new Error(
+                        `Server error: ${res.status} ${res.statusText}`,
+                    );
+                }
+                const list = (await res.json()) as EntryList;
+                return list;
+            };
         },
     ),
 );
