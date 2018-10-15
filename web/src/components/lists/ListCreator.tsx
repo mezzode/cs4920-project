@@ -4,6 +4,7 @@ import {
     DialogActions,
     DialogContent,
     DialogTitle,
+    Grid,
     MenuItem,
     TextField,
     withWidth,
@@ -58,33 +59,38 @@ export const ListCreator = withWidth()(
                                 New List
                             </DialogTitle>
                             <DialogContent>
-                                <TextField
-                                    margin="dense"
-                                    id="name"
-                                    name="name"
-                                    label="Name"
-                                    type="text"
-                                    onChange={this.handleInput}
-                                    variant="outlined"
-                                />
-                                <TextField
-                                    id="mediaType"
-                                    name="mediaType"
-                                    select={true}
-                                    label="Type"
-                                    // className={classes.textField}
-                                    value={mediaType || ''}
-                                    onChange={this.handleInput}
-                                    helperText="List type cannot be edited later"
-                                    margin="dense"
-                                    variant="outlined"
-                                >
-                                    {Object.keys(typeItems).map(k => (
-                                        <MenuItem key={k} value={typeItems[k]}>
-                                            {k}
-                                        </MenuItem>
-                                    ))}
-                                </TextField>
+                                <Grid container={true} direction="column">
+                                    <TextField
+                                        margin="dense"
+                                        id="name"
+                                        name="name"
+                                        label="Name"
+                                        type="text"
+                                        onChange={this.handleInput}
+                                        variant="outlined"
+                                    />
+                                    <TextField
+                                        id="mediaType"
+                                        name="mediaType"
+                                        select={true}
+                                        label="Type"
+                                        // className={classes.textField}
+                                        value={mediaType || ''}
+                                        onChange={this.handleInput}
+                                        helperText="List type cannot be edited later"
+                                        margin="dense"
+                                        variant="outlined"
+                                    >
+                                        {Object.keys(typeItems).map(k => (
+                                            <MenuItem
+                                                key={k}
+                                                value={typeItems[k]}
+                                            >
+                                                {k}
+                                            </MenuItem>
+                                        ))}
+                                    </TextField>
+                                </Grid>
                             </DialogContent>
                             <DialogActions>
                                 <Button
@@ -130,6 +136,7 @@ export const ListCreator = withWidth()(
             private handleCancel = () => {
                 this.props.handleCancel();
                 this.setState({
+                    mediaType: null,
                     name: '',
                 });
             };
@@ -155,11 +162,15 @@ export const ListCreator = withWidth()(
                     throw new Error(`${res.status} ${res.statusText}`);
                 }
                 const list = (await res.json()) as EntryList;
-                
-                const {afterCreate} = this.props;
+
+                const { afterCreate } = this.props;
                 if (afterCreate) {
                     afterCreate(list);
                 }
+                this.setState({
+                    mediaType: null,
+                    name: '',
+                });
 
                 return list;
             };

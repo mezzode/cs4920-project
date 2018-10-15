@@ -194,7 +194,13 @@ export const UserListsComponent = withWidth()(
             };
 
             private afterCreate = async (newList: EntryList) => {
-                const { mediaType, username } = this.props.match.params;
+                const { username } = this.props.match.params;
+                const mediaType = {
+                    anime: MediaType.Anime,
+                    games: MediaType.Game,
+                    movies: MediaType.Movie,
+                    shows: MediaType.Show,
+                }[this.props.match.params.mediaType];
                 if (newList.mediaType !== mediaType) {
                     // list shouldnt be added to current view
                     this.setState({
