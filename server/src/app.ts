@@ -12,7 +12,12 @@ import { setupAuth } from './routes/login/setup-authentication';
 
 export const app = express();
 
-app.use(cors()); // TODO: configure cors
+app.use(
+    cors({
+        credentials: true,
+        origin: 'http://localhost:3000',
+    }),
+); // TODO: configure cors
 app.use(express.static('web/build'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
