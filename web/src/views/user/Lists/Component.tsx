@@ -1,31 +1,19 @@
-import {
-    Button,
-    Divider,
-    Grid,
-    List,
-    ListItem,
-    ListItemText,
-    ListSubheader,
-    Theme,
-    Typography,
-    withWidth,
-} from '@material-ui/core';
+import { Button, Grid, Theme, Typography, withWidth } from '@material-ui/core';
 import { createStyles, withStyles } from '@material-ui/core/styles';
 import { isWidthDown } from '@material-ui/core/withWidth';
 import AddIcon from '@material-ui/icons/Add';
 import * as React from 'react';
 import { Redirect } from 'react-router';
 import { Nav } from '../../../components/common/Nav/index';
-import { LinkTo } from '../../../components/common/util';
 import { EntryEditor } from '../../../components/lists/EntryEditor/index';
 import { ListCreator } from '../../../components/lists/ListCreator';
 import { Lists } from '../../../components/lists/Lists';
+import { UserMenu } from '../../../components/user/UserMenu';
 import {
     Entry,
     EntryList,
     isMediaType,
     MediaType,
-    mediaUrl,
     NewEntryList,
 } from '../../../types';
 import { Props, State } from './types';
@@ -142,13 +130,6 @@ export const UserListsComponent = withWidth()(
                     );
                 }
 
-                const displayTypes = {
-                    [MediaType.Anime]: 'Anime',
-                    [MediaType.Game]: 'Games',
-                    [MediaType.Movie]: 'Movies',
-                    [MediaType.Show]: 'Shows',
-                };
-
                 return (
                     <>
                         <Nav />
@@ -160,41 +141,10 @@ export const UserListsComponent = withWidth()(
                             >
                                 <Grid item={true} xs={12} md={2} xl={1}>
                                     {editable && button}
-                                    <List component="nav">
-                                        {/* TODO: make list collapsible in mobile */}
-                                        <ListItem
-                                            button={true}
-                                            component={LinkTo(
-                                                `/user/${username}`,
-                                            )}
-                                        >
-                                            <ListItemText primary={username} />
-                                        </ListItem>
-                                    </List>
-                                    <Divider />
-                                    <List component="nav">
-                                        <ListSubheader>Lists</ListSubheader>
-                                        {Object.keys(MediaType)
-                                            .map(k => MediaType[k])
-                                            .map((t: MediaType) => (
-                                                <ListItem
-                                                    selected={t === mediaType}
-                                                    button={true}
-                                                    component={LinkTo(
-                                                        `/user/${username}/lists/${
-                                                            mediaUrl[t]
-                                                        }`,
-                                                    )}
-                                                    key={t}
-                                                >
-                                                    <ListItemText
-                                                        primary={
-                                                            displayTypes[t]
-                                                        }
-                                                    />
-                                                </ListItem>
-                                            ))}
-                                    </List>
+                                    <UserMenu
+                                        username={username}
+                                        mediaType={mediaType}
+                                    />
                                 </Grid>
                                 <Grid item={true} xs={12} md={10} xl={11}>
                                     {content}

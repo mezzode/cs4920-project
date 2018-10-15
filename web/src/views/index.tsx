@@ -11,6 +11,7 @@ import { PasswordReset } from './Passwordreset';
 import { Profile } from './Profile';
 import { SignUp } from './Signup';
 import { UserLists } from './user/Lists';
+import { UserPage } from './user/UserPage';
 
 const ViewComponent: React.SFC<Props> = ({ auth }) => {
     // routes in the format "/list/:id" will ignore the trailing slug and redirect to the canonical one
@@ -26,6 +27,7 @@ const ViewComponent: React.SFC<Props> = ({ auth }) => {
                     path="/user/:username/lists/:mediaType"
                     component={UserLists}
                 />
+                <Route path="/user/:username" component={UserPage} />
                 <Route path="/list/:listId/:slug?" component={ListPage} />
                 <Route path="/media/:mediaId" />
                 <Route path="/login" component={Login} />

@@ -60,6 +60,13 @@ export const mediaUrl = {
     [MediaType.Anime]: 'anime',
 };
 
+export const mediaDisplay = {
+    [MediaType.Anime]: 'Anime',
+    [MediaType.Game]: 'Games',
+    [MediaType.Movie]: 'Movies',
+    [MediaType.Show]: 'Shows',
+};
+
 export interface ListsMap {
     [listCode: string]: EntryList;
 }
