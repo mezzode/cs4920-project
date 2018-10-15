@@ -17,7 +17,7 @@ import { loadList } from '../actions/list';
 import { Nav } from '../components/common/Nav';
 import { EntryEditor } from '../components/lists/EntryEditor';
 import { List } from '../components/lists/List';
-import { State } from '../reducers';
+import { State as ReduxState } from '../reducers';
 import { EntryList } from '../types';
 
 // TODO: fiddle with styling
@@ -70,7 +70,7 @@ interface StateProps {
 }
 
 interface DispatchProps {
-    loadList: () => void;
+    loadList: () => Promise<EntryList>;
 }
 
 interface Props
@@ -79,7 +79,12 @@ interface Props
         StateProps,
         DispatchProps {}
 
-const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (
+interface State {
+    editOpen: boolean;
+    list: EntryList | null;
+}
+
+const mapStateToProps: MapStateToProps<StateProps, OwnProps, ReduxState> = (
     { lists, user: { displayName } },
     { match },
 ) => ({
@@ -88,11 +93,11 @@ const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (
 });
 
 const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = (
-    dispatch: ThunkDispatch<State, void, Action>,
+    dispatch: ThunkDispatch<ReduxState, void, Action>,
     { match },
 ) => ({
     loadList: async () => {
-        dispatch(loadList(match.params.listId));
+        return dispatch(loadList(match.params.listId));
     },
 });
 
@@ -101,10 +106,16 @@ export const ListPage = connect(
     mapDispatchToProps,
 )(
     withStyles(styles)(
-        class extends React.Component<Props> {
-            public componentDidMount() {
+        class extends React.Component<Props, State> {
+            public state: State = {
+                editOpen: false,
+                list: null,
+            };
+
+            public async componentDidMount() {
                 // only load on mount so redirecting to correct slug doesnt load again
-                this.props.loadList();
+                const list = await this.props.loadList();
+                this.setState({ list });
             }
 
             public render() {
@@ -152,6 +163,32 @@ export const ListPage = connect(
                     </>
                 );
             }
+
+            // private editSubmit = (
+            //     entryCode: string,
+            //     entryEdit: Partial<UserEntry>,
+            // ): React.MouseEventHandler => async () => {
+            //     const { list } = this.state;
+            //     if (list === null) {
+            //         // should not be able to trigger edit if not loaded
+            //         throw new Error('List not loaded');
+            //     }
+
+            //     const editedEntry = await saveEdit(entryCode, entryEdit);
+
+            //     this.setState({
+            //         editOpen: false,
+            //         list: {
+            //             ...list,
+            //             entries: list.entries.map(
+            //                 entry =>
+            //                     entry.entryCode === editedEntry.entryCode
+            //                         ? editedEntry
+            //                         : entry,
+            //             ),
+            //         },
+            //     });
+            // };
         },
     ),
 );

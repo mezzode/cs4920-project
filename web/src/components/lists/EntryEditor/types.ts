@@ -1,6 +1,6 @@
 import { WithStyles } from '@material-ui/core';
 import { WithWidth } from '@material-ui/core/withWidth';
-import { Entry, UserEntry } from '../../../types';
+import { Entry } from '../../../types';
 import { styles } from './Component';
 
 export interface StateProps {
@@ -8,15 +8,15 @@ export interface StateProps {
 }
 
 export interface DispatchProps {
+    close: () => void;
     handleInput: React.FormEventHandler;
     handleCancel: () => void;
-    handleSave: (
-        entryCode: string,
-        entryEdit: Partial<UserEntry>,
-    ) => React.MouseEventHandler;
 }
 
-export interface OwnProps {}
+export interface OwnProps {
+    /** Callback to be called after a successful save. */
+    afterSave?: (editedEntry: Entry) => void;
+}
 
 export interface Props
     extends WithStyles<typeof styles>,

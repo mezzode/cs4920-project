@@ -8,15 +8,10 @@ import { UserListsComponent } from './Component';
 import { DispatchProps, OwnProps, StateProps } from './types';
 
 export const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (
-    { lists, user: { displayName } },
+    { user: { displayName } },
     { match },
 ) => ({
     editable: displayName === match.params.username,
-    lists:
-        lists &&
-        Object.keys(lists)
-            .map(k => lists[k])
-            .filter(({ username }) => username === match.params.username),
 });
 
 export const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = (
@@ -47,7 +42,7 @@ export const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = (
     },
     loadLists: () => {
         const { username, mediaType } = match.params;
-        dispatch(loadUserLists(username, mediaType));
+        return dispatch(loadUserLists(username, mediaType));
     },
 });
 

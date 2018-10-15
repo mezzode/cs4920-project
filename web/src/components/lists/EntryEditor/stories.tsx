@@ -59,8 +59,14 @@ storiesOf('EntryEditor', module)
                 };
 
                 public render() {
-                    const { handleCancel, handleInput, handleSave } = this;
+                    const {
+                        handleCancel,
+                        handleInput,
+                        handleSave,
+                        close,
+                    } = this;
                     const props = {
+                        close,
                         entry: this.state.editingEntry,
                         handleCancel,
                         handleInput,
@@ -93,6 +99,10 @@ storiesOf('EntryEditor', module)
                         </Card>
                     );
                 }
+
+                private close = () => {
+                    this.setState({ editingEntry: null });
+                };
 
                 private handleCancel = () => {
                     // cancelled

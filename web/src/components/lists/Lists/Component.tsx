@@ -42,11 +42,16 @@ const RawLists: React.SFC<Props> = ({ classes, editable, lists }) => (
                 </ExpansionPanelSummary>
                 <Divider />
                 <ExpansionPanelDetails className={classes.details}>
-                    <Grid className={classes.content}>
-                        <Grid xs={12}>
+                    <Grid className={classes.content} container={true}>
+                        <Grid xs={12} item={true}>
                             <List entries={list.entries} editable={editable} />
                         </Grid>
-                        <Grid container={true} justify="flex-end" xs={12}>
+                        <Grid
+                            container={true}
+                            item={true}
+                            justify="flex-end"
+                            xs={12}
+                        >
                             <Button className={classes.button}>Edit</Button>
                             <Button className={classes.button}>Delete</Button>
                         </Grid>

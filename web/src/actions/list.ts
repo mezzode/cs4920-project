@@ -47,7 +47,7 @@ export const loadList: (
 export const loadUserLists = (
     username: string,
     mediaType: string,
-): ThunkAction<Promise<EntryList[]>, State, void, Action> => async dispatch => {
+): ThunkAction<Promise<ListsMap>, State, void, Action> => async dispatch => {
     dispatch(getLists.started());
     try {
         const res = await fetch(
@@ -67,7 +67,7 @@ export const loadUserLists = (
             {},
         );
         dispatch(getLists.done({ result }));
-        return lists;
+        return result;
     } catch (e) {
         dispatch(getLists.failed(e.message));
         throw e;

@@ -20,7 +20,13 @@ import { LinkTo } from '../../../components/common/util';
 import { EntryEditor } from '../../../components/lists/EntryEditor/index';
 import { ListCreator } from '../../../components/lists/ListCreator';
 import { Lists } from '../../../components/lists/Lists';
-import { isMediaType, MediaType, NewEntryList } from '../../../types';
+import {
+    Entry,
+    EntryList,
+    isMediaType,
+    MediaType,
+    NewEntryList,
+} from '../../../types';
 import { Props, State } from './types';
 
 // TODO: fiddle with styling
@@ -47,14 +53,18 @@ export const UserListsComponent = withWidth()(
         class extends React.Component<Props, State> {
             public state: State = {
                 createOpen: false,
+                editOpen: false,
+                lists: null,
             };
 
-            public componentDidMount() {
-                this.props.loadLists();
+            public async componentDidMount() {
+                const lists = await this.props.loadLists();
+                this.setState({ lists });
             }
 
             public render() {
-                const { lists, classes, editable, width, match } = this.props;
+                const { classes, editable, width, match } = this.props;
+                const { lists } = this.state;
                 const mediaType = {
                     anime: MediaType.Anime,
                     games: MediaType.Game,
@@ -93,7 +103,7 @@ export const UserListsComponent = withWidth()(
                     content = (
                         <Typography variant="display3">Loading</Typography>
                     );
-                } else if (lists.length === 0) {
+                } else if (Object.keys(lists).length === 0) {
                     // TODO: make nice
                     content = (
                         <Typography variant="display3">No lists</Typography>
@@ -104,7 +114,7 @@ export const UserListsComponent = withWidth()(
                         <>
                             {editable && (
                                 <>
-                                    <EntryEditor />
+                                    <EntryEditor afterSave={this.afterSave} />
                                     <ListCreator
                                         open={createOpen}
                                         submit={this.createSubmit}
@@ -113,7 +123,10 @@ export const UserListsComponent = withWidth()(
                                     />
                                 </>
                             )}
-                            <Lists lists={lists} editable={editable} />
+                            <Lists
+                                lists={Object.keys(lists).map(k => lists[k])}
+                                editable={editable}
+                            />
                         </>
                     );
                 }
@@ -157,6 +170,7 @@ export const UserListsComponent = withWidth()(
                                                     component={LinkTo(
                                                         `/user/${username}/lists/${t}`, // TODO: need plural string
                                                     )}
+                                                    key={t}
                                                 >
                                                     <ListItemText
                                                         primary={
@@ -191,6 +205,34 @@ export const UserListsComponent = withWidth()(
 
             private createClose = () => {
                 this.setState({ createOpen: false });
+            };
+
+            private afterSave = (editedEntry: Entry) => {
+                const { lists } = this.state;
+                if (lists === null) {
+                    // should not be able to trigger edit if not loaded
+                    throw new Error('Lists not loaded');
+                }
+
+                const updateListEntry = (list: EntryList, result: Entry) => ({
+                    ...list,
+                    entries: list.entries.map(
+                        entry =>
+                            entry.entryCode === result.entryCode
+                                ? result
+                                : entry,
+                    ),
+                });
+
+                this.setState({
+                    lists: {
+                        ...lists,
+                        [editedEntry.listCode]: updateListEntry(
+                            lists[editedEntry.listCode],
+                            editedEntry,
+                        ),
+                    },
+                });
             };
         },
     ),

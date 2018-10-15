@@ -6,7 +6,7 @@ import { Entry, EntryList, ListsMap } from '../types';
 
 export type ListsState = ListsMap | null;
 
-const updateListEntry = (list: EntryList, result: Entry) => ({
+export const updateListEntry = (list: EntryList, result: Entry) => ({
     ...list,
     entries: list.entries.map(
         (entry): Entry =>

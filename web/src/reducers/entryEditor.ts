@@ -1,7 +1,7 @@
 import { Reducer } from 'redux';
 import { reducerWithInitialState } from 'typescript-fsa-reducers';
 import {
-    cancelEntryEdit,
+    closeEntryEditor,
     saveEntryEdit,
     startEntryEdit,
     updateEntryEdit,
@@ -47,5 +47,5 @@ export const entryEditor: Reducer<EntryEditorState> = reducerWithInitialState<
             status: state.status,
         };
     })
-    .cases([saveEntryEdit.done, cancelEntryEdit], () => initialState)
+    .cases([saveEntryEdit.done, closeEntryEditor], () => initialState)
     .build();
