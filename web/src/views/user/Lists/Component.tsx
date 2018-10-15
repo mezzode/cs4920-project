@@ -164,7 +164,9 @@ export const UserListsComponent = withWidth()(
                                         {/* TODO: make list collapsible in mobile */}
                                         <ListItem
                                             button={true}
-                                            // onClick={event => this.handleListItemClick(event, 0)}
+                                            component={LinkTo(
+                                                `/user/${username}`,
+                                            )}
                                         >
                                             <ListItemText primary={username} />
                                         </ListItem>
