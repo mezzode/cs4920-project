@@ -1,10 +1,8 @@
 import {
-    Button,
     Divider,
     ExpansionPanel,
     ExpansionPanelDetails,
     ExpansionPanelSummary,
-    Grid,
     Theme,
     Typography,
     WithStyles,
@@ -17,12 +15,6 @@ import { List } from '../List';
 
 const styles = (theme: Theme) =>
     createStyles({
-        button: {
-            margin: theme.spacing.unit,
-        },
-        content: {
-            width: '100%',
-        },
         details: {
             padding: 0,
         },
@@ -42,20 +34,7 @@ const RawLists: React.SFC<Props> = ({ classes, editable, lists }) => (
                 </ExpansionPanelSummary>
                 <Divider />
                 <ExpansionPanelDetails className={classes.details}>
-                    <Grid className={classes.content} container={true}>
-                        <Grid xs={12} item={true}>
-                            <List entries={list.entries} editable={editable} />
-                        </Grid>
-                        <Grid
-                            container={true}
-                            item={true}
-                            justify="flex-end"
-                            xs={12}
-                        >
-                            <Button className={classes.button}>Edit</Button>
-                            <Button className={classes.button}>Delete</Button>
-                        </Grid>
-                    </Grid>
+                    <List list={list} editable={editable} />
                 </ExpansionPanelDetails>
             </ExpansionPanel>
         ))}

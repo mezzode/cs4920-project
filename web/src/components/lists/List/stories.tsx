@@ -5,6 +5,7 @@ import * as React from 'react';
 import { MemoryRouter } from 'react-router';
 import { theme } from '../../../App';
 import { Entry } from '../../../types';
+import { EntryList, MediaType } from '../../../types';
 import { ListComponent } from './Component';
 
 const entries: Entry[] = [
@@ -55,6 +56,14 @@ const entries: Entry[] = [
     },
 ];
 
+const list: EntryList = {
+    entries,
+    listCode: 'a',
+    mediaType: MediaType.Game,
+    name: 'Games',
+    username: 'mezzode',
+};
+
 const handleEdit: (entry: Entry) => React.MouseEventHandler = entry => e => {
     // TODO
     console.log(entry);
@@ -83,7 +92,7 @@ storiesOf('List', module)
         })(() => (
             <Paper>
                 <ListComponent
-                    entries={entries}
+                    list={list}
                     handleEdit={handleEdit}
                     editable={true}
                 />
@@ -106,7 +115,7 @@ storiesOf('List', module)
         })(() => (
             <Paper>
                 <ListComponent
-                    entries={entries}
+                    list={list}
                     handleEdit={handleEdit}
                     editable={false}
                 />

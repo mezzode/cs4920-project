@@ -1,5 +1,6 @@
 import {
     Button,
+    Grid,
     Table,
     TableBody,
     TableCell,
@@ -15,6 +16,12 @@ import { Props } from './types';
 
 export const styles = (theme: Theme) =>
     createStyles({
+        button: {
+            margin: theme.spacing.unit,
+        },
+        content: {
+            width: '100%',
+        },
         header: {
             height: '48px', // TODO: get var from theme instead of hardcoding?
         },
@@ -39,62 +46,71 @@ export const styles = (theme: Theme) =>
         },
     });
 
-// TODO: prolly should use Typography to style title instead of Button
-const RawList: React.SFC<Props> = ({
-    classes,
-    entries,
-    handleEdit,
-    editable,
-}) => {
-    if (entries.length === 0) {
-        return (
+const RawList: React.SFC<Props> = ({ classes, list, handleEdit, editable }) => {
+    const entries = list.entries;
+    const content =
+        entries.length === 0 ? (
             <Typography className={classes.layout} variant="body1">
                 No entries.
             </Typography>
-        );
-    }
-    return (
-        <Table>
-            <TableHead>
-                <TableRow className={classes.header}>
-                    <TableCell>Title</TableCell>
-                    <TableCell>Rating</TableCell>
-                    <TableCell>Started</TableCell>
-                    <TableCell>Finished</TableCell>
-                    <TableCell>Progress</TableCell>
-                    {editable && <TableCell />}
-                </TableRow>
-            </TableHead>
-            <TableBody>
-                {entries.map(entry => (
-                    <TableRow key={entry.entryCode}>
-                        <TableCell component="th" scope="row">
-                            <Typography variant="body1">
-                                <Link
-                                    to={`/media/${entry.media.mediaCode}`}
-                                    className={classes.link}
-                                >
-                                    {entry.media.title}
-                                </Link>
-                            </Typography>
-                        </TableCell>
-                        <TableCell>
-                            {entry.rating !== null ? `${entry.rating}/10` : '-'}
-                        </TableCell>
-                        <TableCell>{entry.started}</TableCell>
-                        <TableCell>{entry.finished}</TableCell>
-                        <TableCell>{entry.progress}</TableCell>
-                        {editable && (
-                            <TableCell>
-                                <Button onClick={handleEdit(entry)}>
-                                    Edit
-                                </Button>
-                            </TableCell>
-                        )}
+        ) : (
+            <Table>
+                <TableHead>
+                    <TableRow className={classes.header}>
+                        <TableCell>Title</TableCell>
+                        <TableCell>Rating</TableCell>
+                        <TableCell>Started</TableCell>
+                        <TableCell>Finished</TableCell>
+                        <TableCell>Progress</TableCell>
+                        {editable && <TableCell />}
                     </TableRow>
-                ))}
-            </TableBody>
-        </Table>
+                </TableHead>
+                <TableBody>
+                    {entries.map(entry => (
+                        <TableRow key={entry.entryCode}>
+                            <TableCell component="th" scope="row">
+                                <Typography variant="body1">
+                                    <Link
+                                        to={`/media/${entry.media.mediaCode}`}
+                                        className={classes.link}
+                                    >
+                                        {entry.media.title}
+                                    </Link>
+                                </Typography>
+                            </TableCell>
+                            <TableCell>
+                                {entry.rating !== null
+                                    ? `${entry.rating}/10`
+                                    : '-'}
+                            </TableCell>
+                            <TableCell>{entry.started}</TableCell>
+                            <TableCell>{entry.finished}</TableCell>
+                            <TableCell>{entry.progress}</TableCell>
+                            {editable && (
+                                <TableCell>
+                                    <Button onClick={handleEdit(entry)}>
+                                        Edit
+                                    </Button>
+                                </TableCell>
+                            )}
+                        </TableRow>
+                    ))}
+                </TableBody>
+            </Table>
+        );
+
+    return (
+        <Grid className={classes.content} container={true}>
+            <Grid xs={12} item={true}>
+                {content}
+            </Grid>
+            {editable && ( // TODO: implement modals
+                <Grid container={true} item={true} justify="flex-end" xs={12}>
+                    <Button className={classes.button}>Edit</Button>
+                    <Button className={classes.button}>Delete</Button>
+                </Grid>
+            )}
+        </Grid>
     );
 };
 

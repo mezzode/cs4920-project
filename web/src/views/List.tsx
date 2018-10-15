@@ -126,7 +126,7 @@ export const ListPage = connect(
                         <Typography variant="display3">Loading</Typography>
                     );
                 } else {
-                    const { name, entries, listCode } = list;
+                    const { name, listCode } = list;
                     const canonSlug = slugify(name, { lower: true });
                     if (match.params.slug === canonSlug) {
                         content = (
@@ -136,7 +136,7 @@ export const ListPage = connect(
                                         {name}
                                     </Typography>
                                 </CardHeader>
-                                <List entries={entries} editable={editable} />
+                                <List list={list} editable={editable} />
                                 {editable && <EntryEditor />}
                             </Card>
                         );
