@@ -25,6 +25,7 @@ import {
     EntryList,
     isMediaType,
     MediaType,
+    mediaUrl,
     NewEntryList,
 } from '../../../types';
 import { Props, State } from './types';
@@ -173,12 +174,14 @@ export const UserListsComponent = withWidth()(
                                         <ListSubheader>Lists</ListSubheader>
                                         {Object.keys(MediaType)
                                             .map(k => MediaType[k])
-                                            .map(t => (
+                                            .map((t: MediaType) => (
                                                 <ListItem
                                                     selected={t === mediaType}
                                                     button={true}
                                                     component={LinkTo(
-                                                        `/user/${username}/lists/${t}`, // TODO: need plural string
+                                                        `/user/${username}/lists/${
+                                                            mediaUrl[t]
+                                                        }`,
                                                     )}
                                                     key={t}
                                                 >

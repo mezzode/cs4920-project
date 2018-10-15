@@ -53,6 +53,13 @@ export const isMediaType = (s: string): s is MediaType =>
         .map(k => MediaType[k])
         .filter(t => t === s).length === 1;
 
+export const mediaUrl = {
+    [MediaType.Game]: 'games',
+    [MediaType.Show]: 'shows',
+    [MediaType.Movie]: 'movies',
+    [MediaType.Anime]: 'anime',
+};
+
 export interface ListsMap {
     [listCode: string]: EntryList;
 }
