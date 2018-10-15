@@ -2,9 +2,8 @@ import { Reducer } from 'redux';
 import { reducerWithInitialState } from 'typescript-fsa-reducers';
 import {
     closeEntryEditor,
-    saveEntryEdit,
-    startEntryEdit,
-    updateEntryEdit,
+    openEntryEditor,
+    updateEntryEditor,
 } from '../actions/entry';
 import { Entry } from '../types';
 
@@ -34,11 +33,11 @@ const initialState: ClosedState = {
 export const entryEditor: Reducer<EntryEditorState> = reducerWithInitialState<
     EntryEditorState
 >(initialState)
-    .case(startEntryEdit, (state, entry) => ({
+    .case(openEntryEditor, (state, entry) => ({
         entry,
         status: Status.editing,
     }))
-    .case(updateEntryEdit, (state, entryUpdate) => {
+    .case(updateEntryEditor, (state, entryUpdate) => {
         if (state.entry === null || state.status === Status.closed) {
             throw new Error('Trying to update editor while editor is not open');
         }
@@ -47,5 +46,5 @@ export const entryEditor: Reducer<EntryEditorState> = reducerWithInitialState<
             status: state.status,
         };
     })
-    .cases([saveEntryEdit.done, closeEntryEditor], () => initialState)
+    .case(closeEntryEditor, () => initialState)
     .build();

@@ -1,5 +1,5 @@
 import { connect, MapDispatchToProps } from 'react-redux';
-import { startEntryEdit } from '../../../actions/entry';
+import { openEntryEditor } from '../../../actions/entry';
 import { Entry } from '../../../types';
 import { ListComponent } from './Component';
 import { DispatchProps, OwnProps } from './types';
@@ -11,7 +11,7 @@ const mapDispatchToProps: MapDispatchToProps<
     const handleEdit: (
         entry: Entry,
     ) => React.MouseEventHandler<HTMLInputElement> = entry => e =>
-        dispatch(startEntryEdit(entry));
+        dispatch(openEntryEditor(entry));
 
     return {
         handleEdit,
