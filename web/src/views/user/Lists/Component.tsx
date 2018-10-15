@@ -57,6 +57,16 @@ export const UserListsComponent = withWidth()(
                 lists: null,
             };
 
+            public async componentDidUpdate(prevProps: Props) {
+                if (
+                    prevProps.match.params.mediaType !==
+                    this.props.match.params.mediaType
+                ) {
+                    const lists = await this.props.loadLists();
+                    this.setState({ lists });
+                }
+            }
+
             public async componentDidMount() {
                 const lists = await this.props.loadLists();
                 this.setState({ lists });
