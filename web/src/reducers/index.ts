@@ -1,11 +1,9 @@
 import { combineReducers, Reducer } from 'redux';
-import { entryEditor } from './entryEditor';
 import { flashMessage } from './flashMessage';
 import { modals } from './modals';
 import { user } from './user';
 
 export const rootReducer = combineReducers({
-    entryEditor,
     flashMessage,
     modals,
     user,

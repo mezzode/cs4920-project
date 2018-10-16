@@ -1,6 +1,6 @@
 import { connect, MapDispatchToProps, MapStateToProps } from 'react-redux';
-import { closeEntryEditor, updateEntryEditor } from 'src/actions/entry';
-import { State } from 'src/reducers/index';
+import { State } from 'src/reducers';
+import { closeEntryEditor, updateEntryEditor } from './actions';
 import { EntryEditorComponent } from './Component';
 import { DispatchProps, OwnProps, StateProps } from './types';
 
@@ -9,7 +9,7 @@ const mapStateToProps: MapStateToProps<
     OwnProps,
     State
 > = state => ({
-    entry: state.entryEditor.entry,
+    entry: state.modals.entryEditor.entry,
 });
 
 const mapDispatchToProps: MapDispatchToProps<
