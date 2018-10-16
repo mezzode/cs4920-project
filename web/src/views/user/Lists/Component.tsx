@@ -11,14 +11,14 @@ import { isWidthDown } from '@material-ui/core/withWidth';
 import AddIcon from '@material-ui/icons/Add';
 import * as React from 'react';
 import { Redirect } from 'react-router';
-import { ListDeleter } from 'src/components/lists/ListDeleter';
-import { ListEditor } from 'src/components/lists/ListEditor';
-import { AfterEditCallback } from 'src/components/lists/ListEditor/types';
-import { Nav } from '../../../components/common/Nav/index';
-import { EntryEditor } from '../../../components/lists/EntryEditor/index';
-import { ListCreator } from '../../../components/lists/ListCreator';
-import { Lists } from '../../../components/lists/Lists';
-import { UserMenu } from '../../../components/user/UserMenu';
+import { Nav } from 'src/components/common/Nav/index';
+import { Lists } from 'src/components/lists/Lists';
+import { EntryEditor } from 'src/components/modals/entries/EntryEditor';
+import { ListCreator } from 'src/components/modals/lists/ListCreator';
+import { ListDeleter } from 'src/components/modals/lists/ListDeleter';
+import { ListEditor } from 'src/components/modals/lists/ListEditor';
+import { AfterEditCallback } from 'src/components/modals/lists/ListEditor/types';
+import { UserMenu } from 'src/components/user/UserMenu';
 import {
     Entry,
     EntryList,

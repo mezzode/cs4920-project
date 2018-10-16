@@ -1,6 +1,6 @@
 import { Reducer } from 'redux';
+import { EntryList } from 'src/types';
 import { reducerWithInitialState } from 'typescript-fsa-reducers';
-import { EntryList } from '../../../types';
 import { closeListDeleter, openListDeleter } from './actions';
 
 interface ListDeleterState {

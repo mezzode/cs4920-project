@@ -10,7 +10,7 @@ import {
 import { createStyles, withStyles } from '@material-ui/core/styles';
 import { isWidthDown } from '@material-ui/core/withWidth';
 import * as React from 'react';
-import { EntryList } from '../../../types';
+import { EntryList } from 'src/types';
 import { Props } from './types';
 
 export const styles = createStyles({});

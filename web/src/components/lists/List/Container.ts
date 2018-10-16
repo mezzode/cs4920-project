@@ -1,8 +1,8 @@
 import { connect, MapDispatchToProps } from 'react-redux';
-import { openEntryEditor } from '../../../actions/entry';
-import { Entry } from '../../../types';
-import { openListDeleter } from '../ListDeleter/actions';
-import { openListEditor } from '../ListEditor/actions';
+import { openEntryEditor } from 'src/actions/entry';
+import { openListDeleter } from 'src/components/modals/lists/ListDeleter/actions';
+import { openListEditor } from 'src/components/modals/lists/ListEditor/actions';
+import { Entry } from 'src/types';
 import { ListComponent } from './Component';
 import { DispatchProps, OwnProps } from './types';
 

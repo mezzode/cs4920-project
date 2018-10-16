@@ -13,14 +13,14 @@ import * as React from 'react';
 import { connect, MapStateToProps } from 'react-redux';
 import { Redirect, RouteComponentProps } from 'react-router';
 import slugify from 'slugify';
-import { ListDeleter } from 'src/components/lists/ListDeleter';
-import { ListEditor } from 'src/components/lists/ListEditor';
-import { AfterEditCallback } from 'src/components/lists/ListEditor/types';
-import { Nav } from '../components/common/Nav';
-import { EntryEditor } from '../components/lists/EntryEditor';
-import { List } from '../components/lists/List';
-import { State as ReduxState } from '../reducers';
-import { EntryList, mediaDisplay } from '../types';
+import { Nav } from 'src/components/common/Nav';
+import { List } from 'src/components/lists/List';
+import { EntryEditor } from 'src/components/modals/entries/EntryEditor';
+import { ListDeleter } from 'src/components/modals/lists/ListDeleter';
+import { ListEditor } from 'src/components/modals/lists/ListEditor';
+import { AfterEditCallback } from 'src/components/modals/lists/ListEditor/types';
+import { State as ReduxState } from 'src/reducers';
+import { EntryList, mediaDisplay } from 'src/types';
 
 const styles = (theme: Theme) =>
     createStyles({

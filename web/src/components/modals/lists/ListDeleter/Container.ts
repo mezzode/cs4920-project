@@ -1,5 +1,5 @@
 import { connect, MapDispatchToProps, MapStateToProps } from 'react-redux';
-import { State } from '../../../reducers/index';
+import { State } from 'src/reducers/index';
 import { closeListDeleter } from './actions';
 import { ListDeleterComponent } from './Component';
 import { DispatchProps, OwnProps, StateProps } from './types';

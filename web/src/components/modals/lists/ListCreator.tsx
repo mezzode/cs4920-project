@@ -14,7 +14,12 @@ import { createStyles, withStyles } from '@material-ui/core/styles';
 import { isWidthDown } from '@material-ui/core/withWidth';
 import { WithWidth } from '@material-ui/core/withWidth';
 import * as React from 'react';
-import { EntryList, isMediaType, MediaType, NewEntryList } from '../../types';
+import {
+    EntryList,
+    isMediaType,
+    MediaType,
+    NewEntryList,
+} from 'src/types';
 
 const styles = createStyles({});
 

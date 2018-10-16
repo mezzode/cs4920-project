@@ -1,5 +1,5 @@
+import { EntryList } from 'src/types';
 import actionCreatorFactory from 'typescript-fsa';
-import { EntryList } from '../../../types';
 import { ListEdit } from './types';
 
 const actionCreator = actionCreatorFactory('LIST_EDITOR');

@@ -1,5 +1,5 @@
 import { WithStyles } from '@material-ui/core';
-import { Entry, EntryList } from '../../../types';
+import { Entry, EntryList } from 'src/types';
 import { styles } from './Component';
 
 export interface DispatchProps {
