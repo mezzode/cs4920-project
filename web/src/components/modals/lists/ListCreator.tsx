@@ -14,12 +14,7 @@ import { createStyles, withStyles } from '@material-ui/core/styles';
 import { isWidthDown } from '@material-ui/core/withWidth';
 import { WithWidth } from '@material-ui/core/withWidth';
 import * as React from 'react';
-import {
-    EntryList,
-    isMediaType,
-    MediaType,
-    NewEntryList,
-} from 'src/types';
+import { EntryList, isMediaType, MediaType, NewEntryList } from 'src/types';
 
 const styles = createStyles({});
 
@@ -35,6 +30,9 @@ interface State {
     mediaType: MediaType | null;
 }
 
+// FIXME: refactor to match newer modals which store state in redux
+// better to use redux so can close itself and parents do not all need to
+// store and manage "open" state by passing callbacks in.
 export const ListCreator = withWidth()(
     withStyles(styles)(
         class extends React.Component<Props, State> {
