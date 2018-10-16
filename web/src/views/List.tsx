@@ -2,6 +2,8 @@ import {
     Card,
     CardHeader,
     Grid,
+    LinearProgress,
+    Snackbar,
     Theme,
     Typography,
     WithStyles,
@@ -11,6 +13,7 @@ import * as React from 'react';
 import { connect, MapStateToProps } from 'react-redux';
 import { Redirect, RouteComponentProps } from 'react-router';
 import slugify from 'slugify';
+import { ListDeleter } from 'src/components/lists/ListDeleter';
 import { Nav } from '../components/common/Nav';
 import { EntryEditor } from '../components/lists/EntryEditor';
 import { List } from '../components/lists/List';
@@ -42,6 +45,8 @@ interface Props extends WithStyles<typeof styles>, OwnProps, StateProps {}
 
 interface State {
     editOpen: boolean;
+    deleted: boolean;
+    notFound: boolean;
     list: EntryList | null;
 }
 
@@ -57,15 +62,25 @@ export const ListPage = connect(mapStateToProps)(
     withStyles(styles)(
         class extends React.Component<Props, State> {
             public state: State = {
+                deleted: false,
                 editOpen: false,
                 list: null,
+                notFound: false,
             };
 
             public async componentDidMount() {
                 // only load on mount so redirecting to correct slug doesnt load again
                 const { listCode } = this.props.match.params;
                 const list = await this.loadList(listCode);
-                this.setState({ list });
+                if (list == null) {
+                    this.setState({
+                        notFound: true,
+                    });
+                } else {
+                    this.setState({
+                        list,
+                    });
+                }
             }
 
             public async componentDidUpdate(prevProps: Props) {
@@ -73,19 +88,28 @@ export const ListPage = connect(mapStateToProps)(
                 if (prevProps.match.params.listCode !== listCode) {
                     this.setState({ list: null });
                     const list = await this.loadList(listCode);
-                    this.setState({ list });
+                    if (list == null) {
+                        this.setState({
+                            notFound: true,
+                        });
+                    } else {
+                        this.setState({
+                            list,
+                        });
+                    }
                 }
             }
 
             public render() {
                 const { classes, match, username } = this.props;
-                const { list } = this.state;
+                const { list, deleted, notFound } = this.state;
                 let content = null;
 
-                if (list === null) {
-                    content = (
-                        <Typography variant="display3">Loading</Typography>
-                    );
+                if (notFound) {
+                    // TODO: make a <NotFound> component
+                    content = <Typography variant="h1">Not Found</Typography>;
+                } else if (list === null) {
+                    content = <LinearProgress variant="query" />;
                 } else {
                     const { name, listCode } = list;
                     const canonSlug = slugify(name, { lower: true });
@@ -99,7 +123,14 @@ export const ListPage = connect(mapStateToProps)(
                                     </Typography>
                                 </CardHeader>
                                 <List list={list} editable={editable} />
-                                {editable && <EntryEditor />}
+                                {editable && (
+                                    <>
+                                        <EntryEditor />
+                                        <ListDeleter
+                                            afterDelete={this.afterDelete}
+                                        />
+                                    </>
+                                )}
                             </Card>
                         );
                     } else {
@@ -121,6 +152,14 @@ export const ListPage = connect(mapStateToProps)(
                                     {content}
                                 </Grid>
                             </Grid>
+                            <Snackbar
+                                anchorOrigin={{
+                                    horizontal: 'left',
+                                    vertical: 'bottom',
+                                }}
+                                open={deleted}
+                                message={'List deleted'}
+                            />
                         </main>
                     </>
                 );
@@ -152,11 +191,16 @@ export const ListPage = connect(mapStateToProps)(
             //     });
             // };
 
-            private loadList = async (listCode: string) => {
+            private loadList = async (
+                listCode: string,
+            ): Promise<EntryList | null> => {
                 const res = await fetch(
                     `${process.env.REACT_APP_API_BASE}/list/${listCode}`,
                     { mode: 'cors' },
                 );
+                if (res.status === 404) {
+                    return null;
+                }
                 if (res.status > 400) {
                     throw new Error(
                         `Server error: ${res.status} ${res.statusText}`,
@@ -164,6 +208,12 @@ export const ListPage = connect(mapStateToProps)(
                 }
                 const list = (await res.json()) as EntryList;
                 return list;
+            };
+
+            private afterDelete = () => {
+                this.setState({
+                    deleted: true,
+                });
             };
         },
     ),
