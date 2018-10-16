@@ -14,6 +14,8 @@ import { connect, MapStateToProps } from 'react-redux';
 import { Redirect, RouteComponentProps } from 'react-router';
 import slugify from 'slugify';
 import { ListDeleter } from 'src/components/lists/ListDeleter';
+import { ListEditor } from 'src/components/lists/ListEditor';
+import { AfterEditCallback } from 'src/components/lists/ListEditor/types';
 import { Nav } from '../components/common/Nav';
 import { EntryEditor } from '../components/lists/EntryEditor';
 import { List } from '../components/lists/List';
@@ -114,7 +116,7 @@ export const ListPage = connect(mapStateToProps)(
                     const { name, listCode, mediaType } = list;
                     const canonSlug = slugify(name, { lower: true });
                     if (match.params.slug === canonSlug) {
-                        const editable = username === list.username;
+                        const editable = username === list.username && !deleted;
                         content = (
                             <Card>
                                 <CardHeader
@@ -127,6 +129,9 @@ export const ListPage = connect(mapStateToProps)(
                                         <EntryEditor />
                                         <ListDeleter
                                             afterDelete={this.afterDelete}
+                                        />
+                                        <ListEditor
+                                            afterEdit={this.afterEdit}
                                         />
                                     </>
                                 )}
@@ -212,6 +217,19 @@ export const ListPage = connect(mapStateToProps)(
             private afterDelete = () => {
                 this.setState({
                     deleted: true,
+                });
+            };
+
+            private afterEdit: AfterEditCallback = (listCode, listEdit) => {
+                const { list } = this.state;
+                if (list === null) {
+                    throw new Error('List not loaded');
+                }
+                this.setState({
+                    list: {
+                        ...list,
+                        ...listEdit,
+                    },
                 });
             };
         },

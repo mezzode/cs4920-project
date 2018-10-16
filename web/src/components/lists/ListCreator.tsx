@@ -67,6 +67,7 @@ export const ListCreator = withWidth()(
                                         label="Name"
                                         type="text"
                                         onChange={this.handleInput}
+                                        value={name}
                                         variant="outlined"
                                     />
                                     <TextField

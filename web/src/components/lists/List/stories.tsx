@@ -71,6 +71,7 @@ const handleEdit: (entry: Entry) => React.MouseEventHandler = entry => e => {
 };
 
 const handleDelete = () => console.log('Delete clicked');
+const handleListEdit = () => console.log('List edit clicked');
 
 storiesOf('List', module)
     .addDecorator(story => (
@@ -97,6 +98,7 @@ storiesOf('List', module)
                     list={list}
                     handleEdit={handleEdit}
                     handleDelete={handleDelete}
+                    handleListEdit={handleListEdit}
                     editable={true}
                 />
             </Paper>
@@ -121,6 +123,7 @@ storiesOf('List', module)
                     list={list}
                     handleEdit={handleEdit}
                     handleDelete={handleDelete}
+                    handleListEdit={handleListEdit}
                     editable={false}
                 />
             </Paper>

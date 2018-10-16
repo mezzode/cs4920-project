@@ -95,6 +95,9 @@ const updateList = asyncHandler(async (req, res) => {
     const { listCode } = req.params;
     const [listId] = hashids.decode(listCode);
     const { name }: { name: string } = req.body;
+    if (name.length === 0) {
+        throw new HandlerError('Invalid data', 400);
+    }
     const updated = await db.oneOrNone<{
         name: string;
     }>(
@@ -106,7 +109,6 @@ const updateList = asyncHandler(async (req, res) => {
     if (!updated) {
         throw new HandlerError('List not found', 404);
     }
-    // TODO: use listCode
     res.json(updated);
 });
 

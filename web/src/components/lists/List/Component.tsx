@@ -51,6 +51,7 @@ const RawList: React.SFC<Props> = ({
     list,
     handleEdit,
     handleDelete,
+    handleListEdit,
     editable,
 }) => {
     const entries = list.entries;
@@ -112,7 +113,9 @@ const RawList: React.SFC<Props> = ({
             </Grid>
             {editable && ( // TODO: implement modals
                 <Grid container={true} item={true} justify="flex-end" xs={12}>
-                    <Button className={classes.button}>Edit</Button>
+                    <Button className={classes.button} onClick={handleListEdit}>
+                        Edit
+                    </Button>
                     <Button className={classes.button} onClick={handleDelete}>
                         Delete
                     </Button>

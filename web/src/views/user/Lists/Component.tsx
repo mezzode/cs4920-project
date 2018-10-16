@@ -12,6 +12,8 @@ import AddIcon from '@material-ui/icons/Add';
 import * as React from 'react';
 import { Redirect } from 'react-router';
 import { ListDeleter } from 'src/components/lists/ListDeleter';
+import { ListEditor } from 'src/components/lists/ListEditor';
+import { AfterEditCallback } from 'src/components/lists/ListEditor/types';
 import { Nav } from '../../../components/common/Nav/index';
 import { EntryEditor } from '../../../components/lists/EntryEditor/index';
 import { ListCreator } from '../../../components/lists/ListCreator';
@@ -138,6 +140,7 @@ export const UserListsComponent = withWidth()(
                                     <ListDeleter
                                         afterDelete={this.afterDelete}
                                     />
+                                    <ListEditor afterEdit={this.afterEdit} />
                                 </>
                             )}
                             <Lists
@@ -279,6 +282,23 @@ export const UserListsComponent = withWidth()(
                 this.setState({
                     lists: {
                         ...otherLists,
+                    },
+                });
+            };
+
+            private afterEdit: AfterEditCallback = (listCode, listEdit) => {
+                const { lists } = this.state;
+                if (lists === null) {
+                    throw new Error('Lists not loaded');
+                }
+
+                this.setState({
+                    lists: {
+                        ...lists,
+                        [listCode]: {
+                            ...lists[listCode],
+                            ...listEdit,
+                        },
                     },
                 });
             };
