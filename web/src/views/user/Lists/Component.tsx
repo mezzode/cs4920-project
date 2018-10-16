@@ -14,6 +14,7 @@ import { Redirect } from 'react-router';
 import { Nav } from 'src/components/common/Nav/index';
 import { Lists } from 'src/components/lists/Lists';
 import { EntryEditor } from 'src/components/modals/entries/EntryEditor';
+import { AfterEntryEditCallBack } from 'src/components/modals/entries/EntryEditor/types';
 import { ListCreator } from 'src/components/modals/lists/ListCreator';
 import { ListDeleter } from 'src/components/modals/lists/ListDeleter';
 import { ListEditor } from 'src/components/modals/lists/ListEditor';
@@ -131,7 +132,9 @@ export const UserListsComponent = withWidth()(
                         <>
                             {editable && (
                                 <>
-                                    <EntryEditor afterEdit={this.afterSave} />
+                                    <EntryEditor
+                                        afterEdit={this.afterEntryEdit}
+                                    />
                                     <ListCreator
                                         open={createOpen}
                                         afterCreate={this.afterCreate}
@@ -243,7 +246,7 @@ export const UserListsComponent = withWidth()(
                 this.setState({ createOpen: false });
             };
 
-            private afterSave = (editedEntry: Entry) => {
+            private afterEntryEdit: AfterEntryEditCallBack = editedEntry => {
                 const { lists } = this.state;
                 if (lists === null) {
                     // should not be able to trigger edit if not loaded

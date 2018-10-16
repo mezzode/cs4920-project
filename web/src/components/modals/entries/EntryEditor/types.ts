@@ -12,11 +12,11 @@ export interface DispatchProps {
     input: React.ChangeEventHandler<HTMLInputElement>;
 }
 
-export type AfterEditCallBack = (editedEntry: Entry) => void;
+export type AfterEntryEditCallBack = (editedEntry: Entry) => void;
 
 export interface OwnProps {
     /** Callback to be called after a successful save. */
-    afterEdit?: AfterEditCallBack;
+    afterEdit?: AfterEntryEditCallBack;
 }
 
 export interface Props

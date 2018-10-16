@@ -16,6 +16,7 @@ import slugify from 'slugify';
 import { Nav } from 'src/components/common/Nav';
 import { List } from 'src/components/lists/List';
 import { EntryEditor } from 'src/components/modals/entries/EntryEditor';
+import { AfterEntryEditCallBack } from 'src/components/modals/entries/EntryEditor/types';
 import { ListDeleter } from 'src/components/modals/lists/ListDeleter';
 import { ListEditor } from 'src/components/modals/lists/ListEditor';
 import { AfterEditCallback } from 'src/components/modals/lists/ListEditor/types';
@@ -46,7 +47,6 @@ interface StateProps {
 interface Props extends WithStyles<typeof styles>, OwnProps, StateProps {}
 
 interface State {
-    editOpen: boolean;
     deleted: boolean;
     notFound: boolean;
     list: EntryList | null;
@@ -65,7 +65,6 @@ export const ListPage = connect(mapStateToProps)(
         class extends React.Component<Props, State> {
             public state: State = {
                 deleted: false,
-                editOpen: false,
                 list: null,
                 notFound: false,
             };
@@ -126,7 +125,9 @@ export const ListPage = connect(mapStateToProps)(
                                 <List list={list} editable={editable} />
                                 {editable && (
                                     <>
-                                        <EntryEditor />
+                                        <EntryEditor
+                                            afterEdit={this.afterEntryEdit}
+                                        />
                                         <ListDeleter
                                             afterDelete={this.afterDelete}
                                         />
@@ -169,31 +170,24 @@ export const ListPage = connect(mapStateToProps)(
                 );
             }
 
-            // private editSubmit = (
-            //     entryCode: string,
-            //     entryEdit: Partial<UserEntry>,
-            // ): React.MouseEventHandler => async () => {
-            //     const { list } = this.state;
-            //     if (list === null) {
-            //         // should not be able to trigger edit if not loaded
-            //         throw new Error('List not loaded');
-            //     }
-
-            //     const editedEntry = await saveEdit(entryCode, entryEdit);
-
-            //     this.setState({
-            //         editOpen: false,
-            //         list: {
-            //             ...list,
-            //             entries: list.entries.map(
-            //                 entry =>
-            //                     entry.entryCode === editedEntry.entryCode
-            //                         ? editedEntry
-            //                         : entry,
-            //             ),
-            //         },
-            //     });
-            // };
+            private afterEntryEdit: AfterEntryEditCallBack = editedEntry => {
+                const { list } = this.state;
+                if (list === null) {
+                    // should not be able to trigger edit if not loaded
+                    throw new Error('List not loaded');
+                }
+                this.setState({
+                    list: {
+                        ...list,
+                        entries: list.entries.map(
+                            entry =>
+                                entry.entryCode === editedEntry.entryCode
+                                    ? editedEntry
+                                    : entry,
+                        ),
+                    },
+                });
+            };
 
             private loadList = async (
                 listCode: string,
