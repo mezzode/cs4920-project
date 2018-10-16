@@ -106,6 +106,7 @@ const updateList = asyncHandler(async (req, res) => {
     if (!updated) {
         throw new HandlerError('List not found', 404);
     }
+    // TODO: use listCode
     res.json(updated);
 });
 
@@ -113,17 +114,22 @@ const deleteList = asyncHandler(async (req, res) => {
     const { listCode } = req.params;
     const [listId] = hashids.decode(listCode);
     const deleted = await db.oneOrNone<{
-        name: string;
         id: number;
+        mediaType: MediaType;
     }>(
         `DELETE FROM list
         WHERE id = $(listId)
-        RETURNING id, name`,
+        RETURNING name, media_type AS "mediaType"`,
         { listId },
     );
     if (!deleted) {
         throw new HandlerError('List not found', 404);
     }
+    res.json({
+        ...deleted,
+        listCode,
+    });
+
     res.json(deleted);
 });
 

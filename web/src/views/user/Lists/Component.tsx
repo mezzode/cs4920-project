@@ -1,9 +1,17 @@
-import { Button, Grid, Theme, Typography, withWidth } from '@material-ui/core';
+import {
+    Button,
+    Grid,
+    LinearProgress,
+    Theme,
+    Typography,
+    withWidth,
+} from '@material-ui/core';
 import { createStyles, withStyles } from '@material-ui/core/styles';
 import { isWidthDown } from '@material-ui/core/withWidth';
 import AddIcon from '@material-ui/icons/Add';
 import * as React from 'react';
 import { Redirect } from 'react-router';
+import { ListDeleter } from 'src/components/lists/ListDeleter';
 import { Nav } from '../../../components/common/Nav/index';
 import { EntryEditor } from '../../../components/lists/EntryEditor/index';
 import { ListCreator } from '../../../components/lists/ListCreator';
@@ -99,9 +107,7 @@ export const UserListsComponent = withWidth()(
 
                 let content: JSX.Element;
                 if (lists === null) {
-                    content = (
-                        <Typography variant="display3">Loading</Typography>
-                    );
+                    content = <LinearProgress variant="query" />;
                 } else if (Object.keys(lists).length === 0) {
                     // TODO: make nice
                     const { createOpen } = this.state;
@@ -128,6 +134,9 @@ export const UserListsComponent = withWidth()(
                                         open={createOpen}
                                         afterCreate={this.afterCreate}
                                         handleCancel={this.createClose}
+                                    />
+                                    <ListDeleter
+                                        afterDelete={this.afterDelete}
                                     />
                                 </>
                             )}
@@ -255,6 +264,21 @@ export const UserListsComponent = withWidth()(
                             lists[editedEntry.listCode],
                             editedEntry,
                         ),
+                    },
+                });
+            };
+
+            private afterDelete = (deletedList: EntryList) => {
+                const { lists } = this.state;
+                if (lists === null) {
+                    throw new Error('Lists not loaded');
+                }
+
+                const { [deletedList.listCode]: _, ...otherLists } = lists;
+
+                this.setState({
+                    lists: {
+                        ...otherLists,
                     },
                 });
             };

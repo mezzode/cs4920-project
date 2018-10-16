@@ -46,7 +46,13 @@ export const styles = (theme: Theme) =>
         },
     });
 
-const RawList: React.SFC<Props> = ({ classes, list, handleEdit, editable }) => {
+const RawList: React.SFC<Props> = ({
+    classes,
+    list,
+    handleEdit,
+    handleDelete,
+    editable,
+}) => {
     const entries = list.entries;
     const content =
         entries.length === 0 ? (
@@ -107,7 +113,9 @@ const RawList: React.SFC<Props> = ({ classes, list, handleEdit, editable }) => {
             {editable && ( // TODO: implement modals
                 <Grid container={true} item={true} justify="flex-end" xs={12}>
                     <Button className={classes.button}>Edit</Button>
-                    <Button className={classes.button}>Delete</Button>
+                    <Button className={classes.button} onClick={handleDelete}>
+                        Delete
+                    </Button>
                 </Grid>
             )}
         </Grid>

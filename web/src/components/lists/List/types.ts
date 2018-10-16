@@ -4,6 +4,7 @@ import { styles } from './Component';
 
 export interface DispatchProps {
     handleEdit: (entry: Entry) => React.MouseEventHandler;
+    handleDelete: React.MouseEventHandler;
 }
 
 export interface OwnProps {
