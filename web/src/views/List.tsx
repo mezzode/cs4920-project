@@ -18,7 +18,7 @@ import { Nav } from '../components/common/Nav';
 import { EntryEditor } from '../components/lists/EntryEditor';
 import { List } from '../components/lists/List';
 import { State as ReduxState } from '../reducers';
-import { EntryList } from '../types';
+import { EntryList, mediaDisplay } from '../types';
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -111,17 +111,16 @@ export const ListPage = connect(mapStateToProps)(
                 } else if (list === null) {
                     content = <LinearProgress variant="query" />;
                 } else {
-                    const { name, listCode } = list;
+                    const { name, listCode, mediaType } = list;
                     const canonSlug = slugify(name, { lower: true });
                     if (match.params.slug === canonSlug) {
                         const editable = username === list.username;
                         content = (
                             <Card>
-                                <CardHeader title={name}>
-                                    <Typography variant="display3">
-                                        {name}
-                                    </Typography>
-                                </CardHeader>
+                                <CardHeader
+                                    title={name}
+                                    subheader={mediaDisplay[mediaType]}
+                                />
                                 <List list={list} editable={editable} />
                                 {editable && (
                                     <>
