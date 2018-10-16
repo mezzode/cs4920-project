@@ -111,7 +111,7 @@ const RawList: React.SFC<Props> = ({
             <Grid xs={12} item={true}>
                 {content}
             </Grid>
-            {editable && ( // TODO: implement modals
+            {editable && (
                 <Grid container={true} item={true} justify="flex-end" xs={12}>
                     <Button className={classes.button} onClick={handleListEdit}>
                         Edit

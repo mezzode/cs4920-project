@@ -13,12 +13,16 @@ import * as React from 'react';
 import { Redirect } from 'react-router';
 import { Nav } from 'src/components/common/Nav/index';
 import { Lists } from 'src/components/lists/Lists';
-import { EntryEditor } from 'src/components/modals/entries/EntryEditor';
-import { AfterEntryEditCallBack } from 'src/components/modals/entries/EntryEditor/types';
-import { ListCreator } from 'src/components/modals/lists/ListCreator';
-import { ListDeleter } from 'src/components/modals/lists/ListDeleter';
-import { ListEditor } from 'src/components/modals/lists/ListEditor';
-import { AfterEditCallback } from 'src/components/modals/lists/ListEditor/types';
+import {
+    AfterEntryEditCallBack,
+    AfterListCreateCallback,
+    AfterListDeleteCallback,
+    AfterListEditCallback,
+    EntryEditor,
+    ListCreator,
+    ListDeleter,
+    ListEditor,
+} from 'src/components/modals';
 import { UserMenu } from 'src/components/user/UserMenu';
 import {
     Entry,
@@ -208,7 +212,7 @@ export const UserListsComponent = withWidth()(
                 this.setState({ createOpen: true });
             };
 
-            private afterCreate = async (newList: EntryList) => {
+            private afterCreate: AfterListCreateCallback = newList => {
                 const { username } = this.props.match.params;
                 const mediaType = {
                     anime: MediaType.Anime,
@@ -274,7 +278,7 @@ export const UserListsComponent = withWidth()(
                 });
             };
 
-            private afterDelete = (deletedList: EntryList) => {
+            private afterDelete: AfterListDeleteCallback = deletedList => {
                 const { lists } = this.state;
                 if (lists === null) {
                     throw new Error('Lists not loaded');
@@ -289,7 +293,7 @@ export const UserListsComponent = withWidth()(
                 });
             };
 
-            private afterEdit: AfterEditCallback = (listCode, listEdit) => {
+            private afterEdit: AfterListEditCallback = (listCode, listEdit) => {
                 const { lists } = this.state;
                 if (lists === null) {
                     throw new Error('Lists not loaded');

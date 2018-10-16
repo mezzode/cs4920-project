@@ -15,11 +15,13 @@ import { Redirect, RouteComponentProps } from 'react-router';
 import slugify from 'slugify';
 import { Nav } from 'src/components/common/Nav';
 import { List } from 'src/components/lists/List';
-import { EntryEditor } from 'src/components/modals/entries/EntryEditor';
-import { AfterEntryEditCallBack } from 'src/components/modals/entries/EntryEditor/types';
-import { ListDeleter } from 'src/components/modals/lists/ListDeleter';
-import { ListEditor } from 'src/components/modals/lists/ListEditor';
-import { AfterEditCallback } from 'src/components/modals/lists/ListEditor/types';
+import {
+    AfterEntryEditCallBack,
+    AfterListEditCallback,
+    EntryEditor,
+    ListDeleter,
+    ListEditor,
+} from 'src/components/modals';
 import { State as ReduxState } from 'src/reducers';
 import { EntryList, mediaDisplay } from 'src/types';
 
@@ -214,7 +216,7 @@ export const ListPage = connect(mapStateToProps)(
                 });
             };
 
-            private afterEdit: AfterEditCallback = (listCode, listEdit) => {
+            private afterEdit: AfterListEditCallback = (listCode, listEdit) => {
                 const { list } = this.state;
                 if (list === null) {
                     throw new Error('List not loaded');

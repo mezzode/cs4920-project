@@ -18,9 +18,10 @@ import { EntryList, isMediaType, MediaType, NewEntryList } from 'src/types';
 
 const styles = createStyles({});
 
+export type AfterListCreateCallback = (newList: EntryList) => void;
 interface Props extends WithStyles<typeof styles>, WithWidth {
     /** Callback to be called after a successful create. */
-    afterCreate?: (newList: EntryList) => void;
+    afterCreate?: AfterListCreateCallback;
     handleCancel: () => void;
     open: boolean;
 }

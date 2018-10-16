@@ -17,11 +17,10 @@ export interface DispatchProps {
     input: React.ChangeEventHandler<HTMLInputElement>;
 }
 
-export type AfterEditCallback = (listCode: string, listEdit: ListEdit) => void;
-
+export type AfterListEditCallback = (listCode: string, listEdit: ListEdit) => void;
 export interface OwnProps {
     /** Callback to be called after a successful edit. */
-    afterEdit?: AfterEditCallback;
+    afterEdit?: AfterListEditCallback;
 }
 
 export interface Props

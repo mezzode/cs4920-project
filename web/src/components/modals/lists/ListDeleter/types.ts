@@ -11,9 +11,10 @@ export interface DispatchProps {
     close: () => void;
 }
 
+export type AfterListDeleteCallback = (deletedList: EntryList) => void;
 export interface OwnProps {
     /** Callback to be called after a successful delete. */
-    afterDelete?: (deletedList: EntryList) => void;
+    afterDelete?: AfterListDeleteCallback;
 }
 
 export interface Props
