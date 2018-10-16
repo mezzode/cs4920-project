@@ -9,13 +9,12 @@ export interface StateProps {
 
 export interface DispatchProps {
     close: () => void;
-    handleInput: React.FormEventHandler;
-    handleCancel: () => void;
+    input: React.ChangeEventHandler<HTMLInputElement>;
 }
 
 export interface OwnProps {
     /** Callback to be called after a successful save. */
-    afterSave?: (editedEntry: Entry) => void;
+    afterEdit?: (editedEntry: Entry) => void;
 }
 
 export interface Props

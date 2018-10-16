@@ -15,26 +15,15 @@ const mapStateToProps: MapStateToProps<
 const mapDispatchToProps: MapDispatchToProps<
     DispatchProps,
     OwnProps
-> = dispatch => {
-    const handleCancel = () => {
-        dispatch(closeEntryEditor());
-    };
-
-    const handleInput: React.ChangeEventHandler<HTMLInputElement> = e =>
+> = dispatch => ({
+    close: () => dispatch(closeEntryEditor()),
+    input: e =>
         dispatch(
             updateEntryEditor({
                 [e.target.id]: e.target.value || null,
             }),
-        );
-
-    return {
-        close: () => {
-            dispatch(closeEntryEditor());
-        },
-        handleCancel,
-        handleInput,
-    };
-};
+        ),
+});
 
 export const EntryEditorContainer = connect(
     mapStateToProps,

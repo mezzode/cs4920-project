@@ -131,7 +131,7 @@ export const UserListsComponent = withWidth()(
                         <>
                             {editable && (
                                 <>
-                                    <EntryEditor afterSave={this.afterSave} />
+                                    <EntryEditor afterEdit={this.afterSave} />
                                     <ListCreator
                                         open={createOpen}
                                         afterCreate={this.afterCreate}

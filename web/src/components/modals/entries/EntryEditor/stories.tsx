@@ -59,18 +59,11 @@ storiesOf('EntryEditor', module)
                 };
 
                 public render() {
-                    const {
-                        handleCancel,
-                        handleInput,
-                        handleSave,
-                        close,
-                    } = this;
+                    const { input, close } = this;
                     const props = {
                         close,
                         entry: this.state.editingEntry,
-                        handleCancel,
-                        handleInput,
-                        handleSave,
+                        input,
                     };
                     return (
                         <Card>
@@ -104,13 +97,7 @@ storiesOf('EntryEditor', module)
                     this.setState({ editingEntry: null });
                 };
 
-                private handleCancel = () => {
-                    // cancelled
-                    // TODO: show in logger
-                    this.setState({ editingEntry: null });
-                };
-
-                private handleInput: React.ChangeEventHandler<
+                private input: React.ChangeEventHandler<
                     HTMLInputElement
                 > = e => {
                     if (this.state.editingEntry === null) {
@@ -121,18 +108,6 @@ storiesOf('EntryEditor', module)
                             ...this.state.editingEntry,
                             [e.target.id]: e.target.value,
                         },
-                    });
-                };
-
-                private handleSave = () => () => {
-                    // save
-                    // TODO: show in logger
-                    if (this.state.editingEntry === null) {
-                        return;
-                    }
-                    this.setState({
-                        editingEntry: null,
-                        savedEntry: this.state.editingEntry,
                     });
                 };
 

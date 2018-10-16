@@ -11,7 +11,7 @@ import {
 import { createStyles, withStyles } from '@material-ui/core/styles';
 import { isWidthDown, isWidthUp } from '@material-ui/core/withWidth';
 import * as React from 'react';
-import { Entry, UserEntry } from 'src/types';
+import { Entry } from 'src/types';
 import { Props } from './types';
 
 export const styles = createStyles({
@@ -22,19 +22,25 @@ export const styles = createStyles({
 });
 
 const RawEntryEditor: React.SFC<Props> = ({
-    afterSave,
+    afterEdit,
     close,
     entry,
-    handleCancel,
-    handleInput,
+    input,
     classes,
     width,
 }) => {
-    // TODO: move to separate module
-    async function handleSave(
-        entryCode: string,
-        entryEdit: Partial<UserEntry>,
-    ): Promise<Entry> {
+    async function save() {
+        if (entry === null) {
+            throw new Error('Cannot save if not loaded');
+        }
+        const { finished, rating, started, entryCode } = entry;
+        const entryEdit = {
+            finished,
+            // progress, // TODO: add progress to backend
+            rating,
+            started,
+        };
+
         const res = await fetch(
             `${process.env.REACT_APP_API_BASE}/entry/${entryCode}`,
             {
@@ -48,25 +54,13 @@ const RawEntryEditor: React.SFC<Props> = ({
         if (res.status >= 400) {
             throw new Error(`${res.status} ${res.statusText}`);
         }
-        const result: Entry = await res.json();
-        return result;
-    }
-
-    const save: React.MouseEventHandler = async e => {
-        if (entry === null) {
-            throw new Error('Cannot save if not loaded');
-        }
-        const editedEntry = await handleSave(entry.entryCode, {
-            finished: entry.finished,
-            // progress: entry.progress, // TODO: add progress to backend
-            rating: entry.rating,
-            started: entry.started,
-        });
-        if (afterSave) {
-            afterSave(editedEntry);
+        const editedEntry: Entry = await res.json();
+        if (afterEdit) {
+            afterEdit(editedEntry);
         }
         close();
-    };
+    }
+
     return (
         <Dialog
             open={entry !== null}
@@ -94,7 +88,7 @@ const RawEntryEditor: React.SFC<Props> = ({
                                     label="Rating"
                                     type="number"
                                     value={entry.rating}
-                                    onInput={handleInput}
+                                    onInput={input}
                                 />
                                 {/* TODO: date input restrictions/formatter */}
                                 <TextField
@@ -104,7 +98,7 @@ const RawEntryEditor: React.SFC<Props> = ({
                                     label="Started"
                                     type=""
                                     value={entry.started}
-                                    onInput={handleInput}
+                                    onInput={input}
                                 />
                                 <TextField
                                     variant="outlined"
@@ -113,7 +107,7 @@ const RawEntryEditor: React.SFC<Props> = ({
                                     label="Finished"
                                     type="text"
                                     value={entry.finished}
-                                    onInput={handleInput}
+                                    onInput={input}
                                 />
                                 <TextField
                                     variant="outlined"
@@ -122,7 +116,7 @@ const RawEntryEditor: React.SFC<Props> = ({
                                     label="Progress"
                                     type="text"
                                     value={entry.progress}
-                                    onInput={handleInput}
+                                    onInput={input}
                                 />
                             </Grid>
                             {isWidthUp('xs', width, false) && (
@@ -136,7 +130,7 @@ const RawEntryEditor: React.SFC<Props> = ({
                         </Grid>
                     </DialogContent>
                     <DialogActions>
-                        <Button onClick={handleCancel} color="primary">
+                        <Button onClick={close} color="primary">
                             Cancel
                         </Button>
                         <Button onClick={save} color="primary">
