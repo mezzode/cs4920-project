@@ -5,7 +5,6 @@ import {
     clearUser,
     incrementAuthAttempt,
     setImage,
-    setIsAuthenticated,
     setIsSignedUp,
     setUser,
 } from '../../actions/user';
@@ -14,15 +13,13 @@ export interface UserState {
     authAttempt: number;
     displayImage: string | null;
     displayName: string | null;
-    isAuthenticated: boolean;
     isSignedUp: boolean;
 }
 
 const initialState: UserState = {
     authAttempt: 0,
     displayImage: null,
-    displayName: null,
-    isAuthenticated: false,
+    displayName: localStorage.getItem('displayName'),
     isSignedUp: false,
 };
 
@@ -30,7 +27,6 @@ export const user: Reducer<UserState> = reducerWithInitialState(initialState)
     .case(setUser, (state, userData) => ({
         ...state,
         ...userData,
-        isAuthenticated: true,
     }))
     .case(clearUser, () => ({
         ...initialState,
@@ -38,10 +34,6 @@ export const user: Reducer<UserState> = reducerWithInitialState(initialState)
     .case(setImage, (state, userData) => ({
         ...state,
         ...userData,
-    }))
-    .case(setIsAuthenticated, (state, isAuthData) => ({
-        ...state,
-        ...isAuthData,
     }))
     .case(incrementAuthAttempt, state => ({
         ...state,

@@ -20,7 +20,10 @@ const mapDispatchToProps: MapDispatchToProps<
     OwnProps
 > = dispatch => {
     const loadProfile = async () => {
-        const res = await fetch(`${process.env.REACT_APP_API_BASE}/profile`);
+        const res = await fetch(`${process.env.REACT_APP_API_BASE}/profile`, {
+            credentials: 'include',
+            mode: 'cors',
+        });
         if (res.ok) {
             const imageBlob = await res.blob();
             const displayImage = URL.createObjectURL(imageBlob);

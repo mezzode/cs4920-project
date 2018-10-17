@@ -41,7 +41,6 @@ storiesOf('Nav', module)
                     authAttempt: 0,
                     displayImage: null,
                     displayName: null,
-                    isAuthenticated: false,
                     isSignedUp: false,
                 }}
             />
@@ -79,7 +78,6 @@ storiesOf('Nav', module)
                         authAttempt: 0,
                         displayImage: null,
                         displayName: null,
-                        isAuthenticated: false,
                         isSignedUp: false,
                     }}
                     transparent={true}
