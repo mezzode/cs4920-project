@@ -2,25 +2,29 @@ import {
     Card,
     CardHeader,
     Grid,
+    LinearProgress,
+    Snackbar,
     Theme,
     Typography,
     WithStyles,
 } from '@material-ui/core';
 import { createStyles, withStyles } from '@material-ui/core/styles';
 import * as React from 'react';
-import { connect, MapDispatchToProps, MapStateToProps } from 'react-redux';
+import { connect, MapStateToProps } from 'react-redux';
 import { Redirect, RouteComponentProps } from 'react-router';
-import { Action } from 'redux';
-import { ThunkDispatch } from 'redux-thunk';
 import slugify from 'slugify';
-import { loadList } from '../actions/list';
-import { Nav } from '../components/common/Nav';
-import { EntryEditor } from '../components/lists/EntryEditor';
-import { List } from '../components/lists/List';
-import { State } from '../reducers';
-import { EntryList } from '../types';
+import { Nav } from 'src/components/common/Nav';
+import { List } from 'src/components/lists/List';
+import {
+    AfterEntryEditCallBack,
+    AfterListEditCallback,
+    EntryEditor,
+    ListDeleter,
+    ListEditor,
+} from 'src/components/modals';
+import { State as ReduxState } from 'src/reducers';
+import { EntryList, mediaDisplay } from 'src/types';
 
-// TODO: fiddle with styling
 const styles = (theme: Theme) =>
     createStyles({
         layout: {
@@ -28,103 +32,112 @@ const styles = (theme: Theme) =>
             marginRight: theme.spacing.unit * 3,
             marginTop: theme.spacing.unit * 3,
             width: 'auto',
-            // [theme.breakpoints.up(400 + theme.spacing.unit * 3 * 2)]: {
-            //     // tweak this?
-            //     marginLeft: 'auto',
-            //     marginRight: 'auto',
-            //     width: 400,
-            // },
-        },
-        // layout: {
-        //     marginLeft: theme.spacing.unit * 2,
-        //     marginRight: theme.spacing.unit * 2,
-        //     width: 'auto',
-        //     [theme.breakpoints.up(600 + theme.spacing.unit * 2 * 2)]: {
-        //         marginLeft: 'auto',
-        //         marginRight: 'auto',
-        //         width: 600,
-        //     },
-        // },
-        paper: {
-            // marginBottom: theme.spacing.unit * 3,
-            // marginTop: theme.spacing.unit * 3,
-            // // padding: theme.spacing.unit * 2,
-            // [theme.breakpoints.up(600 + theme.spacing.unit * 3 * 2)]: {
-            //     marginBottom: theme.spacing.unit * 6,
-            //     marginTop: theme.spacing.unit * 6,
-            //     // padding: theme.spacing.unit * 3,
-            // },
         },
     });
 
 interface Params {
-    listId: string;
+    listCode: string;
     slug?: string;
 }
 
 interface OwnProps extends RouteComponentProps<Params> {}
 
 interface StateProps {
+    username: string | null;
+}
+
+interface Props extends WithStyles<typeof styles>, OwnProps, StateProps {}
+
+interface State {
+    deleted: boolean;
+    notFound: boolean;
     list: EntryList | null;
 }
 
-interface DispatchProps {
-    loadList: () => void;
-}
-
-interface Props
-    extends WithStyles<typeof styles>,
-        OwnProps,
-        StateProps,
-        DispatchProps {}
-
-const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (
-    state,
-    { match },
-) => ({
-    list: state.lists && state.lists[match.params.listId],
+const mapStateToProps: MapStateToProps<StateProps, OwnProps, ReduxState> = ({
+    user: { displayName },
+}) => ({
+    username: displayName,
+    // editable: !!(lists && displayName === lists[match.params.listCode].username),
+    // list: lists && lists[match.params.listCode],
 });
 
-const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = (
-    dispatch: ThunkDispatch<State, void, Action>,
-    { match },
-) => ({
-    loadList: async () => {
-        dispatch(loadList(match.params.listId));
-    },
-});
-
-export const ListPage = connect(
-    mapStateToProps,
-    mapDispatchToProps,
-)(
+export const ListPage = connect(mapStateToProps)(
     withStyles(styles)(
-        class extends React.Component<Props> {
-            public componentDidMount() {
+        class extends React.Component<Props, State> {
+            public state: State = {
+                deleted: false,
+                list: null,
+                notFound: false,
+            };
+
+            public async componentDidMount() {
                 // only load on mount so redirecting to correct slug doesnt load again
-                this.props.loadList();
+                const { listCode } = this.props.match.params;
+                const list = await this.loadList(listCode);
+                if (list == null) {
+                    this.setState({
+                        notFound: true,
+                    });
+                } else {
+                    this.setState({
+                        list,
+                    });
+                }
+            }
+
+            public async componentDidUpdate(prevProps: Props) {
+                const { listCode } = this.props.match.params;
+                if (prevProps.match.params.listCode !== listCode) {
+                    this.setState({ list: null });
+                    const list = await this.loadList(listCode);
+                    if (list == null) {
+                        this.setState({
+                            notFound: true,
+                        });
+                    } else {
+                        this.setState({
+                            list,
+                        });
+                    }
+                }
             }
 
             public render() {
-                const { list, classes, match } = this.props;
+                const { classes, match, username } = this.props;
+                const { list, deleted, notFound } = this.state;
                 let content = null;
-                if (list === null) {
-                    content = (
-                        <Typography variant="display3">Loading</Typography>
-                    );
+
+                if (notFound) {
+                    // TODO: make a <NotFound> component
+                    content = <Typography variant="h1">Not Found</Typography>;
+                } else if (list === null) {
+                    content = <LinearProgress variant="query" />;
                 } else {
-                    const { name, entries, listCode } = list;
+                    const { name, listCode, mediaType } = list;
                     const canonSlug = slugify(name, { lower: true });
                     if (match.params.slug === canonSlug) {
+                        const editable = username === list.username && !deleted;
                         content = (
-                            <Card className={classes.paper}>
-                                <CardHeader title={name}>
-                                    <Typography variant="display3">
-                                        {name}
-                                    </Typography>
-                                </CardHeader>
-                                <List entries={entries} />
-                                <EntryEditor />
+                            <Card>
+                                <CardHeader
+                                    title={name}
+                                    subheader={mediaDisplay[mediaType]}
+                                />
+                                <List list={list} editable={editable} />
+                                {editable && (
+                                    <>
+                                        <EntryEditor
+                                            afterEdit={this.afterEntryEdit}
+                                        />
+                                        <ListDeleter
+                                            afterDelete={this.afterDelete}
+                                        />
+                                        <ListEditor
+                                            afterEdit={this.afterEdit}
+                                        />
+                                    </>
+                                )}
                             </Card>
                         );
                     } else {
@@ -146,10 +159,75 @@ export const ListPage = connect(
                                     {content}
                                 </Grid>
                             </Grid>
+                            <Snackbar
+                                anchorOrigin={{
+                                    horizontal: 'left',
+                                    vertical: 'bottom',
+                                }}
+                                open={deleted}
+                                message={'List deleted'}
+                            />
                         </main>
                     </>
                 );
             }
+
+            private afterEntryEdit: AfterEntryEditCallBack = editedEntry => {
+                const { list } = this.state;
+                if (list === null) {
+                    // should not be able to trigger edit if not loaded
+                    throw new Error('List not loaded');
+                }
+                this.setState({
+                    list: {
+                        ...list,
+                        entries: list.entries.map(
+                            entry =>
+                                entry.entryCode === editedEntry.entryCode
+                                    ? editedEntry
+                                    : entry,
+                        ),
+                    },
+                });
+            };
+
+            private loadList = async (
+                listCode: string,
+            ): Promise<EntryList | null> => {
+                const res = await fetch(
+                    `${process.env.REACT_APP_API_BASE}/list/${listCode}`,
+                    { mode: 'cors' },
+                );
+                if (res.status === 404) {
+                    return null;
+                }
+                if (res.status > 400) {
+                    throw new Error(
+                        `Server error: ${res.status} ${res.statusText}`,
+                    );
+                }
+                const list = (await res.json()) as EntryList;
+                return list;
+            };
+
+            private afterDelete = () => {
+                this.setState({
+                    deleted: true,
+                });
+            };
+
+            private afterEdit: AfterListEditCallback = (listCode, listEdit) => {
+                const { list } = this.state;
+                if (list === null) {
+                    throw new Error('List not loaded');
+                }
+                this.setState({
+                    list: {
+                        ...list,
+                        ...listEdit,
+                    },
+                });
+            };
         },
     ),
 );
