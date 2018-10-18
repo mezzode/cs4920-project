@@ -14,7 +14,10 @@
         },
         "no-empty-interface": false,
         "interface-name": [true, "never-prefix"],
-        "trailing-comma": [true, { "multiline": "always" }],
+        "trailing-comma": [
+            true,
+            { "multiline": "always", "esSpecCompliant": true }
+        ],
         "eofline": true,
         "no-any": true,
         "no-default-export": true // enforces consistent naming

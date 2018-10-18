@@ -28,10 +28,10 @@ class RawSimpleSelect extends React.Component<Props, State> {
                     name: this.props.name,
                 }}
             >
-                <MenuItem value={MediaType.movie}>Movie</MenuItem>
-                <MenuItem value={MediaType.tvshow}>TV show</MenuItem>
-                <MenuItem value={MediaType.anime}>Anime</MenuItem>
-                <MenuItem value={MediaType.game}>Game</MenuItem>
+                <MenuItem value={MediaType.Movie}>Movie</MenuItem>
+                <MenuItem value={MediaType.Show}>TV show</MenuItem>
+                <MenuItem value={MediaType.Anime}>Anime</MenuItem>
+                <MenuItem value={MediaType.Game}>Game</MenuItem>
             </Select>
         );
     }
