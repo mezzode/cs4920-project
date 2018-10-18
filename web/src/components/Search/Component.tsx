@@ -18,7 +18,7 @@ const RawSearch: React.SFC<Props> = ({ classes, handleSearch }) => (
         <form className={classes.formRoot} onSubmit={handleSearch}>
             <FormControl className={classes.formControl}>
                 <InputLabel htmlFor="mediaType">Media type</InputLabel>
-                <SimpleSelect name={'mediaType'} />
+                <SimpleSelect name="mediaType" />
             </FormControl>
             <div className={classes.search}>
                 <div className={classes.searchIcon}>
