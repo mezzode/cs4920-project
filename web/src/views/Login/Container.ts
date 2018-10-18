@@ -35,9 +35,6 @@ const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = (
             const user = await res.json();
             dispatch(setUser({ displayName: user.username }));
             dispatch(clearAuthAttempts());
-
-            localStorage.setItem('displayName', user.username);
-
             history.push('/dashboard');
         } else {
             dispatch(incrementAuthAttempt());

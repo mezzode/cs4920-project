@@ -18,7 +18,6 @@ const mapDispatchToProps: MapDispatchToProps<
         const res = await fetch(`${process.env.REACT_APP_API_BASE}/logout`);
         if (res.ok) {
             dispatch(clearUser());
-            localStorage.clear();
         }
     };
     return {

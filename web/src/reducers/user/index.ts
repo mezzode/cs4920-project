@@ -19,7 +19,7 @@ export interface UserState {
 const initialState: UserState = {
     authAttempt: 0,
     displayImage: null,
-    displayName: localStorage.getItem('displayName'),
+    displayName: null,
     isSignedUp: false,
 };
 
