@@ -9,6 +9,7 @@ import {
 
 const router = express.Router();
 
+// FIXME: Switch to GET
 router.post('/movie', async (req, res) => {
     const { searchString, pageNumber } = req.body;
     res.json(await movietvSearch(searchString, MovieTvType.Movie, pageNumber));
