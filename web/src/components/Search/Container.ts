@@ -1,6 +1,5 @@
 import { connect, MapDispatchToProps } from 'react-redux';
 import { withRouter } from 'react-router';
-// import { setSearch } from '../../actions/search';
 import { SearchComponent } from './Component';
 import { DispatchProps, OwnProps } from './types';
 
@@ -19,8 +18,6 @@ const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = (
         if (mediaType === '' || searchString === '') {
             return;
         }
-
-        // dispatch(setSearch({ search: searchString as string }));
 
         // const res = await fetch('https://jsonplaceholder.typicode.com/todos/1');
         // if (res.ok) {
