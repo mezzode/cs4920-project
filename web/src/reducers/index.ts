@@ -1,4 +1,5 @@
 import { combineReducers, Reducer } from 'redux';
+<<<<<<< HEAD
 import { lists, ListsState } from './displayedLists';
 import { entryEditor, EntryEditorState } from './entryEditor';
 import { flashMessage, FlashMessageState } from './flashMessage';
@@ -14,14 +15,23 @@ export interface State {
     search: SearchState;
     user: UserState;
 }
+=======
+import { flashMessage } from './flashMessage';
+import { modals } from './modals';
+import { user } from './user';
+>>>>>>> 3a738746cbb0906da1cdc8beca549945ff139196
 
-const reducers = {
-    entryEditor,
+export const rootReducer = combineReducers({
     flashMessage,
+<<<<<<< HEAD
     lists,
     media,
     search,
+=======
+    modals,
+>>>>>>> 3a738746cbb0906da1cdc8beca549945ff139196
     user,
-};
+});
 
-export const rootReducer: Reducer<State> = combineReducers(reducers);
+type ReducerState<T> = T extends Reducer<infer S> ? S : never;
+export type State = ReducerState<typeof rootReducer>;

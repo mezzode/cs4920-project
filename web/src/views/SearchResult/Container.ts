@@ -43,10 +43,10 @@ const mapDispatchToProps: MapDispatchToProps<
         pageNumber: number,
     ) => {
         if (
-            mediaType === MediaType.movie ||
-            mediaType === MediaType.tvshow ||
-            mediaType === MediaType.anime ||
-            mediaType === MediaType.game
+            mediaType === MediaType.Movie ||
+            mediaType === MediaType.Show ||
+            mediaType === MediaType.Anime ||
+            mediaType === MediaType.Game
         ) {
             const pageNumberForServer = pageNumber + 1;
             console.log(pageNumberForServer);

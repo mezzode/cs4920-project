@@ -12,40 +12,35 @@ import { Profile } from './Profile';
 import { SearchResult } from './SearchResult';
 import { SignUp } from './Signup';
 import { UserLists } from './user/Lists';
+import { UserPage } from './user/UserPage';
 
 const ViewComponent: React.SFC<Props> = ({ auth }) => {
     // routes in the format "/list/:id" will ignore the trailing slug and redirect to the canonical one
     // e.g.
     // "/list/abc/thisIsIgnored" => "/list/abc/my-list"
-    const authRoutes = (
-        <Switch>
-            <Route path="/profile" component={Profile} />
-            <Route component={NotFound} />
-        </Switch>
-    );
-    const unauthRoutes = (
-        <Switch>
-            <Route exact={true} path="/" component={Landing} />
-            <Route
-                path="/user/:username/lists/:mediaType"
-                component={UserLists}
-            />
-            <Route path="/list/:listId/:slug?" component={ListPage} />
-            <Route path="/media/:mediaId" />
-            <Route path="/login" component={Login} />
-            <Route path="/sign-up" component={SignUp} />
-            <Route path="/reset-password" component={PasswordReset} />
-            <Route
-                path="/search/:mediaType/:searchString"
-                component={SearchResult}
-            />
-            <Route component={NotFound} />
-        </Switch>
-    );
     return (
         <>
             <CssBaseline />
-            {auth ? authRoutes : unauthRoutes}
+            <Switch>
+                <Route exact={true} path="/" component={Landing} />
+                <Route path="/profile" component={Profile} />
+                <Route
+                    path="/user/:username/lists/:mediaType"
+                    component={UserLists}
+                />
+                <Route path="/user/:username" component={UserPage} />
+                <Route path="/list/:listCode/:slug?" component={ListPage} />
+                <Route path="/media/:mediaId" />
+                <Route path="/login" component={Login} />
+                <Route path="/sign-up" component={SignUp} />
+                <Route path="/reset-password" component={PasswordReset} />
+                <Route
+                    path="/search/:mediaType/:searchString"
+                    component={SearchResult}
+                />
+                {auth && <Route path="/profile" component={Profile} />}
+                <Route component={NotFound} />
+            </Switch>
         </>
     );
 };
