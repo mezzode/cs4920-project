@@ -17,6 +17,14 @@ script:
     - docker-compose -f docker-compose.yml -f docker-compose.prod.yml build
     - yarn test
 
+after_success:
+    - chmod +x scripts/discord.sh
+    - ./scripts/discord.sh success $WEBHOOK_URL
+
+after_failure:
+    - chmod +x scripts/discord.sh
+    - ./scripts/discord.sh failure $WEBHOOK_URL
+
 cache:
     yarn: true
     directories:
