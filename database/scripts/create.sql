@@ -30,17 +30,11 @@ CREATE TABLE entry
     media_id int not null REFERENCES media,
     list_id int not null REFERENCES list ON DELETE CASCADE,
     category text,
+    tags text[],
     rating int,
     last_updated TIMESTAMP,
     -- started/finished use ISO 8601 with partial dates allowed
     -- e.g. '2016', '2017-04-13', '2018-09'
     started text,
     finished text
-);
-
-CREATE TABLE tags
-(
-    entry_id int REFERENCES entry ON DELETE CASCADE,
-    tag text,
-    PRIMARY KEY (entry_id, tag)
 );

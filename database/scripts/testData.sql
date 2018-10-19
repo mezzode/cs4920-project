@@ -19,16 +19,9 @@ VALUES
     ('mezzode''s List', 1, 'game');
 
 -- Entry
-INSERT INTO entry(media_id, category, started, finished, list_id, last_updated)
+INSERT INTO entry(media_id, category, started, finished, list_id, last_updated, tags)
 VALUES
-    (1, 'Progress', '2016', '2018', 1, now()),
-    (2, 'Complete', '2017-10-01', '2017-10-01', 1, now()),
-    (1, 'Progress', '2017-10-01', '2017-10-01', 1, now()),
-    (2, 'Complete', '2017-10', '2017-10-01', 1, now());
-
--- Tags
-INSERT INTO tags(entry_id, tag)
-VALUES
-    (1, 'Favourite'),
-    (1, 'Lets Play'),
-    (2, 'Favourite');
+    (1, 'Progress', '2016', '2018', 1, now(), '{"Favourites", "Friends"}'),
+    (2, 'Complete', '2017-10-01', '2017-10-01', 1, now(), '{"Favourites"}'),
+    (1, 'Progress', '2017-10-01', '2017-10-01', 1, now(), null),
+    (2, 'Complete', '2017-10', '2017-10-01', 1, now(), null);

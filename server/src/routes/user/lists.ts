@@ -60,28 +60,6 @@ const getLists = asyncHandler(async (req, res) => {
                     WHERE e.list_id = $(id)`,
                     { id },
                 );
-
-                const tagRows = await t.manyOrNone<{
-                    entryId: number;
-                    tag: string;
-                }>(
-                    `SELECT entry_id AS "entryId", tag FROM tags WHERE entry_id IN ($(entryIds:csv))`,
-                    { entryIds: entries.map(({ entryId }) => entryId) },
-                );
-                const entryTags = tagRows.reduce<{
-                    [entryId: number]: string[];
-                }>(
-                    (
-                        map: { [entryId: number]: string[] },
-                        { entryId, tag },
-                    ) => ({
-                        ...map,
-                        [entryId]:
-                            entryId in map ? [...map[entryId], tag] : [tag],
-                    }),
-                    {},
-                );
-
                 const listCode = hashids.encode(id);
                 return {
                     entries: entries.map(({ entryId, mediaId, ...entry }) => ({
@@ -96,7 +74,6 @@ const getLists = asyncHandler(async (req, res) => {
                             title: `Title of media ID ${mediaId}`,
                         },
                         progress: 'Placeholder', // TODO: add progress column to db
-                        tags: entryTags[entryId] || [],
                     })),
                     listCode,
                     mediaType,

@@ -24,49 +24,37 @@ const entryFields = `
 
 const getEntry = asyncHandler(async (req, res) => {
     const { entryId }: { entryId: number } = req.params;
+    const row = await db.oneOrNone<{
+        entryId: number;
+        mediaId: number;
+        listId: number;
+        category: string;
+        rating: number;
+        lastUpdated: string;
+        started: string;
+        finished: string;
+    }>(
+        // TODO: separate the select clause so can reuse (e.g. same as in lists.ts)
+        `SELECT ${entryFields}
+        FROM entry e
+        WHERE e.id = $(entryId)`,
+        { entryId },
+    );
+    if (!row) {
+        throw new HandlerError('Entry not found', 404);
+    }
 
-    const entry = await db.task(async t => {
-        const row = await t.oneOrNone<{
-            entryId: number;
-            mediaId: number;
-            listId: number;
-            category: string;
-            rating: number;
-            lastUpdated: string;
-            started: string;
-            finished: string;
-        }>(
-            // TODO: separate the select clause so can reuse (e.g. same as in lists.ts)
-            `SELECT ${entryFields}
-            FROM entry e
-            WHERE e.id = $(entryId)`,
-            { entryId },
-        );
-        if (!row) {
-            throw new HandlerError('Entry not found', 404);
-        }
-
-        const tags = await t.map<{
-            tag: string;
-        }>(
-            `SELECT tag FROM tags WHERE entry_id = $(entryId)`,
-            { entryId },
-            ({ tag }) => tag,
-        );
-
-        const { mediaId, ...other } = row;
-        return {
-            ...idsToCodes(other),
-            media: {
-                // TODO: get media data
-                artUrl:
-                    'https://78.media.tumblr.com/4f30940e947b58fb57e2b8499f460acb/tumblr_okccrbpkDY1rb48exo1_1280.jpg',
-                mediaCode: hashids.encode(mediaId),
-                title: `Title of media ID ${mediaId}`,
-            },
-            tags,
-        };
-    });
+    const { mediaId, ...other } = row;
+    const entry = {
+        ...idsToCodes(other),
+        media: {
+            // TODO: get media data
+            artUrl:
+                'https://78.media.tumblr.com/4f30940e947b58fb57e2b8499f460acb/tumblr_okccrbpkDY1rb48exo1_1280.jpg',
+            mediaCode: hashids.encode(mediaId),
+            title: `Title of media ID ${mediaId}`,
+        },
+    };
 
     res.send(entry);
 });
@@ -75,12 +63,11 @@ const newEntry = asyncHandler(async (req, res) => {
     const {
         listId,
         mediaId,
-        tags,
         ...data
     }: {
         listId: number;
         mediaId: number;
-    } & UserEntry = req.body;
+    } & Partial<UserEntry> = req.body;
 
     if (!validateEntryData(data)) {
         throw new HandlerError('Invalid entry', 400);
@@ -109,24 +96,11 @@ const newEntry = asyncHandler(async (req, res) => {
     const listCode = hashids.encode(listId);
     const mediaCode = hashids.encode(mediaId);
 
-    const tagRows = tags.map(tag => ({
-        entry_id: entryId,
-        tag,
-    }));
-
-    const insertedTags = await db.map<string>(
-        `${pgp.helpers.insert(tagRows, undefined, 'tags')}
-        RETURNING tag`,
-        null,
-        ({ tag }) => tag,
-    );
-
     const insertedEntry = {
         entryCode,
         listCode,
         mediaCode,
         ...insertedData,
-        tags: insertedTags,
     };
 
     res.json(insertedEntry);
