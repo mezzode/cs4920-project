@@ -23,6 +23,7 @@ const getList = asyncHandler(async (req, res) => {
         if (!listMeta) {
             throw new HandlerError('List not found', 404);
         }
+
         const entries = await t.manyOrNone<{
             entryId: number;
             lastUpdated: string;
@@ -43,20 +44,28 @@ const getList = asyncHandler(async (req, res) => {
             WHERE e.list_id = $(listId)`,
             { listId },
         );
+
         return {
-            entries: entries.map(({ entryId, mediaId, ...entry }) => ({
-                ...entry,
-                entryCode: hashids.encode(entryId),
-                listCode,
-                media: {
-                    // TODO: get media data
-                    artUrl:
-                        'https://78.media.tumblr.com/4f30940e947b58fb57e2b8499f460acb/tumblr_okccrbpkDY1rb48exo1_1280.jpg',
-                    mediaCode: hashids.encode(mediaId),
-                    title: `Title of media ID ${mediaId}`,
-                },
-                progress: 'Placeholder', // TODO: add progress column to db
-            })),
+            entries: await Promise.all(
+                entries.map(async ({ entryId, mediaId, ...entry }) => ({
+                    ...entry,
+                    entryCode: hashids.encode(entryId),
+                    listCode,
+                    media: {
+                        // TODO: get media data
+                        artUrl:
+                            'https://78.media.tumblr.com/4f30940e947b58fb57e2b8499f460acb/tumblr_okccrbpkDY1rb48exo1_1280.jpg',
+                        mediaCode: hashids.encode(mediaId),
+                        title: `Title of media ID ${mediaId}`,
+                    },
+                    progress: 'Placeholder', // TODO: add progress column to db
+                    tags: await t.map<string>(
+                        `SELECT tag FROM tags WHERE entry_id = $(entryId)`,
+                        { entryId },
+                        ({ tag }) => tag,
+                    ),
+                })),
+            ),
             listCode,
             ...listMeta,
         };

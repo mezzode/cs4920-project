@@ -9,6 +9,7 @@ export interface UserEntry {
     started: string;
     finished: string;
     progress: string;
+    tags: string[];
 }
 
 /**

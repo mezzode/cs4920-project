@@ -37,3 +37,10 @@ CREATE TABLE entry
     started text,
     finished text
 );
+
+CREATE TABLE tags
+(
+    entry_id int REFERENCES entry ON DELETE CASCADE,
+    tag text,
+    PRIMARY KEY (entry_id, tag)
+);
