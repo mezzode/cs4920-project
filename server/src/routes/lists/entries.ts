@@ -15,6 +15,7 @@ const entryFields = `
     id AS "entryId",
     last_updated AS "lastUpdated",
     category,
+    tags,
     rating,
     started,
     finished,
@@ -33,6 +34,7 @@ const getEntry = asyncHandler(async (req, res) => {
         lastUpdated: string;
         started: string;
         finished: string;
+        tags: string;
     }>(
         // TODO: separate the select clause so can reuse (e.g. same as in lists.ts)
         `SELECT ${entryFields}
@@ -67,7 +69,7 @@ const newEntry = asyncHandler(async (req, res) => {
     }: {
         listId: number;
         mediaId: number;
-    } & Partial<UserEntry> = req.body;
+    } & UserEntry = req.body;
 
     if (!validateEntryData(data)) {
         throw new HandlerError('Invalid entry', 400);
@@ -111,7 +113,14 @@ const validateEntryData = (
 ): entry is Partial<UserEntry> => {
     try {
         // TODO: figure out automatic way to check body against interfaces. json-schema?
-        const fields = ['rating', 'started', 'finished', 'progress'];
+        const fields = [
+            'rating',
+            'started',
+            'finished',
+            'progress',
+            'category',
+            'tags',
+        ];
         Object.keys(entry).forEach(k => {
             if (!fields.includes(k)) {
                 throw new Error(`${k} is not a valid entry field.`);
@@ -147,6 +156,7 @@ const updateEntry = asyncHandler(async (req, res) => {
         mediaId: number;
         listId: number;
         category: string;
+        tags: string[];
         rating: number;
         lastUpdated: string;
         started: string;

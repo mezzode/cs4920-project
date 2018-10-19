@@ -46,12 +46,14 @@ const getLists = asyncHandler(async (req, res) => {
                     rating: number;
                     started: string;
                     finished: string;
+                    tags: string[];
                     // progress: string; // TODO: add progress to db
                     mediaId: number;
                 }>(
                     `SELECT
                         id AS "entryId",
                         last_updated AS "lastUpdated",
+                        tags,
                         rating,
                         started,
                         finished,

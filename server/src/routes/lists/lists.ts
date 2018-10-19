@@ -31,11 +31,13 @@ const getList = asyncHandler(async (req, res) => {
             finished: string;
             // progress: string; // TODO: add progress to db
             mediaId: number;
+            tags: string[];
         }>(
             `SELECT
                 id AS "entryId",
                 last_updated AS "lastUpdated",
                 rating,
+                tags,
                 started,
                 finished,
                 media_id AS "mediaId"
