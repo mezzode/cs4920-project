@@ -2,7 +2,7 @@ import { connect, MapDispatchToProps, MapStateToProps } from 'react-redux';
 // import { setFlashMessage } from '../../actions/flashMessage';
 import { clearMedias, setLoading, setMedias } from '../../actions/media';
 import { State } from '../../reducers/index';
-import { MediaType } from '../../types';
+import { isMediaType } from '../../types';
 import { SearchResultComponent } from './Component';
 import { DispatchProps, OwnProps, StateProps } from './types';
 
@@ -42,12 +42,7 @@ const mapDispatchToProps: MapDispatchToProps<
         searchString: string,
         pageNumber: number,
     ) => {
-        if (
-            mediaType === MediaType.Movie ||
-            mediaType === MediaType.Show ||
-            mediaType === MediaType.Anime ||
-            mediaType === MediaType.Game
-        ) {
+        if (isMediaType(mediaType)) {
             const pageNumberForServer = pageNumber + 1;
             console.log(pageNumberForServer);
             const mediaResult = await makeMediaRequest(

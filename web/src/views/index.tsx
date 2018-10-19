@@ -34,11 +34,11 @@ const ViewComponent: React.SFC<Props> = ({ auth }) => {
                 <Route path="/login" component={Login} />
                 <Route path="/sign-up" component={SignUp} />
                 <Route path="/reset-password" component={PasswordReset} />
+                {auth && <Route path="/profile" component={Profile} />}
                 <Route
                     path="/search/:mediaType/:searchString"
                     component={SearchResult}
                 />
-                {auth && <Route path="/profile" component={Profile} />}
                 <Route component={NotFound} />
             </Switch>
         </>
