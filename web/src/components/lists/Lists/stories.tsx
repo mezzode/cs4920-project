@@ -19,6 +19,7 @@ const lists: EntryList[] = [
                 media: {
                     artUrl:
                         'https://78.media.tumblr.com/4f30940e947b58fb57e2b8499f460acb/tumblr_okccrbpkDY1rb48exo1_1280.jpg',
+                    description: '',
                     mediaCode: 'a',
                     title: 'Danganronpa',
                 },
@@ -36,6 +37,7 @@ const lists: EntryList[] = [
                 media: {
                     artUrl:
                         'https://78.media.tumblr.com/4f30940e947b58fb57e2b8499f460acb/tumblr_okccrbpkDY1rb48exo1_1280.jpg',
+                    description: '',
                     mediaCode: 'b',
                     title: 'Danganronpa 2: Goodbye Despair',
                 },
@@ -53,6 +55,7 @@ const lists: EntryList[] = [
                 media: {
                     artUrl:
                         'https://78.media.tumblr.com/4f30940e947b58fb57e2b8499f460acb/tumblr_okccrbpkDY1rb48exo1_1280.jpg',
+                    description: '',
                     mediaCode: 'c',
                     title: 'Danganronpa V3: Killing Harmony',
                 },
@@ -78,6 +81,7 @@ const lists: EntryList[] = [
                 media: {
                     artUrl:
                         'https://78.media.tumblr.com/4f30940e947b58fb57e2b8499f460acb/tumblr_okccrbpkDY1rb48exo1_1280.jpg',
+                    description: '',
                     mediaCode: 'asdf',
                     title: 'Rainbow 6: Siege',
                 },

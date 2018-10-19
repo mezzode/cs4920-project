@@ -4,8 +4,7 @@ import { storiesOf } from '@storybook/react';
 import * as React from 'react';
 import { MemoryRouter } from 'react-router';
 import { theme } from 'src/App';
-import { Entry } from 'src/types';
-import { EntryList, MediaType } from 'src/types';
+import { Entry, EntryList, MediaType } from 'src/types';
 import { ListComponent } from './Component';
 
 const entries: Entry[] = [
@@ -18,6 +17,7 @@ const entries: Entry[] = [
         media: {
             artUrl:
                 'https://78.media.tumblr.com/4f30940e947b58fb57e2b8499f460acb/tumblr_okccrbpkDY1rb48exo1_1280.jpg',
+            description: '',
             mediaCode: 'a',
             title: 'Danganronpa',
         },
@@ -35,6 +35,7 @@ const entries: Entry[] = [
         media: {
             artUrl:
                 'https://78.media.tumblr.com/4f30940e947b58fb57e2b8499f460acb/tumblr_okccrbpkDY1rb48exo1_1280.jpg',
+            description: '',
             mediaCode: 'b',
             title: 'Danganronpa 2: Goodbye Despair',
         },
@@ -52,6 +53,7 @@ const entries: Entry[] = [
         media: {
             artUrl:
                 'https://78.media.tumblr.com/4f30940e947b58fb57e2b8499f460acb/tumblr_okccrbpkDY1rb48exo1_1280.jpg',
+            description: '',
             mediaCode: 'c',
             title: 'Danganronpa V3: Killing Harmony',
         },

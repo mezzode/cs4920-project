@@ -1,40 +1,42 @@
 import { Reducer } from 'redux';
 import { reducerWithInitialState } from 'typescript-fsa-reducers';
 import {
-    clearMedia,
-    clearMedias,
+    clearMediaSearchResult,
+    clearMediaSearchResults,
     setLoading,
-    setMedia,
-    setMedias,
-} from '../actions/media';
+    setMediaSearchResult,
+    setMediaSearchResults,
+} from '../actions/mediaSearch';
 import { SearchResultMedia } from '../views/SearchResult/types';
 
-export interface MediaState {
+export interface MediaSearchState {
     isLoading: boolean;
     media: SearchResultMedia | null;
     medias: SearchResultMedia[];
     totalResults: number;
 }
 
-const initialState: MediaState = {
+const initialState: MediaSearchState = {
     isLoading: false,
     media: null,
     medias: [],
     totalResults: 0,
 };
 
-export const media: Reducer<MediaState> = reducerWithInitialState(initialState)
-    .case(setMedia, (state, mediaData) => ({
+export const mediaSearch: Reducer<MediaSearchState> = reducerWithInitialState(
+    initialState,
+)
+    .case(setMediaSearchResult, (state, mediaData) => ({
         ...state,
         ...mediaData,
     }))
-    .case(clearMedia, () => initialState)
-    .case(setMedias, (state, mediaData) => ({
+    .case(clearMediaSearchResult, () => initialState)
+    .case(setMediaSearchResults, (state, mediaData) => ({
         ...state,
         ...mediaData,
         isLoading: false,
     }))
-    .case(clearMedias, state => ({
+    .case(clearMediaSearchResults, state => ({
         ...state,
         isLoading: false,
         medias: [],
