@@ -4,12 +4,12 @@ import igdb from 'igdb-api-node';
 import { DateTime } from 'luxon';
 import * as fetch from 'node-fetch';
 import * as queries from './queries';
-import { Results, SearchResults, Subset } from './types';
+import { Anime, Game, Movie, SearchResults, Subset, TV } from './types';
 
 const client = igdb(process.env.GAMEKEY);
 
 // give game ID, returns game data
-export async function gameFetchID(id: number): Promise<Results> {
+export async function gameFetchID(id: number): Promise<Game> {
     const res = await client.games(queries.gameFetchQuery(id));
     const data = res.body[0];
     // data normalisation
@@ -28,7 +28,7 @@ export async function gameFetchID(id: number): Promise<Results> {
         5: 'Offline',
         6: 'Cancelled',
     };
-    const values: Results = {
+    const values: Game = {
         id: data.id,
         title: data.name,
         category: categoryMap[data.category] || 'Unknown',
@@ -77,20 +77,20 @@ export enum MovieTvType {
 }
 
 // give movie/tv id and boolean, returns movie/tv data. Pass true for movie, false for tv 
-export async function movietvFetchID(id: number, type: MovieTvType): Promise<Results> {
+export async function movietvFetchID(id: number, type: MovieTvType): Promise<Movie | TV> {
     const url = `https://api.themoviedb.org/3/${type}/${id}?api_key=${process.env.FILMKEY}`;
     const options = { method: 'GET' };
     const res = await fetch(url, options);
     const body = await res.json();
     // data normalisation
     if (type === MovieTvType.Movie) {
-        const data: Results = {
+        const data: Movie = {
             id: body.id,
             title: body.title,
             status: body.status,
             genres: dataShift(body.genres),
             description: body.overview,
-            cover: 'http:// image.tmdb.org/t/p/w1000 + body.poster_path',
+            cover: `http://image.tmdb.org/t/p/w1000/${body.poster_path}`,
             releaseDate: body.release_date,
             runtime: body.runtime,
             production_companies: dataShift(body.production_companies),
@@ -99,7 +99,7 @@ export async function movietvFetchID(id: number, type: MovieTvType): Promise<Res
         };
         return data;
     } else {
-        const data: Results = {
+        const data: TV = {
             id: body.id,
             title: body.name,
             description: body.overview,
@@ -112,7 +112,7 @@ export async function movietvFetchID(id: number, type: MovieTvType): Promise<Res
             seasons: body.number_of_seasons,
             country: body.origin_country,
             production_companies: dataShift(body.production_companies),
-            cover: 'http:// image.tmdb.org/t/p/w1000 + body.poster_path',
+            cover: `http://image.tmdb.org/t/p/w1000/${body.poster_path}`,
         };
         return data;
     }
@@ -160,7 +160,7 @@ export async function movietvSearch(search: string, type: MovieTvType, page: num
 }
 
 // give anime ID, returns anime data
-export async function animeFetchID(id: number): Promise<Results> {
+export async function animeFetchID(id: number): Promise<Anime> {
     const variables = { id };
     const url = 'https://graphql.anilist.co';
     const options = {
@@ -169,7 +169,7 @@ export async function animeFetchID(id: number): Promise<Results> {
             variables,
         }),
         headers: {
-            'Accept': 'application/json',
+            Accept: 'application/json',
             'Content-Type': 'application/json',
         },
         method: 'POST',
@@ -178,7 +178,7 @@ export async function animeFetchID(id: number): Promise<Results> {
     const body = await res.json();
     // data normalisation
     const { title, coverImage, startDate, endDate, ...rest } = body.data.Media;
-    const data: Results = {
+    const data: Anime = {
         title: title.romaji,
         cover: coverImage.extraLarge,
         startDate: DateTime.fromObject(startDate).toISO(),
@@ -203,7 +203,7 @@ export async function animeFetchSearch(name: string, pageNo: number): Promise<Se
             variables,
         }),
         headers: {
-            'Accept': 'application/json',
+            Accept: 'application/json',
             'Content-Type': 'application/json',
         },
         method: 'POST',

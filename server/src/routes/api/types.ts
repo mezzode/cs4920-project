@@ -45,6 +45,7 @@ export interface TV {
     cover: string;
     type: string;
     firstAirDate: string;
+    production_companies: string[];
     networks: string[];
     country: [];
     episodes: number;
