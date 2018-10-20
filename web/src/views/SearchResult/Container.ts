@@ -1,6 +1,10 @@
 import { connect, MapDispatchToProps, MapStateToProps } from 'react-redux';
 // import { setFlashMessage } from '../../actions/flashMessage';
-import { clearMedias, setLoading, setMedias } from '../../actions/media';
+import {
+    clearMediaSearchResults,
+    setLoading,
+    setMediaSearchResults,
+} from '../../actions/mediaSearch';
 import { State } from '../../reducers/index';
 import { isMediaType } from '../../types';
 import { SearchResultComponent } from './Component';
@@ -11,13 +15,16 @@ const makeMediaRequest = async (
     searchString: string,
     pageNumber: number,
 ) => {
-    const res = await fetch(`${process.env.REACT_APP_API_BASE}/${mediaType}`, {
-        body: JSON.stringify({ searchString, pageNumber }),
-        headers: {
-            'Content-Type': 'application/json',
+    const res = await fetch(
+        `${process.env.REACT_APP_API_BASE}/search/${mediaType}`,
+        {
+            body: JSON.stringify({ searchString, pageNumber }),
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            method: 'POST',
         },
-        method: 'POST',
-    });
+    );
     console.log(JSON.stringify(res));
     return res.json();
 };
@@ -27,10 +34,10 @@ const mapStateToProps: MapStateToProps<
     OwnProps,
     State
 > = state => ({
-    isLoading: state.media.isLoading,
-    searchResults: state.media.medias,
+    isLoading: state.mediaSearch.isLoading,
+    searchResults: state.mediaSearch.medias,
     showFail: state.flashMessage.showFlashMessage,
-    totalResults: state.media.totalResults,
+    totalResults: state.mediaSearch.totalResults,
 });
 
 const mapDispatchToProps: MapDispatchToProps<
@@ -52,7 +59,7 @@ const mapDispatchToProps: MapDispatchToProps<
             );
             console.log(JSON.stringify(mediaResult));
             dispatch(
-                setMedias({
+                setMediaSearchResults({
                     medias: mediaResult.media,
                     totalResults: parseInt(mediaResult.totalResults, 10),
                 }),
@@ -71,7 +78,7 @@ const mapDispatchToProps: MapDispatchToProps<
     };
 
     const clearSearchResults = () => {
-        dispatch(clearMedias());
+        dispatch(clearMediaSearchResults());
         dispatch(setLoading());
     };
 

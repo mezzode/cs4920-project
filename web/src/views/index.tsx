@@ -7,6 +7,7 @@ import { State } from '../reducers';
 // import { Home } from './Home';
 import { ListPage } from './List';
 import { Login } from './Login';
+import { MediaPage } from './Media';
 import { NotFound } from './NotFound';
 import { PasswordReset } from './Passwordreset';
 import { Profile } from './Profile';
@@ -31,7 +32,7 @@ const ViewComponent: React.SFC<Props> = ({ auth }) => {
                 />
                 <Route path="/user/:username" component={UserPage} />
                 <Route path="/list/:listCode/:slug?" component={ListPage} />
-                <Route path="/media/:mediaId" />
+                <Route path="/media/:mediaType/:id" component={MediaPage} />
                 <Route path="/login" component={Login} />
                 <Route path="/sign-up" component={SignUp} />
                 <Route path="/reset-password" component={PasswordReset} />
