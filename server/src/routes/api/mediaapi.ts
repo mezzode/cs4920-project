@@ -66,7 +66,7 @@ export async function gameFetchSearch(name: string, page: number) {
             id: result.id,
             title: result.name,
             description: result.summary,
-            image: result.cover.url,
+            image: result.cover ? result.cover.url : '',
             mediaType: 'game',
         };
     });

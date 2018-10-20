@@ -54,7 +54,7 @@ const mapDispatchToProps: MapDispatchToProps<
             dispatch(
                 setMedias({
                     medias: mediaResult.media,
-                    totalResults: mediaResult.totalResults,
+                    totalResults: parseInt(mediaResult.totalResults, 10),
                 }),
             );
         }
