@@ -42,6 +42,7 @@ storiesOf('EntryEditor', module)
                 public state: State = {
                     editingEntry: null,
                     savedEntry: {
+                        category: 'Completed',
                         entryCode: 'c',
                         finished: '2018/01/13',
                         lastUpdated: '2018/09/15 19:01',

@@ -11,6 +11,7 @@ const lists: EntryList[] = [
     {
         entries: [
             {
+                category: 'Completed',
                 entryCode: 'a',
                 finished: '2016/01/13',
                 lastUpdated: '2018/09/15 19:01',
@@ -27,6 +28,7 @@ const lists: EntryList[] = [
                 tags: [],
             },
             {
+                category: 'Completed',
                 entryCode: 'b',
                 finished: '2017/01/13',
                 lastUpdated: '2018/09/15 19:01',
@@ -43,6 +45,7 @@ const lists: EntryList[] = [
                 tags: [],
             },
             {
+                category: 'Completed',
                 entryCode: 'c',
                 finished: '2018/01/13',
                 lastUpdated: '2018/09/15 19:01',
@@ -67,6 +70,7 @@ const lists: EntryList[] = [
     {
         entries: [
             {
+                category: 'Completed',
                 entryCode: 'd',
                 finished: '2018/01/13',
                 lastUpdated: '2018/09/15 19:01',

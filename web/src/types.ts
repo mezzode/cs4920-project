@@ -7,6 +7,7 @@ export interface UserEntry {
     started?: string;
     finished?: string;
     progress?: string;
+    category: string;
     tags: string[];
 }
 

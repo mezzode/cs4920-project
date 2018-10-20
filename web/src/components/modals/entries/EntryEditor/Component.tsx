@@ -51,12 +51,16 @@ const RawEntryEditor: React.SFC<Props> = ({
         if (entry === null) {
             throw new Error('Cannot save if not loaded');
         }
-        const { finished, rating, started, entryCode } = entry;
+        // TODO: store UserEntry details separate so do not need to extract them
+        // from the full Entry?
+        const { finished, rating, started, entryCode, tags, category } = entry;
         const entryEdit = {
+            category,
             finished,
             // progress, // TODO: add progress to backend
             rating,
             started,
+            tags,
         };
 
         const res = await fetch(
@@ -135,6 +139,15 @@ const RawEntryEditor: React.SFC<Props> = ({
                                     label="Progress"
                                     type="text"
                                     value={entry.progress}
+                                    onInput={input}
+                                />
+                                <TextField
+                                    variant="outlined"
+                                    margin="dense"
+                                    id="category"
+                                    label="Category"
+                                    type="text"
+                                    value={entry.category}
                                     onInput={input}
                                 />
                                 <ChipInput
