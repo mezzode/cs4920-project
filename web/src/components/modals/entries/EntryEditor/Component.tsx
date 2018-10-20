@@ -10,6 +10,7 @@ import {
 } from '@material-ui/core';
 import { createStyles, withStyles } from '@material-ui/core/styles';
 import { isWidthDown, isWidthUp } from '@material-ui/core/withWidth';
+import ChipInput from 'material-ui-chip-input';
 import * as React from 'react';
 import { Entry } from 'src/types';
 import { Props } from './types';
@@ -18,6 +19,21 @@ export const styles = createStyles({
     art: {
         objectFit: 'cover',
         width: '100%',
+    },
+    // chipInput works around fullWidth bug with outlined variant ChipInput
+    chipInput: {
+        width: '100%',
+    },
+    // chipLabel and chipLabelShrink work around label vertical alignment bug
+    // with dense margin ChipInput
+    chipLabel: {
+        '&:not($chipLabelShrink)': {
+            top: '-2px !important',
+        },
+        top: '2px !important',
+    },
+    chipLabelShrink: {
+        top: '0px !important',
     },
 });
 
@@ -79,6 +95,7 @@ const RawEntryEditor: React.SFC<Props> = ({
                                 item={true}
                                 container={true}
                                 direction="column"
+                                justify="space-between"
                                 sm={7}
                             >
                                 <TextField
@@ -117,6 +134,19 @@ const RawEntryEditor: React.SFC<Props> = ({
                                     type="text"
                                     value={entry.progress}
                                     onInput={input}
+                                />
+                                <ChipInput
+                                    // value={['Favourites']}
+                                    blurBehavior="add"
+                                    variant="outlined"
+                                    label="Tags"
+                                    fullWidth={true}
+                                    margin="dense"
+                                    classes={{
+                                        inputRoot: classes.chipInput,
+                                        label: classes.chipLabel,
+                                        labelShrink: classes.chipLabelShrink,
+                                    }}
                                 />
                             </Grid>
                             {isWidthUp('xs', width, false) && (

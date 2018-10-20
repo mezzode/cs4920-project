@@ -5507,6 +5507,13 @@ marksy@^6.0.3:
     he "^1.1.1"
     marked "^0.3.12"
 
+"material-ui-chip-input@https://github.com/mezzode/material-ui-chip-input.git":
+  version "1.0.0-beta.8"
+  resolved "https://github.com/mezzode/material-ui-chip-input.git#2a312c66ffb72b9d0cf6b1a2808fddd3421a4982"
+  dependencies:
+    classnames "^2.2.5"
+    prop-types "^15.6.1"
+
 math-expression-evaluator@^1.2.14:
   version "1.2.17"
   resolved "https://registry.yarnpkg.com/math-expression-evaluator/-/math-expression-evaluator-1.2.17.tgz#de819fdbcd84dccd8fae59c6aeb79615b9d266ac"
