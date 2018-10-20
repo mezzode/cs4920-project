@@ -40,7 +40,9 @@ const mapDispatchToProps: MapDispatchToProps<
             `${process.env.REACT_APP_API_BASE}/update-profile-image`,
             {
                 body: data,
+                credentials: 'include',
                 method: 'post',
+                mode: 'cors',
             },
         );
 
@@ -60,7 +62,9 @@ const mapDispatchToProps: MapDispatchToProps<
             `${process.env.REACT_APP_API_BASE}/update-password`,
             {
                 body: data,
+                credentials: 'include',
                 method: 'post',
+                mode: 'cors',
             },
         );
 
