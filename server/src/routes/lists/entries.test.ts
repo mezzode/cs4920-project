@@ -26,7 +26,7 @@ describe('Test entries endpoints', () => {
     describe('Test entry create', () => {
         test('Can create new entry', async () => {
             const entry = {
-                category: 'In Progress', // TODO: add category to backend
+                category: 'In Progress',
                 finished: null,
                 listCode: 'XG', // 1
                 mediaCode: 'XG', // 1
