@@ -228,5 +228,3 @@ export async function animeFetchSearch(name: string, pageNo: number): Promise<Se
     console.log(final);
     return final;
 }
-
-animeFetchID(15125);
