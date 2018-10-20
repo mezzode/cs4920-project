@@ -4,7 +4,7 @@ import igdb from 'igdb-api-node';
 import { DateTime } from 'luxon';
 import * as fetch from 'node-fetch';
 import * as queries from './queries';
-import './types';
+import { Results, SearchResults, Subset } from './types';
 
 const client = igdb(process.env.GAMEKEY);
 
@@ -228,3 +228,5 @@ export async function animeFetchSearch(name: string, pageNo: number): Promise<Se
     console.log(final);
     return final;
 }
+
+animeFetchID(15125);
