@@ -138,8 +138,8 @@ export async function movietvSearch(search: string, type: MovieTvType, page: num
                 id: result.id,
                 title: result.title,
                 description: result.overview,
-                image: 'http://image.tmdb.org/t/p/w400' + result.poster_path',
-                mediaType: movie,
+                image: 'http://image.tmdb.org/t/p/w400' + result.poster_path,
+                mediaType: 'movie',
             };
         } else {
             return {
@@ -147,7 +147,7 @@ export async function movietvSearch(search: string, type: MovieTvType, page: num
                 title: result.name,
                 description: result.overview,
                 image: 'http://image.tmdb.org/t/p/w400' + result.poster_path,
-                mediaType: tv,
+                mediaType: 'tv',
             };
         }
     });
