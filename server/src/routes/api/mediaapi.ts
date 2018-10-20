@@ -241,13 +241,3 @@ export async function animeFetchSearch(name: string, pageNo: number) {
     console.log(final);
     return final;
 }
-
-// animeFetchID(15125);
-// animeFetchSearch("Fate", 1);
-// gameFetchID(501);
-// gameFetchSearch("Batman", 1);
-// movietvFetchID(99861, MovieTvType.Movie);
-// movietvFetchID(456, MovieTvType.TV);
-// movietvSearch("Batman", MovieTvType.Movie);
-// movietvSearch("Batman", MovieTvType.TV);
-console.log(process.env.GAMEKEY);
