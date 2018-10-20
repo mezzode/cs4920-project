@@ -11,6 +11,7 @@ const lists: EntryList[] = [
     {
         entries: [
             {
+                category: 'Completed',
                 entryCode: 'a',
                 finished: '2016/01/13',
                 lastUpdated: '2018/09/15 19:01',
@@ -24,8 +25,10 @@ const lists: EntryList[] = [
                 progress: '50 hrs',
                 rating: 10,
                 started: '2016/01/10',
+                tags: [],
             },
             {
+                category: 'Completed',
                 entryCode: 'b',
                 finished: '2017/01/13',
                 lastUpdated: '2018/09/15 19:01',
@@ -39,8 +42,10 @@ const lists: EntryList[] = [
                 progress: '50 hrs',
                 rating: 10,
                 started: '2017/01/10',
+                tags: [],
             },
             {
+                category: 'Completed',
                 entryCode: 'c',
                 finished: '2018/01/13',
                 lastUpdated: '2018/09/15 19:01',
@@ -54,6 +59,7 @@ const lists: EntryList[] = [
                 progress: '50 hrs',
                 rating: 10,
                 started: '2018/01/10',
+                tags: [],
             },
         ],
         listCode: 'a',
@@ -64,6 +70,7 @@ const lists: EntryList[] = [
     {
         entries: [
             {
+                category: 'Completed',
                 entryCode: 'd',
                 finished: '2018/01/13',
                 lastUpdated: '2018/09/15 19:01',
@@ -77,6 +84,7 @@ const lists: EntryList[] = [
                 progress: '50 hrs',
                 rating: 10,
                 started: '2018/01/10',
+                tags: [],
             },
         ],
         listCode: 'b',

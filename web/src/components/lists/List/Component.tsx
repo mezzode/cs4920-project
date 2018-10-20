@@ -1,5 +1,6 @@
 import {
     Button,
+    Chip,
     Grid,
     Table,
     TableBody,
@@ -66,9 +67,11 @@ const RawList: React.SFC<Props> = ({
                     <TableRow className={classes.header}>
                         <TableCell>Title</TableCell>
                         <TableCell>Rating</TableCell>
+                        <TableCell>Category</TableCell>
                         <TableCell>Started</TableCell>
                         <TableCell>Finished</TableCell>
                         <TableCell>Progress</TableCell>
+                        <TableCell>Tags</TableCell>
                         {editable && <TableCell />}
                     </TableRow>
                 </TableHead>
@@ -90,9 +93,15 @@ const RawList: React.SFC<Props> = ({
                                     ? `${entry.rating}/10`
                                     : '-'}
                             </TableCell>
+                            <TableCell>{entry.category}</TableCell>
                             <TableCell>{entry.started}</TableCell>
                             <TableCell>{entry.finished}</TableCell>
                             <TableCell>{entry.progress}</TableCell>
+                            <TableCell>
+                                {entry.tags.map(t => (
+                                    <Chip key={t} label={t} />
+                                ))}
+                            </TableCell>
                             {editable && (
                                 <TableCell>
                                     <Button onClick={handleEdit(entry)}>

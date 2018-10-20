@@ -10,6 +10,7 @@ import {
 } from '@material-ui/core';
 import { createStyles, withStyles } from '@material-ui/core/styles';
 import { isWidthDown, isWidthUp } from '@material-ui/core/withWidth';
+import ChipInput from 'material-ui-chip-input';
 import * as React from 'react';
 import { Entry } from 'src/types';
 import { Props } from './types';
@@ -18,6 +19,21 @@ export const styles = createStyles({
     art: {
         objectFit: 'cover',
         width: '100%',
+    },
+    // chipInput works around fullWidth bug with outlined variant ChipInput
+    chipInput: {
+        width: '100%',
+    },
+    // chipLabel and chipLabelShrink work around label vertical alignment bug
+    // with dense margin ChipInput
+    chipLabel: {
+        '&:not($chipLabelShrink)': {
+            top: '-2px !important',
+        },
+        top: '2px !important',
+    },
+    chipLabelShrink: {
+        top: '0px !important',
     },
 });
 
@@ -28,17 +44,23 @@ const RawEntryEditor: React.SFC<Props> = ({
     input,
     classes,
     width,
+    addTag,
+    removeTag,
 }) => {
     async function save() {
         if (entry === null) {
             throw new Error('Cannot save if not loaded');
         }
-        const { finished, rating, started, entryCode } = entry;
+        // TODO: store UserEntry details separate so do not need to extract them
+        // from the full Entry?
+        const { finished, rating, started, entryCode, tags, category } = entry;
         const entryEdit = {
+            category,
             finished,
             // progress, // TODO: add progress to backend
             rating,
             started,
+            tags,
         };
 
         const res = await fetch(
@@ -79,6 +101,7 @@ const RawEntryEditor: React.SFC<Props> = ({
                                 item={true}
                                 container={true}
                                 direction="column"
+                                justify="space-between"
                                 sm={7}
                             >
                                 <TextField
@@ -117,6 +140,33 @@ const RawEntryEditor: React.SFC<Props> = ({
                                     type="text"
                                     value={entry.progress}
                                     onInput={input}
+                                />
+                                <TextField
+                                    variant="outlined"
+                                    margin="dense"
+                                    id="category"
+                                    label="Category"
+                                    type="text"
+                                    value={entry.category}
+                                    onInput={input}
+                                />
+                                <ChipInput
+                                    onAdd={addTag}
+                                    onDelete={removeTag}
+                                    value={entry.tags}
+                                    blurBehavior="add"
+                                    variant="outlined"
+                                    label="Tags"
+                                    fullWidth={true}
+                                    margin="dense"
+                                    classes={{
+                                        inputRoot: classes.chipInput,
+                                        label: classes.chipLabel,
+                                        labelShrink: classes.chipLabelShrink,
+                                    }}
+                                    helperText={
+                                        'Type and press "Enter" to add a tag'
+                                    }
                                 />
                             </Grid>
                             {isWidthUp('xs', width, false) && (

@@ -42,6 +42,7 @@ storiesOf('EntryEditor', module)
                 public state: State = {
                     editingEntry: null,
                     savedEntry: {
+                        category: 'Completed',
                         entryCode: 'c',
                         finished: '2018/01/13',
                         lastUpdated: '2018/09/15 19:01',
@@ -55,15 +56,18 @@ storiesOf('EntryEditor', module)
                         progress: '50 hrs',
                         rating: 10,
                         started: '2018/01/10',
+                        tags: [],
                     },
                 };
 
                 public render() {
-                    const { input, close } = this;
+                    const { input, close, addTag, removeTag } = this;
                     const props = {
+                        addTag,
                         close,
                         entry: this.state.editingEntry,
                         input,
+                        removeTag,
                     };
                     return (
                         <Card>
@@ -107,6 +111,32 @@ storiesOf('EntryEditor', module)
                         editingEntry: {
                             ...this.state.editingEntry,
                             [e.target.id]: e.target.value,
+                        },
+                    });
+                };
+
+                private addTag = (tag: string) => {
+                    if (this.state.editingEntry === null) {
+                        return;
+                    }
+                    this.setState({
+                        editingEntry: {
+                            ...this.state.editingEntry,
+                            tags: [...this.state.editingEntry.tags, tag],
+                        },
+                    });
+                };
+
+                private removeTag = (tag: string) => {
+                    if (this.state.editingEntry === null) {
+                        return;
+                    }
+                    this.setState({
+                        editingEntry: {
+                            ...this.state.editingEntry,
+                            tags: this.state.editingEntry.tags.filter(
+                                t => t !== tag,
+                            ),
                         },
                     });
                 };
