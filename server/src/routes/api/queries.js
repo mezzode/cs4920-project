@@ -21,6 +21,7 @@ query ($id: Int) {
     }
     episodes
     coverImage {
+      extraLarge
       medium
     }
   }
@@ -43,6 +44,7 @@ exports.searchA = `query ($page: Int, $perPage: Int, $search: String) {
       }
       description
       coverImage {
+        extraLarge
         medium
       }
     }
