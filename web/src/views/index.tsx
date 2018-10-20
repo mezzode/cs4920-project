@@ -3,7 +3,7 @@ import * as React from 'react';
 import { connect, MapStateToProps } from 'react-redux';
 import { Route, RouteComponentProps, Switch, withRouter } from 'react-router';
 import { State } from '../reducers';
-import { Landing } from './Landing';
+import { Home } from './Home';
 import { ListPage } from './List';
 import { Login } from './Login';
 import { NotFound } from './NotFound';
@@ -22,7 +22,7 @@ const ViewComponent: React.SFC<Props> = ({ auth }) => {
         <>
             <CssBaseline />
             <Switch>
-                <Route exact={true} path="/" component={Landing} />
+                <Route exact={true} path="/" component={Home} />
                 <Route path="/profile" component={Profile} />
                 <Route
                     path="/user/:username/lists/:mediaType"
