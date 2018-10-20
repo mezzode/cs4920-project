@@ -3,30 +3,40 @@ import { ButtonBase, Grid, Typography } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import * as React from 'react';
 import { Nav } from '../../components/common/Nav';
-import anime from '../../images/anime.png';
-import game from '../../images/game.jpg';
-import movie from '../../images/movie.png';
-import tv from '../../images/tv.jpg';
+import backgroundAnime from '../../images/anime.png';
+import tv from '../../images/game-of-thrones.jpg';
+import backgroundGame from '../../images/game.jpg';
+import game from '../../images/league-of-legends.jpg';
+import backgroundMovie from '../../images/movie.png';
+import anime from '../../images/one-punch-man.jpg';
+import movie from '../../images/star-wars.png';
+import backgroundTv from '../../images/tv.jpg';
 import { styles } from './styles';
 import { Props, State } from './types';
 
-// k u do this react
-// i'll bring in the images
-// do i keep typing here?
-// yeah try guess the react components lol
-// soz i pressed save ahahaha
-// oh wait searchResults hasn't been merged in yet, gonna have to mimic from github
-// oh ty LOL lololol
-// ok carry on
 class RawHome extends React.Component<Props, State> {
     public images = [movie, tv, anime, game];
+    public backgroundImages = [
+        backgroundMovie,
+        backgroundTv,
+        backgroundAnime,
+        backgroundGame,
+    ];
+    public imageNames = [
+        'Star Wars',
+        'Game of Thrones',
+        'One Punch Man',
+        'League of Legends',
+    ];
     public mediaName = ['MOVIES', 'SHOWS', 'ANIME', 'GAMES'];
     public subtext = ['you See', 'you Watch', 'you Enjoy', 'you Play'];
 
     constructor(props: Props) {
         super(props);
         this.state = {
-            backgroundImage: this.images[0],
+            backgroundImage: this.backgroundImages[0],
+            highlightImage: this.images[0],
+            imageName: this.imageNames[0],
             index: 0,
             intervalId: 0,
             mediaName: this.mediaName[0],
@@ -46,12 +56,12 @@ class RawHome extends React.Component<Props, State> {
         clearInterval(this.state.intervalId);
     }
 
-    // how to add line break after the MOVIES/SHOWS/ANIME etc?t
-    // we'll try \n. if doesnt work we'll try <br> tags
     public updateBanner() {
         const nextIndex = (this.state.index + 1) % this.mediaName.length;
         this.setState({
-            backgroundImage: this.images[nextIndex],
+            backgroundImage: this.backgroundImages[nextIndex],
+            highlightImage: this.images[nextIndex],
+            imageName: this.imageNames[nextIndex],
             index: nextIndex,
             mediaName: this.mediaName[nextIndex],
             subtext: this.subtext[nextIndex],
@@ -63,59 +73,83 @@ class RawHome extends React.Component<Props, State> {
         return (
             <>
                 <Nav transparent={true} />
-                <div className={classes.header}>
+                <div
+                    className={classes.header}
+                    style={{
+                        backgroundImage:
+                            'url(' + this.state.backgroundImage + ')',
+                    }}
+                >
                     <Grid
                         container={true}
                         direction="column"
                         className={classes.root}
                     >
                         <Grid
+                            item={true}
                             xs={6}
-                            alignItems="center"
-                            justify="center"
-                            className={classes.halfpage}
+                            className={`${classes.halfpage} ${classes.textBox}`}
                         >
-                            <Typography align="center" variant="display2">
+                            <Typography
+                                align="center"
+                                variant="h3"
+                                className={classes.text}
+                            >
                                 Welcome to
                             </Typography>
                             <br />
-                            <Typography align="center" variant="display3">
+                            <Typography
+                                align="center"
+                                variant="h2"
+                                className={classes.text}
+                            >
                                 medialog
                             </Typography>
                             <br />
-                            <Typography align="center" variant="display2">
+                            <Typography
+                                align="center"
+                                variant="h3"
+                                className={classes.text}
+                            >
                                 Track the
                             </Typography>
                             <br />
-                            <Typography align="center" variant="display2">
+                            <Typography
+                                align="center"
+                                variant="h3"
+                                className={classes.text}
+                            >
                                 {this.state.mediaName}
                             </Typography>
-                            <Typography align="center" variant="display2">
+                            <Typography
+                                align="center"
+                                variant="h3"
+                                className={classes.text}
+                            >
                                 {this.state.subtext}
                             </Typography>
                         </Grid>
-                        <Grid
-                            xs={6}
-                            alignItems="center"
-                            justify="center"
-                            className={classes.halfpage}
-                        >
+                        <Grid item={true} xs={6} className={classes.halfpage}>
                             {' '}
                             <ButtonBase
-                                className={classes.image}
-                                style={{ textDecoration: 'none' }}
+                                className={classes.button}
+                                style={{
+                                    textDecoration: 'none',
+                                }}
                             >
                                 {' '}
                                 <img
                                     className={classes.img}
-                                    src={this.state.backgroundImage}
+                                    src={this.state.highlightImage}
                                 />{' '}
                             </ButtonBase>{' '}
-                            {this.state.backgroundImage}
                             <br />
-                            <Typography variant="display1">
-                                {' '}
-                                NAME OF SHOW{' '}
+                            <Typography
+                                align="center"
+                                variant="h3"
+                                className={`${classes.text} ${classes.textBox}`}
+                            >
+                                {this.state.imageName}
                             </Typography>
                         </Grid>
                     </Grid>

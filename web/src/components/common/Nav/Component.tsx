@@ -25,7 +25,7 @@ export const RawNav: React.SFC<Props> = ({ classes, transparent, user }) => (
     >
         <Toolbar className={classes.parent}>
             <Button component={LinkTo('/')}>
-                <Typography variant="title" color="inherit">
+                <Typography variant="h6" color="inherit">
                     medialog
                 </Typography>
             </Button>

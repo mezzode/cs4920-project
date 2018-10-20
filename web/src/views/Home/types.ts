@@ -6,6 +6,8 @@ export interface Props extends WithStyles<typeof styles> {}
 // tslint:disable:no-any
 export interface State {
     backgroundImage: string;
+    highlightImage: string;
+    imageName: string;
     mediaName: string;
     subtext: string;
     index: number;
