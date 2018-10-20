@@ -24,6 +24,7 @@ const lists: EntryList[] = [
                 progress: '50 hrs',
                 rating: 10,
                 started: '2016/01/10',
+                tags: [],
             },
             {
                 entryCode: 'b',
@@ -39,6 +40,7 @@ const lists: EntryList[] = [
                 progress: '50 hrs',
                 rating: 10,
                 started: '2017/01/10',
+                tags: [],
             },
             {
                 entryCode: 'c',
@@ -54,6 +56,7 @@ const lists: EntryList[] = [
                 progress: '50 hrs',
                 rating: 10,
                 started: '2018/01/10',
+                tags: [],
             },
         ],
         listCode: 'a',
@@ -77,6 +80,7 @@ const lists: EntryList[] = [
                 progress: '50 hrs',
                 rating: 10,
                 started: '2018/01/10',
+                tags: [],
             },
         ],
         listCode: 'b',

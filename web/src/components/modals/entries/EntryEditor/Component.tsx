@@ -44,6 +44,8 @@ const RawEntryEditor: React.SFC<Props> = ({
     input,
     classes,
     width,
+    addTag,
+    removeTag,
 }) => {
     async function save() {
         if (entry === null) {
@@ -136,7 +138,9 @@ const RawEntryEditor: React.SFC<Props> = ({
                                     onInput={input}
                                 />
                                 <ChipInput
-                                    // value={['Favourites']}
+                                    onAdd={addTag}
+                                    onDelete={removeTag}
+                                    value={entry.tags}
                                     blurBehavior="add"
                                     variant="outlined"
                                     label="Tags"
@@ -147,6 +151,9 @@ const RawEntryEditor: React.SFC<Props> = ({
                                         label: classes.chipLabel,
                                         labelShrink: classes.chipLabelShrink,
                                     }}
+                                    helperText={
+                                        'Type and press "Enter" to add a tag'
+                                    }
                                 />
                             </Grid>
                             {isWidthUp('xs', width, false) && (

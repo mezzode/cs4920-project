@@ -23,6 +23,7 @@ const entries: Entry[] = [
         progress: '50 hrs',
         rating: 10,
         started: '2016/01/10',
+        tags: [],
     },
     {
         entryCode: 'b',
@@ -38,6 +39,7 @@ const entries: Entry[] = [
         progress: '50 hrs',
         rating: 10,
         started: '2017/01/10',
+        tags: [],
     },
     {
         entryCode: 'c',
@@ -53,6 +55,7 @@ const entries: Entry[] = [
         progress: '50 hrs',
         rating: 10,
         started: '2018/01/10',
+        tags: [],
     },
 ];
 

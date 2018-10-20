@@ -1,6 +1,11 @@
 import { connect, MapDispatchToProps, MapStateToProps } from 'react-redux';
 import { State } from 'src/reducers';
-import { closeEntryEditor, updateEntryEditor } from './actions';
+import {
+    addTag,
+    closeEntryEditor,
+    removeTag,
+    updateEntryEditor,
+} from './actions';
 import { EntryEditorComponent } from './Component';
 import { DispatchProps, OwnProps, StateProps } from './types';
 
@@ -16,6 +21,7 @@ const mapDispatchToProps: MapDispatchToProps<
     DispatchProps,
     OwnProps
 > = dispatch => ({
+    addTag: tag => dispatch(addTag(tag)),
     close: () => dispatch(closeEntryEditor()),
     input: e =>
         dispatch(
@@ -23,6 +29,7 @@ const mapDispatchToProps: MapDispatchToProps<
                 [e.target.id]: e.target.value || null,
             }),
         ),
+    removeTag: tag => dispatch(removeTag(tag)),
 });
 
 export const EntryEditorContainer = connect(

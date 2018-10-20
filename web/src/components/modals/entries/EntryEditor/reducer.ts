@@ -2,8 +2,10 @@ import { Reducer } from 'redux';
 import { Entry } from 'src/types';
 import { reducerWithInitialState } from 'typescript-fsa-reducers';
 import {
+    addTag,
     closeEntryEditor,
     openEntryEditor,
+    removeTag,
     updateEntryEditor,
 } from './actions';
 
@@ -47,4 +49,28 @@ export const entryEditor: Reducer<EntryEditorState> = reducerWithInitialState<
         };
     })
     .case(closeEntryEditor, () => initialState)
+    .case(addTag, (state, tag) => {
+        if (state.entry === null || state.status === Status.closed) {
+            throw new Error('Trying to update editor while editor is not open');
+        }
+        return {
+            entry: {
+                ...state.entry,
+                tags: [...state.entry.tags, tag],
+            },
+            status: state.status,
+        };
+    })
+    .case(removeTag, (state, tag) => {
+        if (state.entry === null || state.status === Status.closed) {
+            throw new Error('Trying to update editor while editor is not open');
+        }
+        return {
+            entry: {
+                ...state.entry,
+                tags: state.entry.tags.filter(t => t !== tag),
+            },
+            status: state.status,
+        };
+    })
     .build();

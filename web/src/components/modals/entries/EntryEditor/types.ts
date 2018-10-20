@@ -10,6 +10,8 @@ export interface StateProps {
 export interface DispatchProps {
     close: () => void;
     input: React.ChangeEventHandler<HTMLInputElement>;
+    addTag: (tag: string) => void;
+    removeTag: (tag: string, index: number) => void;
 }
 
 export type AfterEntryEditCallBack = (editedEntry: Entry) => void;
