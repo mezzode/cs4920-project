@@ -15,7 +15,7 @@ export interface Game {
     description: string;
     genres: string[];
     cover: string;
-    category: string[];
+    category: string;
     themes: string[];
     publishers: string[];
     developers: string[];

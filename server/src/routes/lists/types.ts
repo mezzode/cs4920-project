@@ -1,3 +1,5 @@
+import { Results } from "../api/types";
+
 // TODO: share common types between web and server
 
 /**
@@ -20,13 +22,7 @@ interface SystemEntry {
     entryCode: string;
     listCode: string;
     lastUpdated: string;
-    media: Media;
-}
-
-export interface Media {
-    mediaCode: string;
-    title: string;
-    cover: string;
+    media: Results;
 }
 
 export type Entry = UserEntry & SystemEntry;

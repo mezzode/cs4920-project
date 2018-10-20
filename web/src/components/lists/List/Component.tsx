@@ -84,7 +84,7 @@ const RawList: React.SFC<Props> = ({
                                     <Link
                                         to={`/media/${
                                             mediaUrl[list.mediaType]
-                                        }/${entry.media.mediaCode}`}
+                                        }/${entry.media.id}`}
                                         className={classes.link}
                                     >
                                         {entry.media.title}
