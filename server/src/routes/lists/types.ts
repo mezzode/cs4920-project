@@ -26,7 +26,7 @@ interface SystemEntry {
 export interface Media {
     mediaCode: string;
     title: string;
-    artUrl: string;
+    cover: string;
 }
 
 export type Entry = UserEntry & SystemEntry;

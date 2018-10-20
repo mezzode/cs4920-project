@@ -173,7 +173,7 @@ const RawEntryEditor: React.SFC<Props> = ({
                                 <Grid item={true} sm={5}>
                                     <img
                                         className={classes.art}
-                                        src={entry.media.artUrl}
+                                        src={entry.media.cover}
                                     />
                                 </Grid>
                             )}

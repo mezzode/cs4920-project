@@ -16,7 +16,7 @@ const entries: Entry[] = [
         lastUpdated: '2018/09/15 19:01',
         listCode: 'a',
         media: {
-            artUrl:
+            cover:
                 'https://78.media.tumblr.com/4f30940e947b58fb57e2b8499f460acb/tumblr_okccrbpkDY1rb48exo1_1280.jpg',
             mediaCode: 'a',
             title: 'Danganronpa',
@@ -33,7 +33,7 @@ const entries: Entry[] = [
         lastUpdated: '2018/09/15 19:01',
         listCode: 'a',
         media: {
-            artUrl:
+            cover:
                 'https://78.media.tumblr.com/4f30940e947b58fb57e2b8499f460acb/tumblr_okccrbpkDY1rb48exo1_1280.jpg',
             mediaCode: 'b',
             title: 'Danganronpa 2: Goodbye Despair',
@@ -50,7 +50,7 @@ const entries: Entry[] = [
         lastUpdated: '2018/09/15 19:01',
         listCode: 'a',
         media: {
-            artUrl:
+            cover:
                 'https://78.media.tumblr.com/4f30940e947b58fb57e2b8499f460acb/tumblr_okccrbpkDY1rb48exo1_1280.jpg',
             mediaCode: 'c',
             title: 'Danganronpa V3: Killing Harmony',

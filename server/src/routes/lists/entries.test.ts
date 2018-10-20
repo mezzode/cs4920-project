@@ -151,7 +151,7 @@ describe('Test entries endpoints', () => {
                 finished: '2018',
                 listCode: 'XG',
                 media: {
-                    artUrl:
+                    cover:
                         'https://78.media.tumblr.com/4f30940e947b58fb57e2b8499f460acb/tumblr_okccrbpkDY1rb48exo1_1280.jpg',
                     mediaCode: 'XG',
                     title: `Title of media ID 1`,

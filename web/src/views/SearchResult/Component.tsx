@@ -140,8 +140,7 @@ class RawSearchResult extends React.Component<Props, State> {
                                             </Link>
                                             <Typography
                                                 dangerouslySetInnerHTML={
-                                                    searchResult.description !==
-                                                        null &&
+                                                    searchResult.description &&
                                                     searchResult.description.trim() !==
                                                         ''
                                                         ? {

@@ -51,7 +51,7 @@ const getEntry = asyncHandler(async (req, res) => {
         ...idsToCodes(other),
         media: {
             // TODO: get media data
-            artUrl:
+            cover:
                 'https://78.media.tumblr.com/4f30940e947b58fb57e2b8499f460acb/tumblr_okccrbpkDY1rb48exo1_1280.jpg',
             mediaCode: hashids.encode(mediaId),
             title: `Title of media ID ${mediaId}`,
@@ -187,7 +187,7 @@ const updateEntry = asyncHandler(async (req, res) => {
         ...idsToCodes(updatedEntry),
         media: {
             // TODO: get media data
-            artUrl:
+            cover:
                 'https://78.media.tumblr.com/4f30940e947b58fb57e2b8499f460acb/tumblr_okccrbpkDY1rb48exo1_1280.jpg',
             mediaCode: hashids.encode(mediaId),
             title: `Title of media ID ${mediaId}`,

@@ -3,6 +3,7 @@
 import igdb from 'igdb-api-node';
 import { DateTime } from 'luxon';
 import * as fetch from 'node-fetch';
+import { MediaType } from '../lists/types';
 import * as queries from './queries';
 import { Anime, Game, Movie, SearchResults, Subset, TV } from './types';
 
@@ -228,3 +229,16 @@ export async function animeFetchSearch(name: string, pageNo: number): Promise<Se
     console.log(final);
     return final;
 }
+
+export const fetchMedia = (id: number, mediaType: MediaType) => {
+    switch (mediaType) {
+        case MediaType.Anime:
+            return animeFetchID(id);
+        case MediaType.Game:
+            return gameFetchID(id);
+        case MediaType.Movie:
+            return movietvFetchID(id, MovieTvType.Movie);
+        case MediaType.Show:
+            return movietvFetchID(id, MovieTvType.TV);
+    }
+};

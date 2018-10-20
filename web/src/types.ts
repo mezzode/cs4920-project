@@ -24,9 +24,9 @@ interface SystemEntry {
 export type Entry = UserEntry & SystemEntry;
 
 export interface Media {
-    mediaCode: string;
+    mediaCode: string; // TODO: move to id
     title: string;
-    artUrl: string;
+    cover: string;
 }
 
 export interface EntryList {
@@ -55,6 +55,7 @@ export const isMediaType = (s: string): s is MediaType =>
         .map(k => MediaType[k])
         .filter(t => t === s).length === 1;
 
+// TODO: refactor into function for better separation
 export const mediaUrl = {
     [MediaType.Game]: 'games',
     [MediaType.Show]: 'shows',
