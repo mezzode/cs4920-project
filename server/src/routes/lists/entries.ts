@@ -117,15 +117,25 @@ const validateEntryData = (
             'rating',
             'started',
             'finished',
-            'progress',
+            // 'progress', // TODO
             'category',
             'tags',
         ];
+        fields.forEach(f => {
+            if (!(f in entry)) {
+                throw new Error(`Entry is missing field "${f}"`);
+            }
+        });
         Object.keys(entry).forEach(k => {
             if (!fields.includes(k)) {
                 throw new Error(`${k} is not a valid entry field.`);
             }
         });
+
+        const uniqueTags = new Set(entry.tags);
+        if (uniqueTags.size !== entry.tags!.length) {
+            throw new Error('Duplicate tags');
+        }
 
         if (entry.started && !DateTime.fromISO(entry.started!).isValid) {
             return false;
@@ -139,6 +149,7 @@ const validateEntryData = (
         }
         return true;
     } catch (e) {
+        // TODO: consider just directly throwing HandlerErrors
         console.error(e);
         return false;
     }

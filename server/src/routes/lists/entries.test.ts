@@ -5,6 +5,7 @@ import { app } from '../../app';
 import { db } from '../../helpers/database';
 import { HandlerError } from '../../helpers/error';
 import { hashids } from '../../helpers/id';
+import { Entry } from './types';
 
 describe('Test entries endpoints', () => {
     beforeEach(() => {
@@ -25,11 +26,13 @@ describe('Test entries endpoints', () => {
     describe('Test entry create', () => {
         test('Can create new entry', async () => {
             const entry = {
-                // category: 'In Progress', // TODO: add category to backend
+                category: 'In Progress', // TODO: add category to backend
+                finished: null,
                 listCode: 'XG', // 1
                 mediaCode: 'XG', // 1
                 rating: 10,
                 started: '2018',
+                tags: [],
             };
             const res = await request(app)
                 .post('/entry')
@@ -53,10 +56,12 @@ describe('Test entries endpoints', () => {
 
             const entry = {
                 category: 'In Progress',
+                finished: null,
                 listCode: 'XG', // 1
                 mediaCode: 'BaDCoDe',
                 rating: 10,
                 started: '2018',
+                tags: [],
             };
 
             const res = await request(app)
@@ -80,10 +85,12 @@ describe('Test entries endpoints', () => {
 
             const entry = {
                 category: 'In Progress',
+                finished: null,
                 listCode: 'BadCoDe',
                 mediaCode: 'XG', // 1
                 rating: 10,
                 started: '2018',
+                tags: [],
             };
 
             const res = await request(app)
@@ -107,11 +114,12 @@ describe('Test entries endpoints', () => {
 
             const entry = {
                 category: 'In Progress',
-                // finished: 'This is not an ISO 8601 date',
+                finished: 'This is not an ISO 8601 date',
                 listCode: 'XG', // 1
                 mediaCode: 'XG', // 1
                 rating: 10,
                 started: '2018-02-30',
+                tags: [],
             };
 
             const res = await request(app)
@@ -263,13 +271,20 @@ describe('Test entries endpoints', () => {
             const entryId = 1;
             const entryCode = hashids.encode(entryId);
 
-            const {
-                body: { lastUpdated: _, ...originalEntry },
-            } = await testGet(entryCode);
+            const { body } = await testGet(entryCode);
+            const { lastUpdated: _, ...originalEntry } = body as Entry;
 
             expect(originalEntry.tags).toEqual([]);
 
+            const {
+                entryCode: __,
+                listCode: ___,
+                media,
+                ...userFields
+            } = originalEntry;
+
             const entryEdit = {
+                ...userFields,
                 rating: 5,
                 started: '2010-02',
                 tags: ['Favourites'],
@@ -285,6 +300,41 @@ describe('Test entries endpoints', () => {
             expect(editedEntry).toEqual({ ...originalEntry, ...entryEdit });
             expect(DateTime.fromISO(lastUpdated).isValid).toBe(true);
             expect(editedEntry.tags).toEqual(['Favourites']);
+        });
+
+        test("Can't add duplicate tags", async () => {
+            const errSpy = jest.spyOn(console, 'error');
+            errSpy.mockImplementation();
+
+            const entryId = 1;
+            const entryCode = hashids.encode(entryId);
+
+            const { body } = await testGet(entryCode);
+            const {
+                lastUpdated: _,
+                entryCode: __,
+                listCode: ___,
+                media,
+                ...originalEntry
+            } = body as Entry;
+
+            const entryEdit = {
+                ...originalEntry,
+                tags: ['Duplicate', 'Duplicate'],
+            };
+
+            const res = await request(app)
+                .post(`/entry/${entryCode}`)
+                .send(entryEdit)
+                .set('Accept', 'application/json')
+                .expect(400);
+
+            const error = 'Invalid entry';
+
+            expect(res.body).toEqual({ error });
+
+            expect(errSpy).toBeCalledWith(new HandlerError(error, 404));
+            errSpy.mockRestore();
         });
     });
 });

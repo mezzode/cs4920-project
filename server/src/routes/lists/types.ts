@@ -8,8 +8,9 @@ export interface UserEntry {
     rating: number;
     started: string;
     finished: string;
-    progress: string;
+    // progress: string;
     tags: string[];
+    category: string;
 }
 
 /**

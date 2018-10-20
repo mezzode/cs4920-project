@@ -33,6 +33,7 @@ const getList = asyncHandler(async (req, res) => {
             // progress: string; // TODO: add progress to db
             mediaId: number;
             tags: string[];
+            category: string;
         }>(
             `SELECT
                 ${entryFields}
