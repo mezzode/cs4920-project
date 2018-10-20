@@ -46,8 +46,7 @@ describe('Test entries endpoints', () => {
             const { entryCode } = body;
             const [entryId] = hashids.decode(entryCode);
             expect(entryId).toBeGreaterThan(0);
-
-            // TODO: other expectations
+            expect(body).toEqual({ ...entry, entryCode });
         });
 
         test("Can't create entry for non-existent media", async () => {
