@@ -267,9 +267,12 @@ describe('Test entries endpoints', () => {
                 body: { lastUpdated: _, ...originalEntry },
             } = await testGet(entryCode);
 
+            expect(originalEntry.tags).toEqual([]);
+
             const entryEdit = {
                 rating: 5,
                 started: '2010-02',
+                tags: ['Favourites'],
             };
 
             const res = await request(app)
@@ -281,6 +284,7 @@ describe('Test entries endpoints', () => {
             const { lastUpdated, ...editedEntry } = res.body;
             expect(editedEntry).toEqual({ ...originalEntry, ...entryEdit });
             expect(DateTime.fromISO(lastUpdated).isValid).toBe(true);
+            expect(editedEntry.tags).toEqual(['Favourites']);
         });
     });
 });
