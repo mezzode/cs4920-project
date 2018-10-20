@@ -22,7 +22,7 @@ VALUES
 -- Entry
 INSERT INTO entry(media_id, category, started, finished, list_id, last_updated, tags)
 VALUES
-    (1, 'Progress', '2016', '2018', 1, now(), '{"Favourites", "Friends"}'),
+    (11, 'Progress', '2016', '2018', 1, now(), '{"Favourites", "Friends"}'),
     (2, 'Complete', '2017-10-01', '2017-10-01', 1, now(), '{"Favourites"}'),
     (1, 'Progress', '2017-10-01', '2017-10-01', 1, now(), null),
     (2, 'Complete', '2017-10', '2017-10-01', 1, now(), null);

@@ -1,6 +1,6 @@
 import {
     Button,
-    Chip,
+    // Chip,
     Grid,
     Table,
     TableBody,
@@ -98,9 +98,9 @@ const RawList: React.SFC<Props> = ({
                             <TableCell>{entry.finished}</TableCell>
                             <TableCell>{entry.progress}</TableCell>
                             <TableCell>
-                                {entry.tags.map(t => (
+                                {/* {entry.tags.map(t => (
                                     <Chip key={t} label={t} />
-                                ))}
+                                ))} */}
                             </TableCell>
                             {editable && (
                                 <TableCell>

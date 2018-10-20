@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import * as asyncHandler from 'express-async-handler';
 import { DateTime } from 'luxon';
+import * as multer from 'multer';
 import { db, pgp } from '../../helpers/database';
 import { HandlerError } from '../../helpers/error';
 import {
@@ -10,6 +11,8 @@ import {
     paramCodesToIds,
 } from '../../helpers/id';
 import { UserEntry } from './types';
+
+const multerParser = multer();
 
 export const entryFields = `
     id AS "entryId",
@@ -24,6 +27,7 @@ export const entryFields = `
 `;
 
 const getEntry = asyncHandler(async (req, res) => {
+    console.log('here');
     const { entryId }: { entryId: number } = req.params;
     const row = await db.oneOrNone<{
         entryId: number;
@@ -42,6 +46,8 @@ const getEntry = asyncHandler(async (req, res) => {
         WHERE e.id = $(entryId)`,
         { entryId },
     );
+    console.log('here2');
+    console.log(JSON.stringify(row));
     if (!row) {
         throw new HandlerError('Entry not found', 404);
     }
@@ -70,7 +76,9 @@ const newEntry = asyncHandler(async (req, res) => {
         listId: number;
         mediaId: number;
     } & UserEntry = req.body;
-
+    const { rating } = req.body;
+    console.log('here');
+    console.log(rating);
     if (!validateEntryData(data)) {
         throw new HandlerError('Invalid entry', 400);
     }
@@ -245,4 +253,4 @@ entryRouter
     .get(getEntry)
     .post(updateEntry)
     .delete(deleteEntry);
-entryRouter.post('/entry', newEntry);
+entryRouter.post('/entry', multerParser.none(), newEntry);

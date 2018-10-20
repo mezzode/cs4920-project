@@ -1,16 +1,15 @@
 import {
     Button,
     Dialog,
-    DialogActions,
+    // DialogActions,
     DialogContent,
-    DialogTitle,
     Grid,
+    // tBase,
     TextField,
     withWidth,
 } from '@material-ui/core';
 import { createStyles, withStyles } from '@material-ui/core/styles';
-import { isWidthDown, isWidthUp } from '@material-ui/core/withWidth';
-import ChipInput from 'material-ui-chip-input';
+import { isWidthDown } from '@material-ui/core/withWidth';
 import * as React from 'react';
 import { Entry } from 'src/types';
 import { Props } from './types';
@@ -37,42 +36,31 @@ export const styles = createStyles({
     },
 });
 
-const RawEntryEditor: React.SFC<Props> = ({
+const RawEntryCreator: React.SFC<Props> = ({
     afterEdit,
     close,
     entry,
     input,
     classes,
     width,
-    addTag,
-    removeTag,
+    shouldOpen,
+    // addTag,
+    // removeTag,
 }) => {
-    async function save() {
-        if (entry === null) {
+    const save: React.FormEventHandler = async event => {
+        event.preventDefault();
+        const data = new FormData(event.target as HTMLFormElement);
+        // console.log(JSON.stringify(data));
+        if (data === null) {
             throw new Error('Cannot save if not loaded');
         }
-        // TODO: store UserEntry details separate so do not need to extract them
-        // from the full Entry?
-        const { finished, rating, started, entryCode, tags, category } = entry;
-        const entryEdit = {
-            category,
-            finished,
-            // progress, // TODO: add progress to backend
-            rating,
-            started,
-            tags,
-        };
-
-        const res = await fetch(
-            `${process.env.REACT_APP_API_BASE}/entry/${entryCode}`,
-            {
-                body: JSON.stringify(entryEdit),
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                method: 'POST',
-            },
-        );
+        // list id, media id, remove tags
+        const res = await fetch(`${process.env.REACT_APP_API_BASE}/entry`, {
+            body: data, // may not work if server does not support our params
+            credentials: 'include',
+            method: 'post',
+            mode: 'cors',
+        });
         if (res.status >= 400) {
             throw new Error(`${res.status} ${res.statusText}`);
         }
@@ -81,20 +69,17 @@ const RawEntryEditor: React.SFC<Props> = ({
             afterEdit(editedEntry);
         }
         close();
-    }
+    };
 
     return (
         <Dialog
-            open={entry !== null}
+            open={shouldOpen}
             aria-labelledby="form-dialog-title"
             fullWidth={true}
             fullScreen={isWidthDown('sm', width)}
         >
-            {entry !== null && (
-                <>
-                    <DialogTitle id="form-dialog-title">
-                        {entry.media.title}
-                    </DialogTitle>
+            <>
+                <form onSubmit={save}>
                     <DialogContent>
                         <Grid container={true} spacing={16}>
                             <Grid
@@ -105,13 +90,29 @@ const RawEntryEditor: React.SFC<Props> = ({
                                 sm={7}
                             >
                                 <TextField
+                                    name="tags"
+                                    style={{ display: 'none' }}
+                                    value={'{}'}
+                                />
+                                <TextField
+                                    name="listId"
+                                    style={{ display: 'none' }}
+                                    value={1}
+                                />
+                                <TextField
+                                    name="mediaId"
+                                    style={{ display: 'none' }}
+                                    value={2}
+                                />
+                                <TextField
                                     variant="outlined"
                                     margin="dense"
                                     id="rating"
                                     label="Rating"
                                     type="number"
-                                    value={entry.rating}
-                                    onInput={input}
+                                    name="rating"
+                                    // value={entry ? entry.rating : ''}
+                                    // onInput={input}
                                 />
                                 {/* TODO: date input restrictions/formatter */}
                                 <TextField
@@ -119,18 +120,20 @@ const RawEntryEditor: React.SFC<Props> = ({
                                     margin="dense"
                                     id="started"
                                     label="Started"
-                                    type=""
-                                    value={entry.started}
-                                    onInput={input}
+                                    type="date"
+                                    name="started"
+                                    // value={entry ? entry.started : ''}
+                                    // onInput={input}
                                 />
                                 <TextField
                                     variant="outlined"
                                     margin="dense"
                                     id="finished"
                                     label="Finished"
-                                    type=""
-                                    value={entry.finished}
-                                    onInput={input}
+                                    type="date"
+                                    name="finished"
+                                    // value={entry ? entry.finished : ''}
+                                    // onInput={input}
                                 />
                                 <TextField
                                     variant="outlined"
@@ -138,8 +141,9 @@ const RawEntryEditor: React.SFC<Props> = ({
                                     id="progress"
                                     label="Progress"
                                     type="text"
-                                    value={entry.progress}
-                                    onInput={input}
+                                    // name="progress"
+                                    // value={entry ? entry.progress : ''}
+                                    // onInput={input}
                                 />
                                 <TextField
                                     variant="outlined"
@@ -147,52 +151,31 @@ const RawEntryEditor: React.SFC<Props> = ({
                                     id="category"
                                     label="Category"
                                     type="text"
-                                    value={entry.category}
-                                    onInput={input}
-                                />
-                                <ChipInput
-                                    onAdd={addTag}
-                                    onDelete={removeTag}
-                                    value={entry.tags}
-                                    blurBehavior="add"
-                                    variant="outlined"
-                                    label="Tags"
-                                    fullWidth={true}
-                                    margin="dense"
-                                    classes={{
-                                        inputRoot: classes.chipInput,
-                                        label: classes.chipLabel,
-                                        labelShrink: classes.chipLabelShrink,
-                                    }}
-                                    helperText={
-                                        'Type and press "Enter" to add a tag'
-                                    }
+                                    name="category"
+                                    // value={entry ? entry.category : ''}
+                                    // onInput={input}
                                 />
                             </Grid>
-                            {isWidthUp('xs', width, false) && (
-                                <Grid item={true} sm={5}>
-                                    <img
-                                        className={classes.art}
-                                        src={entry.media.artUrl}
-                                    />
-                                </Grid>
-                            )}
                         </Grid>
                     </DialogContent>
-                    <DialogActions>
+                    <Button variant="contained" color="primary" type="submit">
+                        Save
+                    </Button>
+
+                    {/* <DialogActions>
                         <Button onClick={close} color="primary">
                             Cancel
                         </Button>
                         <Button onClick={save} color="primary">
                             Save
                         </Button>
-                    </DialogActions>
-                </>
-            )}
+                    </DialogActions> */}
+                </form>
+            </>
         </Dialog>
     );
 };
 
-export const EntryEditorComponent = withWidth()(
-    withStyles(styles)(RawEntryEditor),
+export const EntryCreatorComponent = withWidth()(
+    withStyles(styles)(RawEntryCreator),
 );
