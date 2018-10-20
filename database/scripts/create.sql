@@ -30,7 +30,7 @@ CREATE TABLE entry
     media_id int not null REFERENCES media,
     list_id int not null REFERENCES list ON DELETE CASCADE,
     category text,
-    tags text[],
+    tags text[] DEFAULT '{}',
     rating int,
     last_updated TIMESTAMP,
     -- started/finished use ISO 8601 with partial dates allowed

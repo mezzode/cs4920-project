@@ -151,6 +151,7 @@ describe('Test entries endpoints', () => {
                 },
                 rating: 9,
                 started: '2016',
+                tags: [],
             });
         });
 

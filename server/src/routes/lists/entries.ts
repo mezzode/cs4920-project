@@ -11,7 +11,7 @@ import {
 } from '../../helpers/id';
 import { UserEntry } from './types';
 
-const entryFields = `
+export const entryFields = `
     id AS "entryId",
     last_updated AS "lastUpdated",
     category,

@@ -3,6 +3,7 @@ import * as asyncHandler from 'express-async-handler';
 import { db } from '../../helpers/database';
 import { HandlerError } from '../../helpers/error';
 import { hashids } from '../../helpers/id';
+import { entryFields } from './entries';
 import { EntryList, MediaType } from './types';
 
 const getList = asyncHandler(async (req, res) => {
@@ -34,13 +35,7 @@ const getList = asyncHandler(async (req, res) => {
             tags: string[];
         }>(
             `SELECT
-                id AS "entryId",
-                last_updated AS "lastUpdated",
-                rating,
-                tags,
-                started,
-                finished,
-                media_id AS "mediaId"
+                ${entryFields}
             FROM entry e
             WHERE e.list_id = $(listId)`,
             { listId },
