@@ -3,6 +3,7 @@ import * as asyncHandler from 'express-async-handler';
 import { db } from '../../helpers/database';
 import { HandlerError } from '../../helpers/error';
 import { hashids } from '../../helpers/id';
+import { entryFields } from '../lists/entries';
 import { EntryList, MediaType } from '../lists/types'; // TODO: consolidate types
 
 const getLists = asyncHandler(async (req, res) => {
@@ -46,16 +47,13 @@ const getLists = asyncHandler(async (req, res) => {
                     rating: number;
                     started: string;
                     finished: string;
+                    tags: string[];
+                    category: string;
                     // progress: string; // TODO: add progress to db
                     mediaId: number;
                 }>(
                     `SELECT
-                        id AS "entryId",
-                        last_updated AS "lastUpdated",
-                        rating,
-                        started,
-                        finished,
-                        media_id AS "mediaId"
+                        ${entryFields}
                     FROM entry e
                     WHERE e.list_id = $(id)`,
                     { id },

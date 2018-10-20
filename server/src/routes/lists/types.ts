@@ -8,7 +8,9 @@ export interface UserEntry {
     rating: number;
     started: string;
     finished: string;
-    progress: string;
+    // progress: string;
+    tags: string[];
+    category: string;
 }
 
 /**
@@ -34,6 +36,7 @@ export interface EntryList {
     listCode: string;
     name: string;
     mediaType: MediaType;
+    username: string;
 }
 
 export enum MediaType {

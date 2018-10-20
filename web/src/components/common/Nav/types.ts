@@ -1,6 +1,6 @@
 import { WithStyles } from '@material-ui/core';
 import { UserState } from '../../../reducers/user';
-import { styles } from './Component';
+import { styles } from './styles';
 
 export interface StateProps {
     user: UserState;

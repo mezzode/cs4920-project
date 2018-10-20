@@ -3,6 +3,7 @@ import * as asyncHandler from 'express-async-handler';
 import { db } from '../../helpers/database';
 import { HandlerError } from '../../helpers/error';
 import { hashids } from '../../helpers/id';
+import { entryFields } from './entries';
 import { EntryList, MediaType } from './types';
 
 const getList = asyncHandler(async (req, res) => {
@@ -31,14 +32,11 @@ const getList = asyncHandler(async (req, res) => {
             finished: string;
             // progress: string; // TODO: add progress to db
             mediaId: number;
+            tags: string[];
+            category: string;
         }>(
             `SELECT
-                id AS "entryId",
-                last_updated AS "lastUpdated",
-                rating,
-                started,
-                finished,
-                media_id AS "mediaId"
+                ${entryFields}
             FROM entry e
             WHERE e.list_id = $(listId)`,
             { listId },
@@ -65,7 +63,9 @@ const getList = asyncHandler(async (req, res) => {
 });
 
 const newList = asyncHandler(async (req, res) => {
-    const userId = 1; // TODO: get from auth
+    // TODO: get user details from auth token
+    const userId = 1;
+    const username = 'jfu';
     const {
         name,
         mediaType,
@@ -73,16 +73,19 @@ const newList = asyncHandler(async (req, res) => {
     const { listId, ...inserted } = await db.one<{
         name: string;
         listId: number;
+        mediaType: MediaType;
     }>(
         `INSERT INTO list(name, user_id, media_type)
         VALUES ($(name), $(userId), $(mediaType))
-        RETURNING name, id AS "listId"`,
+        RETURNING name, id AS "listId", media_type AS "mediaType"`,
         { userId, name, mediaType },
     );
     const listCode = hashids.encode(listId);
     res.json({
         listCode,
         ...inserted,
+        entries: [],
+        username,
     });
 });
 
@@ -90,6 +93,9 @@ const updateList = asyncHandler(async (req, res) => {
     const { listCode } = req.params;
     const [listId] = hashids.decode(listCode);
     const { name }: { name: string } = req.body;
+    if (name.length === 0) {
+        throw new HandlerError('Invalid data', 400);
+    }
     const updated = await db.oneOrNone<{
         name: string;
     }>(
@@ -108,17 +114,22 @@ const deleteList = asyncHandler(async (req, res) => {
     const { listCode } = req.params;
     const [listId] = hashids.decode(listCode);
     const deleted = await db.oneOrNone<{
-        name: string;
         id: number;
+        mediaType: MediaType;
     }>(
         `DELETE FROM list
         WHERE id = $(listId)
-        RETURNING id, name`,
+        RETURNING name, media_type AS "mediaType"`,
         { listId },
     );
     if (!deleted) {
         throw new HandlerError('List not found', 404);
     }
+    res.json({
+        ...deleted,
+        listCode,
+    });
+
     res.json(deleted);
 });
 

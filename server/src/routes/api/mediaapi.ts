@@ -19,32 +19,34 @@ export async function gameFetchID(id: number) {
     const data = res.body[0];
     // data normalisation
     const categoryMap = {
-        '0': "Main Game",
-        '1': "DLC/Addon",
-        '2': "Expansion",
-        '3': "Bundle",
-        '4': "Standalone Expansion",
+        '0': 'Main Game',
+        '1': 'DLC/Addon',
+        '2': 'Expansion',
+        '3': 'Bundle',
+        '4': 'Standalone Expansion',
     };
     const statusMap = {
-        '0': "Released",
-        '2': "Alpha",
-        '3': "Beta",
-        '4': "Early Access",
-        '5': "Offline",
-        '6': "Cancelled",
+        '0': 'Released',
+        '2': 'Alpha',
+        '3': 'Beta',
+        '4': 'Early Access',
+        '5': 'Offline',
+        '6': 'Cancelled',
     };
     const values = {
-        'id': data.id,
-        'title': data.name,
-        'category': categoryMap[data.category] || "Unknown",
-        'status': statusMap[data.status] || "Released",
-        'description': data.summary,
-        'developers': dataShift(data.developers),
-        'publishers': dataShift(data.publishers),
-        'genres': dataShift(data.genres),
-        'themes': dataShift(data.themes),
-        'cover': data.cover.url,
-        'first_release_date': DateTime.fromMillis(data.first_release_date).toISO(),
+        id: data.id,
+        title: data.name,
+        category: categoryMap[data.category] || 'Unknown',
+        status: statusMap[data.status] || 'Released',
+        description: data.summary,
+        developers: dataShift(data.developers),
+        publishers: dataShift(data.publishers),
+        genres: dataShift(data.genres),
+        themes: dataShift(data.themes),
+        cover: data.cover.url,
+        first_release_date: DateTime.fromMillis(
+            data.first_release_date,
+        ).toISO(),
     };
     console.log(values);
     return values;
@@ -55,7 +57,7 @@ function dataShift(list: Subset[]) {
     return list.map(({ name }) => name);
 }
 
-// give string and page number, returns array of game IDs. The last result is the total 
+// give string and page number, returns array of game IDs. The last result is the total
 // number of results in the search
 export async function gameFetchSearch(name: string, page: number) {
     const res = await client.games(queries.gameSearchQuery(name, page));
@@ -64,9 +66,9 @@ export async function gameFetchSearch(name: string, page: number) {
             id: result.id,
             title: result.name,
             description: result.summary,
-            image: result.cover.url,
+            image: result.cover ? result.cover.url : '',
             mediaType: 'game',
-        }
+        };
     });
     const data = {
         media: normal,
@@ -76,14 +78,16 @@ export async function gameFetchSearch(name: string, page: number) {
     return data;
 }
 
-enum MovieTvType {
+export enum MovieTvType {
     Movie = 'movie',
     TV = 'tv',
 }
 
-// give movie/tv id and boolean, returns movie/tv data. Pass true for movie, false for tv 
+// give movie/tv id and boolean, returns movie/tv data. Pass true for movie, false for tv
 export async function movietvFetchID(id: number, type: MovieTvType) {
-    const url = `https://api.themoviedb.org/3/${type}/${id}?api_key=${process.env.FILMKEY}`;
+    const url = `https://api.themoviedb.org/3/${type}/${id}?api_key=${
+        process.env.FILMKEY
+    }`;
     const options = { method: 'GET' };
     const res = await fetch(url, options);
     const body = await res.json();
@@ -91,44 +95,49 @@ export async function movietvFetchID(id: number, type: MovieTvType) {
     let data = {};
     if (type === MovieTvType.Movie) {
         data = {
-            'id': body.id,
-            'title': body.title,
-            'status': body.status,
-            'genres': dataShift(body.genres),
-            'description': body.overview,
-            'coverImage': 'http://image.tmdb.org/t/p/w400' + body.poster_path,
-            'releaseDate': body.release_date,
-            'runtime': body.runtime,
-            'production_companies': dataShift(body.production_companies),
-            'production_countries': dataShift(body.production_countries),
-            'tagline': body.tagline,
+            id: body.id,
+            title: body.title,
+            status: body.status,
+            genres: dataShift(body.genres),
+            description: body.overview,
+            coverImage: 'http://image.tmdb.org/t/p/w400' + body.poster_path,
+            releaseDate: body.release_date,
+            runtime: body.runtime,
+            production_companies: dataShift(body.production_companies),
+            production_countries: dataShift(body.production_countries),
+            tagline: body.tagline,
         };
     } else {
         data = {
-            'id': body.id,
-            'title': body.name,
-            'description': body.overview,
-            'status': body.status,
-            'type': body.type,
-            'genres': dataShift(body.genres),
-            'firstAirDate': body.first_release_date,
-            'networks': dataShift(body.networks),
-            'episodes': body.number_of_episodes,
-            'seasons': body.number_of_seasons,
-            'country': body.origin_country,
-            'production_companies': dataShift(body.production_companies),
-            'coverImage': 'http://image.tmdb.org/t/p/w400' + body.poster_path,
+            id: body.id,
+            title: body.name,
+            description: body.overview,
+            status: body.status,
+            type: body.type,
+            genres: dataShift(body.genres),
+            firstAirDate: body.first_release_date,
+            networks: dataShift(body.networks),
+            episodes: body.number_of_episodes,
+            seasons: body.number_of_seasons,
+            country: body.origin_country,
+            production_companies: dataShift(body.production_companies),
+            coverImage: 'http://image.tmdb.org/t/p/w400' + body.poster_path,
         };
     }
     console.log(data);
     return body;
 }
 
-
-// give search string and boolean, returns movie/tv data. Pass true for movie, false for tv 
-export async function movietvSearch(search: string, type: MovieTvType, page: number) {
+// give search string and boolean, returns movie/tv data. Pass true for movie, false for tv
+export async function movietvSearch(
+    search: string,
+    type: MovieTvType,
+    page: number,
+) {
     const term = search.replace(' ', '+');
-    const url = `https://api.themoviedb.org/3/search/${type}/?api_key=${process.env.FILMKEY}&query=${term}&page=${page}`;
+    const url = `https://api.themoviedb.org/3/search/${type}/?api_key=${
+        process.env.FILMKEY
+    }&query=${term}&page=${page}`;
     const options = { method: 'GET' };
 
     const res = await fetch(url, options);
@@ -139,26 +148,26 @@ export async function movietvSearch(search: string, type: MovieTvType, page: num
     const newResults = results.map((result: any) => {
         if (type === MovieTvType.Movie) {
             return {
-                'id': result.id,
-                'title': result.title,
-                'description': result.overview,
-                'image': 'http://image.tmdb.org/t/p/w400' + result.poster_path,
-                'mediaType': 'movie',
+                id: result.id,
+                title: result.title,
+                description: result.overview,
+                image: 'http://image.tmdb.org/t/p/w400' + result.poster_path,
+                mediaType: 'movie',
             };
         } else {
             return {
-                'id': result.id,
-                'title': result.name,
-                'description': result.overview,
-                'image': 'http://image.tmdb.org/t/p/w400' + result.poster_path,
-                'mediaType': 'tv',
+                id: result.id,
+                title: result.name,
+                description: result.overview,
+                image: 'http://image.tmdb.org/t/p/w400' + result.poster_path,
+                mediaType: 'tv',
             };
         }
     });
     const data = {
-        'totalResults': body.total_results,
-        'media': newResults,
-    }
+        totalResults: body.total_results,
+        media: newResults,
+    };
     console.log(data);
     return data;
 }
@@ -173,7 +182,7 @@ export async function animeFetchID(id: number) {
             variables,
         }),
         headers: {
-            'Accept': 'application/json',
+            Accept: 'application/json',
             'Content-Type': 'application/json',
         },
         method: 'POST',
@@ -207,7 +216,7 @@ export async function animeFetchSearch(name: string, pageNo: number) {
             variables,
         }),
         headers: {
-            'Accept': 'application/json',
+            Accept: 'application/json',
             'Content-Type': 'application/json',
         },
         method: 'POST',
@@ -223,22 +232,12 @@ export async function animeFetchSearch(name: string, pageNo: number) {
             image: result.coverImage.medium,
             mediaType: 'anime',
             ...rest,
-        }
+        };
     });
     const final = {
         totalResults: body.data.Page.pageInfo.total,
         media: newResults,
-    }
+    };
     console.log(final);
     return final;
 }
-
-// animeFetchID(15125);
-// animeFetchSearch("Fate", 1);
-// gameFetchID(501);
-// gameFetchSearch("Batman", 1);
-// movietvFetchID(99861, MovieTvType.Movie);
-// movietvFetchID(456, MovieTvType.TV);
-// movietvSearch("Batman", MovieTvType.Movie);
-// movietvSearch("Batman", MovieTvType.TV);
-console.log(process.env.GAMEKEY);
