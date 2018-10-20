@@ -1,12 +1,13 @@
 
 -- Users
+-- Default test user: { username: jfu, password: foobar }
 INSERT INTO users(username, password, email)
 VALUES
-    ('jfu', 'foobar', 'jfu@gmail.com'),
-    ('user1', 'pass1', 'user1@gmail.com'),
-    ('user2', 'pass2', 'user2@gmail.com'),
-    ('user3', 'pass3', 'user3@gmail.com'),
-    ('user4', 'pass4', 'user4@gmail.com');
+    ('jfu', '$2a$10$xYR4Kdp9/eCHpW8p15Jov.u7RHXVLKxQER4VrPirtYkPTR2aOh6rq', 'jfu@gmail.com'),
+    ('user1', '$2a$10$xYR4Kdp9/eCHpW8p15Jov.u7RHXVLKxQER4VrPirtYkPTR2aOh6rq', 'user1@gmail.com'),
+    ('user2', '$2a$10$xYR4Kdp9/eCHpW8p15Jov.u7RHXVLKxQER4VrPirtYkPTR2aOh6rq', 'user2@gmail.com'),
+    ('user3', '$2a$10$xYR4Kdp9/eCHpW8p15Jov.u7RHXVLKxQER4VrPirtYkPTR2aOh6rq', 'user3@gmail.com'),
+    ('user4', '$2a$10$xYR4Kdp9/eCHpW8p15Jov.u7RHXVLKxQER4VrPirtYkPTR2aOh6rq', 'user4@gmail.com');
 
 -- Media
 INSERT INTO media(api_id)
