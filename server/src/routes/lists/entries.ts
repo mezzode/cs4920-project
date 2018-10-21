@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import * as asyncHandler from 'express-async-handler';
 import { DateTime } from 'luxon';
+import { auth } from '../../auth';
 import { db, pgp } from '../../helpers/database';
 import { HandlerError } from '../../helpers/error';
 import {
@@ -58,6 +59,10 @@ const getEntry = asyncHandler(async (req, res) => {
 });
 
 const newEntry = asyncHandler(async (req, res) => {
+    if (!req.user) {
+        throw new HandlerError('Not logged in', 403);
+    }
+
     const {
         listId,
         mediaId,
@@ -71,8 +76,6 @@ const newEntry = asyncHandler(async (req, res) => {
         throw new HandlerError('Invalid entry', 400);
     }
 
-    // const userId = 1; // TODO: get from auth
-    // TODO: authorisation. check that the user owns the list.
     const entry = {
         list_id: listId,
         media_id: mediaId,
@@ -83,12 +86,20 @@ const newEntry = asyncHandler(async (req, res) => {
         // TODO: consider checking for existence of list first so can
         // return "List not found" instead of generic error
 
-        const { mediaType } = await t.one<{ mediaType: MediaType }>(
-            `SELECT media_type AS "mediaType"
+        const { mediaType, username } = await t.one<{
+            mediaType: MediaType;
+            username: string;
+        }>(
+            `SELECT l.media_type AS "mediaType", u.username AS username
             FROM list l
+            JOIN users u ON l.user_id = u.id
             WHERE l.id = $(listId)`,
             { listId },
         );
+
+        if (req.user.username !== username) {
+            throw new HandlerError('Not authorised to edit this list', 403);
+        }
 
         // note this returns list_id, etc. in snake case
         const { entryId, ...insertedData } = await t.one<
@@ -160,7 +171,10 @@ const validateEntryData = (
 };
 
 const updateEntry = asyncHandler(async (req, res) => {
-    // TODO: authorisation. check that the user actually owns the entry.
+    if (!req.user) {
+        throw new HandlerError('Not logged in', 403);
+    }
+
     const entryUpdate = req.body;
     if (!validateEntryData(entryUpdate)) {
         throw new HandlerError('Invalid entry', 400);
@@ -168,6 +182,21 @@ const updateEntry = asyncHandler(async (req, res) => {
     const { entryId } = req.params;
 
     const editedEntry = await db.task<Entry>(async t => {
+        const { mediaType, username } = await t.one<{
+            mediaType: MediaType;
+            username: string;
+        }>(
+            `SELECT media_type AS "mediaType", u.username AS username
+            FROM list l
+            JOIN entry e ON e.id = $(entryId) AND e.list_id = l.id
+            JOIN users u ON l.user_id = u.id`,
+            { entryId },
+        );
+
+        if (req.user.username !== username) {
+            throw new HandlerError('Not authorised to edit this list', 403);
+        }
+
         const { mediaId, ...updatedEntry } = await t.one<{
             entryId: number;
             mediaId: number;
@@ -199,13 +228,6 @@ const updateEntry = asyncHandler(async (req, res) => {
             { entryId, entryUpdate },
         );
 
-        const { mediaType } = await t.one<{ mediaType: MediaType }>(
-            `SELECT media_type AS "mediaType"
-            FROM list l
-            JOIN entry e ON e.id = $(entryId) AND e.list_id = l.id`,
-            { entryId },
-        );
-
         return {
             ...(idsToCodes(updatedEntry) as Entry),
             media: await fetchMedia(mediaId, mediaType),
@@ -217,6 +239,22 @@ const updateEntry = asyncHandler(async (req, res) => {
 
 const deleteEntry = asyncHandler(async (req, res) => {
     const { entryId }: { entryId: number } = req.params;
+
+    const { username } = await db.one<{
+        mediaType: MediaType;
+        username: string;
+    }>(
+        `SELECT u.username AS username
+        FROM list l
+        JOIN entry e ON e.id = $(entryId) AND e.list_id = l.id
+        JOIN users u ON l.user_id = u.id`,
+        { entryId },
+    );
+
+    if (req.user.username !== username) {
+        throw new HandlerError('Not authorised to edit this list', 403);
+    }
+
     const deletedRow = await db.oneOrNone<{
         id: number;
         media_id: number;
@@ -255,10 +293,8 @@ const deleteEntry = asyncHandler(async (req, res) => {
     res.json(deletedEntry);
 });
 
-// TODO: consider creating middleware for checking authorisation instead of doing in each handler
-
 export const entryRouter = Router();
-entryRouter.use(bodyCodesToIds);
+entryRouter.use(bodyCodesToIds, auth.unless({ method: 'GET' }));
 entryRouter
     .route('/entry/:entryCode')
     .all(paramCodesToIds)

@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import * as asyncHandler from 'express-async-handler';
+import { auth } from '../../auth';
 import { db } from '../../helpers/database';
 import { HandlerError } from '../../helpers/error';
 import { hashids } from '../../helpers/id';
@@ -60,9 +61,16 @@ const getList = asyncHandler(async (req, res) => {
 });
 
 const newList = asyncHandler(async (req, res) => {
-    // TODO: get user details from auth token
-    const userId = 1;
-    const username = 'jfu';
+    const { username } = req.user;
+    const { userId } = await db.one<{
+        userId: number;
+    }>(
+        `SELECT u.id AS "userId"
+        FROM users u
+        WHERE u.username = $(username)`,
+        { username },
+    );
+
     const {
         name,
         mediaType,
@@ -89,6 +97,19 @@ const newList = asyncHandler(async (req, res) => {
 const updateList = asyncHandler(async (req, res) => {
     const { listCode } = req.params;
     const [listId] = hashids.decode(listCode);
+
+    const { username } = await db.one<{
+        username: string;
+    }>(
+        `SELECT u.username AS username
+        FROM list l
+        JOIN users u ON l.user_id = u.id AND l.id = $(listId)`,
+        { listId },
+    );
+    if (req.user.username !== username) {
+        throw new HandlerError('Not authorised to edit this list', 403);
+    }
+
     const { name }: { name: string } = req.body;
     if (name.length === 0) {
         throw new HandlerError('Invalid data', 400);
@@ -110,6 +131,19 @@ const updateList = asyncHandler(async (req, res) => {
 const deleteList = asyncHandler(async (req, res) => {
     const { listCode } = req.params;
     const [listId] = hashids.decode(listCode);
+
+    const { username } = await db.one<{
+        username: string;
+    }>(
+        `SELECT u.username AS username
+        FROM list l
+        JOIN users u ON l.user_id = u.id AND l.id = $(listId)`,
+        { listId },
+    );
+    if (req.user.username !== username) {
+        throw new HandlerError('Not authorised to edit this list', 403);
+    }
+
     const deleted = await db.oneOrNone<{
         id: number;
         mediaType: MediaType;
@@ -131,6 +165,7 @@ const deleteList = asyncHandler(async (req, res) => {
 });
 
 export const listRouter = Router();
+listRouter.use(auth.unless({ method: 'GET' }));
 listRouter
     .route('/list/:listCode')
     .get(getList)
