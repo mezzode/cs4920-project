@@ -3,6 +3,7 @@ import * as asyncHandler from 'express-async-handler';
 import { db } from '../../helpers/database';
 import { HandlerError } from '../../helpers/error';
 import { hashids } from '../../helpers/id';
+import { fetchMedia } from '../api/mediaapi';
 import { entryFields } from '../lists/entries';
 import { EntryList, MediaType } from '../lists/types'; // TODO: consolidate types
 
@@ -60,19 +61,15 @@ const getLists = asyncHandler(async (req, res) => {
                 );
                 const listCode = hashids.encode(id);
                 return {
-                    entries: entries.map(({ entryId, mediaId, ...entry }) => ({
-                        ...entry,
-                        entryCode: hashids.encode(entryId),
-                        listCode,
-                        media: {
-                            // TODO: get media data
-                            artUrl:
-                                'https://78.media.tumblr.com/4f30940e947b58fb57e2b8499f460acb/tumblr_okccrbpkDY1rb48exo1_1280.jpg',
-                            mediaCode: hashids.encode(mediaId),
-                            title: `Title of media ID ${mediaId}`,
-                        },
-                        progress: 'Placeholder', // TODO: add progress column to db
-                    })),
+                    entries: await Promise.all(
+                        entries.map(async ({ entryId, mediaId, ...entry }) => ({
+                            ...entry,
+                            entryCode: hashids.encode(entryId),
+                            listCode,
+                            media: await fetchMedia(mediaId, mediaType),
+                            progress: 'Placeholder', // TODO: add progress column to db
+                        })),
+                    ),
                     listCode,
                     mediaType,
                     name,

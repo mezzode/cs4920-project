@@ -15,11 +15,19 @@ const entries: Entry[] = [
         lastUpdated: '2018/09/15 19:01',
         listCode: 'a',
         media: {
-            artUrl:
-                'https://78.media.tumblr.com/4f30940e947b58fb57e2b8499f460acb/tumblr_okccrbpkDY1rb48exo1_1280.jpg',
-            description: '',
-            mediaCode: 'a',
-            title: 'Danganronpa',
+            category: 'Main Game',
+            cover:
+                '//images.igdb.com/igdb/image/upload/t_thumb/dckh8rr0f4lo4hbw1uty.jpg',
+            description:
+                "The follow up to Danganronpa: Trigger Happy Havoc. Danganronpa 2: Goodbye Despair introduces a new cast of characters. The main character, Hajime Hinata a new 'Ultimate' student at Hope's Peak Academy. On their first day, Hajime and all of his classmates are taken on a field trip to the mysterious Jabberwock island by their anthropomorphic rabbit teacher, Usami. Usami explains that on this island the students are to have fun together and become friends to gather Hope Fragments. Usami's field trip does not go as planned when Monokuma appears and begins a new Killing Game. Anyone that wants to leave the island must commit a murder and get away with it. If the murderer is successful, he/she is allowed to leave the island, while everyone else is killed. When a murder occurs, the player investigates. After the investigations, a trial commences to determine who the culprit is.",
+            developers: ['Spike ChunSoft'],
+            first_release_date: '2012-07-26T00:00:00.000+00:00',
+            genres: ['Shooter', 'Music', 'Adventure'],
+            id: 9694,
+            publishers: ['NIS America', 'Spike ChunSoft'],
+            status: 'Released',
+            themes: ['Action', 'Horror'],
+            title: 'Danganronpa 2: Goodbye Despair',
         },
         progress: '50 hrs',
         rating: 10,
@@ -33,10 +41,18 @@ const entries: Entry[] = [
         lastUpdated: '2018/09/15 19:01',
         listCode: 'a',
         media: {
-            artUrl:
-                'https://78.media.tumblr.com/4f30940e947b58fb57e2b8499f460acb/tumblr_okccrbpkDY1rb48exo1_1280.jpg',
-            description: '',
-            mediaCode: 'b',
+            category: 'Main Game',
+            cover:
+                '//images.igdb.com/igdb/image/upload/t_thumb/dckh8rr0f4lo4hbw1uty.jpg',
+            description:
+                "The follow up to Danganronpa: Trigger Happy Havoc. Danganronpa 2: Goodbye Despair introduces a new cast of characters. The main character, Hajime Hinata a new 'Ultimate' student at Hope's Peak Academy. On their first day, Hajime and all of his classmates are taken on a field trip to the mysterious Jabberwock island by their anthropomorphic rabbit teacher, Usami. Usami explains that on this island the students are to have fun together and become friends to gather Hope Fragments. Usami's field trip does not go as planned when Monokuma appears and begins a new Killing Game. Anyone that wants to leave the island must commit a murder and get away with it. If the murderer is successful, he/she is allowed to leave the island, while everyone else is killed. When a murder occurs, the player investigates. After the investigations, a trial commences to determine who the culprit is.",
+            developers: ['Spike ChunSoft'],
+            first_release_date: '2012-07-26T00:00:00.000+00:00',
+            genres: ['Shooter', 'Music', 'Adventure'],
+            id: 9694,
+            publishers: ['NIS America', 'Spike ChunSoft'],
+            status: 'Released',
+            themes: ['Action', 'Horror'],
             title: 'Danganronpa 2: Goodbye Despair',
         },
         progress: '50 hrs',
@@ -51,11 +67,19 @@ const entries: Entry[] = [
         lastUpdated: '2018/09/15 19:01',
         listCode: 'a',
         media: {
-            artUrl:
-                'https://78.media.tumblr.com/4f30940e947b58fb57e2b8499f460acb/tumblr_okccrbpkDY1rb48exo1_1280.jpg',
-            description: '',
-            mediaCode: 'c',
-            title: 'Danganronpa V3: Killing Harmony',
+            category: 'Main Game',
+            cover:
+                '//images.igdb.com/igdb/image/upload/t_thumb/dckh8rr0f4lo4hbw1uty.jpg',
+            description:
+                "The follow up to Danganronpa: Trigger Happy Havoc. Danganronpa 2: Goodbye Despair introduces a new cast of characters. The main character, Hajime Hinata a new 'Ultimate' student at Hope's Peak Academy. On their first day, Hajime and all of his classmates are taken on a field trip to the mysterious Jabberwock island by their anthropomorphic rabbit teacher, Usami. Usami explains that on this island the students are to have fun together and become friends to gather Hope Fragments. Usami's field trip does not go as planned when Monokuma appears and begins a new Killing Game. Anyone that wants to leave the island must commit a murder and get away with it. If the murderer is successful, he/she is allowed to leave the island, while everyone else is killed. When a murder occurs, the player investigates. After the investigations, a trial commences to determine who the culprit is.",
+            developers: ['Spike ChunSoft'],
+            first_release_date: '2012-07-26T00:00:00.000+00:00',
+            genres: ['Shooter', 'Music', 'Adventure'],
+            id: 9694,
+            publishers: ['NIS America', 'Spike ChunSoft'],
+            status: 'Released',
+            themes: ['Action', 'Horror'],
+            title: 'Danganronpa 2: Goodbye Despair',
         },
         progress: '50 hrs',
         rating: 10,

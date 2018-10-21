@@ -23,13 +23,6 @@ interface SystemEntry {
 
 export type Entry = UserEntry & SystemEntry;
 
-export interface Media {
-    mediaCode: string;
-    title: string;
-    description: string;
-    artUrl: string;
-}
-
 export interface EntryList {
     entries: Entry[];
     listCode: string;
@@ -56,6 +49,7 @@ export const isMediaType = (s: string): s is MediaType =>
         .map(k => MediaType[k])
         .filter(t => t === s).length === 1;
 
+// TODO: refactor into function for better separation
 export const mediaUrl = {
     [MediaType.Game]: 'games',
     [MediaType.Show]: 'shows',
@@ -74,15 +68,16 @@ export interface ListsMap {
     [listCode: string]: EntryList;
 }
 
-// From server/api/types.ts - TODO: common types
+export type Media = Game | Movie | TV | Anime;
+
 export interface Game {
     id: number;
     title: string;
     status: string;
     description: string;
     genres: string[];
-    cover: string | null;
-    category: string[];
+    cover: string;
+    category: string;
     themes: string[];
     publishers: string[];
     developers: string[];
@@ -95,7 +90,7 @@ export interface Movie {
     status: string;
     description: string;
     genres: string[];
-    cover: string | null;
+    cover: string;
     releaseDate: string;
     production_companies: string[];
     production_countries: string[];
@@ -109,7 +104,7 @@ export interface TV {
     status: string;
     description: string;
     genres: string[];
-    cover: string | null;
+    cover: string;
     type: string;
     firstAirDate: string;
     production_companies: string[];
@@ -125,7 +120,7 @@ export interface Anime {
     status: string;
     description: string;
     genres: string[];
-    cover: string | null;
+    cover: string;
     format: string;
     startDate: string;
     endDate: string;

@@ -6,8 +6,6 @@ export const users = [
     { username: 'jfu', password: 'foobar', email: 'test@test.org' },
 ];
 
-export const media = [{ api_id: 12345 }, { api_id: 9175 }];
-
 export const lists = [{ name: "mezzode's List", userId: 1, mediaType: 'game' }];
 
 export const entries = [
@@ -47,9 +45,7 @@ export const entries = [
 
 export const seedTestData = () =>
     db.task(async t => {
-        await t.none(
-            'TRUNCATE TABLE users, media, list, entry RESTART IDENTITY',
-        );
+        await t.none('TRUNCATE TABLE users, list, entry RESTART IDENTITY');
         await t.none(
             pgp.helpers.insert(
                 users,
@@ -57,7 +53,6 @@ export const seedTestData = () =>
                 'users',
             ),
         );
-        await t.none(pgp.helpers.insert(media, ['api_id'], 'media'));
         await t.none(
             pgp.helpers.insert(
                 lists,

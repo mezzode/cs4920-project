@@ -27,7 +27,7 @@ export const bodyCodesToIds: RequestHandler = (req, res, next) => {
     next();
 };
 
-const defaultFields = ['Entry', 'Media', 'List'];
+const defaultFields = ['Entry', 'List'];
 
 /**
  * Replaces codes with ids in a given object.

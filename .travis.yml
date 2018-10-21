@@ -10,6 +10,8 @@ install:
     - yarn --cwd ./server
 
 before_script:
+    - echo "GAMEKEY=$GAMEKEY" >> ./server/.env
+    - echo "FILMKEY=$FILMKEY" >> ./server/.env
     - yarn --cwd ./web lint || yarn --cwd ./server lint
 
 script:
