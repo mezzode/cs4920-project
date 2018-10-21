@@ -6,6 +6,8 @@ export interface Subset {
     mediaType: string;
 }
 
+export type Results = Game | Movie | TV | Anime;
+
 export interface Game {
     id: number;
     title: string;

@@ -28,13 +28,6 @@ export interface NewEntry extends Entry {
     listCode: string;
 }
 
-// export interface Media {
-//     mediaCode: string;
-//     title: string;
-//     description: string;
-//     artUrl: string;
-// }
-
 export interface EntryList {
     entries: Entry[];
     listCode: string;

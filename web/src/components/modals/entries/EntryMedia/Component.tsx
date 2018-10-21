@@ -60,7 +60,7 @@ class RawEntryMedia extends React.Component<Props, State> {
                     lists.map(list =>
                         list.entries.map(
                             entry =>
-                                entry.media.mediaCode === 'XG' && (
+                                entry.media.id === 12579 && (
                                     <ExpansionPanel key={list.listCode}>
                                         <ExpansionPanelSummary
                                             expandIcon={<ExpandMoreIcon />}
