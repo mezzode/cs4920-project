@@ -20,6 +20,7 @@ const RawListDeleter: React.SFC<Props> = ({
     list,
     afterDelete,
     close,
+    authToken,
 }) => {
     const handleDelete = async () => {
         if (list === null) {
@@ -29,6 +30,7 @@ const RawListDeleter: React.SFC<Props> = ({
             `${process.env.REACT_APP_API_BASE}/list/${list.listCode}`,
             {
                 headers: {
+                    Authorization: `Bearer ${authToken}`,
                     'Content-Type': 'application/json',
                 },
                 method: 'DELETE',

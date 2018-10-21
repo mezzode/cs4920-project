@@ -4,8 +4,11 @@ import { closeListEditor, updateListEditor } from './actions';
 import { ListEditorComponent } from './Component';
 import { DispatchProps, OwnProps, StateProps } from './types';
 
-const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = state =>
-    state.modals.listEditor;
+const mapStateToProps: MapStateToProps<
+    StateProps,
+    OwnProps,
+    State
+> = state => ({ ...state.modals.listEditor, authToken: state.user.authToken });
 
 const mapDispatchToProps: MapDispatchToProps<
     DispatchProps,

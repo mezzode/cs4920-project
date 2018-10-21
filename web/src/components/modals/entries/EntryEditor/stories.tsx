@@ -73,6 +73,7 @@ storiesOf('EntryEditor', module)
                     const { input, close, addTag, removeTag } = this;
                     const props = {
                         addTag,
+                        authToken: '',
                         close,
                         entry: this.state.editingEntry,
                         input,

@@ -46,6 +46,7 @@ const RawEntryEditor: React.SFC<Props> = ({
     width,
     addTag,
     removeTag,
+    authToken,
 }) => {
     async function save() {
         if (entry === null) {
@@ -68,6 +69,7 @@ const RawEntryEditor: React.SFC<Props> = ({
             {
                 body: JSON.stringify(entryEdit),
                 headers: {
+                    Authorization: `Bearer ${authToken}`,
                     'Content-Type': 'application/json',
                 },
                 method: 'POST',

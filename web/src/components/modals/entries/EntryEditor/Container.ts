@@ -14,6 +14,7 @@ const mapStateToProps: MapStateToProps<
     OwnProps,
     State
 > = state => ({
+    authToken: state.user.authToken,
     entry: state.modals.entryEditor.entry,
 });
 

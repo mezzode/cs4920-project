@@ -9,6 +9,7 @@ const mapStateToProps: MapStateToProps<
     OwnProps,
     State
 > = state => ({
+    authToken: state.user.authToken,
     list: state.modals.listDeleter.list,
 });
 
