@@ -34,6 +34,14 @@ export const RawNav: React.SFC<Props> = ({ classes, transparent, user }) => (
                     </>
                 ) : (
                     <>
+                        <Button
+                            component={LinkTo(
+                                `/user/${user.displayName}/lists/games`,
+                            )}
+                            color="inherit"
+                        >
+                            Lists
+                        </Button>
                         <Button component={LinkTo('/profile')} color="inherit">
                             Profile
                         </Button>

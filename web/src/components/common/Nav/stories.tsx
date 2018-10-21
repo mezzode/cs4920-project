@@ -39,9 +39,9 @@ storiesOf('Nav', module)
             <NavComponent
                 user={{
                     authAttempt: 0,
+                    authToken: null,
                     displayImage: null,
                     displayName: null,
-                    isSignedUp: false,
                 }}
             />
         )),
@@ -76,9 +76,9 @@ storiesOf('Nav', module)
                 <NavComponent
                     user={{
                         authAttempt: 0,
+                        authToken: null,
                         displayImage: null,
                         displayName: null,
-                        isSignedUp: false,
                     }}
                     transparent={true}
                 />

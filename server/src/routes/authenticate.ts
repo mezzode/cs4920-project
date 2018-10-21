@@ -26,6 +26,26 @@ export const checkLogin = async (
     return (await bcrypt.compare(providedPassword, password)) ? user : null;
 };
 
+export const createAuthToken = ({ username }: User) => {
+    const payload = {
+        username,
+    };
+
+    if (authTokenSecret === undefined) {
+        throw new Error('AUTH_TOKEN_SECRET is missing!');
+    }
+
+    // TODO: use private and public keys instead
+    const authToken = jwt.sign(payload, authTokenSecret, {
+        expiresIn: '30 days', // TODO: token refreshing
+        // TODO: aud, iss, sub
+    });
+    // TODO: encrypt token. note that tokens are just base64 encoded, so
+    // make sure not to store anything sensitive without encryption
+
+    return authToken;
+};
+
 export const authenticateRouter = Router().post(
     '/authenticate',
     async (req, res) => {
@@ -39,24 +59,11 @@ export const authenticateRouter = Router().post(
             return;
         }
 
-        const payload = {
-            username,
-        };
-
-        if (authTokenSecret === undefined) {
-            throw new Error('AUTH_TOKEN_SECRET is missing!');
-        }
-
-        // TODO: use private and public keys instead
-        const authToken = jwt.sign(payload, authTokenSecret, {
-            expiresIn: '30 days', // TODO: token refreshing
-            // TODO: aud, iss, sub
-        });
-        // TODO: encrypt token. note that tokens are just base64 encoded, so
-        // make sure not to store anything sensitive without encryption
+        const authToken = createAuthToken(user);
 
         res.json({
             authToken,
+            username,
         });
     },
 );

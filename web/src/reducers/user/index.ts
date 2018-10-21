@@ -5,23 +5,24 @@ import {
     clearUser,
     incrementAuthAttempt,
     setImage,
-    setIsSignedUp,
     setUser,
 } from '../../actions/user';
 
 export interface UserState {
     authAttempt: number;
+    authToken: string | null;
     displayImage: string | null;
     displayName: string | null;
-    isSignedUp: boolean;
 }
 
 const initialState: UserState = {
     authAttempt: 0,
+    authToken: null,
     displayImage: null,
     displayName: null,
-    isSignedUp: false,
 };
+
+// TODO: add auth token
 
 export const user: Reducer<UserState> = reducerWithInitialState(initialState)
     .case(setUser, (state, userData) => ({
@@ -42,9 +43,5 @@ export const user: Reducer<UserState> = reducerWithInitialState(initialState)
     .case(clearAuthAttempts, state => ({
         ...state,
         authAttempt: 0,
-    }))
-    .case(setIsSignedUp, (state, isSignedUpData) => ({
-        ...state,
-        ...isSignedUpData,
     }))
     .build();
