@@ -30,9 +30,7 @@ class RawEntryMedia extends React.Component<Props, State> {
         this.handleClick.bind(this);
     }
 
-    public async componentDidMount() {
-        // const mediaType = 'games';
-        // const username = 'jfu';
+    public async getLists() {
         const { mediaType, username } = this.props;
         const listsMap = await this.props.loadUserLists(username, mediaType);
         const listsTemp = Object.keys(listsMap).map(
@@ -41,11 +39,19 @@ class RawEntryMedia extends React.Component<Props, State> {
         this.setState({ lists: listsTemp });
     }
 
+    public async componentDidMount() {
+        // const mediaType = 'games';
+        // const username = 'jfu';
+        await this.getLists();
+    }
+
     // public componentDidMount() {}
 
-    // public componentDidUpdate(prevProps: Props) {}
+    public async componentDidUpdate(prevProps: Props) {
+        await this.getLists();
+    }
 
-    // public componentWillReceiveProps(nextProps: Props) {}
+    // public async componentWillReceiveProps(nextProps: Props) {}
 
     public render() {
         const { classes } = this.props;
@@ -58,66 +64,53 @@ class RawEntryMedia extends React.Component<Props, State> {
                 {/* <EntryCreator entry={this.state.editingEntry} /> */}
                 {lists != null &&
                     lists.map(list =>
-                        list.entries.map(
-                            entry =>
-                                entry.media.id === 12579 && (
-                                    <ExpansionPanel key={list.listCode}>
-                                        <ExpansionPanelSummary
-                                            expandIcon={<ExpandMoreIcon />}
+                        list.entries.map(entry => (
+                            <ExpansionPanel key={list.listCode}>
+                                <ExpansionPanelSummary
+                                    expandIcon={<ExpandMoreIcon />}
+                                >
+                                    <Typography>
+                                        <Link
+                                            to={`/list/${list.listCode}`}
+                                            className={classes.link}
                                         >
-                                            <Typography>
-                                                <Link
-                                                    to={`/list/${
-                                                        list.listCode
-                                                    }`}
-                                                    className={classes.link}
-                                                >
-                                                    {list.name}
-                                                </Link>
-                                            </Typography>
-                                        </ExpansionPanelSummary>
-                                        <Divider />
-                                        <ExpansionPanelDetails
-                                            className={classes.details}
-                                        >
-                                            <Table>
-                                                <TableRow>
-                                                    <TableCell>
-                                                        Category
-                                                    </TableCell>
-                                                    <TableCell>
-                                                        {entry.category}
-                                                    </TableCell>
-                                                </TableRow>
-                                                <TableRow>
-                                                    <TableCell>
-                                                        Started
-                                                    </TableCell>
-                                                    <TableCell>
-                                                        {entry.started}
-                                                    </TableCell>
-                                                </TableRow>
-                                                <TableRow>
-                                                    <TableCell>
-                                                        Finished
-                                                    </TableCell>
-                                                    <TableCell>
-                                                        {entry.finished}
-                                                    </TableCell>
-                                                </TableRow>
-                                                <TableRow>
-                                                    <TableCell>
-                                                        Progress
-                                                    </TableCell>
-                                                    <TableCell>
-                                                        {entry.progress}
-                                                    </TableCell>
-                                                </TableRow>
-                                            </Table>
-                                        </ExpansionPanelDetails>
-                                    </ExpansionPanel>
-                                ),
-                        ),
+                                            {list.name}
+                                        </Link>
+                                    </Typography>
+                                </ExpansionPanelSummary>
+                                <Divider />
+                                <ExpansionPanelDetails
+                                    className={classes.details}
+                                >
+                                    <Table>
+                                        <TableRow>
+                                            <TableCell>Category</TableCell>
+                                            <TableCell>
+                                                {entry.category}
+                                            </TableCell>
+                                        </TableRow>
+                                        <TableRow>
+                                            <TableCell>Started</TableCell>
+                                            <TableCell>
+                                                {entry.started}
+                                            </TableCell>
+                                        </TableRow>
+                                        <TableRow>
+                                            <TableCell>Finished</TableCell>
+                                            <TableCell>
+                                                {entry.finished}
+                                            </TableCell>
+                                        </TableRow>
+                                        <TableRow>
+                                            <TableCell>Progress</TableCell>
+                                            <TableCell>
+                                                {entry.progress}
+                                            </TableCell>
+                                        </TableRow>
+                                    </Table>
+                                </ExpansionPanelDetails>
+                            </ExpansionPanel>
+                        )),
                     )}
                 <Button onClick={this.handleClick}>New Entry</Button>
                 {this.props.shouldOpen && (

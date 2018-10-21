@@ -187,7 +187,7 @@ class RawEntryCreator extends React.Component<Props, State> {
                                             lists == null
                                                 ? []
                                                 : lists.map(list => ({
-                                                      text: list.listCode,
+                                                      text: list.name,
                                                       value: list.listCode,
                                                   }))
                                         }
