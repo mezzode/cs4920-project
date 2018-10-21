@@ -4,6 +4,8 @@ import { app } from '../../app';
 import { db } from '../../helpers/database';
 import { hashids } from '../../helpers/id';
 
+jest.mock('../api/mediaapi');
+
 describe('Test lists endpoints', () => {
     beforeEach(() => {
         return seedTestData();
