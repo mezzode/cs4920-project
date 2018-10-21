@@ -8,7 +8,7 @@ CREATE TABLE users
     image text
 );
 
-CREATE TYPE media_type AS ENUM ('game', 'anime', 'show', 'movie');
+CREATE TYPE media_type AS ENUM ('game', 'anime', 'tv', 'movie');
 
 CREATE TABLE list
 (
@@ -18,21 +18,15 @@ CREATE TABLE list
     name text not null
 );
 
-CREATE TABLE media
-(
-    id serial primary key not null,
-    api_id text not null
-);
-
 CREATE TABLE entry
 (
     id serial primary key not null,
-    media_id int not null REFERENCES media,
+    media_id int not null,
     list_id int not null REFERENCES list ON DELETE CASCADE,
     category text,
-    tags text[] DEFAULT '{}',
+    tags text[] not null DEFAULT '{}',
     rating int,
-    last_updated TIMESTAMP,
+    last_updated TIMESTAMP DEFAULT now(),
     -- started/finished use ISO 8601 with partial dates allowed
     -- e.g. '2016', '2017-04-13', '2018-09'
     started text,
