@@ -19,7 +19,7 @@ export const styles = (theme: Theme) =>
         halfpage: {
             height: '100%',
             justifyContent: 'center',
-            paddingTop: '50px',
+            paddingTop: '150px',
             width: '100%',
         },
         header: {
@@ -49,9 +49,10 @@ export const styles = (theme: Theme) =>
             width: '100%',
         },
         text: {
-            justifyContent: 'center',
-            textShadow:
-                '-2px -2px 0 #000, -2px 2px 0 #000, 2px -2px 0 #000, 2px 2px 0 #000',
+            justifyContent: 'left',
+            opacity: 0.8,
+            // textShadow:
+            //    '-2px -2px 0 #000, -2px 2px 0 #000, 2px -2px 0 #000, 2px 2px 0 #000',
         },
         textBox: {
             // background: `linear-gradient(${theme.palette.primary.dark}, ${

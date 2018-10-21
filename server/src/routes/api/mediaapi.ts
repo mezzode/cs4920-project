@@ -90,7 +90,7 @@ export async function movietvFetchID(
 ): Promise<Movie | TV> {
     const url = `https://api.themoviedb.org/3/${type}/${id}?api_key=${
         process.env.FILMKEY
-    }`;
+        }`;
     const options = { method: 'GET' };
     const res = await fetch(url, options);
     const body = await res.json();
@@ -143,7 +143,7 @@ export async function movietvSearch(
     const term = search.replace(' ', '+');
     const url = `https://api.themoviedb.org/3/search/${type}/?api_key=${
         process.env.FILMKEY
-    }&query=${term}&page=${page}`;
+        }&query=${term}&page=${page}`;
     const options = { method: 'GET' };
 
     const res = await fetch(url, options);

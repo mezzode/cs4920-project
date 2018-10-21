@@ -1,11 +1,11 @@
 // import Button from '@material-ui/core/Button';
-import { ButtonBase, Grid, Typography } from '@material-ui/core';
+import { Grid, Typography } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import * as React from 'react';
 import { Nav } from '../../components/common/Nav';
 import backgroundAnime from '../../images/anime.png';
 import tv from '../../images/game-of-thrones.jpg';
-import backgroundGame from '../../images/game.jpg';
+import backgroundGame from '../../images/game2.jpg';
 import game from '../../images/league-of-legends.jpg';
 import backgroundMovie from '../../images/movie.png';
 import anime from '../../images/one-punch-man.jpg';
@@ -28,8 +28,8 @@ class RawHome extends React.Component<Props, State> {
         'One Punch Man',
         'League of Legends',
     ];
-    public mediaName = ['MOVIES', 'SHOWS', 'ANIME', 'GAMES'];
-    public subtext = ['you See', 'you Watch', 'you Enjoy', 'you Play'];
+    public mediaName = ['movies', 'shows', 'anime', 'games'];
+    public subtext = ['you see!', 'you watch!', 'you enjoy!', 'you play!'];
 
     constructor(props: Props) {
         super(props);
@@ -82,17 +82,19 @@ class RawHome extends React.Component<Props, State> {
                 >
                     <Grid
                         container={true}
-                        direction="column"
+                        direction="row"
                         className={classes.root}
                     >
+                        <Grid item={true} xs={3} />
+                        <Grid item={true} xs={3} />
                         <Grid
                             item={true}
-                            xs={6}
+                            xs={3}
                             className={`${classes.halfpage} ${classes.textBox}`}
                         >
                             <Typography
                                 align="center"
-                                variant="h3"
+                                variant="h2"
                                 className={classes.text}
                             >
                                 Welcome to
@@ -100,7 +102,7 @@ class RawHome extends React.Component<Props, State> {
                             <br />
                             <Typography
                                 align="center"
-                                variant="h2"
+                                variant="h1"
                                 className={classes.text}
                             >
                                 medialog
@@ -111,26 +113,11 @@ class RawHome extends React.Component<Props, State> {
                                 variant="h3"
                                 className={classes.text}
                             >
-                                Track the
-                            </Typography>
-                            <br />
-                            <Typography
-                                align="center"
-                                variant="h3"
-                                className={classes.text}
-                            >
-                                {this.state.mediaName}
-                            </Typography>
-                            <Typography
-                                align="center"
-                                variant="h3"
-                                className={classes.text}
-                            >
-                                {this.state.subtext}
+                                Track the {this.state.mediaName} {this.state.subtext}
                             </Typography>
                         </Grid>
-                        <Grid item={true} xs={6} className={classes.halfpage}>
-                            {' '}
+                        <Grid item={true} xs={3} className={classes.halfpage}>
+                            {/* {' '}
                             <ButtonBase
                                 className={classes.button}
                                 style={{
@@ -150,7 +137,7 @@ class RawHome extends React.Component<Props, State> {
                                 className={`${classes.text} ${classes.textBox}`}
                             >
                                 {this.state.imageName}
-                            </Typography>
+                            </Typography> */}
                         </Grid>
                     </Grid>
                 </div>
