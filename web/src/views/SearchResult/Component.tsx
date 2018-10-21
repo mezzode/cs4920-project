@@ -8,10 +8,11 @@ import {
 import { withStyles } from '@material-ui/core/styles';
 import * as React from 'react';
 import { Link } from 'react-router-dom';
+import { mediaUrl } from 'src/types';
 import { Loading } from '../../components/common/Loading';
 import { Nav } from '../../components/common/Nav';
 import { TablePaginationAction } from '../../components/common/TablePagination';
-import imageNotFound from '../../images/404-image.jpg';
+import noImageAvailable from '../../images/no-image-available.svg';
 import { styles } from './styles';
 import { Props, State } from './types';
 
@@ -64,11 +65,6 @@ class RawSearchResult extends React.Component<Props, State> {
         this.setState({ page });
     };
 
-    // tslint:disable:no-any
-    public onImageError = (event: any) => {
-        event.target.src = imageNotFound;
-    };
-
     public render() {
         const { classes, searchResults, totalResults, isLoading } = this.props;
         const { page } = this.state;
@@ -97,8 +93,10 @@ class RawSearchResult extends React.Component<Props, State> {
                                             component={Link}
                                             {...{
                                                 to: `/media/${
-                                                    searchResult.id
-                                                }/${searchResult.mediaType}`,
+                                                    mediaUrl[
+                                                        searchResult.mediaType
+                                                    ]
+                                                }/${searchResult.id}`,
                                             }}
                                             className={classes.image}
                                             style={{
@@ -107,10 +105,10 @@ class RawSearchResult extends React.Component<Props, State> {
                                         >
                                             <img
                                                 className={classes.img}
-                                                src={searchResult.image}
-                                                onError={this.onImageError.bind(
-                                                    this,
-                                                )}
+                                                src={
+                                                    searchResult.image ||
+                                                    noImageAvailable
+                                                }
                                             />
                                         </ButtonBase>
                                     </Grid>
@@ -125,8 +123,10 @@ class RawSearchResult extends React.Component<Props, State> {
                                         <Grid item={true} xs={true}>
                                             <Link
                                                 to={`/media/${
-                                                    searchResult.id
-                                                }/${searchResult.mediaType}`}
+                                                    mediaUrl[
+                                                        searchResult.mediaType
+                                                    ]
+                                                }/${searchResult.id}`}
                                                 style={{
                                                     textDecoration: 'none',
                                                 }}
@@ -150,7 +150,7 @@ class RawSearchResult extends React.Component<Props, State> {
                                                           }
                                                         : {
                                                               __html:
-                                                                  "Sorry! We couldn't find a description",
+                                                                  "Sorry! We couldn't find a description.",
                                                           }
                                                 }
                                             />

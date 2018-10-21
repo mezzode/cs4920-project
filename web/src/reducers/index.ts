@@ -1,12 +1,13 @@
 import { combineReducers, Reducer } from 'redux';
 import { flashMessage } from './flashMessage';
-import { media } from './media';
+import { mediaSearch } from './mediaSearch';
 import { modals } from './modals';
 import { user } from './user';
 
 export const rootReducer = combineReducers({
     flashMessage,
-    media,
+    mediaSearch,
+    // media,
     modals,
     user,
 });

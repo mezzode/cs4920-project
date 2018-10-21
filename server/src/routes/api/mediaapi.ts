@@ -33,13 +33,15 @@ export async function gameFetchID(id: number): Promise<Game> {
         title: data.name,
         category: categoryMap[data.category] || 'Unknown',
         status: statusMap[data.status] || 'Released',
-        description: data.summary,
+        description: data.summary || '',
         developers: dataShift(data.developers),
         publishers: dataShift(data.publishers),
         genres: dataShift(data.genres),
         themes: dataShift(data.themes),
-        cover: data.cover.url.replace('thumb', '1080p'),
-        first_release_date: DateTime.fromMillis(data.first_release_date).toISO(),
+        cover: data.cover ? data.cover.url.replace('thumb', '1080p') : null,
+        first_release_date: DateTime.fromMillis(
+            data.first_release_date,
+        ).toISO(),
     };
     console.log(values);
     return values;
@@ -50,18 +52,23 @@ function dataShift(list: Subset[]) {
     return list.map(({ name }) => name);
 }
 
-// give string and page number, returns array of game IDs. The last result is the total 
+// give string and page number, returns array of game IDs. The last result is the total
 // number of results in the search
-export async function gameFetchSearch(name: string, page: number): Promise<SearchResults> {
+export async function gameFetchSearch(
+    name: string,
+    page: number,
+): Promise<SearchResults> {
     const res = await client.games(queries.gameSearchQuery(name, page));
     const normal = res.body.map((result: any) => {
         return {
             id: result.id,
             title: result.name,
-            description: result.summary,
-            image: result.cover.url.replace('thumb', '720p'),
+            description: result.summary || '',
+            image: result.cover
+                ? result.cover.url.replace('thumb', '720p')
+                : null,
             mediaType: 'game',
-        }
+        };
     });
     const data: SearchResults = {
         media: normal,
@@ -76,9 +83,14 @@ export enum MovieTvType {
     TV = 'tv',
 }
 
-// give movie/tv id and boolean, returns movie/tv data. Pass true for movie, false for tv 
-export async function movietvFetchID(id: number, type: MovieTvType): Promise<Movie | TV> {
-    const url = `https://api.themoviedb.org/3/${type}/${id}?api_key=${process.env.FILMKEY}`;
+// give movie/tv id and boolean, returns movie/tv data. Pass true for movie, false for tv
+export async function movietvFetchID(
+    id: number,
+    type: MovieTvType,
+): Promise<Movie | TV> {
+    const url = `https://api.themoviedb.org/3/${type}/${id}?api_key=${
+        process.env.FILMKEY
+    }`;
     const options = { method: 'GET' };
     const res = await fetch(url, options);
     const body = await res.json();
@@ -90,7 +102,9 @@ export async function movietvFetchID(id: number, type: MovieTvType): Promise<Mov
             status: body.status,
             genres: dataShift(body.genres),
             description: body.overview,
-            cover: `http://image.tmdb.org/t/p/w1000/${body.poster_path}`,
+            cover: body.poster_path
+                ? `http://image.tmdb.org/t/p/w780/${body.poster_path}`
+                : null,
             releaseDate: body.release_date,
             runtime: body.runtime,
             production_companies: dataShift(body.production_companies),
@@ -112,19 +126,24 @@ export async function movietvFetchID(id: number, type: MovieTvType): Promise<Mov
             seasons: body.number_of_seasons,
             country: body.origin_country,
             production_companies: dataShift(body.production_companies),
-            cover: `http://image.tmdb.org/t/p/w1000/${body.poster_path}`,
+            cover: body.poster_path
+                ? `http://image.tmdb.org/t/p/w780/${body.poster_path}`
+                : null,
         };
         return data;
     }
 }
 
-
-// give search string and boolean, returns movie/tv data. Pass true for movie, false for tv 
-export async function movietvSearch(search: string, type: MovieTvType, page: number): Promise<SearchResults> {
+// give search string and boolean, returns movie/tv data. Pass true for movie, false for tv
+export async function movietvSearch(
+    search: string,
+    type: MovieTvType,
+    page: number,
+): Promise<SearchResults> {
     const term = search.replace(' ', '+');
     const url = `https://api.themoviedb.org/3/search/${type}/?api_key=${
         process.env.FILMKEY
-        }&query=${term}&page=${page}`;
+    }&query=${term}&page=${page}`;
     const options = { method: 'GET' };
 
     const res = await fetch(url, options);
@@ -138,7 +157,9 @@ export async function movietvSearch(search: string, type: MovieTvType, page: num
                 id: result.id,
                 title: result.title,
                 description: result.overview,
-                image: 'http://image.tmdb.org/t/p/w400' + result.poster_path,
+                image: result.poster_path
+                    ? 'http://image.tmdb.org/t/p/w400' + result.poster_path
+                    : null,
                 mediaType: 'movie',
             };
         } else {
@@ -146,7 +167,9 @@ export async function movietvSearch(search: string, type: MovieTvType, page: num
                 id: result.id,
                 title: result.name,
                 description: result.overview,
-                image: 'http://image.tmdb.org/t/p/w400' + result.poster_path,
+                image: result.poster_path
+                    ? 'http://image.tmdb.org/t/p/w400' + result.poster_path
+                    : null,
                 mediaType: 'tv',
             };
         }
@@ -154,7 +177,7 @@ export async function movietvSearch(search: string, type: MovieTvType, page: num
     const data: SearchResults = {
         totalResults: body.total_results,
         media: newResults,
-    }
+    };
     console.log(data);
     return data;
 }
@@ -177,10 +200,18 @@ export async function animeFetchID(id: number): Promise<Anime> {
     const res = await fetch(url, options);
     const body = await res.json();
     // data normalisation
-    const { title, coverImage, startDate, endDate, ...rest } = body.data.Media;
+    const {
+        title,
+        coverImage,
+        description,
+        startDate,
+        endDate,
+        ...rest
+    } = body.data.Media;
     const data: Anime = {
         title: title.romaji,
         cover: coverImage.extraLarge,
+        description: (description as string).replace(/(<br>)+/g, ''), // get rid of <br> tags
         startDate: DateTime.fromObject(startDate).toISO(),
         endDate: DateTime.fromObject(endDate).toISO(),
         ...rest,
@@ -190,7 +221,10 @@ export async function animeFetchID(id: number): Promise<Anime> {
 }
 
 // give search string and page number, returns anime ids and titles
-export async function animeFetchSearch(name: string, pageNo: number): Promise<SearchResults> {
+export async function animeFetchSearch(
+    name: string,
+    pageNo: number,
+): Promise<SearchResults> {
     const variables = {
         page: pageNo,
         perPage: 20,
@@ -213,18 +247,21 @@ export async function animeFetchSearch(name: string, pageNo: number): Promise<Se
     // data normalisation
     const data = body.data.Page.media;
     const newResults = data.map((result: any) => {
-        const { title, coverImage, ...rest } = result;
+        const { title, description, coverImage, ...rest } = result;
         return {
             title: result.title.romaji,
+            description: description
+                ? (description as string).replace(/(<br>)+/g, '')
+                : '', // get rid of <br> tags
             image: result.coverImage.medium,
             mediaType: 'anime',
             ...rest,
-        }
+        };
     });
     const final: SearchResults = {
         totalResults: body.data.Page.pageInfo.total,
         media: newResults,
-    }
+    };
     console.log(final);
     return final;
 }

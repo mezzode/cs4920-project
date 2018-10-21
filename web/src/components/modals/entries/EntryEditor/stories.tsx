@@ -31,7 +31,7 @@ storiesOf('EntryEditor', module)
             // hiding generated source since wrong name and would not use directly
             source: false,
             text: `
-                TODO
+                TODOTODOTODO
             `,
         })(() => {
             interface State {
@@ -50,6 +50,7 @@ storiesOf('EntryEditor', module)
                         media: {
                             artUrl:
                                 'https://78.media.tumblr.com/4f30940e947b58fb57e2b8499f460acb/tumblr_okccrbpkDY1rb48exo1_1280.jpg',
+                            description: '',
                             mediaCode: 'asdf',
                             title: 'Danganronpa V3: Killing Harmony',
                         },

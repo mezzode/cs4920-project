@@ -1,6 +1,5 @@
 import * as express from 'express';
 import * as path from 'path';
-
 import { upload, uploadRootPath } from '../../helpers/upload';
 import { signUp } from './database';
 
