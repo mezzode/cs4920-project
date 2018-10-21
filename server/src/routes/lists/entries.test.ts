@@ -5,7 +5,10 @@ import { app } from '../../app';
 import { db } from '../../helpers/database';
 import { HandlerError } from '../../helpers/error';
 import { hashids } from '../../helpers/id';
+import { createAuthToken } from '../authenticate';
 import { Entry } from './types';
+
+export const authToken = createAuthToken({ username: 'jfu' });
 
 describe('Test entries endpoints', () => {
     beforeEach(() => {
@@ -40,6 +43,7 @@ describe('Test entries endpoints', () => {
             const res = await request(app)
                 .post('/entry')
                 .send(entry)
+                .set('Authorization', `Bearer ${authToken}`)
                 .set('Accept', 'application/json')
                 .expect(200);
 
@@ -70,6 +74,7 @@ describe('Test entries endpoints', () => {
             const res = await request(app)
                 .post('/entry')
                 .send(entry)
+                .set('Authorization', `Bearer ${authToken}`)
                 .set('Accept', 'application/json')
                 .expect(404);
 
@@ -99,6 +104,7 @@ describe('Test entries endpoints', () => {
             const res = await request(app)
                 .post('/entry')
                 .send(entry)
+                .set('Authorization', `Bearer ${authToken}`)
                 .set('Accept', 'application/json')
                 .expect(400);
 
@@ -174,6 +180,7 @@ describe('Test entries endpoints', () => {
 
             const res = await request(app)
                 .delete(`/entry/${entryCode}`)
+                .set('Authorization', `Bearer ${authToken}`)
                 .set('Accept', 'application/json')
                 .expect(200);
 
@@ -261,6 +268,7 @@ describe('Test entries endpoints', () => {
             const res = await request(app)
                 .post(`/entry/${entryCode}`)
                 .send(entryEdit)
+                .set('Authorization', `Bearer ${authToken}`)
                 .set('Accept', 'application/json')
                 .expect(200);
 
@@ -294,6 +302,7 @@ describe('Test entries endpoints', () => {
             const res = await request(app)
                 .post(`/entry/${entryCode}`)
                 .send(entryEdit)
+                .set('Authorization', `Bearer ${authToken}`)
                 .set('Accept', 'application/json')
                 .expect(400);
 

@@ -20,6 +20,7 @@ const RawListEditor: React.SFC<Props> = ({
     afterEdit,
     close,
     input,
+    authToken,
 }) => {
     const edit = async () => {
         if (list === null) {
@@ -30,6 +31,7 @@ const RawListEditor: React.SFC<Props> = ({
             {
                 body: JSON.stringify(listEdit),
                 headers: {
+                    Authorization: `Bearer ${authToken}`,
                     'Content-Type': 'application/json',
                 },
                 method: 'PATCH',

@@ -1,6 +1,7 @@
 import * as express from 'express';
 import * as path from 'path';
 import { upload, uploadRootPath } from '../../helpers/upload';
+import { createAuthToken } from '../authenticate';
 import { signUp } from './database';
 
 const router = express.Router();
@@ -15,14 +16,12 @@ router.post(
         const filePath = path.join(uploadRootPath, profileImage.filename);
 
         const user = await signUp(username, password, email, filePath);
-        if (user) {
-            req.login(user, err => {
-                if (!err) {
-                    res.cookie('user-id', user.id, { maxAge: 2592000000 }); // Expires in one month
-                    res.json({ username: user.username });
-                }
-            });
-        }
+
+        const authToken = createAuthToken(user);
+        res.json({
+            authToken,
+            username,
+        });
     },
 );
 

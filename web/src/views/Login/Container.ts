@@ -20,32 +20,38 @@ const mapStateToProps: MapStateToProps<
 const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = (
     dispatch,
     { history },
-) => {
-    const handleSubmit: React.FormEventHandler = async event => {
-        event.preventDefault();
-        const data = new FormData(event.target as HTMLFormElement);
+) => ({
+    handleSubmit: (username: string, password: string) => async () => {
+        const data = { password, username };
 
-        const res = await fetch(`${process.env.REACT_APP_API_BASE}/login`, {
-            body: data,
-            credentials: 'include',
-            method: 'post',
-            mode: 'cors',
-        });
+        const res = await fetch(
+            `${process.env.REACT_APP_API_BASE}/authenticate`,
+            {
+                body: JSON.stringify(data),
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                // credentials: 'include',
+                method: 'post',
+                // mode: 'cors',
+            },
+        );
         if (res.ok) {
             const user = await res.json();
-            dispatch(setUser({ displayName: user.username }));
+            dispatch(
+                setUser({
+                    authToken: user.authToken,
+                    displayName: user.username,
+                }),
+            );
             dispatch(clearAuthAttempts());
-            history.push('/dashboard');
+            history.push('/');
         } else {
             dispatch(incrementAuthAttempt());
             dispatch(setFlashMessage());
         }
-    };
-
-    return {
-        handleSubmit,
-    };
-};
+    },
+});
 
 export const LoginContainer = connect(
     mapStateToProps,

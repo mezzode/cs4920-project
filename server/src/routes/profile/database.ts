@@ -1,5 +1,5 @@
+import { genHashedPassword } from '../../auth';
 import { db } from '../../helpers/database';
-import { genHashedPassword } from '../../helpers/database-util/auth';
 
 export const getProfile = async (username: string) =>
     await db.oneOrNone({

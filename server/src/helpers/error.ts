@@ -6,11 +6,15 @@ export const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
         res.status(err.status).json({
             error: err.message,
         });
-        return;
+    } else if (err.name === 'UnauthorizedError') {
+        res.status(401).json({
+            error: 'Unauthorized',
+        });
+    } else {
+        res.status(500).json({
+            error: 'Something went wrong',
+        });
     }
-    res.status(500).json({
-        error: 'Something went wrong',
-    });
 };
 
 export class HandlerError extends Error {

@@ -1,58 +1,101 @@
 import {
-    Avatar,
+    // Avatar,
     Button,
-    FormControl,
-    Input,
-    InputLabel,
-    Typography,
+    Card,
+    CardContent,
+    CardHeader,
+    Grid,
+    TextField,
 } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
-import { LockOutlined as LockIcon } from '@material-ui/icons';
 import * as React from 'react';
 import { Nav } from '../../components/common/Nav/index';
 import { Snackbar } from '../../components/common/Snackbar';
 import { styles } from './styles';
-import { Props } from './types';
+import { Props, State } from './types';
 
-const RawLogin: React.SFC<Props> = ({ classes, handleSubmit }) => (
-    <>
-        <Nav />
-        <main className={classes.layout}>
-            <Avatar className={classes.avatar}>
-                <LockIcon />
-            </Avatar>
-            <Typography variant="headline">Log in</Typography>
-            <form className={classes.form} onSubmit={handleSubmit}>
-                <FormControl margin="normal" required={true} fullWidth={true}>
-                    <InputLabel htmlFor="username">Username</InputLabel>
-                    <Input
-                        id="username"
-                        name="username"
-                        autoComplete="username"
-                        autoFocus={true}
-                    />
-                </FormControl>
-                <FormControl margin="normal" required={true} fullWidth={true}>
-                    <InputLabel htmlFor="password">Password</InputLabel>
-                    <Input
-                        name="password"
-                        type="password"
-                        id="password"
-                        autoComplete="current-password"
-                    />
-                </FormControl>
-                <Button
-                    variant="contained"
-                    color="primary"
-                    className={classes.submit}
-                    type="submit"
-                >
-                    Log in
-                </Button>
-            </form>
-            <Snackbar variant="warning" message="Login attempt unsuccessful" />
-        </main>
-    </>
+export const LoginComponent = withStyles(styles)(
+    class extends React.Component<Props, State> {
+        public state: State = {
+            password: '',
+            username: '',
+        };
+
+        public render() {
+            const { classes, handleSubmit } = this.props;
+            const { username, password } = this.state;
+            return (
+                <>
+                    <Nav />
+                    <main className={classes.layout}>
+                        <Grid container={true}>
+                            <Grid xs={4} item={true} />
+                            <Grid xs={4} item={true}>
+                                <Card>
+                                    <CardHeader title="Log In" />
+                                    <CardContent>
+                                        <TextField
+                                            margin="dense"
+                                            required={true}
+                                            fullWidth={true}
+                                            id="username"
+                                            name="username"
+                                            autoComplete="username"
+                                            autoFocus={true}
+                                            label="Username"
+                                            variant="outlined"
+                                            value={username}
+                                            onChange={this.handleInput}
+                                        />
+                                        <TextField
+                                            margin="dense"
+                                            required={true}
+                                            fullWidth={true}
+                                            id="password"
+                                            name="password"
+                                            autoComplete="password"
+                                            autoFocus={true}
+                                            label="Password"
+                                            variant="outlined"
+                                            value={password}
+                                            onChange={this.handleInput}
+                                            type="password"
+                                        />
+                                        <Grid
+                                            container={true}
+                                            justify="flex-end"
+                                            className={classes.button}
+                                        >
+                                            <Button
+                                                variant="contained"
+                                                color="primary"
+                                                onClick={handleSubmit(
+                                                    username,
+                                                    password,
+                                                )}
+                                            >
+                                                Log in
+                                            </Button>
+                                        </Grid>
+                                    </CardContent>
+                                </Card>
+                            </Grid>
+                            <Grid xs={4} item={true} />
+                        </Grid>
+                        <Snackbar
+                            variant="warning"
+                            message="Login attempt unsuccessful"
+                        />
+                    </main>
+                </>
+            );
+        }
+
+        private handleInput: React.ChangeEventHandler<HTMLInputElement> = e => {
+            const { name, value } = e.target;
+            this.setState({
+                [name]: value,
+            } as Pick<State, keyof State>);
+        };
+    },
 );
-
-export const LoginComponent = withStyles(styles)(RawLogin);

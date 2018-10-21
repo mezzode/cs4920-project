@@ -15,10 +15,7 @@ const mapDispatchToProps: MapDispatchToProps<
     OwnProps
 > = dispatch => {
     const handleLogout = async () => {
-        const res = await fetch(`${process.env.REACT_APP_API_BASE}/logout`);
-        if (res.ok) {
-            dispatch(clearUser());
-        }
+        dispatch(clearUser());
     };
     return {
         handleLogout,

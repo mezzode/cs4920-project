@@ -4,6 +4,7 @@ import { Entry } from 'src/types';
 import { styles } from './Component';
 
 export interface StateProps {
+    authToken: string | null;
     entry: Entry | null;
 }
 

@@ -8,6 +8,7 @@ export interface State {
 }
 
 export interface StateProps {
+    authToken: string | null;
     list: EntryList | null;
     listEdit: ListEdit | null;
 }
@@ -17,7 +18,10 @@ export interface DispatchProps {
     input: React.ChangeEventHandler<HTMLInputElement>;
 }
 
-export type AfterListEditCallback = (listCode: string, listEdit: ListEdit) => void;
+export type AfterListEditCallback = (
+    listCode: string,
+    listEdit: ListEdit,
+) => void;
 export interface OwnProps {
     /** Callback to be called after a successful edit. */
     afterEdit?: AfterListEditCallback;

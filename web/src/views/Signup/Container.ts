@@ -32,7 +32,12 @@ const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = (
         });
         const user = await res.json();
         if (res.ok) {
-            dispatch(setUser({ displayName: user.username }));
+            dispatch(
+                setUser({
+                    authToken: user.authToken,
+                    displayName: user.username,
+                }),
+            );
             dispatch(clearAuthAttempts());
             history.push('/');
         } else {
