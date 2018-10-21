@@ -250,7 +250,9 @@ export async function animeFetchSearch(
         const { title, description, coverImage, ...rest } = result;
         return {
             title: result.title.romaji,
-            description: (description as string).replace(/(<br>)+/g, ''), // get rid of <br> tags
+            description: description
+                ? (description as string).replace(/(<br>)+/g, '')
+                : '', // get rid of <br> tags
             image: result.coverImage.medium,
             mediaType: 'anime',
             ...rest,
