@@ -10,21 +10,21 @@ import {
     idsToCodes,
     paramCodesToIds,
 } from '../../helpers/id';
-import { UserEntry } from './types';
+import { fetchMedia } from '../api/mediaapi';
+import { Entry, MediaType, UserEntry } from './types';
 
 // const multerParser = multer();
 
 export const entryFields = `
-    id AS "entryId",
-    last_updated AS "lastUpdated",
-    category,
-    tags,
-    rating,
-    started,
-    finished,
-    media_id AS "mediaId",
-    list_id AS "listId"
-`;
+    e.id AS "entryId",
+    e.last_updated AS "lastUpdated",
+    e.category,
+    e.tags,
+    e.rating,
+    e.started,
+    e.finished,
+    e.media_id AS "mediaId",
+    e.list_id AS "listId"`;
 
 const getEntry = asyncHandler(async (req, res) => {
     console.log('here');
@@ -39,10 +39,12 @@ const getEntry = asyncHandler(async (req, res) => {
         started: string;
         finished: string;
         tags: string;
+        mediaType: MediaType;
     }>(
         // TODO: separate the select clause so can reuse (e.g. same as in lists.ts)
-        `SELECT ${entryFields}
+        `SELECT ${entryFields}, l.media_type AS "mediaType"
         FROM entry e
+        JOIN list l ON l.id = e.list_id
         WHERE e.id = $(entryId)`,
         { entryId },
     );
@@ -52,16 +54,10 @@ const getEntry = asyncHandler(async (req, res) => {
         throw new HandlerError('Entry not found', 404);
     }
 
-    const { mediaId, ...other } = row;
+    const { mediaId, mediaType, ...other } = row;
     const entry = {
         ...idsToCodes(other),
-        media: {
-            // TODO: get media data
-            artUrl:
-                'https://78.media.tumblr.com/4f30940e947b58fb57e2b8499f460acb/tumblr_okccrbpkDY1rb48exo1_1280.jpg',
-            mediaCode: hashids.encode(mediaId),
-            title: `Title of media ID ${mediaId}`,
-        },
+        media: await fetchMedia(mediaId, mediaType),
     };
 
     res.send(entry);
@@ -91,27 +87,35 @@ const newEntry = asyncHandler(async (req, res) => {
         ...data,
     };
 
-    // TODO: consider checking for existence of list first so can
-    // return "List not found" instead of generic error
+    const insertedEntry = await db.task<Entry>(async t => {
+        // TODO: consider checking for existence of list first so can
+        // return "List not found" instead of generic error
 
-    // note this returns list_id, etc. in snake case
-    const { entryId, ...insertedData } = await db.one<
-        { entryId: number } & UserEntry
-    >(
-        `${pgp.helpers.insert(entry, undefined, 'entry')}
-        RETURNING $(data:name), id AS "entryId"`,
-        { entry, data },
-    );
-    const entryCode = hashids.encode(entryId);
-    const listCode = hashids.encode(listId);
-    const mediaCode = hashids.encode(mediaId);
+        const { mediaType } = await t.one<{ mediaType: MediaType }>(
+            `SELECT media_type AS "mediaType"
+            FROM list l
+            WHERE l.id = $(listId)`,
+            { listId },
+        );
 
-    const insertedEntry = {
-        entryCode,
-        listCode,
-        mediaCode,
-        ...insertedData,
-    };
+        // note this returns list_id, etc. in snake case
+        const { entryId, ...insertedData } = await t.one<
+            { entryId: number; lastUpdated: string } & UserEntry
+        >(
+            `${pgp.helpers.insert(entry, undefined, 'entry')}
+            RETURNING $(data:name), id AS "entryId", last_updated AS "lastUpdated"`,
+            { entry, data },
+        );
+        const entryCode = hashids.encode(entryId);
+        const listCode = hashids.encode(listId);
+
+        return {
+            entryCode,
+            listCode,
+            ...insertedData,
+            media: await fetchMedia(mediaId, mediaType),
+        };
+    });
 
     res.json(insertedEntry);
 });
@@ -170,37 +174,53 @@ const updateEntry = asyncHandler(async (req, res) => {
         throw new HandlerError('Invalid entry', 400);
     }
     const { entryId } = req.params;
-    const { mediaId, ...updatedEntry } = await db.one<{
-        entryId: number;
-        mediaId: number;
-        listId: number;
-        category: string;
-        tags: string[];
-        rating: number;
-        lastUpdated: string;
-        started: string;
-        finished: string;
-        last_updated: string;
-    }>(
-        `${pgp.helpers.update(
-            { ...entryUpdate, last_updated: DateTime.local() },
-            undefined,
-            'entry',
-        )}
-        WHERE id = $(entryId)
-        RETURNING ${entryFields}`,
-        { entryId, entryUpdate },
-    );
-    res.json({
-        ...idsToCodes(updatedEntry),
-        media: {
-            // TODO: get media data
-            artUrl:
-                'https://78.media.tumblr.com/4f30940e947b58fb57e2b8499f460acb/tumblr_okccrbpkDY1rb48exo1_1280.jpg',
-            mediaCode: hashids.encode(mediaId),
-            title: `Title of media ID ${mediaId}`,
-        },
+
+    const editedEntry = await db.task<Entry>(async t => {
+        const { mediaId, ...updatedEntry } = await t.one<{
+            entryId: number;
+            mediaId: number;
+            listId: number;
+            category: string;
+            tags: string[];
+            rating: number;
+            lastUpdated: string;
+            started: string;
+            finished: string;
+            last_updated: string;
+        }>(
+            `${pgp.helpers.update(
+                { ...entryUpdate, last_updated: DateTime.local() },
+                undefined,
+                'entry',
+            )}
+            WHERE id = $(entryId)
+            RETURNING
+                id AS "entryId",
+                last_updated AS "lastUpdated",
+                category,
+                tags,
+                rating,
+                started,
+                finished,
+                media_id AS "mediaId",
+                list_id AS "listId"`,
+            { entryId, entryUpdate },
+        );
+
+        const { mediaType } = await t.one<{ mediaType: MediaType }>(
+            `SELECT media_type AS "mediaType"
+            FROM list l
+            JOIN entry e ON e.id = $(entryId) AND e.list_id = l.id`,
+            { entryId },
+        );
+
+        return {
+            ...(idsToCodes(updatedEntry) as Entry),
+            media: await fetchMedia(mediaId, mediaType),
+        };
     });
+
+    res.json(editedEntry);
 });
 
 const deleteEntry = asyncHandler(async (req, res) => {

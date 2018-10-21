@@ -170,10 +170,15 @@ const RawEntryEditor: React.SFC<Props> = ({
                                 />
                             </Grid>
                             {isWidthUp('xs', width, false) && (
-                                <Grid item={true} sm={5}>
+                                <Grid
+                                    item={true}
+                                    sm={5}
+                                    container={true}
+                                    alignItems="center"
+                                >
                                     <img
                                         className={classes.art}
-                                        src={entry.media.artUrl}
+                                        src={entry.media.cover}
                                     />
                                 </Grid>
                             )}

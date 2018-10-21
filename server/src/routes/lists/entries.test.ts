@@ -25,14 +25,17 @@ describe('Test entries endpoints', () => {
 
     describe('Test entry create', () => {
         test('Can create new entry', async () => {
-            const entry = {
+            const entryData = {
                 category: 'In Progress',
                 finished: null,
                 listCode: 'XG', // 1
-                mediaCode: 'XG', // 1
                 rating: 10,
                 started: '2018',
                 tags: [],
+            };
+            const entry = {
+                ...entryData,
+                mediaId: 1,
             };
             const res = await request(app)
                 .post('/entry')
@@ -42,40 +45,12 @@ describe('Test entries endpoints', () => {
 
             const { body } = res;
             expect(body).toBeDefined();
+            const { media, lastUpdated, ...createdEntry } = body;
 
             const { entryCode } = body;
             const [entryId] = hashids.decode(entryCode);
             expect(entryId).toBeGreaterThan(0);
-            expect(body).toEqual({ ...entry, entryCode });
-        });
-
-        test("Can't create entry for non-existent media", async () => {
-            const errSpy = jest.spyOn(console, 'error');
-            errSpy.mockImplementation();
-
-            const entry = {
-                category: 'In Progress',
-                finished: null,
-                listCode: 'XG', // 1
-                mediaCode: 'BaDCoDe',
-                rating: 10,
-                started: '2018',
-                tags: [],
-            };
-
-            const res = await request(app)
-                .post('/entry')
-                .send(entry)
-                .set('Accept', 'application/json')
-                .expect(404);
-
-            const error = 'Media not found';
-
-            const { body } = res;
-            expect(body).toEqual({ error });
-
-            expect(errSpy).toBeCalledWith(new HandlerError(error, 404));
-            errSpy.mockRestore();
+            expect(createdEntry).toEqual({ ...entryData, entryCode });
         });
 
         test("Can't create entry for non-existent list", async () => {
@@ -144,18 +119,12 @@ describe('Test entries endpoints', () => {
 
             expect(res.body).toBeDefined();
 
-            const { lastUpdated, ...body } = res.body;
-            expect(body).toEqual({
+            const { lastUpdated, media, ...entry } = res.body;
+            expect(entry).toEqual({
                 category: 'In Progress',
                 entryCode: 'XG',
                 finished: '2018',
                 listCode: 'XG',
-                media: {
-                    artUrl:
-                        'https://78.media.tumblr.com/4f30940e947b58fb57e2b8499f460acb/tumblr_okccrbpkDY1rb48exo1_1280.jpg',
-                    mediaCode: 'XG',
-                    title: `Title of media ID 1`,
-                },
                 rating: 9,
                 started: '2016',
                 tags: [],

@@ -13,6 +13,7 @@ import {
 import { createStyles, withStyles } from '@material-ui/core/styles';
 import * as React from 'react';
 import { Link } from 'react-router-dom';
+import { mediaUrl } from 'src/types';
 import { Props } from './types';
 
 export const styles = (theme: Theme) =>
@@ -81,7 +82,9 @@ const RawList: React.SFC<Props> = ({
                             <TableCell component="th" scope="row">
                                 <Typography variant="body1">
                                     <Link
-                                        to={`/media/${entry.media.mediaCode}`}
+                                        to={`/media/${
+                                            mediaUrl[list.mediaType]
+                                        }/${entry.media.id}`}
                                         className={classes.link}
                                     >
                                         {entry.media.title}
