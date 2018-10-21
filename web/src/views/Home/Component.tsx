@@ -88,7 +88,7 @@ class RawHome extends React.Component<Props, State> {
         return (
             <>
                 <Nav transparent={true} />
-                <div
+                {/* <div
                     className={classes.header}
                     style={{
                         backgroundImage:
@@ -98,82 +98,82 @@ class RawHome extends React.Component<Props, State> {
                         boxShadow: 'inset 0 0 0 2000px rgba(100, 0, 0, 0.8)',
                         // backgroundColor: this.state.backgroundColor,
                     }}
+                > */}
+                <Grid
+                    container={true}
+                    direction="row"
+                    className={classes.root}
                 >
                     <Grid
-                        container={true}
-                        direction="row"
-                        className={classes.root}
+                        item={true}
+                        xs={6}
+                        className={classes.halfpage1}
                     >
-                        <Grid
-                            item={true}
-                            xs={6}
-                            className={classes.halfpage1}
+                        <Typography
+                            align="center"
+                            variant="h2"
+                            className={classes.text}
                         >
-                            <Typography
-                                align="center"
-                                variant="h2"
-                                className={classes.text}
-                            >
-                                Welcome to
+                            Welcome to
                             </Typography>
-                            <br />
-                            <Typography
-                                align="center"
-                                variant="h1"
-                                className={classes.text}
-                            >
-                                medialog
+                        <br />
+                        <Typography
+                            align="center"
+                            variant="h1"
+                            className={classes.text}
+                        >
+                            medialog
                             </Typography>
-                            <br />
-                            <Typography
-                                align="center"
-                                variant="h3"
-                                className={classes.text}
-                            >
-                                Track the
+                        <br />
+                        <Typography
+                            align="center"
+                            variant="h3"
+                            className={classes.text}
+                        >
+                            Track the
                             </Typography>
-                            <br />
-                            <Typography
-                                align="center"
-                                variant="h2"
-                                className={classes.text2}
-                            >
-                                {this.state.mediaName}
-                            </Typography>
-                            <br />
-                            <Typography
-                                align="center"
-                                variant="h3"
-                                className={classes.text}
-                            >
-                                {this.state.subtext}
-                            </Typography>
-                        </Grid>
-                        <Grid item={true} xs={6} className={classes.halfpage2}>
-                            {' '}
-                            <ButtonBase
-                                className={classes.button}
-                                style={{
-                                    textDecoration: 'none',
-                                }}
-                            >
-                                {' '}
-                                <img
-                                    className={classes.img}
-                                    src={this.state.highlightImage}
-                                />{' '}
-                            </ButtonBase>{' '}
-                            <br />
-                            <Typography
-                                align="center"
-                                variant="h3"
-                                className={`${classes.textImage} ${classes.textBox}`}
-                            >
-                                {this.state.imageName}
-                            </Typography>
-                        </Grid>
+                        <br />
+                        <Typography
+                            align="center"
+                            variant="h2"
+                            className={classes.text2}
+                        >
+                            {this.state.mediaName}
+                        </Typography>
+                        <br />
+                        <Typography
+                            align="center"
+                            variant="h3"
+                            className={classes.text}
+                        >
+                            {this.state.subtext}
+                        </Typography>
                     </Grid>
-                </div>
+                    <Grid item={true} xs={6} className={classes.halfpage2}>
+                        {' '}
+                        <ButtonBase
+                            className={classes.button}
+                            style={{
+                                textDecoration: 'none',
+                            }}
+                        >
+                            {' '}
+                            <img
+                                className={classes.img}
+                                src={this.state.highlightImage}
+                            />{' '}
+                        </ButtonBase>{' '}
+                        <br />
+                        <Typography
+                            align="center"
+                            variant="h3"
+                            className={`${classes.textImage} ${classes.textBox}`}
+                        >
+                            {this.state.imageName}
+                        </Typography>
+                    </Grid>
+                </Grid>
+                {/* // </div> */}
             </>
         );
     }

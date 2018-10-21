@@ -1,11 +1,15 @@
 import { Theme } from '@material-ui/core';
 import { createStyles } from '@material-ui/core/styles';
+import back from '../../images/back.png';
 
 export const styles = (theme: Theme) =>
     createStyles({
         '@global': {
             body: {
-                backgroundColor: theme.palette.primary.dark,
+                // backgroundColor: theme.palette.primary.dark,
+                background: `linear-gradient(0deg, rgba(100, 0, 0, 0.8), rgba(100, 0, 0, 0.8)), url(${back})`,
+                backgroundSize: 'cover',
+                // backgroundColor: this.state.backgroundColor,
             },
         },
         button: {
