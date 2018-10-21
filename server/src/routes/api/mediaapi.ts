@@ -244,10 +244,10 @@ export async function animeFetchID(id: number): Promise<Anime> {
         startDate,
         endDate,
         ...rest
-    } = body.data.Media;
+    } = body.data.Media; // FIXME: sometimes Media is `null`, i.e. id 90785
     const data: Anime = {
         title: title.romaji,
-        cover: coverImage.extraLarge,
+        cover: coverImage.extraLarge || coverImage.medium || null,
         description: (description as string).replace(/(<br>)+/g, ''), // get rid of <br> tags
         startDate: DateTime.fromObject(startDate).toISO(),
         endDate: DateTime.fromObject(endDate).toISO(),
