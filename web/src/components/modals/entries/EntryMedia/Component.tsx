@@ -13,7 +13,7 @@ import { withStyles } from '@material-ui/core/styles';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import * as React from 'react';
 import { Link } from 'react-router-dom';
-import { EntryList } from 'src/types';
+import { EntryList, ListsMap } from 'src/types';
 import { EntryCreator } from '../EntryCreator';
 // import { AfterEntryEditCallBack } from 'src/components/modals';
 // import { EntryCreator } from '../EntryCreator';
@@ -32,20 +32,37 @@ class RawEntryMedia extends React.Component<Props, State> {
 
     public async getLists() {
         const { mediaType, username } = this.props;
-        const listsMap = await this.props.loadUserLists(username, mediaType);
+        const listsMap = await this.loadUserLists(username, mediaType);
         const listsTemp = Object.keys(listsMap).map(
             k => listsMap[k],
         ) as EntryList[];
         this.setState({ lists: listsTemp });
     }
 
+    public loadUserLists = async (username: string, mediaType: string) => {
+        const res = await fetch(
+            `${
+                process.env.REACT_APP_API_BASE
+            }/user/${username}/lists/${mediaType}`,
+        );
+        if (res.status > 400) {
+            throw new Error(`Server error: ${res.status} ${res.statusText}`);
+        }
+        const { lists } = (await res.json()) as { lists: EntryList[] };
+        // console.log(JSON.stringify(lists));
+        const listsMap = lists.reduce<ListsMap>(
+            (map, list) => ({
+                ...map,
+                [list.listCode]: list,
+            }),
+            {},
+        );
+        return listsMap;
+    };
+
     public async componentDidMount() {
-        // const mediaType = 'games';
-        // const username = 'jfu';
         await this.getLists();
     }
-
-    // public componentDidMount() {}
 
     public async componentDidUpdate(prevProps: Props) {
         if (prevProps.shouldOpen !== this.props.shouldOpen) {
@@ -53,12 +70,10 @@ class RawEntryMedia extends React.Component<Props, State> {
         }
     }
 
-    // public async componentWillReceiveProps(nextProps: Props) {}
-
     public render() {
         const { classes } = this.props;
         const { lists } = this.state;
-        // const lists:EntryList[] = [];
+
         console.log('media id is');
         console.log(this.props.mediaId);
         return (

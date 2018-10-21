@@ -12,6 +12,7 @@ import {
 } from '@material-ui/core';
 import { createStyles, withStyles } from '@material-ui/core/styles';
 import { isWidthDown } from '@material-ui/core/withWidth';
+import ChipInput from 'material-ui-chip-input';
 import * as React from 'react';
 import { SimpleSelect } from 'src/components/common/SimpleSelect';
 import { NewEntry } from 'src/types';
@@ -42,26 +43,29 @@ export const styles = createStyles({
 class RawEntryCreator extends React.Component<Props, State> {
     public constructor(props: Props) {
         super(props);
-        // addTag,
-        // removeTag,
     }
 
     public componentDidMount() {
         this.props.setDate();
     }
 
+    public blah() {
+        console.log('made it called');
+    }
+
     public render() {
         const {
+            addTagEntryCreator,
             afterEdit,
+            classes,
             close,
             entry,
             input,
-            // classes,
-            width,
-            shouldOpen,
             lists,
-            // match,
             mediaId,
+            removeTagEntryCreator,
+            shouldOpen,
+            width,
         } = this.props;
 
         async function save() {
@@ -70,8 +74,14 @@ class RawEntryCreator extends React.Component<Props, State> {
             }
             // TODO: store UserEntry details separate so do not need to extract them
             // from the full Entry?
-            // removed tags
-            const { finished, rating, started, category, listCode } = entry;
+            const {
+                finished,
+                rating,
+                started,
+                category,
+                listCode,
+                tags,
+            } = entry;
             const entryEdit = {
                 category,
                 finished,
@@ -80,7 +90,7 @@ class RawEntryCreator extends React.Component<Props, State> {
                 mediaId,
                 rating,
                 started,
-                tags: '{}',
+                tags,
             };
 
             const res = await fetch(`${process.env.REACT_APP_API_BASE}/entry`, {
@@ -158,6 +168,24 @@ class RawEntryCreator extends React.Component<Props, State> {
                                     value={entry ? entry.progress : ''}
                                     onInput={input}
                                 />
+                                <ChipInput
+                                    onAdd={addTagEntryCreator}
+                                    onDelete={removeTagEntryCreator}
+                                    value={entry ? entry.tags : []}
+                                    blurBehavior="add"
+                                    variant="outlined"
+                                    label="Tags"
+                                    fullWidth={true}
+                                    margin="dense"
+                                    classes={{
+                                        inputRoot: classes.chipInput,
+                                        label: classes.chipLabel,
+                                        labelShrink: classes.chipLabelShrink,
+                                    }}
+                                    helperText={
+                                        'Type and press "Enter" to add a tag'
+                                    }
+                                />
                                 <FormControl>
                                     <InputLabel htmlFor="category">
                                         Category
@@ -194,24 +222,9 @@ class RawEntryCreator extends React.Component<Props, State> {
                                         updateAdditionalState={input}
                                     />
                                 </FormControl>
-                                {/* /user/:username/lists/:mediaType */}
-                                {/* <SimpleSelect
-                                    // variant="outlined"
-                                    // margin="dense"
-                                    // id="category"
-                                    // label="Category"
-                                    // type="text"
-                                    name="category"
-                                    // value={entry ? entry.category : ''}
-                                    // onInput={input}
-                                /> */}
                             </Grid>
                         </Grid>
                     </DialogContent>
-                    {/* <Button variant="contained" color="primary" type="submit">
-                        Save
-                    </Button> */}
-
                     <DialogActions>
                         <Button onClick={close} color="primary">
                             Cancel

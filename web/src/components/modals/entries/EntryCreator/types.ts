@@ -12,8 +12,8 @@ export interface DispatchProps {
     close: () => void;
     input: React.ChangeEventHandler<HTMLInputElement>;
     setDate: () => void;
-    // addTag: (tag: string) => void;
-    // removeTag: (tag: string, index: number) => void;
+    addTagEntryCreator: (tag: string) => void;
+    removeTagEntryCreator: (tag: string, index: number) => void;
 }
 
 export type AfterEntryEditCallBack = (editedEntry: NewEntry) => void;

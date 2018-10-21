@@ -26,7 +26,7 @@ class RawMediaPage extends React.Component<Props, State> {
 
     public render() {
         const { media } = this.state;
-        const { classes, username } = this.props;
+        const { classes } = this.props;
 
         let content = null;
         if (media) {
@@ -80,7 +80,6 @@ class RawMediaPage extends React.Component<Props, State> {
                     <Grid item={true} xs={12} md={3}>
                         <EntryMedia
                             mediaType={this.props.match.params.mediaType}
-                            username={username}
                             mediaId={this.props.match.params.id}
                         />
                     </Grid>

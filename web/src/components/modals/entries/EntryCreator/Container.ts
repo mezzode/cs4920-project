@@ -1,10 +1,10 @@
 import { connect, MapDispatchToProps, MapStateToProps } from 'react-redux';
 import { State } from 'src/reducers';
 import {
-    // addTag,
+    addTagEntryCreator,
     closeEntryCreator,
+    removeTagEntryCreator,
     saveEntryCreator,
-    // removeTag,
 } from './actions';
 import { EntryCreatorComponent } from './Component';
 import { DispatchProps, OwnProps, StateProps } from './types';
@@ -22,7 +22,10 @@ const mapDispatchToProps: MapDispatchToProps<
     DispatchProps,
     OwnProps
 > = dispatch => ({
-    // addTag: tag => dispatch(addTag(tag)),
+    addTagEntryCreator: tag => {
+        console.log('wtf');
+        dispatch(addTagEntryCreator(tag));
+    },
     close: () => dispatch(closeEntryCreator()),
     input: e => {
         dispatch(
@@ -31,14 +34,12 @@ const mapDispatchToProps: MapDispatchToProps<
             }),
         );
     },
+    removeTagEntryCreator: tag => dispatch(removeTagEntryCreator(tag)),
     setDate: () => {
         const today = new Date();
-        const curDate = `${today.getFullYear()}-${
-            today.getMonth() < 10 ? '0' + today.getMonth() : today.getMonth()
-        }-${today.getDate() < 10 ? '0' + today.getDate() : today.getDate()}`;
+        const curDate = today.toISOString().substr(0, 10);
         dispatch(saveEntryCreator({ started: curDate, finished: curDate }));
     },
-    // removeTag: tag => dispatch(removeTag(tag)),
 });
 
 export const EntryCreatorContainer = connect(

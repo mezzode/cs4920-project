@@ -8,8 +8,7 @@ const mapStateToProps: MapStateToProps<
     OwnProps,
     State
 > = state => ({
-    showFail: state.flashMessage.showFlashMessage,
-    username: state.user.displayName,
+    // username: state.user.displayName,
 });
 
 // const mapDispatchToProps: MapDispatchToProps<

@@ -1,5 +1,5 @@
 import { WithStyles } from '@material-ui/core';
-import { EntryList, ListsMap } from 'src/types';
+import { EntryList } from 'src/types';
 import { styles } from './styles';
 
 export interface SearchResultMedia {}
@@ -16,15 +16,14 @@ export interface State {
 
 export interface DispatchProps {
     open: () => void;
-    loadUserLists: (username: string, mediaType: string) => Promise<ListsMap>;
 }
 
 export interface OwnProps {
     mediaType: string;
-    username: string;
     mediaId: string;
 }
 
 export interface StateProps {
     shouldOpen: boolean;
+    username: string;
 }

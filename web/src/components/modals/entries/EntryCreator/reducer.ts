@@ -2,10 +2,10 @@ import { Reducer } from 'redux';
 import { NewEntry } from 'src/types';
 import { reducerWithInitialState } from 'typescript-fsa-reducers';
 import {
-    // addTag,
+    addTagEntryCreator,
     closeEntryCreator,
     openEntryCreator,
-    // removeTag,
+    removeTagEntryCreator,
     saveEntryCreator,
 } from './actions';
 
@@ -54,28 +54,29 @@ export const entryCreator: Reducer<EntryCreatorState> = reducerWithInitialState<
         };
     })
     .case(closeEntryCreator, () => initialState)
-    // .case(addTag, (state, tag) => {
-    //     if (state.entry === null || state.status === Status.closed) {
-    //         throw new Error('Trying to update editor while editor is not open');
-    //     }
-    //     return {
-    //         entry: {
-    //             ...state.entry,
-    //             tags: [...state.entry.tags, tag],
-    //         },
-    //         status: state.status,
-    //     };
-    // })
-    // .case(removeTag, (state, tag) => {
-    //     if (state.entry === null || state.status === Status.closed) {
-    //         throw new Error('Trying to update editor while editor is not open');
-    //     }
-    //     return {
-    //         entry: {
-    //             ...state.entry,
-    //             tags: state.entry.tags.filter(t => t !== tag),
-    //         },
-    //         status: state.status,
-    //     };
-    // })
+    .case(addTagEntryCreator, (state, tag) => {
+        console.log('here');
+        if (state.entry === null || state.status === Status.closed) {
+            throw new Error('Trying to update editor while editor is not open');
+        }
+        return {
+            entry: {
+                ...state.entry,
+                tags: [...state.entry.tags, tag],
+            },
+            status: state.status,
+        };
+    })
+    .case(removeTagEntryCreator, (state, tag) => {
+        if (state.entry === null || state.status === Status.closed) {
+            throw new Error('Trying to update editor while editor is not open');
+        }
+        return {
+            entry: {
+                ...state.entry,
+                tags: state.entry.tags.filter(t => t !== tag),
+            },
+            status: state.status,
+        };
+    })
     .build();

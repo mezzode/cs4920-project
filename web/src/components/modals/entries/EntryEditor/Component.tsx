@@ -119,7 +119,7 @@ const RawEntryEditor: React.SFC<Props> = ({
                                     margin="dense"
                                     id="started"
                                     label="Started"
-                                    type=""
+                                    type="text"
                                     value={entry.started}
                                     onInput={input}
                                 />
@@ -128,7 +128,7 @@ const RawEntryEditor: React.SFC<Props> = ({
                                     margin="dense"
                                     id="finished"
                                     label="Finished"
-                                    type=""
+                                    type="text"
                                     value={entry.finished}
                                     onInput={input}
                                 />
