@@ -12,6 +12,7 @@ install:
 before_script:
     - echo "GAMEKEY=$GAMEKEY" >> ./server/.env
     - echo "FILMKEY=$FILMKEY" >> ./server/.env
+    - echo "AUTH_TOKEN_SECRET=$AUTH_TOKEN_SECRET" >> ./server/.env
     - yarn --cwd ./web lint || yarn --cwd ./server lint
 
 script:
