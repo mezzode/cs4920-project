@@ -7,7 +7,6 @@
         "start:prod": "docker-compose -f docker-compose.yml -f docker-compose.prod.yml up",
         "start": "docker-compose up",
         "test:install": "docker-compose -f docker-compose.yml -f docker-compose.test.yml run --no-deps test yarn --no-progress",
-        "test:ci": "yarn test:install && docker-compose -f docker-compose.yml -f docker-compose.test.yml run test-ci yarn test",
         "test": "yarn test:install && docker-compose -f docker-compose.yml -f docker-compose.test.yml run test yarn test"
     },
     "devDependencies": {

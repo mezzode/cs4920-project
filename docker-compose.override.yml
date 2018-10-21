@@ -7,7 +7,6 @@ services:
         command: sh -c "yarn --no-progress && yarn start"
         volumes:
             - ./server:/usr/src/app
-        env_file: .env
     postgres:
         image: cs4920-postgres:dev
         build:

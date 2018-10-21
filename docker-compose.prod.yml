@@ -8,8 +8,6 @@ services:
             target: prod
         environment:
             NODE_ENV: 'production'
-            ? FILMKEY
-            ? GAMEKEY
     postgres:
         image: cs4920-postgres:prod
         build:

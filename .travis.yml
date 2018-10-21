@@ -10,12 +10,14 @@ install:
     - yarn --cwd ./server
 
 before_script:
+    - echo "GAMEKEY=$GAMEKEY" >> ./server/.env
+    - echo "FILMKEY=$FILMKEY" >> ./server/.env
     - yarn --cwd ./web lint || yarn --cwd ./server lint
 
 script:
     - CI=false yarn --cwd ./web build # CI=true treats lint warnings as errors which breaks the build
     - docker-compose -f docker-compose.yml -f docker-compose.prod.yml build
-    - yarn test:ci
+    - yarn test
 
 after_success:
     - chmod +x scripts/discord.sh
