@@ -57,6 +57,7 @@ class RawEntryCreator extends React.Component<Props, State> {
         const {
             addTagEntryCreator,
             afterEdit,
+            authToken,
             classes,
             close,
             entry,
@@ -96,6 +97,7 @@ class RawEntryCreator extends React.Component<Props, State> {
             const res = await fetch(`${process.env.REACT_APP_API_BASE}/entry`, {
                 body: JSON.stringify(entryEdit),
                 headers: {
+                    Authorization: `Bearer ${authToken}`,
                     'Content-Type': 'application/json',
                 },
                 method: 'POST',

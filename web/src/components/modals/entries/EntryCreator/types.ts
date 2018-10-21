@@ -5,7 +5,7 @@ import { styles } from './Component';
 
 export interface StateProps {
     entry: NewEntry | null;
-    // mediaId: string;
+    authToken: string | null;
 }
 
 export interface DispatchProps {
