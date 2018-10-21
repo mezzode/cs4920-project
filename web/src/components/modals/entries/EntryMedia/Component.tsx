@@ -106,7 +106,9 @@ class RawEntryMedia extends React.Component<Props, State> {
                                         <ExpansionPanelDetails
                                             className={classes.details}
                                         >
-                                            <Table>
+                                            <Table
+                                                className={classes.tableText}
+                                            >
                                                 <TableRow>
                                                     <TableCell>
                                                         Category

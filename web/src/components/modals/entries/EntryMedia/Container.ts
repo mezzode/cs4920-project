@@ -20,7 +20,11 @@ const mapDispatchToProps: MapDispatchToProps<
     OwnProps
 > = dispatch => {
     function open() {
-        dispatch(openEntryCreator({} as NewEntry));
+        dispatch(
+            openEntryCreator({
+                tags: [] as string[],
+            } as NewEntry),
+        );
     }
 
     return {

@@ -24,4 +24,7 @@ export const styles = (theme: Theme) =>
                 textDecoration: 'none',
             },
         },
+        tableText: {
+            color: 'white',
+        },
     });
