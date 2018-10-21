@@ -14,6 +14,7 @@ const mapStateToProps: MapStateToProps<
     OwnProps,
     State
 > = state => ({
+    authToken: state.user.authToken,
     entry: state.modals.entryCreator.entry,
     // mediaId: state.mediaSearch.media ? state.mediaSearch.media.id : '',
 });
