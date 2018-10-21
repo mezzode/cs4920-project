@@ -10,6 +10,8 @@ import { Entry } from './types';
 
 export const authToken = createAuthToken({ username: 'jfu' });
 
+jest.mock('../api/mediaapi');
+
 describe('Test entries endpoints', () => {
     beforeEach(() => {
         return seedTestData();
