@@ -11,6 +11,17 @@ services:
         environment:
             DB_HOST: postgres:5432
         env_file: .env
+    test-ci:
+        image: node:10.10.0
+        depends_on:
+            - postgres
+        volumes:
+            - ./server:/usr/src/app
+            - node_modules:/usr/src/app/node_modules
+        environment:
+            DB_HOST: postgres:5432
+            ? FILMKEY
+            ? GAMEKEY
     postgres:
         image: cs4920-postgres:prod
         build:
