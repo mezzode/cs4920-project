@@ -1,4 +1,4 @@
-import { EntryList, MediaType } from 'src/types';
+/*import { EntryList, MediaType } from 'src/types';
 
 export const lists: EntryList[] = [
     {
@@ -86,3 +86,4 @@ export const lists: EntryList[] = [
         username: 'mezzode',
     },
 ];
+*/
