@@ -10,7 +10,9 @@ interface Params {
 
 export interface OwnProps extends RouteComponentProps<Params> {}
 
-export interface StateProps {}
+export interface StateProps {
+    // username: string | null;
+}
 
 export interface DispatchProps {}
 

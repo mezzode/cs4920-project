@@ -23,6 +23,11 @@ interface SystemEntry {
 
 export type Entry = UserEntry & SystemEntry;
 
+export interface NewEntry extends Entry {
+    mediaId: string;
+    listCode: string;
+}
+
 export interface EntryList {
     entries: Entry[];
     listCode: string;
@@ -68,6 +73,7 @@ export interface ListsMap {
     [listCode: string]: EntryList;
 }
 
+// From server/api/types.ts - TODO: common types
 export type Media = Game | Movie | TV | Anime;
 
 export interface Game {

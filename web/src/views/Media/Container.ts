@@ -8,7 +8,19 @@ const mapStateToProps: MapStateToProps<
     OwnProps,
     State
 > = state => ({
-    showFail: state.flashMessage.showFlashMessage,
+    // username: state.user.displayName,
 });
+
+// const mapDispatchToProps: MapDispatchToProps<
+//     DispatchProps,
+//     OwnProps
+// > = dispatch => {
+//     function loadMediaIntoState() {
+//         dispatch();
+//     }
+//     return {
+//         loadMediaIntoState,
+//     };
+// };
 
 export const MediaContainer = connect(mapStateToProps)(MediaPageComponent);

@@ -121,7 +121,7 @@ const RawEntryEditor: React.SFC<Props> = ({
                                     margin="dense"
                                     id="started"
                                     label="Started"
-                                    type=""
+                                    type="text"
                                     value={entry.started}
                                     onInput={input}
                                 />
