@@ -4,15 +4,51 @@ import igdb from 'igdb-api-node';
 import { DateTime } from 'luxon';
 import * as fetch from 'node-fetch';
 import { MediaType } from '../lists/types';
-import * as queries from './queries';
+import { entryA, gameSearchQuery, searchA } from './queries';
 import { Anime, Game, Movie, SearchResults, Subset, TV } from './types';
 
 const client = igdb(process.env.GAMEKEY);
 
 // give game ID, returns game data
 export async function gameFetchID(id: number): Promise<Game> {
-    const res = await client.games(queries.gameFetchQuery(id));
+    const res = await client.games({
+        // expand: ['genres', 'themes', 'publishers', 'developers'],
+        fields: [
+            'id',
+            'name',
+            'summary',
+            'category',
+            'genres',
+            'themes',
+            'publishers',
+            'developers',
+            'first_release_date',
+            'status',
+            'cover',
+        ],
+        ids: [id],
+    });
+
     const data = res.body[0];
+
+    // FIXME: currently manually expanding fields due to api limits
+    const genres = (await client.genres({
+        fields: ['name'],
+        ids: data.genres,
+    })).body;
+    const themes = (await client.themes({
+        fields: ['name'],
+        ids: data.themes,
+    })).body;
+    const developers = (await client.companies({
+        fields: ['name'],
+        ids: data.developers,
+    })).body;
+    const publishers = (await client.companies({
+        fields: ['name'],
+        ids: data.publishers,
+    })).body;
+
     // data normalisation
     const categoryMap = {
         0: 'Main Game',
@@ -35,10 +71,10 @@ export async function gameFetchID(id: number): Promise<Game> {
         category: categoryMap[data.category] || 'Unknown',
         status: statusMap[data.status] || 'Released',
         description: data.summary || '',
-        developers: dataShift(data.developers),
-        publishers: dataShift(data.publishers),
-        genres: dataShift(data.genres),
-        themes: dataShift(data.themes),
+        developers: dataShift(developers),
+        publishers: dataShift(publishers),
+        genres: dataShift(genres),
+        themes: dataShift(themes),
         cover: data.cover ? data.cover.url.replace('thumb', '1080p') : null,
         first_release_date: DateTime.fromMillis(
             data.first_release_date,
@@ -59,7 +95,7 @@ export async function gameFetchSearch(
     name: string,
     page: number,
 ): Promise<SearchResults> {
-    const res = await client.games(queries.gameSearchQuery(name, page));
+    const res = await client.games(gameSearchQuery(name, page));
     const normal = res.body.map((result: any) => {
         return {
             id: result.id,
@@ -189,7 +225,7 @@ export async function animeFetchID(id: number): Promise<Anime> {
     const url = 'https://graphql.anilist.co';
     const options = {
         body: JSON.stringify({
-            query: queries.entryA,
+            query: entryA,
             variables,
         }),
         headers: {
@@ -234,7 +270,7 @@ export async function animeFetchSearch(
     const url = 'https://graphql.anilist.co';
     const options = {
         body: JSON.stringify({
-            query: queries.searchA,
+            query: searchA,
             variables,
         }),
         headers: {
