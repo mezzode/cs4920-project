@@ -26,7 +26,7 @@ CREATE TABLE entry
     category text,
     tags text[] not null DEFAULT '{}',
     rating int,
-    last_updated TIMESTAMP,
+    last_updated TIMESTAMP DEFAULT now(),
     -- started/finished use ISO 8601 with partial dates allowed
     -- e.g. '2016', '2017-04-13', '2018-09'
     started text,
