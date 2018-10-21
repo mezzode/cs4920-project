@@ -31,7 +31,7 @@ storiesOf('EntryEditor', module)
             // hiding generated source since wrong name and would not use directly
             source: false,
             text: `
-                TODO
+                TODOTODOTODO
             `,
         })(() => {
             interface State {

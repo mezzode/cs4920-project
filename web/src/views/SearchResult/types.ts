@@ -1,10 +1,11 @@
 import { WithStyles } from '@material-ui/core';
 import { RouteComponentProps } from 'react-router';
+import { MediaType } from '../../types';
 import { styles } from './styles';
 
 export interface SearchResultMedia {
     id: string;
-    mediaType: string;
+    mediaType: MediaType;
     title: string;
     description: string;
     image: string;

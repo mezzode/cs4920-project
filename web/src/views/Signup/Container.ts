@@ -16,10 +16,10 @@ const mapStateToProps: MapStateToProps<
     authAttempt: state.user.authAttempt,
 });
 
-const mapDispatchToProps: MapDispatchToProps<
-    DispatchProps,
-    OwnProps
-> = dispatch => {
+const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = (
+    dispatch,
+    { history },
+) => {
     const handleSubmit: React.FormEventHandler = async event => {
         event.preventDefault();
         const data = new FormData(event.target as HTMLFormElement);
@@ -34,6 +34,7 @@ const mapDispatchToProps: MapDispatchToProps<
         if (res.ok) {
             dispatch(setUser({ displayName: user.username }));
             dispatch(clearAuthAttempts());
+            history.push('/');
         } else {
             dispatch(incrementAuthAttempt());
         }

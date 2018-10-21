@@ -4,8 +4,7 @@ import { storiesOf } from '@storybook/react';
 import * as React from 'react';
 import { MemoryRouter } from 'react-router';
 import { theme } from 'src/App';
-import { Entry } from 'src/types';
-import { EntryList, MediaType } from 'src/types';
+import { Entry, EntryList, MediaType } from 'src/types';
 import { ListComponent } from './Component';
 
 const entries: Entry[] = [

@@ -8,8 +8,6 @@ services:
             target: prod
         environment:
             NODE_ENV: 'production'
-        env_file: 
-            - .env
     postgres:
         image: cs4920-postgres:prod
         build:

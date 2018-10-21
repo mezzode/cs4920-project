@@ -1,4 +1,4 @@
-import { Results } from "../api/types";
+import { Results } from '../api/types';
 
 // TODO: share common types between web and server
 
@@ -37,7 +37,7 @@ export interface EntryList {
 
 export enum MediaType {
     Game = 'game',
-    Show = 'show',
+    Show = 'tv',
     Movie = 'movie',
     Anime = 'anime',
 }
