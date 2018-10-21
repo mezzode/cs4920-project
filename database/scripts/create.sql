@@ -8,7 +8,7 @@ CREATE TABLE users
     image text
 );
 
-CREATE TYPE media_type AS ENUM ('game', 'anime', 'show', 'movie');
+CREATE TYPE media_type AS ENUM ('game', 'anime', 'tv', 'movie');
 
 CREATE TABLE list
 (
