@@ -1,10 +1,11 @@
 import { WithStyles } from '@material-ui/core';
 import { WithWidth } from '@material-ui/core/withWidth';
-import { Entry } from 'src/types';
+import { Entry, EntryList } from 'src/types';
 import { styles } from './Component';
 
 export interface StateProps {
     entry: Entry | null;
+    mediaId: string;
 }
 
 export interface DispatchProps {
@@ -20,6 +21,7 @@ export interface OwnProps {
     /** Callback to be called after a successful save. */
     afterEdit?: AfterEntryEditCallBack;
     shouldOpen: boolean;
+    lists: EntryList[] | null;
 }
 
 export interface Props

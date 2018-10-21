@@ -1,6 +1,5 @@
 import { MenuItem, Select, withStyles } from '@material-ui/core';
 import * as React from 'react';
-import { MediaType } from '../../../types';
 import { styles } from './styles';
 import { FormEventTarget, Props, State } from './types';
 
@@ -19,6 +18,7 @@ class RawSimpleSelect extends React.Component<Props, State> {
     };
 
     public render() {
+        const { options } = this.props;
         return (
             <Select
                 value={this.state.name}
@@ -28,10 +28,13 @@ class RawSimpleSelect extends React.Component<Props, State> {
                     name: this.props.name,
                 }}
             >
-                <MenuItem value={MediaType.Movie}>Movie</MenuItem>
+                {options.map(option => (
+                    <MenuItem value={option.value}>{option.text}</MenuItem>
+                ))}
+                {/* <MenuItem value={MediaType.Movie}>Movie</MenuItem>
                 <MenuItem value={MediaType.Show}>TV show</MenuItem>
                 <MenuItem value={MediaType.Anime}>Anime</MenuItem>
-                <MenuItem value={MediaType.Game}>Game</MenuItem>
+                <MenuItem value={MediaType.Game}>Game</MenuItem> */}
             </Select>
         );
     }

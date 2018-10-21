@@ -1,9 +1,10 @@
 import { connect, MapDispatchToProps, MapStateToProps } from 'react-redux';
-// import { openEntryCreator } from 'src/components/modals';
+import { openEntryCreator } from 'src/components/modals';
 // // import { setFlashMessage } from '../../actions/flashMessage';
 // // import { clearMedias, setLoading, setMedias } from '../../actions/media';
 import { State } from 'src/reducers/index';
-import { EntryList, ListsMap } from 'src/types';
+import { Entry, EntryList, ListsMap } from 'src/types';
+import { Status } from '../EntryCreator/reducer';
 import { EntryMediaComponent } from './Component';
 // // import { isMediaType } from '../../types';
 // import { EntryMediaComponent } from './Component';
@@ -13,19 +14,21 @@ const mapStateToProps: MapStateToProps<
     StateProps,
     OwnProps,
     State
-> = state => ({});
+> = state => ({
+    shouldOpen: state.modals.entryCreator.status !== Status.closed,
+});
 
 const mapDispatchToProps: MapDispatchToProps<
     DispatchProps,
     OwnProps
 > = dispatch => {
-    // function open() {
-    //     dispatch(openEntryCreator());
-    // }
+    function open() {
+        dispatch(openEntryCreator({} as Entry));
+    }
 
     return {
         loadUserLists,
-        // open,
+        open,
     };
 };
 
@@ -33,7 +36,6 @@ export const EntryMediaContainer = connect(
     mapStateToProps,
     mapDispatchToProps,
 )(EntryMediaComponent);
-// dasfasdfadsfdfff
 
 // const loadEntries = async () => {
 //     const res = await fetch(

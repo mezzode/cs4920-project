@@ -6,6 +6,7 @@ import {
     withStyles,
 } from '@material-ui/core';
 import * as React from 'react';
+import { EntryMedia } from 'src/components/modals/entries/EntryMedia';
 import { Nav } from '../../components/common/Nav';
 import noImageAvailable from '../../images/no-image-available.svg';
 import { styles } from './styles';
@@ -25,13 +26,13 @@ class RawMediaPage extends React.Component<Props, State> {
 
     public render() {
         const { media } = this.state;
-        const { classes } = this.props;
+        const { classes, username } = this.props;
 
         let content = null;
         if (media) {
             content = (
                 <Grid container={true} spacing={16} justify="space-around">
-                    <Grid item={true} xs={12} md={4}>
+                    <Grid item={true} xs={12} md={3}>
                         <img
                             className={classes.img}
                             src={media.cover || noImageAvailable}
@@ -42,7 +43,7 @@ class RawMediaPage extends React.Component<Props, State> {
                         container={true}
                         item={true}
                         xs={12}
-                        md={8}
+                        md={6}
                     >
                         <Grid
                             className={classes.card}
@@ -75,6 +76,12 @@ class RawMediaPage extends React.Component<Props, State> {
                                 </Typography>
                             </Paper>
                         </Grid>
+                    </Grid>
+                    <Grid item={true} xs={12} md={3}>
+                        <EntryMedia
+                            mediaType={this.props.match.params.mediaType}
+                            username={username}
+                        />
                     </Grid>
                 </Grid>
             );

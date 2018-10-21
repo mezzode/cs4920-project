@@ -26,15 +26,14 @@ class RawEntryMedia extends React.Component<Props, State> {
         super(props);
         this.state = {
             lists: null,
-            shouldOpen: false,
         };
         this.handleClick.bind(this);
     }
 
     public async componentDidMount() {
-        const mediaType = 'games';
-        const username = 'jfu';
-        // const { mediaType, username } = this.props;
+        // const mediaType = 'games';
+        // const username = 'jfu';
+        const { mediaType, username } = this.props;
         const listsMap = await this.props.loadUserLists(username, mediaType);
         const listsTemp = Object.keys(listsMap).map(
             k => listsMap[k],
@@ -121,16 +120,16 @@ class RawEntryMedia extends React.Component<Props, State> {
                         ),
                     )}
                 <Button onClick={this.handleClick}>New Entry</Button>
-                <EntryCreator shouldOpen={this.state.shouldOpen} />
+                <EntryCreator
+                    shouldOpen={this.props.shouldOpen}
+                    lists={this.state.lists}
+                />
             </>
         );
     }
 
     private handleClick = () => {
-        this.setState({
-            ...this.state,
-            shouldOpen: true,
-        });
+        this.props.open();
     };
 }
 /* // private afterEntryEdit: AfterEntryEditCallBack = editedEntry => { */

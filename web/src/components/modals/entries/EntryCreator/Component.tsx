@@ -1,9 +1,11 @@
 import {
     Button,
     Dialog,
-    // DialogActions,
+    DialogActions,
     DialogContent,
+    FormControl,
     Grid,
+    InputLabel,
     // tBase,
     TextField,
     withWidth,
@@ -11,6 +13,7 @@ import {
 import { createStyles, withStyles } from '@material-ui/core/styles';
 import { isWidthDown } from '@material-ui/core/withWidth';
 import * as React from 'react';
+import { SimpleSelect } from 'src/components/common/SimpleSelect';
 import { Entry } from 'src/types';
 import { Props } from './types';
 
@@ -44,6 +47,8 @@ const RawEntryCreator: React.SFC<Props> = ({
     classes,
     width,
     shouldOpen,
+    lists,
+    mediaId,
     // addTag,
     // removeTag,
 }) => {
@@ -71,6 +76,11 @@ const RawEntryCreator: React.SFC<Props> = ({
         close();
     };
 
+    const today = new Date();
+    const curDate = `${today.getFullYear()}-${
+        today.getMonth() < 10 ? '0' + today.getMonth() : today.getMonth()
+    }-${today.getDate() < 10 ? '0' + today.getDate() : today.getDate()}`;
+
     return (
         <Dialog
             open={shouldOpen}
@@ -91,18 +101,21 @@ const RawEntryCreator: React.SFC<Props> = ({
                             >
                                 <TextField
                                     name="tags"
-                                    style={{ display: 'none' }}
+                                    type="hidden"
                                     value={'{}'}
+                                    style={{ display: 'none' }}
                                 />
-                                <TextField
+                                {/* <TextField
                                     name="listId"
                                     style={{ display: 'none' }}
                                     value={1}
-                                />
+                                /> */}
                                 <TextField
                                     name="mediaId"
-                                    style={{ display: 'none' }}
-                                    value={2}
+                                    // type="hidden"
+                                    defaultValue={mediaId}
+                                    value={mediaId}
+                                    // style={{ display: 'none' }}
                                 />
                                 <TextField
                                     variant="outlined"
@@ -122,6 +135,7 @@ const RawEntryCreator: React.SFC<Props> = ({
                                     label="Started"
                                     type="date"
                                     name="started"
+                                    defaultValue={curDate}
                                     // value={entry ? entry.started : ''}
                                     // onInput={input}
                                 />
@@ -132,6 +146,7 @@ const RawEntryCreator: React.SFC<Props> = ({
                                     label="Finished"
                                     type="date"
                                     name="finished"
+                                    defaultValue={curDate}
                                     // value={entry ? entry.finished : ''}
                                     // onInput={input}
                                 />
@@ -145,31 +160,66 @@ const RawEntryCreator: React.SFC<Props> = ({
                                     // value={entry ? entry.progress : ''}
                                     // onInput={input}
                                 />
-                                <TextField
-                                    variant="outlined"
-                                    margin="dense"
-                                    id="category"
-                                    label="Category"
-                                    type="text"
+                                <FormControl>
+                                    <InputLabel htmlFor="category">
+                                        Category
+                                    </InputLabel>
+                                    <SimpleSelect
+                                        name="category"
+                                        options={[
+                                            {
+                                                text: 'Completed',
+                                                value: 'Completed',
+                                            },
+                                            {
+                                                text: 'In Progress',
+                                                value: 'In Progress',
+                                            },
+                                        ]}
+                                    />
+                                </FormControl>
+                                <FormControl>
+                                    <InputLabel htmlFor="listId">
+                                        List
+                                    </InputLabel>
+                                    <SimpleSelect
+                                        name="listId"
+                                        options={
+                                            lists == null
+                                                ? []
+                                                : lists.map(list => ({
+                                                      text: list.listCode,
+                                                      value: list.listCode,
+                                                  }))
+                                        }
+                                    />
+                                </FormControl>
+                                {/* /user/:username/lists/:mediaType */}
+                                {/* <SimpleSelect
+                                    // variant="outlined"
+                                    // margin="dense"
+                                    // id="category"
+                                    // label="Category"
+                                    // type="text"
                                     name="category"
                                     // value={entry ? entry.category : ''}
                                     // onInput={input}
-                                />
+                                /> */}
                             </Grid>
                         </Grid>
                     </DialogContent>
-                    <Button variant="contained" color="primary" type="submit">
+                    {/* <Button variant="contained" color="primary" type="submit">
                         Save
-                    </Button>
+                    </Button> */}
 
-                    {/* <DialogActions>
+                    <DialogActions>
                         <Button onClick={close} color="primary">
                             Cancel
                         </Button>
-                        <Button onClick={save} color="primary">
+                        <Button type="submit" color="primary">
                             Save
                         </Button>
-                    </DialogActions> */}
+                    </DialogActions>
                 </form>
             </>
         </Dialog>

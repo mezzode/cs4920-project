@@ -8,7 +8,9 @@ interface Params {
     id: string;
 }
 
-export interface OwnProps extends RouteComponentProps<Params> {}
+export interface OwnProps extends RouteComponentProps<Params> {
+    username: string;
+}
 
 export interface StateProps {}
 

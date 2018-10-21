@@ -2,9 +2,8 @@ import { CssBaseline } from '@material-ui/core';
 import * as React from 'react';
 import { connect, MapStateToProps } from 'react-redux';
 import { Route, RouteComponentProps, Switch, withRouter } from 'react-router';
-import { EntryMedia } from '../components/modals/entries/EntryMedia';
 import { State } from '../reducers';
-// import { Home } from './Home';
+import { Home } from './Home';
 import { ListPage } from './List';
 import { Login } from './Login';
 import { MediaPage } from './Media';
@@ -24,7 +23,7 @@ const ViewComponent: React.SFC<Props> = ({ auth }) => {
         <>
             <CssBaseline />
             <Switch>
-                <Route exact={true} path="/" component={EntryMedia} />
+                <Route exact={true} path="/" component={Home} />
                 <Route path="/profile" component={Profile} />
                 <Route
                     path="/user/:username/lists/:mediaType"

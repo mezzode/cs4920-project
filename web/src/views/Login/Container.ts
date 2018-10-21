@@ -35,7 +35,7 @@ const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = (
             const user = await res.json();
             dispatch(setUser({ displayName: user.username }));
             dispatch(clearAuthAttempts());
-            history.push('/dashboard');
+            history.push('/');
         } else {
             dispatch(incrementAuthAttempt());
             dispatch(setFlashMessage());

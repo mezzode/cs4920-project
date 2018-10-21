@@ -253,4 +253,5 @@ entryRouter
     .get(getEntry)
     .post(updateEntry)
     .delete(deleteEntry);
-entryRouter.post('/entry', multerParser.none(), newEntry);
+entryRouter.post('/entry', newEntry);
+// entryRouter.post('/entry', multerParser.none(), bodyCodesToIds, newEntry);

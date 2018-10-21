@@ -11,7 +11,7 @@ import {
 
 export type EntryCreatorState = EditingState | ClosedState;
 
-enum Status {
+export enum Status {
     editing,
     saving,
     closed,

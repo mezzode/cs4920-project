@@ -9,6 +9,7 @@ const mapStateToProps: MapStateToProps<
     State
 > = state => ({
     showFail: state.flashMessage.showFlashMessage,
+    username: state.user.displayName,
 });
 
 export const MediaContainer = connect(mapStateToProps)(MediaPageComponent);

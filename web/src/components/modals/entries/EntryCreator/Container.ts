@@ -15,6 +15,7 @@ const mapStateToProps: MapStateToProps<
     State
 > = state => ({
     entry: state.modals.entryEditor.entry,
+    mediaId: state.mediaSearch.media ? state.mediaSearch.media.id : '',
 });
 
 const mapDispatchToProps: MapDispatchToProps<
