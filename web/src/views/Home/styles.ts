@@ -1,6 +1,6 @@
 import { Theme } from '@material-ui/core';
 import { createStyles } from '@material-ui/core/styles';
-import back from '../../images/back.png';
+import back from '../../images/back.jpg';
 
 export const styles = (theme: Theme) =>
     createStyles({
