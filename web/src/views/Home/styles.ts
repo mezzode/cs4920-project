@@ -16,7 +16,20 @@ export const styles = (theme: Theme) =>
             display: 'flex',
             justifyContent: 'space-around',
         },
-        halfpage: {
+        fadein: {
+            opacity: 0,
+        },
+        'fadein.visible': {
+            opacity: 1,
+            transition: 'opacity 1s ease-in',
+        },
+        halfpage1: {
+            height: '100%',
+            justifyContent: 'center',
+            paddingTop: '200px',
+            width: '100%',
+        },
+        halfpage2: {
             height: '100%',
             justifyContent: 'center',
             paddingTop: '150px',
@@ -37,6 +50,7 @@ export const styles = (theme: Theme) =>
             width: 384,
         },
         img: {
+            'border-radius': 20,
             display: 'block',
             height: '70%',
             justifyContent: 'center',
@@ -49,15 +63,30 @@ export const styles = (theme: Theme) =>
             width: '100%',
         },
         text: {
-            justifyContent: 'left',
-            opacity: 0.8,
+            '-webkit-font-smoothing': 'antialiased',
+            justifyContent: 'center',
+            opacity: 1,
+            paddingTop: 10,
             // textShadow:
-            //    '-2px -2px 0 #000, -2px 2px 0 #000, 2px -2px 0 #000, 2px 2px 0 #000',
+            //     '-1px -1px 0 #000, -1px 2px 0 #000, 1px -2px 0 #000, 1px 1px 0 #000',
+        },
+        text2: {
+            '-webkit-font-smoothing': 'antialiased',
+            color: 'yellow',
+            justifyContent: 'center',
+            opacity: 1,
+            paddingTop: 10,
         },
         textBox: {
-            // background: `linear-gradient(${theme.palette.primary.dark}, ${
-            //     theme.palette.primary.main
-            // })`,
+            // background: `linear-gradient(${theme.palette.primary.light}, ${
+            //     theme.palette.primary.dark
+            //     })`,
             // opacity: 0.8,
+        },
+        textImage: {
+            justifyContent: 'center',
+            opacity: 0.8,
+            paddingTop: 20,
+            // textShadow: '0 1px 0 #ccc, 0 2px 0 #c9c9c9, 0 3px 0 #bbb, 0 4px 0 #b9b9b9, 0 5px 0 #aaa, 0 6px 1px rgba(0,0,0,.1), 0 0 5px rgba(0,0,0,.1), 0 1px 3px rgba(0,0,0,.3), 0 3px 5px rgba(0,0,0,.2), 0 5px 10px rgba(0,0,0,.25)',
         },
     });
