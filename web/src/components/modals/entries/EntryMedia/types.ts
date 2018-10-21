@@ -22,6 +22,7 @@ export interface DispatchProps {
 export interface OwnProps {
     mediaType: string;
     username: string;
+    mediaId: string;
 }
 
 export interface StateProps {

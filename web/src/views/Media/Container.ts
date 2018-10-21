@@ -12,4 +12,16 @@ const mapStateToProps: MapStateToProps<
     username: state.user.displayName,
 });
 
+// const mapDispatchToProps: MapDispatchToProps<
+//     DispatchProps,
+//     OwnProps
+// > = dispatch => {
+//     function loadMediaIntoState() {
+//         dispatch();
+//     }
+//     return {
+//         loadMediaIntoState,
+//     };
+// };
+
 export const MediaContainer = connect(mapStateToProps)(MediaPageComponent);

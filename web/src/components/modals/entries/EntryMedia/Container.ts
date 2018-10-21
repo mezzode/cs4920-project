@@ -3,7 +3,7 @@ import { openEntryCreator } from 'src/components/modals';
 // // import { setFlashMessage } from '../../actions/flashMessage';
 // // import { clearMedias, setLoading, setMedias } from '../../actions/media';
 import { State } from 'src/reducers/index';
-import { Entry, EntryList, ListsMap } from 'src/types';
+import { EntryList, ListsMap, NewEntry } from 'src/types';
 import { Status } from '../EntryCreator/reducer';
 import { EntryMediaComponent } from './Component';
 // // import { isMediaType } from '../../types';
@@ -23,7 +23,7 @@ const mapDispatchToProps: MapDispatchToProps<
     OwnProps
 > = dispatch => {
     function open() {
-        dispatch(openEntryCreator({} as Entry));
+        dispatch(openEntryCreator({} as NewEntry));
     }
 
     return {

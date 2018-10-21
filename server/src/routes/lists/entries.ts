@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import * as asyncHandler from 'express-async-handler';
 import { DateTime } from 'luxon';
-import * as multer from 'multer';
+// import * as multer from 'multer';
 import { db, pgp } from '../../helpers/database';
 import { HandlerError } from '../../helpers/error';
 import {
@@ -12,7 +12,7 @@ import {
 } from '../../helpers/id';
 import { UserEntry } from './types';
 
-const multerParser = multer();
+// const multerParser = multer();
 
 export const entryFields = `
     id AS "entryId",

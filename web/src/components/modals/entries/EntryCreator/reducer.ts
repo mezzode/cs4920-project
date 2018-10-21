@@ -1,5 +1,5 @@
 import { Reducer } from 'redux';
-import { Entry } from 'src/types';
+import { NewEntry } from 'src/types';
 import { reducerWithInitialState } from 'typescript-fsa-reducers';
 import {
     // addTag,
@@ -18,7 +18,7 @@ export enum Status {
 }
 
 interface EditingState {
-    entry: Entry;
+    entry: NewEntry;
     status: Status.editing | Status.saving;
 }
 
@@ -43,9 +43,11 @@ export const entryCreator: Reducer<EntryCreatorState> = reducerWithInitialState<
         };
     })
     .case(saveEntryCreator, (state, entryUpdate) => {
+        console.log('here');
         if (state.entry === null || state.status === Status.closed) {
             throw new Error('Trying to update editor while editor is not open');
         }
+        console.log('here2');
         return {
             entry: { ...state.entry, ...entryUpdate },
             status: state.status,

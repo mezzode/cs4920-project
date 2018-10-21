@@ -81,6 +81,7 @@ class RawMediaPage extends React.Component<Props, State> {
                         <EntryMedia
                             mediaType={this.props.match.params.mediaType}
                             username={username}
+                            mediaId={this.props.match.params.id}
                         />
                     </Grid>
                 </Grid>

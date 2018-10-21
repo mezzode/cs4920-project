@@ -1,27 +1,29 @@
 import { WithStyles } from '@material-ui/core';
 import { WithWidth } from '@material-ui/core/withWidth';
-import { Entry, EntryList } from 'src/types';
+import { EntryList, NewEntry } from 'src/types';
 import { styles } from './Component';
 
 export interface StateProps {
-    entry: Entry | null;
-    mediaId: string;
+    entry: NewEntry | null;
+    // mediaId: string;
 }
 
 export interface DispatchProps {
     close: () => void;
     input: React.ChangeEventHandler<HTMLInputElement>;
+    setDate: () => void;
     // addTag: (tag: string) => void;
     // removeTag: (tag: string, index: number) => void;
 }
 
-export type AfterEntryEditCallBack = (editedEntry: Entry) => void;
+export type AfterEntryEditCallBack = (editedEntry: NewEntry) => void;
 
 export interface OwnProps {
     /** Callback to be called after a successful save. */
     afterEdit?: AfterEntryEditCallBack;
     shouldOpen: boolean;
     lists: EntryList[] | null;
+    mediaId: string;
 }
 
 export interface Props
@@ -30,3 +32,5 @@ export interface Props
         DispatchProps,
         StateProps,
         OwnProps {}
+
+export interface State {}

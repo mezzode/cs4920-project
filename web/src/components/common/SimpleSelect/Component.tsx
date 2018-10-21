@@ -15,16 +15,22 @@ class RawSimpleSelect extends React.Component<Props, State> {
     public handleChange: React.FormEventHandler = event => {
         const target = event.target as FormEventTarget;
         this.setState({ name: target.value } as State);
+        if (this.props.updateAdditionalState) {
+            this.props.updateAdditionalState(event as React.ChangeEvent<
+                HTMLInputElement
+            >);
+        }
     };
 
     public render() {
         const { options } = this.props;
         return (
             <Select
+                id={this.props.name}
                 value={this.state.name}
                 onChange={this.handleChange}
                 inputProps={{
-                    id: 'mediaType',
+                    id: this.props.name,
                     name: this.props.name,
                 }}
             >

@@ -14,8 +14,8 @@ const mapStateToProps: MapStateToProps<
     OwnProps,
     State
 > = state => ({
-    entry: state.modals.entryEditor.entry,
-    mediaId: state.mediaSearch.media ? state.mediaSearch.media.id : '',
+    entry: state.modals.entryCreator.entry,
+    // mediaId: state.mediaSearch.media ? state.mediaSearch.media.id : '',
 });
 
 const mapDispatchToProps: MapDispatchToProps<
@@ -24,12 +24,20 @@ const mapDispatchToProps: MapDispatchToProps<
 > = dispatch => ({
     // addTag: tag => dispatch(addTag(tag)),
     close: () => dispatch(closeEntryCreator()),
-    input: e =>
+    input: e => {
         dispatch(
             saveEntryCreator({
-                [e.target.id]: e.target.value || null,
+                [e.target.id || e.target.name]: e.target.value || null,
             }),
-        ),
+        );
+    },
+    setDate: () => {
+        const today = new Date();
+        const curDate = `${today.getFullYear()}-${
+            today.getMonth() < 10 ? '0' + today.getMonth() : today.getMonth()
+        }-${today.getDate() < 10 ? '0' + today.getDate() : today.getDate()}`;
+        dispatch(saveEntryCreator({ started: curDate, finished: curDate }));
+    },
     // removeTag: tag => dispatch(removeTag(tag)),
 });
 

@@ -15,7 +15,7 @@ import { isWidthDown } from '@material-ui/core/withWidth';
 import * as React from 'react';
 import { SimpleSelect } from 'src/components/common/SimpleSelect';
 import { NewEntry } from 'src/types';
-import { Props, State } from './types';
+import { Props } from './types';
 
 export const styles = createStyles({
     art: {
@@ -39,75 +39,57 @@ export const styles = createStyles({
     },
 });
 
-class RawEntryCreator extends React.Component<Props, State> {
-    public constructor(props: Props) {
-        super(props);
-        // addTag,
-        // removeTag,
-    }
-
-    public componentDidMount() {
-        this.props.setDate();
-    }
-
-    public render() {
-        const {
-            afterEdit,
-            close,
-            entry,
-            input,
-            // classes,
-            width,
-            shouldOpen,
-            lists,
-            // match,
-            mediaId,
-        } = this.props;
-
-        async function save() {
-            if (entry === null) {
-                throw new Error('Cannot save if not loaded');
-            }
-            // TODO: store UserEntry details separate so do not need to extract them
-            // from the full Entry?
-            // removed tags
-            const { finished, rating, started, category, listCode } = entry;
-            const entryEdit = {
-                category,
-                finished,
-                // progress, // TODO: add progress to backend
-                listCode,
-                mediaId,
-                rating,
-                started,
-                tags: '{}',
-            };
-
-            const res = await fetch(`${process.env.REACT_APP_API_BASE}/entry`, {
-                body: JSON.stringify(entryEdit),
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                method: 'POST',
-            });
-            if (res.status >= 400) {
-                throw new Error(`${res.status} ${res.statusText}`);
-            }
-            const editedEntry: NewEntry = await res.json();
-            if (afterEdit) {
-                afterEdit(editedEntry);
-            }
-            close();
+const RawEntryCreator: React.SFC<Props> = ({
+    afterEdit,
+    close,
+    entry,
+    input,
+    classes,
+    width,
+    shouldOpen,
+    lists,
+    mediaId,
+    // addTag,
+    // removeTag,
+}) => {
+    const save: React.FormEventHandler = async event => {
+        event.preventDefault();
+        const data = new FormData(event.target as HTMLFormElement);
+        // console.log(JSON.stringify(data));
+        if (data === null) {
+            throw new Error('Cannot save if not loaded');
         }
+        // list id, media id, remove tags
+        const res = await fetch(`${process.env.REACT_APP_API_BASE}/entry`, {
+            body: data, // may not work if server does not support our params
+            credentials: 'include',
+            method: 'post',
+            mode: 'cors',
+        });
+        if (res.status >= 400) {
+            throw new Error(`${res.status} ${res.statusText}`);
+        }
+        const editedEntry: NewEntry = await res.json();
+        if (afterEdit) {
+            afterEdit(editedEntry);
+        }
+        close();
+    };
 
-        return (
-            <Dialog
-                open={shouldOpen}
-                aria-labelledby="form-dialog-title"
-                fullWidth={true}
-                fullScreen={isWidthDown('sm', width)}
-            >
-                <>
+    const today = new Date();
+    const curDate = `${today.getFullYear()}-${
+        today.getMonth() < 10 ? '0' + today.getMonth() : today.getMonth()
+    }-${today.getDate() < 10 ? '0' + today.getDate() : today.getDate()}`;
+
+    return (
+        <Dialog
+            open={shouldOpen}
+            aria-labelledby="form-dialog-title"
+            fullWidth={true}
+            fullScreen={isWidthDown('sm', width)}
+        >
+            <>
+                <form onSubmit={save}>
                     <DialogContent>
                         <Grid container={true} spacing={16}>
                             <Grid
@@ -118,14 +100,32 @@ class RawEntryCreator extends React.Component<Props, State> {
                                 sm={7}
                             >
                                 <TextField
+                                    name="tags"
+                                    type="hidden"
+                                    value={'{}'}
+                                    style={{ display: 'none' }}
+                                />
+                                {/* <TextField
+                                    name="listId"
+                                    style={{ display: 'none' }}
+                                    value={1}
+                                /> */}
+                                <TextField
+                                    name="mediaId"
+                                    // type="hidden"
+                                    defaultValue={mediaId}
+                                    value={mediaId}
+                                    // style={{ display: 'none' }}
+                                />
+                                <TextField
                                     variant="outlined"
                                     margin="dense"
                                     id="rating"
                                     label="Rating"
                                     type="number"
                                     name="rating"
-                                    value={entry ? entry.rating : ''}
-                                    onInput={input}
+                                    // value={entry ? entry.rating : ''}
+                                    // onInput={input}
                                 />
                                 {/* TODO: date input restrictions/formatter */}
                                 <TextField
@@ -135,8 +135,9 @@ class RawEntryCreator extends React.Component<Props, State> {
                                     label="Started"
                                     type="date"
                                     name="started"
-                                    value={entry ? entry.started : ''}
-                                    onInput={input}
+                                    defaultValue={curDate}
+                                    // value={entry ? entry.started : ''}
+                                    // onInput={input}
                                 />
                                 <TextField
                                     variant="outlined"
@@ -145,8 +146,9 @@ class RawEntryCreator extends React.Component<Props, State> {
                                     label="Finished"
                                     type="date"
                                     name="finished"
-                                    value={entry ? entry.finished : ''}
-                                    onInput={input}
+                                    defaultValue={curDate}
+                                    // value={entry ? entry.finished : ''}
+                                    // onInput={input}
                                 />
                                 <TextField
                                     variant="outlined"
@@ -154,9 +156,9 @@ class RawEntryCreator extends React.Component<Props, State> {
                                     id="progress"
                                     label="Progress"
                                     type="text"
-                                    name="progress"
-                                    value={entry ? entry.progress : ''}
-                                    onInput={input}
+                                    // name="progress"
+                                    // value={entry ? entry.progress : ''}
+                                    // onInput={input}
                                 />
                                 <FormControl>
                                     <InputLabel htmlFor="category">
@@ -174,7 +176,6 @@ class RawEntryCreator extends React.Component<Props, State> {
                                                 value: 'In Progress',
                                             },
                                         ]}
-                                        updateAdditionalState={input}
                                     />
                                 </FormControl>
                                 <FormControl>
@@ -191,7 +192,6 @@ class RawEntryCreator extends React.Component<Props, State> {
                                                       value: list.listCode,
                                                   }))
                                         }
-                                        updateAdditionalState={input}
                                     />
                                 </FormControl>
                                 {/* /user/:username/lists/:mediaType */}
@@ -216,15 +216,15 @@ class RawEntryCreator extends React.Component<Props, State> {
                         <Button onClick={close} color="primary">
                             Cancel
                         </Button>
-                        <Button onClick={save} color="primary">
+                        <Button type="submit" color="primary">
                             Save
                         </Button>
                     </DialogActions>
-                </>
-            </Dialog>
-        );
-    }
-}
+                </form>
+            </>
+        </Dialog>
+    );
+};
 
 export const EntryCreatorComponent = withWidth()(
     withStyles(styles)(RawEntryCreator),

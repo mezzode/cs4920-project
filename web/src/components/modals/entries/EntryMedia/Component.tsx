@@ -120,10 +120,13 @@ class RawEntryMedia extends React.Component<Props, State> {
                         ),
                     )}
                 <Button onClick={this.handleClick}>New Entry</Button>
-                <EntryCreator
-                    shouldOpen={this.props.shouldOpen}
-                    lists={this.state.lists}
-                />
+                {this.props.shouldOpen && (
+                    <EntryCreator
+                        shouldOpen={this.props.shouldOpen}
+                        lists={this.state.lists}
+                        mediaId={this.props.mediaId}
+                    />
+                )}
             </>
         );
     }

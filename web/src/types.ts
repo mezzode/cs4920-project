@@ -23,6 +23,11 @@ interface SystemEntry {
 
 export type Entry = UserEntry & SystemEntry;
 
+export interface NewEntry extends Entry {
+    mediaId: string;
+    listCode: string;
+}
+
 export interface Media {
     mediaCode: string;
     title: string;

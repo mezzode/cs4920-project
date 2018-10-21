@@ -18,4 +18,5 @@ export interface Option {
 export interface Props extends WithStyles<typeof styles> {
     name: string;
     options: Option[];
+    updateAdditionalState?: React.ChangeEventHandler<HTMLInputElement>;
 }
