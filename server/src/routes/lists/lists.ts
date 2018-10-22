@@ -167,8 +167,8 @@ const deleteList = asyncHandler(async (req, res) => {
 export const listRouter = Router();
 listRouter.use(auth.unless({ method: 'GET' }));
 listRouter
-    .route('/list/:listCode')
+    .route('/:listCode')
     .get(getList)
     .patch(updateList)
     .delete(deleteList);
-listRouter.route('/list').post(newList);
+listRouter.route('/').post(newList);
