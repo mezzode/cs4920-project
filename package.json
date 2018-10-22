@@ -12,7 +12,5 @@
     "devDependencies": {
         "rimraf": "^2.6.2"
     },
-    "dependencies": {
-        "mui-datatables": "^2.0.0-beta-36"
-    }
+    "dependencies": {}
 }
