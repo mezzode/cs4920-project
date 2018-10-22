@@ -46,6 +46,9 @@ export const styles = (theme: Theme) =>
                 textDecoration: 'none',
             },
         },
+        tag: {
+            marginBottom: '4px',
+        },
     });
 
 const RawList: React.SFC<Props> = ({
@@ -71,7 +74,6 @@ const RawList: React.SFC<Props> = ({
                         <TableCell>Category</TableCell>
                         <TableCell>Started</TableCell>
                         <TableCell>Finished</TableCell>
-                        <TableCell>Progress</TableCell>
                         <TableCell>Tags</TableCell>
                         {editable && <TableCell />}
                     </TableRow>
@@ -99,10 +101,13 @@ const RawList: React.SFC<Props> = ({
                             <TableCell>{entry.category}</TableCell>
                             <TableCell>{entry.started}</TableCell>
                             <TableCell>{entry.finished}</TableCell>
-                            <TableCell>{entry.progress}</TableCell>
                             <TableCell>
                                 {entry.tags.map(t => (
-                                    <Chip key={t} label={t} />
+                                    <Chip
+                                        className={classes.tag}
+                                        key={t}
+                                        label={t}
+                                    />
                                 ))}
                             </TableCell>
                             {editable && (

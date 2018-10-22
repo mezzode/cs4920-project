@@ -137,15 +137,6 @@ const RawEntryEditor: React.SFC<Props> = ({
                                 <TextField
                                     variant="outlined"
                                     margin="dense"
-                                    id="progress"
-                                    label="Progress"
-                                    type="text"
-                                    value={entry.progress}
-                                    onInput={input}
-                                />
-                                <TextField
-                                    variant="outlined"
-                                    margin="dense"
                                     id="category"
                                     label="Category"
                                     type="text"
