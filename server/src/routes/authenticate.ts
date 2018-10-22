@@ -12,16 +12,17 @@ export const checkLogin = async (
     username: string,
     providedPassword: string,
 ): Promise<User | null> => {
-    const { password, ...user } = await db.oneOrNone<
-        User & { password: string }
-    >({
+    const result = await db.oneOrNone<User & { password: string } | null>({
         text: 'SELECT * FROM users WHERE username = $1',
         values: [username],
     });
 
-    if (!user) {
+    if (!result) {
+        // user not found
         return null;
     }
+
+    const { password, ...user } = result;
 
     return (await bcrypt.compare(providedPassword, password)) ? user : null;
 };
@@ -50,6 +51,7 @@ export const authenticateRouter = Router().post(
     '/authenticate',
     async (req, res) => {
         // check username and passowrd, if good then return jwt
+        console.log('BODY', req.body);
         const { username, password } = req.body;
         const user = await checkLogin(username, password);
         if (user === null) {

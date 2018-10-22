@@ -35,7 +35,7 @@ class RawSimpleSelect extends React.Component<Props, State> {
                 }}
             >
                 {options.map(option => (
-                    <MenuItem value={option.value}>{option.text}</MenuItem>
+                    <MenuItem key={option.value} value={option.value}>{option.text}</MenuItem>
                 ))}
                 {/* <MenuItem value={MediaType.Movie}>Movie</MenuItem>
                 <MenuItem value={MediaType.Show}>TV show</MenuItem>
