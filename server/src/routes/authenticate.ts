@@ -51,7 +51,6 @@ export const authenticateRouter = Router().post(
     '/authenticate',
     async (req, res) => {
         // check username and passowrd, if good then return jwt
-        console.log('BODY', req.body);
         const { username, password } = req.body;
         const user = await checkLogin(username, password);
         if (user === null) {
