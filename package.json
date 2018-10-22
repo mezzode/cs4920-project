@@ -11,5 +11,6 @@
     },
     "devDependencies": {
         "rimraf": "^2.6.2"
-    }
+    },
+    "dependencies": {}
 }

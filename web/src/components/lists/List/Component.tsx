@@ -1,19 +1,16 @@
 import {
     Button,
     Chip,
+    Divider,
     Grid,
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableRow,
     Theme,
     Typography,
 } from '@material-ui/core';
 import { createStyles, withStyles } from '@material-ui/core/styles';
+import MUIDataTable from 'mui-datatables';
 import * as React from 'react';
 import { Link } from 'react-router-dom';
-import { mediaUrl } from 'src/types';
+import { Entry, Media, mediaUrl } from '../../../types';
 import { Props } from './types';
 
 export const styles = (theme: Theme) =>
@@ -23,6 +20,9 @@ export const styles = (theme: Theme) =>
         },
         content: {
             width: '100%',
+        },
+        editButton: {
+            backgroundColor: theme.palette.primary.light,
         },
         header: {
             height: '48px', // TODO: get var from theme instead of hardcoding?
@@ -48,6 +48,7 @@ export const styles = (theme: Theme) =>
         },
         tag: {
             marginBottom: '4px',
+            marginRight: '4px',
         },
     });
 
@@ -60,68 +61,100 @@ const RawList: React.SFC<Props> = ({
     editable,
 }) => {
     const entries = list.entries;
-    const content =
-        entries.length === 0 ? (
-            <Typography className={classes.layout} variant="body1">
-                No entries.
-            </Typography>
-        ) : (
-            <Table>
-                <TableHead>
-                    <TableRow className={classes.header}>
-                        <TableCell>Title</TableCell>
-                        <TableCell>Rating</TableCell>
-                        <TableCell>Category</TableCell>
-                        <TableCell>Started</TableCell>
-                        <TableCell>Finished</TableCell>
-                        <TableCell>Tags</TableCell>
-                        {editable && <TableCell />}
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {entries.map(entry => (
-                        <TableRow key={entry.entryCode}>
-                            <TableCell component="th" scope="row">
-                                <Typography variant="body1">
-                                    <Link
-                                        to={`/media/${
-                                            mediaUrl[list.mediaType]
-                                        }/${entry.media.id}`}
-                                        className={classes.link}
-                                    >
-                                        {entry.media.title}
-                                    </Link>
-                                </Typography>
-                            </TableCell>
-                            <TableCell>
-                                {entry.rating !== null
-                                    ? `${entry.rating}/10`
-                                    : '-'}
-                            </TableCell>
-                            <TableCell>{entry.category}</TableCell>
-                            <TableCell>{entry.started}</TableCell>
-                            <TableCell>{entry.finished}</TableCell>
-                            <TableCell>
-                                {entry.tags.map(t => (
-                                    <Chip
-                                        className={classes.tag}
-                                        key={t}
-                                        label={t}
-                                    />
-                                ))}
-                            </TableCell>
-                            {editable && (
-                                <TableCell>
-                                    <Button onClick={handleEdit(entry)}>
-                                        Edit
-                                    </Button>
-                                </TableCell>
-                            )}
-                        </TableRow>
-                    ))}
-                </TableBody>
-            </Table>
-        );
+    let columns = [
+        {
+            name: 'Title',
+            options: {
+                // FIXME: dirty hack - media is a stringified Media object because
+                // table cells must be string | number, which is passed into this function
+                customBodyRender: (mediaString: string) => {
+                    const media: Media & { mediaType: string } = JSON.parse(
+                        mediaString,
+                    );
+                    return (
+                        <Typography variant="body1">
+                            <Link
+                                to={`/media/${mediaUrl[media.mediaType]}/${
+                                    media.id
+                                }`}
+                                className={classes.link}
+                            >
+                                {media.title}
+                            </Link>
+                        </Typography>
+                    );
+                },
+            },
+        },
+        'Rating',
+        'Category',
+        'Started',
+        'Finished',
+        {
+            name: 'Tags',
+            options: {
+                customBodyRender: (tagsString: string) => {
+                    const tags = JSON.parse(tagsString);
+                    return tags.map((t: string) => (
+                        <Chip className={classes.tag} key={t} label={t} />
+                    ));
+                },
+            },
+        },
+    ];
+
+    const entryToTitleCol = (entry: Entry) =>
+        JSON.stringify({
+            ...entry.media,
+            mediaType: list.mediaType,
+        });
+    const data = entries.map(entry => [
+        entryToTitleCol(entry),
+        entry.rating ? `${entry.rating}/10` : '-',
+        entry.category,
+        entry.started,
+        entry.finished,
+        JSON.stringify(entry.tags),
+    ]);
+
+    if (editable) {
+        columns = [
+            ...columns,
+            {
+                name: '',
+                options: {
+                    customBodyRender: (entryString: string) => {
+                        const entry = JSON.parse(entryString);
+                        return (
+                            <Button
+                                className={classes.editButton}
+                                onClick={handleEdit(entry)}
+                            >
+                                Edit
+                            </Button>
+                        );
+                    },
+                },
+            },
+        ];
+        entries.forEach((entry, idx) => data[idx].push(JSON.stringify(entry)));
+    }
+
+    const options = {
+        download: false,
+        filter: false,
+        print: false,
+        responsive: 'scroll',
+        rowHover: false,
+        selectableRows: false,
+        viewColumns: false,
+    };
+
+    const content = (
+        <>
+            <MUIDataTable data={data} columns={columns} options={options} />
+        </>
+    );
 
     return (
         <Grid className={classes.content} container={true}>
@@ -129,14 +162,28 @@ const RawList: React.SFC<Props> = ({
                 {content}
             </Grid>
             {editable && (
-                <Grid container={true} item={true} justify="flex-end" xs={12}>
-                    <Button className={classes.button} onClick={handleListEdit}>
-                        Edit
-                    </Button>
-                    <Button className={classes.button} onClick={handleDelete}>
-                        Delete
-                    </Button>
-                </Grid>
+                <>
+                    <Divider />
+                    <Grid
+                        container={true}
+                        item={true}
+                        justify="flex-end"
+                        xs={12}
+                    >
+                        <Button
+                            className={classes.button}
+                            onClick={handleListEdit}
+                        >
+                            Edit List
+                        </Button>
+                        <Button
+                            className={classes.button}
+                            onClick={handleDelete}
+                        >
+                            Delete List
+                        </Button>
+                    </Grid>
+                </>
             )}
         </Grid>
     );

@@ -13,6 +13,7 @@
         "history": "^4.7.2",
         "localforage": "^1.7.2",
         "material-ui-chip-input": "https://github.com/mezzode/material-ui-chip-input.git",
+        "mui-datatables": "^2.0.0-beta-36",
         "react": "^16.4.2",
         "react-dom": "^16.4.2",
         "react-dropzone": "^5.1.0",
