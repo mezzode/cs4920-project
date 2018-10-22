@@ -15,8 +15,8 @@ export const setupRoutes = (app: Express) => {
     app.use(authenticateRouter);
     app.use(profileRouter);
     app.use(signupRouter);
-    app.use(entryRouter);
-    app.use(listRouter);
+    app.use('/entry', entryRouter);
+    app.use('/list', listRouter);
     app.use(apiRouter);
     app.use('/user', userRouter);
 };

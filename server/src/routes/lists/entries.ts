@@ -296,9 +296,9 @@ const deleteEntry = asyncHandler(async (req, res) => {
 export const entryRouter = Router();
 entryRouter.use(bodyCodesToIds, auth.unless({ method: 'GET' }));
 entryRouter
-    .route('/entry/:entryCode')
+    .route('/:entryCode')
     .all(paramCodesToIds)
     .get(getEntry)
     .post(updateEntry)
     .delete(deleteEntry);
-entryRouter.post('/entry', newEntry);
+entryRouter.post('/', newEntry);
