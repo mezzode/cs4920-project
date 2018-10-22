@@ -12,16 +12,17 @@ export const checkLogin = async (
     username: string,
     providedPassword: string,
 ): Promise<User | null> => {
-    const { password, ...user } = await db.oneOrNone<
-        User & { password: string }
-    >({
+    const result = await db.oneOrNone<User & { password: string } | null>({
         text: 'SELECT * FROM users WHERE username = $1',
         values: [username],
     });
 
-    if (!user) {
+    if (!result) {
+        // user not found
         return null;
     }
+
+    const { password, ...user } = result;
 
     return (await bcrypt.compare(providedPassword, password)) ? user : null;
 };
