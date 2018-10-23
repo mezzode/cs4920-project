@@ -7,12 +7,13 @@ export interface Props
         StateProps {}
 
 export interface DispatchProps {
-    handleUpdateImage: React.FormEventHandler;
-    handleUpdatePassword: React.FormEventHandler;
-    loadProfile: () => void;
+    handleDispatchUpdateImage: (displayImage: string) => void;
+    handleDispatchUpdatePassword: () => void;
+    dispatchLoadProfile: (displayImage: string) => void;
 }
 export interface OwnProps {}
 export interface StateProps {
+    authToken: string | null;
     profileImage: string | null;
     username: string | null;
 }

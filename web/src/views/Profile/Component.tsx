@@ -16,16 +16,72 @@ import { Props } from './types';
 
 class RawProfile extends React.Component<Props> {
     public componentDidMount() {
-        this.props.loadProfile();
+        this.loadProfile();
     }
+
+    public loadProfile = async () => {
+        const res = await fetch(`${process.env.REACT_APP_API_BASE}/profile`, {
+            credentials: 'include',
+            headers: {
+                Authorization: `Bearer ${this.props.authToken}`,
+            },
+            mode: 'cors',
+        });
+        if (res.ok) {
+            const imageBlob = await res.blob();
+            const displayImage = URL.createObjectURL(imageBlob);
+            this.props.dispatchLoadProfile(displayImage);
+        }
+    };
+
+    public handleUpdateImage: React.FormEventHandler = async event => {
+        event.preventDefault();
+        const data = new FormData(event.target as HTMLFormElement);
+
+        const res = await fetch(
+            `${process.env.REACT_APP_API_BASE}/update-profile-image`,
+            {
+                body: data,
+                credentials: 'include',
+                headers: {
+                    Authorization: `Bearer ${this.props.authToken}`,
+                },
+                method: 'post',
+                mode: 'cors',
+            },
+        );
+
+        if (res.ok) {
+            const imageBlob = await res.blob();
+            const displayImage = URL.createObjectURL(imageBlob);
+            this.props.handleDispatchUpdateImage(displayImage);
+        }
+    };
+
+    public handleUpdatePassword: React.FormEventHandler = async event => {
+        event.preventDefault();
+        const data = new FormData(event.target as HTMLFormElement);
+
+        const res = await fetch(
+            `${process.env.REACT_APP_API_BASE}/update-password`,
+            {
+                body: data,
+                credentials: 'include',
+                headers: {
+                    Authorization: `Bearer ${this.props.authToken}`,
+                },
+                method: 'post',
+                mode: 'cors',
+            },
+        );
+
+        if (res.ok) {
+            this.props.handleDispatchUpdatePassword();
+        }
+    };
+
     public render() {
-        const {
-            classes,
-            profileImage,
-            handleUpdateImage,
-            handleUpdatePassword,
-            username,
-        } = this.props;
+        const { classes, profileImage, username } = this.props;
 
         return (
             <>
@@ -37,7 +93,10 @@ class RawProfile extends React.Component<Props> {
                         src={profileImage || defaultProfileImage}
                         className={classes.avatar}
                     />
-                    <form className={classes.form} onSubmit={handleUpdateImage}>
+                    <form
+                        className={classes.form}
+                        onSubmit={this.handleUpdateImage}
+                    >
                         <FormControl
                             margin="normal"
                             required={true}
@@ -69,7 +128,7 @@ class RawProfile extends React.Component<Props> {
                     </form>
                     <form
                         className={classes.form}
-                        onSubmit={handleUpdatePassword}
+                        onSubmit={this.handleUpdatePassword}
                     >
                         <FormControl
                             margin="normal"
